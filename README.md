@@ -5,6 +5,8 @@ This add-on is a combination of program add-on and service.  It allows the confi
 
 It was most definitely inspired by wanting to improve on the excellent VPN for OPENELEC from the MetalKettle repo.  Like that add-on, it also relies on the openvpn to do the dirty network stuff.
 
+See the project thread here for more usage info and trouble shooting info : http://openelec.tv/forum/unofficial-openelec-addons/79666-vpn-manager-for-openvpn
+
 
 Basic Usage
 -----------

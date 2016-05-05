@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+    <defaultcontrol>3002</defaultcontrol>
+    <zorder>2</zorder>
+    <coordinates>
+        <system>1</system>
+        <posx>100</posx>
+        <posy>100</posy>
+    </coordinates>
+    <controls>
+        <control type="image">
+            <description>Background image</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1000</width>
+            <height>430</height>
+            <texture border="20">DialogBackTranslucent.png</texture>
+        </control>
+        <control type="label" id="100">
+            <description>Caption</description>
+            <posx>0</posx>
+            <posy>20</posy>
+            <width>1000</width>
+            <height>50</height>
+            <font>font13_title</font>
+            <textcolor>orange</textcolor>
+            <shadowcolor>black</shadowcolor>
+            <aligny>center</aligny>
+            <align>center</align>
+        </control>
+        <control type="textbox" id="200">
+            <description>Left textbox</description>
+            <posx>40</posx>
+            <posy>80</posy>
+            <width>400</width>
+            <height>518</height>
+            <font>font12</font>
+            <textcolor>FFFFFFFF</textcolor>
+        </control>
+        <control type="textbox" id="300">
+            <description>Right textbox</description>
+            <posx>560</posx>
+            <posy>80</posy>
+            <width>400</width>
+            <height>518</height>
+            <font>font12</font>
+            <textcolor>FFFFFFFF</textcolor>
+        </control>        
+        <control type="button" id="3001">
+			<description>Close window button</description>
+			<posx>900</posx>
+			<posy>5</posy>
+			<width>64</width>
+			<height>32</height>
+			<label>-</label>
+			<font>-</font>
+			<onclick>PreviousMenu</onclick>
+			<texturefocus>DialogCloseButton-focus.png</texturefocus>
+			<texturenofocus>DialogCloseButton.png</texturenofocus>
+            <onup>3002</onup>
+            <ondown>3002</ondown>
+            <onleft>3002</onleft>
+            <onright>3002</onright>
+		</control>
+        <control type="button" id="3002">
+			<description>Ok button</description>
+			<posx>430</posx>
+			<posy>355</posy>
+			<width>140</width>
+			<height>40</height>
+			<label>OK</label>
+            <aligny>center</aligny>
+            <align>center</align>
+			<font>font12_title</font>
+            <onclick>PreviousMenu</onclick>
+			<texturefocus>button-focus.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+            <onup>3001</onup>
+            <ondown>3001</ondown>
+            <onleft>3001</onleft>
+            <onright>3001</onright>
+        </control>
+    </controls>
+</window>

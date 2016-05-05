@@ -1,0 +1,20 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+persist-key
+persist-tun
+ca #CERT
+tls-auth #TLSKEY 1
+cipher AES-256-CBC
+comp-lzo
+verb 1
+mute 20
+route-method exe
+route-delay 2
+route 0.0.0.0 0.0.0.0
+auth-user-pass #PASS
+explicit-exit-notify 2
+#REMOVE1float
+ifconfig-nowarn
+#REMOVE2auth-nocache

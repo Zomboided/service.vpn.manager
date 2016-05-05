@@ -1,0 +1,17 @@
+Australia 1 (UDP),108.61.251.44,udp,1195
+Canada 1 (UDP),158.69.147.34,udp,1195
+Japan  (UDP),108.61.201.208,udp,1195
+Netherlands 1 (UDP),128.199.57.222,udp,1195
+Netherlands 2 (UDP),188.166.86.177,udp,1195
+Netherlands 3 (UDP),5.200.23.49,udp,1195
+Russia 1 (UDP),62.109.29.107,udp,1195
+Singapore (UDP),128.199.186.214,udp,1195
+Singapore 1 (UDP),103.253.25.175,udp,1195
+Singapore 3 (UDP),103.53.198.253,udp,1195
+United Kingdom 1 (UDP),178.62.92.85,udp,1195
+United Kingdom 2 (UDP),104.238.171.89,udp,1195
+United States (UDP),69.46.87.106,udp,1195
+United States 2 (UDP),161.123.229.254,udp,1195
+United States 3 (UDP),108.61.192.37,udp,1195
+United States 4 (UDP),173.242.118.161,udp,1195
+United States 5 (UDP),107.189.39.106,udp,1195

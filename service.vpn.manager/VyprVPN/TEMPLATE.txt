@@ -1,0 +1,14 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+resolv-retry 30
+nobind
+persist-key
+persist-tun
+persist-remote-ip
+ca #CERT
+tls-remote #SERVER
+auth-user-pass #PASS
+comp-lzo
+verb 1

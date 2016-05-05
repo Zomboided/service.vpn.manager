@@ -1,0 +1,20 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+resolv-retry 30
+nobind
+persist-key
+persist-tun
+ca #CERT
+tls-client
+remote-cert-tls server
+auth-user-pass #PASS
+auth-nocache
+comp-lzo
+verb 1
+reneg-sec 0
+explicit-exit-notify 2
+crl-verify #CRLVERIFY
+
+

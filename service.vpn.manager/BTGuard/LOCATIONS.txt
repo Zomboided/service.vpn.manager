@@ -1,0 +1,8 @@
+Fastest (UDP),vpn.btguard.com,udp,1194
+Fastest (TCP),vpn.btguard.com,tcp,443
+Canada (UDP),ca.vpn.btguard.com,udp,1194
+Canada (TCP),ca.vpn.btguard.com,tcp,443
+Netherlands (UDP),eu.vpn.btguard.com,udp,1194
+Netherlands (TCP),eu.vpn.btguard.com,tcp,443
+Singapore (UDP),sg.vpn.btguard.com,udp,1194
+Singapore (TCP),sg.vpn.btguard.com,tcp,443

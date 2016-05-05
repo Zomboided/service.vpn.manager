@@ -1,0 +1,124 @@
+NETHERLANDS Amsterdam (UDP),ams.tigervpn.com,udp,1194
+NETHERLANDS Amsterdam (TCP),ams.tigervpn.com,tcp,443
+TURKEY Ankara (UDP),ank.tigervpn.com,udp,1194
+TURKEY Ankara (TCP),ank.tigervpn.com,tcp,443
+USA Atlanta (UDP),atl.tigervpn.com,udp,1194
+USA Atlanta (TCP),atl.tigervpn.com,tcp,443
+THAILAND Bangkok (UDP),bgk.tigervpn.com,udp,1194
+THAILAND Bangkok (TCP),bgk.tigervpn.com,tcp,443
+SERBIA Belgrade (UDP),bel.tigervpn.com,udp,1194
+SERBIA Belgrade (TCP),bel.tigervpn.com,tcp,443
+SLOVAKIA Bratislava (UDP),bra.tigervpn.com,udp,1194
+SLOVAKIA Bratislava (TCP),bra.tigervpn.com,tcp,443
+ROMANIA Bucharest (UDP),buc.tigervpn.com,udp,1194
+ROMANIA Bucharest (TCP),buc.tigervpn.com,tcp,443
+HUNGARY Budapest (UDP),bud.tigervpn.com,udp,1194
+HUNGARY Budapest (TCP),bud.tigervpn.com,tcp,443
+ARGENTINA Buenos Aires (UDP),bue.tigervpn.com,udp,1194
+ARGENTINA Buenos Aires (TCP),bue.tigervpn.com,tcp,443
+INDIA Chennai (UDP),che.tigervpn.com,udp,1194
+INDIA Chennai (TCP),che.tigervpn.com,tcp,443
+USA Chicago (UDP),chi.tigervpn.com,udp,1194
+USA Chicago (TCP),chi.tigervpn.com,tcp,443
+GERMANY Cologne (UDP),col.tigervpn.com,udp,1194
+GERMANY Cologne (TCP),col.tigervpn.com,tcp,443
+DENMARK Copenhagen (UDP),cop.tigervpn.com,udp,1194
+DENMARK Copenhagen (TCP),cop.tigervpn.com,tcp,443
+INDIA Delhi (UDP),del.tigervpn.com,udp,1194
+INDIA Delhi (TCP),del.tigervpn.com,tcp,443
+USA Denver (UDP),den.tigervpn.com,udp,1194
+USA Denver (TCP),den.tigervpn.com,tcp,443
+UAE Dubai (UDP),dub.tigervpn.com,udp,1194
+UAE Dubai (TCP),dub.tigervpn.com,tcp,443
+IRELAND Dublin (UDP),dbl.tigervpn.com,udp,1194
+IRELAND Dublin (TCP),dbl.tigervpn.com,tcp,443
+GERMANY Frankfurt (UDP),fra.tigervpn.com,udp,1194
+GERMANY Frankfurt (TCP),fra.tigervpn.com,tcp,443
+VIETNAM Hanoi (UDP),han.tigervpn.com,udp,1194
+VIETNAM Hanoi (TCP),han.tigervpn.com,tcp,443
+HONG KONG Hong Kong (UDP),hkg.tigervpn.com,udp,1194
+HONG KONG Hong Kong (TCP),hkg.tigervpn.com,tcp,443
+TURKEY Istanbul (UDP),ist.tigervpn.com,udp,1194
+TURKEY Istanbul (TCP),ist.tigervpn.com,tcp,443
+SOUTH AFRICA Johannesburg (UDP),joh.tigervpn.com,udp,1194
+SOUTH AFRICA Johannesburg (TCP),joh.tigervpn.com,tcp,443
+UKRAINE Kiev (UDP),kie.tigervpn.com,udp,1194
+UKRAINE Kiev (TCP),kie.tigervpn.com,tcp,443
+AUSTRIA Klagenfurt (UDP),kla.tigervpn.com,udp,1194
+AUSTRIA Klagenfurt (TCP),kla.tigervpn.com,tcp,443
+PORTUGAL Lissabon (UDP),lis.tigervpn.com,udp,1194
+PORTUGAL Lissabon (TCP),lis.tigervpn.com,tcp,443
+SLOVENIA Ljubljana (UDP),lju.tigervpn.com,udp,1194
+SLOVENIA Ljubljana (TCP),lju.tigervpn.com,tcp,443
+UNITED KINGDOM London (UDP),lon.tigervpn.com,udp,1194
+UNITED KINGDOM London (TCP),lon.tigervpn.com,tcp,443
+USA Los Angeles (UDP),los.tigervpn.com,udp,1194
+USA Los Angeles (TCP),los.tigervpn.com,tcp,443
+LUXEMBOURG Luxembourg (UDP),lux.tigervpn.com,udp,1194
+LUXEMBOURG Luxembourg (TCP),lux.tigervpn.com,tcp,443
+SPAIN Madrid (UDP),mad.tigervpn.com,udp,1194
+SPAIN Madrid (TCP),mad.tigervpn.com,tcp,443
+ITALY Milan (UDP),mil.tigervpn.com,udp,1194
+ITALY Milan (TCP),mil.tigervpn.com,tcp,443
+UNITED KINGDOM Manchester (UDP),man.tigervpn.com,udp,1194
+UNITED KINGDOM Manchester (TCP),man.tigervpn.com,tcp,443
+MEXICO Mexiko City (UDP),mex.tigervpn.com,udp,1194
+MEXICO Mexiko City (TCP),mex.tigervpn.com,tcp,443
+USA Miami (UDP),mia.tigervpn.com,udp,1194
+USA Miami (TCP),mia.tigervpn.com,tcp,443
+CANADA Montreal (UDP),mon.tigervpn.com,udp,1194
+CANADA Montreal (TCP),mon.tigervpn.com,tcp,443
+RUSSIA Moscow (UDP),mos.tigervpn.com,udp,1194
+RUSSIA Moscow (TCP),mos.tigervpn.com,tcp,443
+INDIA Mumbai (UDP),mum.tigervpn.com,udp,1194
+INDIA Mumbai (TCP),mum.tigervpn.com,tcp,443
+GERMANY Munich (UDP),muc.tigervpn.com,udp,1194
+GERMANY Munich (TCP),muc.tigervpn.com,tcp,443
+USA New York (UDP),nyc.tigervpn.com,udp,1194
+USA New York (TCP),nyc.tigervpn.com,tcp,443
+JAPAN Osaka (UDP),osa.tigervpn.com,udp,1194
+JAPAN Osaka (TCP),osa.tigervpn.com,tcp,443
+NORWAY Oslo (UDP),osl.tigervpn.com,udp,1194
+NORWAY Oslo (TCP),osl.tigervpn.com,tcp,443
+ITALY Palermo (UDP),pal.tigervpn.com,udp,1194
+ITALY Palermo (TCP),pal.tigervpn.com,tcp,443
+FRANCE Paris (UDP),par.tigervpn.com,udp,1194
+FRANCE Paris (TCP),par.tigervpn.com,tcp,443
+CZECH REPUBLIC Prag (UDP),prg.tigervpn.com,udp,1194
+CZECH REPUBLIC Prag (TCP),prg.tigervpn.com,tcp,443
+BRAZIL Rio de Janeiro (UDP),rio.tigervpn.com,udp,1194
+BRAZIL Rio de Janeiro (TCP),rio.tigervpn.com,tcp,443
+CHILE Santiago (UDP),san.tigervpn.com,udp,1194
+CHILE Santiago (TCP),san.tigervpn.com,tcp,443
+BRAZIL Sao Paulo (UDP),sao.tigervpn.com,udp,1194
+BRAZIL Sao Paulo (TCP),sao.tigervpn.com,tcp,443
+USA Seattle (UDP),sea.tigervpn.com,udp,1194
+USA Seattle (TCP),sea.tigervpn.com,tcp,443
+SOUTH KOREA Seoul (UDP),seo.tigervpn.com,udp,1194
+SOUTH KOREA Seoul (TCP),seo.tigervpn.com,tcp,443
+SINGAPORE Singapore City (UDP),sin.tigervpn.com,udp,1194
+SINGAPORE Singapore City (TCP),sin.tigervpn.com,tcp,443
+BULGARIA Sofia (UDP),sof.tigervpn.com,udp,1194
+BULGARIA Sofia (TCP),sof.tigervpn.com,tcp,443
+RUSSIA St. Petersburg (UDP),stp.tigervpn.com,udp,1194
+RUSSIA St. Petersburg (TCP),stp.tigervpn.com,tcp,443
+SWEDEN Stockholm (UDP),sto.tigervpn.com,udp,1194
+SWEDEN Stockholm (TCP),sto.tigervpn.com,tcp,443
+AUSTRALIA Sydney (UDP),syd.tigervpn.com,udp,1194
+AUSTRALIA Sydney (TCP),syd.tigervpn.com,tcp,443
+TAIWAN Taipai (UDP),tai.tigervpn.com,udp,1194
+TAIWAN Taipai (TCP),tai.tigervpn.com,tcp,443
+JAPAN Tokyo (UDP),tok.tigervpn.com,udp,1194
+JAPAN Tokyo (TCP),tok.tigervpn.com,tcp,443
+CANADA Toronto (UDP),tor.tigervpn.com,udp,1194
+CANADA Toronto (TCP),tor.tigervpn.com,tcp,443
+CANADA Vancouver (UDP),van.tigervpn.com,udp,1194
+CANADA Vancouver (TCP),van.tigervpn.com,tcp,443
+AUSTRIA Vienna (UDP),vie.tigervpn.com,udp,1194
+AUSTRIA Vienna (TCP),vie.tigervpn.com,tcp,443
+POLAND Warsaw (UDP),war.tigervpn.com,udp,1194
+POLAND Warsaw (TCP),war.tigervpn.com,tcp,443
+USA Washington DC (UDP),wdc.tigervpn.com,udp,1194
+USA Washington DC (TCP),wdc.tigervpn.com,tcp,443
+SWITZERLAND Zurich (UDP),zur.tigervpn.com,udp,1194
+SWITZERLAND Zurich (TCP),zur.tigervpn.com,tcp,443

@@ -1,0 +1,58 @@
+USA - Los Angeles (UDP),us1.vpn.giganews.com,udp,1194
+USA - Washington (UDP),us2.vpn.giganews.com,udp,1194
+USA - Austin (UDP),us3.vpn.giganews.com,udp,1194
+USA - Miami (UDP),us4.vpn.giganews.com,udp,1194
+USA - New York City (UDP),us5.vpn.giganews.com,udp,1194
+USA - Chicago (UDP),us6.vpn.giganews.com,udp,1194
+USA - San Francisco (UDP),us7.vpn.giganews.com,udp,1194
+USA - Seattle (UDP),us8.vpn.giganews.com,udp,1194
+Toronto (UDP),ca1.vpn.giganews.com,udp,1194
+Amsterdam (UDP),eu1.vpn.giganews.com,udp,1194
+Copenhagen (UDP),dk1.vpn.giganews.com,udp,1194
+Stockholm (UDP),se1.vpn.giganews.com,udp,1194
+Hong Kong (UDP),hk1.vpn.giganews.com,udp,1194
+London (UDP),uk1.vpn.giganews.com,udp,1194
+Paris (UDP),fr1.vpn.giganews.com,udp,1194
+Frankfurt (UDP),de1.vpn.giganews.com,udp,1194
+Zurich (UDP),ch1.vpn.giganews.com,udp,1194
+Moscow (UDP),ru1.vpn.giganews.com,udp,1194
+Luxembourg (UDP),lu1.vpn.giganews.com,udp,1194
+Bucharest (UDP),ro1.vpn.giganews.com,udp,1194
+Singapore (UDP),sg1.vpn.giganews.com,udp,1194
+Dublin (UDP),ie1.vpn.giganews.com,udp,1194
+Kuala Lumpur (UDP),my1.vpn.giganews.com,udp,1194
+Rome (UDP),it1.vpn.giganews.com,udp,1194
+Madrid (UDP),es1.vpn.giganews.com,udp,1194
+Tokyo (UDP),jp1.vpn.giganews.com,udp,1194
+Seoul (UDP),kr1.vpn.giganews.com,udp,1194
+Oslo (UDP),no1.vpn.giganews.com,udp,1194
+Istanbul (UDP),tr1.vpn.giganews.com,udp,1194
+Helsinki (UDP),fi1.vpn.giganews.com,udp,1194
+Warsaw (UDP),pl1.vpn.giganews.com,udp,1194
+Lisbon (UDP),pt1.vpn.giganews.com,udp,1194
+Prague (UDP),cz1.vpn.giganews.com,udp,1194
+Vienna (UDP),at1.vpn.giganews.com,udp,1194
+Brussels (UDP),be1.vpn.giganews.com,udp,1194
+Vilnius (UDP),lt1.vpn.giganews.com,udp,1194
+Sydney (UDP),au1.vpn.giganews.com,udp,1194
+Melbourne (UDP),au2.vpn.giganews.com,udp,1194
+Perth (UDP),au3.vpn.giganews.com,udp,1194
+Jakarta (UDP),id1.vpn.giganews.com,udp,1194
+Auckland (UDP),nz1.vpn.giganews.com,udp,1194
+Hanoi (UDP),vn1.vpn.giganews.com,udp,1194
+Bangkok (UDP),th1.vpn.giganews.com,udp,1194
+Reykjavik (UDP),is1.vpn.giganews.com,udp,1194
+Manila (UDP),ph1.vpn.giganews.com,udp,1194
+Sao Paulo (UDP),br1.vpn.giganews.com,udp,1194
+Mexico City (UDP),mx1.vpn.giganews.com,udp,1194
+Buenos Aires (UDP),ar1.vpn.giganews.com,udp,1194
+Bogota (UDP),co1.vpn.giganews.com,udp,1194
+San Jose (UDP),cr1.vpn.giganews.com,udp,1194
+Panama City (UDP),pa1.vpn.giganews.com,udp,1194
+Taipei (UDP),tw1.vpn.giganews.com,udp,1194
+Bahrain (UDP),bh1.vpn.giganews.com,udp,1194
+Saudi Arabia (UDP),sa1.vpn.giganews.com,udp,1194
+Qatar (UDP),qa1.vpn.giganews.com,udp,1194
+India (UDP),in1.vpn.giganews.com,udp,1194
+Dubai - UAE (UDP),ae1.vpn.giganews.com,udp,1194
+Israel (UDP),il1.vpn.giganews.com,udp,1194

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+    <defaultcontrol>3002</defaultcontrol>
+    <zorder>2</zorder>
+    <coordinates>
+        <system>1</system>
+        <posx>100</posx>
+        <posy>50</posy>
+    </coordinates>
+    <controls>
+        <control type="image">
+            <description>Background image</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1000</width>
+            <height>620</height>
+            <texture border="20">DialogBack.png</texture>
+        </control>
+        <control type="label" id="100">
+            <description>Caption</description>
+            <posx>0</posx>
+            <posy>20</posy>
+            <width>1000</width>
+            <height>50</height>
+            <font>font13_title</font>
+            <textcolor>orange</textcolor>
+            <aligny>center</aligny>
+            <align>center</align>
+        </control>
+        <control type="textbox" id="200">
+            <description>Small font text box</description>
+            <posx>30</posx>
+            <posy>70</posy>
+            <width>870</width>
+            <height>464</height>
+            <pagecontrol>201</pagecontrol>
+            <font>font10</font>
+            <textcolor>FFFFFFFF</textcolor>
+        </control>
+        <control type="scrollbar" id="201">
+            <description>Textbox scrollbar</description>
+            <posx>964</posx>
+            <posy>70</posy>
+            <width>25</width>
+            <height>464</height>
+            <texturesliderbackground border=10>scroll_bar_v_back.png</texturesliderbackground>
+            <texturesliderbar border=10>scroll_bar_v.png</texturesliderbar>
+            <texturesliderbarfocus border=10>scroll_bar_v_focus.png</texturesliderbarfocus>
+            <textureslidernib>-</textureslidernib>
+            <textureslidernibfocus>-</textureslidernibfocus>
+            <orientation>vertical</orientation>
+            <onup>-</onup>
+            <ondown>-</ondown>
+            <onleft>3002</onleft>
+            <onright>3002</onright>
+        </control>
+        <control type="button" id="3001">
+			<description>Close window button</description>
+			<posx>900</posx>
+			<posy>5</posy>
+			<width>64</width>
+			<height>32</height>
+			<label>-</label>
+			<font>-</font>
+			<onclick>PreviousMenu</onclick>
+			<texturefocus>DialogCloseButton-focus.png</texturefocus>
+			<texturenofocus>DialogCloseButton.png</texturenofocus>
+            <onup>3002</onup>
+            <ondown>3002</ondown>
+            <onleft>201</onleft>
+            <onright>201</onright>
+		</control>
+        <control type="button" id="3002">
+			<description>OK button</description>
+			<posx>430</posx>
+			<posy>555</posy>
+			<width>140</width>
+			<height>40</height>
+			<label>OK</label>
+            <aligny>center</aligny>
+            <align>center</align>
+			<font>font12_title</font>
+			<onclick>PreviousMenu</onclick>
+			<texturefocus>button-focus.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+            <onup>3001</onup>
+            <ondown>3001</ondown>
+            <onleft>201</onleft>
+            <onright>201</onright>
+        </control>
+    </controls>
+</window>

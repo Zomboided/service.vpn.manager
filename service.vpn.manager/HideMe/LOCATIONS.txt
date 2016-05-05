@@ -1,0 +1,31 @@
+Bucharest (UDP),ro.hide.me,udp,4000
+Frankfurt (UDP),de.hide.me,udp,4000
+Haarlem (UDP),haarlem.hide.me,udp,4000
+Hong Kong (UDP),hk.hide.me,udp,4000
+Istanbul (UDP),tr.hide.me,udp,4000
+London (UDP),uk.hide.me,udp,4000
+Marrakech (UDP),ma.hide.me,udp,4000
+Melbourne (UDP),au-1.hide.me,udp,4000
+Miami (UDP),us-5.hide.me,udp,4000
+Milan (UDP),it.hide.me,udp,4000
+Montreal (UDP),ca.hide.me,udp,4000
+Paris (UDP),fr.hide.me,udp,4000
+Queretaro (UDP),mx.hide.me,udp,4000
+Reykjavik (UDP),is.hide.me,udp,4000
+Roosendaal (UDP),roosendaal.hide.me,udp,4000
+Salt Lake City (UDP),us-1.hide.me,udp,4000
+San Jose (UDP),us-3.hide.me,udp,4000
+Sao Paulo (UDP),brazil.hide.me,udp,4000
+Seattle (UDP),us-4.hide.me,udp,4000
+Siauliai (UDP),lt.hide.me,udp,4000
+Singapore (UDP),sg.hide.me,udp,4000
+Steinsel (UDP),lu.hide.me,udp,4000
+Stockholm (UDP),se.hide.me,udp,4000
+Sydney (UDP),au-2.hide.me,udp,4000
+Tokyo (UDP),jp.hide.me,udp,4000
+US-East (UDP),us-east.hide.me,udp,4000
+US-West (UDP),us-west.hide.me,udp,4000
+Vienna (UDP),at.hide.me,udp,4000
+Warsaw (UDP),pl.hide.me,udp,4000
+Washington D.C. (UDP),us-2.hide.me,udp,4000
+Zurich (UDP),ch.hide.me,udp,4000

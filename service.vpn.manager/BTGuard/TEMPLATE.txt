@@ -1,0 +1,16 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+resolv-retry 30
+nobind
+persist-key
+persist-tun
+ca #CERT
+verb 3
+mute 3
+auth-user-pass #PASS
+mute-replay-warnings
+float
+reneg-sec 0
+#register-dns 8.8.8.8

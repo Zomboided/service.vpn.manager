@@ -1,0 +1,20 @@
+remote #SERVER #PORT #PROTO
+client
+dev tap
+resolv-retry 30
+persist-key
+mute-replay-warnings
+ca #CERT
+comp-lzo
+mute 20
+ns-cert-type server
+fragment 1300
+route-delay 2
+script-security 3 system
+max-routes 5000
+auth-user-pass #PASS
+reneg-sec 0
+explicit-exit-notify 2
+link-mtu 1578
+#up "/etc/openvpn/change_resolv_conf.sh up"
+#down "/etc/openvpn/change_resolv_conf.sh down"

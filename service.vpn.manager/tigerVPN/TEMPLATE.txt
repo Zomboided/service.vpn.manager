@@ -1,0 +1,21 @@
+client
+proto #PROTO
+remote #SERVER #PORT #SERVPROT
+pull
+auth-user-pass #PASS
+comp-lzo adaptive
+ca #CERT
+dev tun
+tls-client
+script-security 2
+cipher AES-256-CBC
+mute 10
+route-delay 5
+redirect-gateway def1
+resolv-retry 30
+persist-key
+persist-tun
+remote-cert-tls server
+verb 1
+explicit-exit-notify 2
+mssfix

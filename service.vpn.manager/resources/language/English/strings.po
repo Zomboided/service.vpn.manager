@@ -1,0 +1,554 @@
+# Kodi Media Center language file
+# Addon Name: VPN Manager for OpenELEC
+# Addon id: service.vpn.manager
+# Addon Provider: Zomboided
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+# Config Screen
+
+
+# VPN Provider Settings
+
+msgctxt "#32000"
+msgid "VPN Configuration"
+msgstr ""
+
+msgctxt "#32001"
+msgid "Set up your VPN provider, then validate some VPN connections"
+msgstr ""
+
+msgctxt "#32002"
+msgid "Click here to update VPN settings"
+msgstr ""
+
+msgctxt "#32003"
+msgid "VPN Provider"
+msgstr ""
+
+msgctxt "#32004"
+msgid "Username"
+msgstr ""
+
+msgctxt "#32005"
+msgid "Password"
+msgstr ""
+
+msgctxt "#32006"
+msgid "Advanced settings (leave as default if in doubt)"
+msgstr ""
+
+msgctxt "#32007"
+msgid "Protocol (UDP recommended)"
+msgstr ""
+
+msgctxt "#32008"
+msgid "UDP"
+msgstr ""
+
+msgctxt "#32009"
+msgid "TCP"
+msgstr ""
+
+msgctxt "#32010"
+msgid "UDP and TCP"
+msgstr ""
+
+msgctxt "#32011"
+msgid "Use VPN provider default UDP port"
+msgstr ""
+
+msgctxt "#32012"
+msgid "  Alternative UDP port"
+msgstr ""
+
+msgctxt "#32013"
+msgid "Use VPN provider default TCP port"
+msgstr ""
+
+msgctxt "#32014"
+msgid "  Alternative TCP port"
+msgstr ""
+
+msgctxt "#32015"
+msgid "[I]User Defined[/I]  provider authentication"
+msgstr ""
+
+msgctxt "#32016"
+msgid "Username and password"
+msgstr ""
+
+msgctxt "#32017"
+msgid "Client or User key and certificate files"
+msgstr ""
+
+msgctxt "#32018"
+msgid "None"
+msgstr ""
+
+msgctxt "#32019"
+msgid "Single"
+msgstr ""
+
+msgctxt "#32020"
+msgid "Multiple"
+msgstr ""
+
+
+msgctxt "#32025"
+msgid "VPN Connections"
+msgstr ""
+
+msgctxt "#32026"
+msgid "Click the boxes below to validate or update the primary VPN connections"
+msgstr ""
+
+msgctxt "#32027"
+msgid "First VPN connection (optionally used to auto connect during boot)"
+msgstr ""
+
+msgctxt "#32028"
+msgid "Second VPN connection"
+msgstr ""
+
+msgctxt "#32029"
+msgid "Third VPN connection"
+msgstr ""
+
+msgctxt "#32030"
+msgid "Fourth VPN connection"
+msgstr ""
+
+msgctxt "#32031"
+msgid "Fifth VPN connection"
+msgstr ""
+
+msgctxt "#32032"
+msgid "Sixth VPN connection"
+msgstr ""
+
+msgctxt "#32033"
+msgid "Seventh VPN connection"
+msgstr ""
+
+msgctxt "#32034"
+msgid "Eigth VPN connection"
+msgstr ""
+
+msgctxt "#32035"
+msgid "Ninth VPN connection"
+msgstr ""
+
+msgctxt "#32036"
+msgid "Tenth VPN connection"
+msgstr ""
+
+
+# Monitor Settings
+
+msgctxt "#32040"
+msgid "Monitor"
+msgstr ""
+
+msgctxt "#32041"
+msgid "Click below after updating Filter settings"
+msgstr ""
+
+msgctxt "#32042"
+msgid "Restart VPN monitor with updated settings"
+msgstr ""
+
+msgctxt "#32043"
+msgid "VPN monitor (runs as a background service)"
+msgstr ""
+
+msgctxt "#32044"
+msgid "Automatically connect to first VPN at boot"
+msgstr ""
+
+msgctxt "#32045"
+msgid "Reconnect if connection unexpectedly lost"
+msgstr ""
+
+msgctxt "#32046"
+msgid "Revert to previous VPN state for non-filtered add-ons"
+msgstr ""
+
+msgctxt "#32047"
+msgid "Include disconnect option in VPN cycle"
+msgstr ""
+
+msgctxt "#32048"
+msgid "Display IP, location and Service Provider in VPN cycle notification"
+msgstr ""
+
+
+# Add-on Filter Settings
+
+msgctxt "#32060"
+msgid "Add-on Filter"
+msgstr ""
+
+msgctxt "#32062"
+msgid "Select the add-ons for which a VPN should not be used"
+msgstr ""
+
+msgctxt "#32063"
+msgid "Excluded"
+msgstr ""
+
+msgctxt "#32064"
+msgid "Select the add-ons which use one of the primary VPN connections"
+msgstr ""
+
+msgctxt "#32065"
+msgid "First"
+msgstr ""
+
+msgctxt "#32066"
+msgid "Second"
+msgstr ""
+
+msgctxt "#32067"
+msgid "Third"
+msgstr ""
+
+msgctxt "#32068"
+msgid "Fourth"
+msgstr ""
+
+msgctxt "#32069"
+msgid "Fifth"
+msgstr ""
+
+msgctxt "#32070"
+msgid "Sixth"
+msgstr ""
+
+msgctxt "#32071"
+msgid "Seventh"
+msgstr ""
+
+msgctxt "#32072"
+msgid "Eighth"
+msgstr ""
+
+msgctxt "#32073"
+msgid "Ninth"
+msgstr ""
+
+msgctxt "#32074"
+msgid "Tenth"
+msgstr ""
+
+
+# Main Category Filter
+
+msgctxt "#32080"
+msgid "Category Filter"
+msgstr ""
+
+msgctxt "#32081"
+msgid "Use existing connection"
+msgstr ""
+
+msgctxt "#32082"
+msgid "No VPN"
+msgstr ""
+
+msgctxt "#32083"
+msgid "Select the VPN to be used for each of the main categories"
+msgstr ""
+
+msgctxt "#32084"
+msgid "TV"
+msgstr ""
+
+msgctxt "#32085"
+msgid "Radio"
+msgstr ""
+
+
+# Utilities Settings
+
+msgctxt "#32100"
+msgid "Utilities"
+msgstr ""
+
+msgctxt "#32101"
+msgid "Manage OpenVPN files"
+msgstr ""
+
+msgctxt "#32102"
+msgid "Reset all .ovpn files to default"
+msgstr ""
+
+msgctxt "#32103"
+msgid "Delete user key and cert files"
+msgstr ""
+
+msgctxt "#32104"
+msgid "System reboot"
+msgstr ""
+
+msgctxt "#32105"
+msgid "Weekly reboot day"
+msgstr ""
+
+msgctxt "#32106"
+msgid "Off"
+msgstr ""
+
+msgctxt "#32107"
+msgid "Monday"
+msgstr ""
+
+msgctxt "#32108"
+msgid "Tuesday"
+msgstr ""
+
+msgctxt "#32109"
+msgid "Wednesday"
+msgstr ""
+
+msgctxt "#32110"
+msgid "Thursday"
+msgstr ""
+
+msgctxt "#32111"
+msgid "Friday"
+msgstr ""
+
+msgctxt "#32112"
+msgid "Saturday"
+msgstr ""
+
+msgctxt "#32113"
+msgid "Sunday"
+msgstr ""
+
+msgctxt "#32114"
+msgid "Weekly reboot time (24h)"
+msgstr ""
+
+msgctxt "#32115"
+msgid "Reboot if a remote server file changes"
+msgstr ""
+
+msgctxt "#32116"
+msgid "Remote server file"
+msgstr ""
+
+msgctxt "#32117"
+msgid "Local file read speed test"
+msgstr ""
+
+msgctxt "#32118"
+msgid "Source file (>50MB)"
+msgstr ""
+
+msgctxt "#32119"
+msgid "Run speed test"
+msgstr ""
+
+
+# Debug Settings
+
+msgctxt "#32120"
+msgid "Debug"
+msgstr ""
+
+msgctxt "#32121"
+msgid "General"
+msgstr ""
+
+msgctxt "#32122"
+msgid "Enable debug for just VPN Manager"
+msgstr ""
+
+msgctxt "#32123"
+msgid "View Kodi log file"
+msgstr ""
+
+msgctxt "#32124"
+msgid "Copy log files"
+msgstr ""
+
+msgctxt "#32125"
+msgid "OpenVPN"
+msgstr ""
+
+msgctxt "#32126"
+msgid "View OpenVPN log file"
+msgstr ""
+
+msgctxt "#32127"
+msgid "OpenVPN verb level (reset .ovpn files after updating)"
+msgstr ""
+
+msgctxt "#32128"
+msgid "0"
+msgstr ""
+
+msgctxt "#32129"
+msgid "1"
+msgstr ""
+
+msgctxt "#32130"
+msgid "2"
+msgstr ""
+
+msgctxt "#32131"
+msgid "3"
+msgstr ""
+
+msgctxt "#32132"
+msgid "4"
+msgstr ""
+
+msgctxt "#32133"
+msgid "5"
+msgstr ""
+
+msgctxt "#32134"
+msgid "(Linux) Use sudo with openvpn and killall"
+msgstr ""
+
+msgctxt "#32135"
+msgid "Platform default"
+msgstr ""
+
+msgctxt "#32136"
+msgid "Always"
+msgstr ""
+
+msgctxt "#32137"
+msgid "Never"
+msgstr ""
+
+msgctxt "#32138"
+msgid "Always use Kodi log directory for OpenVPN log"
+msgstr ""
+
+msgctxt "#32139"
+msgid "Information Display"
+msgstr ""
+
+msgctxt "#32140"
+msgid "Enable enhanced information menu option"
+msgstr ""
+
+msgctxt "#32141"
+msgid "View system information window"
+msgstr ""
+
+msgctxt "#32142"
+msgid "Change IP location provider"
+msgstr ""
+
+msgctxt "#32143"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32144"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32145"
+msgid "freegeoip.net"
+msgstr ""
+
+
+# List of VPN providers
+
+msgctxt "#32201"
+msgid "AirVPN"
+msgstr ""
+
+msgctxt "#32202"
+msgid "BTGuard"
+msgstr ""
+
+msgctxt "#32203"
+msgid "CyberGhost"
+msgstr ""
+
+msgctxt "#32204"
+msgid "ExpressVPN"
+msgstr ""
+
+msgctxt "#32205"
+msgid "Hide.Me"
+msgstr ""
+
+msgctxt "#32206"
+msgid "Hide My Ass"
+msgstr ""
+
+msgctxt "#32207"
+msgid "HideIPVPN"
+msgstr ""
+
+msgctxt "#32208"
+msgid "Invisible Browsing VPN"
+msgstr ""
+
+msgctxt "#32209"
+msgid "IPVanish"
+msgstr ""
+
+msgctxt "#32210"
+msgid "LimeVPN"
+msgstr ""
+
+msgctxt "#32211"
+msgid "LiquidVPN"
+msgstr ""
+
+msgctxt "#32212"
+msgid "NordVPN"
+msgstr ""
+
+msgctxt "#32213"
+msgid "Perfect Privacy"
+msgstr ""
+
+msgctxt "#32214"
+msgid "Private Internet Access"
+msgstr ""
+
+msgctxt "#32215"
+msgid "PureVPN"
+msgstr ""
+
+msgctxt "#32216"
+msgid "tigerVPN"
+msgstr ""
+
+msgctxt "#32217"
+msgid "TorGuard"
+msgstr ""
+
+msgctxt "#32218"
+msgid "User Defined"
+msgstr ""
+
+msgctxt "#32219"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32220"
+msgid "VyprVPN"
+msgstr ""

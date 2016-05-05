@@ -1,0 +1,26 @@
+dev tun
+fast-io
+persist-key
+persist-tun
+nobind
+remote #SERVER #PORT
+remote-random
+pull
+comp-lzo
+tls-client
+verify-x509-name Server name-prefix
+ns-cert-type server
+key-direction 1
+route-method exe
+route-delay 2
+tun-mtu 1500
+fragment 1300
+mssfix 1450
+verb 3
+cipher AES-256-CBC
+keysize 256
+auth SHA512
+ca #CERT
+cert #USERCERT
+key #USERKEY
+tls-auth #TLSKEY

@@ -1,0 +1,10 @@
+Romania (TCP),4-ro.cg-dialup.net,tcp,443,#REMOVE=2
+Romania (UDP),4-ro.cg-dialup.net,udp,443,#REMOVE=1
+Netherlands (TCP),5-nl.cg-dialup.net,tcp,443,#REMOVE=2
+Netherlands (UDP),5-nl.cg-dialup.net,udp,443,#REMOVE=1
+Czech Republic (TCP),4-cz.cg-dialup.net,tcp,443,#REMOVE=2
+Czech Republic (UDP),4-cz.cg-dialup.net,udp,443,#REMOVE=1
+USA (TCP),4-us.cg-dialup.net,tcp,443,#REMOVE=2
+USA (UDP),4-us.cg-dialup.net,udp,443,#REMOVE=1
+Germany (UDP),4-de.cg-dialup.net,tcp,443,#REMOVE=2
+Germany (UDP),4-de.cg-dialup.net,udp,443,#REMOVE=1

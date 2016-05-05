@@ -1,0 +1,152 @@
+v1.0.0
+- No longer beta!
+- Updated VyprVPN servers
+- Added ExpressVPN
+
+v0.4.8
+- Add BTGuard support
+
+v0.4.7
+- Add option to force openvpn log to Kodi log directory
+- Fix bug in display enhanced info option
+
+v0.4.6
+- Added VPN Unlimited support
+- Re-added Hide.Me support, but it doesn't work smoothly...
+- Reboot on file change and User Defined provider bug fixes
+
+v0.4.5
+- Reboot on remote server file change
+- Windows support
+- Alphabetical ordering of VPN providers in wizard
+
+v0.4.4
+- Added additional PIA server
+- Support for OE 7 (only expects an openvpn plugin for OE 6 (Kodi 15)
+
+v0.4.3
+- Added User Defined provider type support user defined opvn profiles
+- Added weekly reboot timer
+- Key/cert bug fixes
+
+v0.4.2
+- Preliminary OSMC support
+
+v0.4.1
+- Added log display
+- Added system info popup display
+- Added OpenVPN verb setting
+- Removed Hide.Me support
+- Improved VPN error detection
+
+v0.4.0
+- Added more VyprVPN profiles for Giganews users
+
+v0.3.9
+- Added many more IPVanish profiles
+
+v0.3.7
+- Changed IP location reporting (again...)
+
+v0.3.6
+- Bug fixes
+
+v0.3.5
+- Fixed IP location reporting
+
+v0.3.4
+- Full CyberGhost support
+- Added detailed system information
+
+v0.3.3
+- OE 5.0.8 support
+
+v0.3.2 - final beta
+- Bug fixes
+
+v0.3.1
+- Added support for TorGuard (not tested)
+- Removed invalidation of connection when auth fails outside of validation
+
+v0.3.0
+- Added check for openvpn
+- Fix change connection bug
+
+v0.2.9
+- Fixed idiot bug that wiped out connection information
+
+v0.2.8
+- Added support for Perfect Privacy
+- More bug fixing
+
+v0.2.7
+- Added more primary VPN connections
+- Minor bug fixes and string changes
+
+v0.2.6 
+- Added support for Hide.Me (not tested)
+- More CyberGhost support (promo connections)
+
+v0.2.5 
+- Fixed cycling bug
+- Fixed filtering refresh bug
+- Fixed provider validation failure/cancellation bug
+
+v0.2.4 beta 9
+- Added support for AirVPN
+- Further work on CyberGhost (limited connection support)
+
+v0.2.2 
+- Preliminary support for CyberGhost (not enabled yet)
+
+v0.2.1 beta 7
+- Fixed stupid bug that wiped out PureVPN location file.
+
+v0.2.0 beta 6
+- Added support for LiquidVPN
+- Fixed ibVPN (connection), PureVPN (naming and config) and tigerVPN (staying connected...)
+- More debug
+- Preliminary Kodi on Linux support
+- Restructure prior to releasing code on Github
+
+v0.1.0 beta 5
+- Generate ovpn files rather than preinstall everything
+- Configurable ports (where provider supports this)
+- UDP and TCP profile filtering
+- Initial setup wizard
+- Add support for tigerVPN, HideMyAss! and PureVPN
+- Better debug of failing connections
+
+v0.0.9 beta 4
+- Add support for NordVPN
+
+v0.0.8 beta 3
+- Add support for Invisible Browsing VPN
+- Some bug fixes
+
+v0.0.7 beta 2
+- Mute some of the notifications
+- Restructure to allow deployment on multiple platforms
+
+v0.0.6 beta
+- Support multiple VPNs per add-on
+
+v0.0.5
+- Update VPN profile files before connection to ensure they're platform/installation independent
+- Made filter reconnection behaviour better
+
+v0.0.4
+- Added more icon goodness
+- Added tracing
+- Added VPN monitor pause (stops VPN filtering)
+
+
+v0.0.3
+- Made everything platform agnostic (apart from the VPN profiles...)
+- Fixed cycle bug
+
+v0.0.2
+- Added icon goodness
+
+v0.0.1
+- Initial version (support for PIA, VyprVPN and IPVanish (untested))

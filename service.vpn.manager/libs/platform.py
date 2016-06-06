@@ -202,9 +202,12 @@ def checkVPNCommand(addon):
         elif p == platforms.WINDOWS:
             # Issue Windows command
             command=getOpenVPNPath()
+            infoTrace("platform.py", "Testing openvpn with : " + command)
             args = shlex.split(command)
             outfile = open(getVPNLogFilePath(),'w')
             proc = subprocess.Popen(args, stdout=outfile, creationflags=subprocess.SW_HIDE, shell=True)
+        else:
+            errorTrace("platform.py", "Unsupported platform " + str(p))
             
         # **** ADD MORE PLATFORMS HERE ****
                 
@@ -219,13 +222,11 @@ def checkVPNCommand(addon):
             log_file = open(getVPNLogFilePath(), 'r')
             log_file_lines = log_file.readlines()
             log_file.close()
-            i = 0
             # Look for a phrase we'd expect to see if the call
             # worked and the list of options was displayed
             for line in log_file_lines:
                 if "General Options" in line:
                     return True
-                i = i + 1
             # Write the log file in case there's something in it
             errorTrace("platform.py", "Ran openvpn command and it failed")            
             writeVPNLog()

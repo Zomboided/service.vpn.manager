@@ -534,21 +534,25 @@ msgid "PureVPN"
 msgstr ""
 
 msgctxt "#32216"
-msgid "tigerVPN"
+msgid "SaferVPN"
 msgstr ""
 
 msgctxt "#32217"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32218"
-msgid "User Defined"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32219"
-msgid "VPN Unlimited"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32220"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32221"
 msgid "VyprVPN"
 msgstr ""

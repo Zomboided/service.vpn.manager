@@ -1,3 +1,7 @@
+v1.1.0
+- Added SaferVPN
+- Updated NordVPN UDP connections with new certificates
+
 v1.0.0
 - No longer beta!
 - Updated VyprVPN servers

@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateExpressVPN()
+    generateSaferVPN()
     return
+    generateNordVPN()
     generateVyprVPN()
     generateBTGuard()
     generateVPNUnlim()
@@ -52,7 +53,7 @@ def generateAll():
     generatetigerVPN()
     generateHMA()    
     generateIPVanish()    
-    generateNordVPN()
+    generateExpressVPN()
 
 
 def getLocations(vpn_provider, path_ext):
@@ -68,6 +69,28 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateSaferVPN():
+    # Data is stored as a bunch of ovpn files
+    # File name has location.  File has the server
+    profiles = getProfileList("SaferVPN")
+    location_file = getLocations("SaferVPN", "")
+    for profile in profiles:
+        geo = profile[profile.index("SaferVPN")+9:]
+        geo = geo.replace(".ovpn", "")
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                line = line[:line.index("#")-2]
+                _, server, port = line.split()  
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,1194" + "\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
+    location_file.close()
+
+    
 def generateExpressVPN():
     profiles = getProfileList("ExpressVPN")
     location_file = getLocations("ExpressVPN", "")
@@ -631,29 +654,28 @@ def generatePureVPN():
 def generateNordVPN():
     # Can't use a template here as NordVPN use multiple certificate and keys. 
     # Copy the file to the target directory and rename it to something more tidy
-    # Use the file name to find the country in the servers file
     # Remove what's there to start with
     existing_profiles = glob.glob(getAddonPath(True, "NordVPN" + "/*.ovpn"))
     for connection in existing_profiles:
         xbmcvfs.delete(connection)
     # Get the list from the provider data directory
     profiles = getProfileList("NordVPN")
-    destination_path = getAddonPath(True, "NordVPN" + "/")
-    source_file = open(getAddonPath(True, "providers/NordVPN/Servers.txt"), 'r')
-    servers = source_file.readlines()
-    source_file.close()    
+    destination_path = getAddonPath(True, "NordVPN" + "/")   
     for profile in profiles:
-        shortname = profile[profile.index("NordVPN")+9:]
-        server = shortname[:shortname.index(".com")+4]
-        geo = ""
-        for line in servers:
-            if server in line:
-                geo = line[:line.index(server)-1]
-                geo = geo.replace("#", "")
-        geo = geo.strip(' \t\n\r')
-        if "tcp443" in shortname: proto = "(TCP)"
-        if "udp1194" in shortname: proto = "(UDP)"
-        filename = geo + " " + proto + ".ovpn"
+        shortname = profile[profile.index("NordVPN")+8:]
+        shortname = shortname[:shortname.index(".")]
+        if not "-" in shortname:
+            shortname = resolveCountry((shortname[0:2]).upper()) + " " + shortname[2:]
+        else:
+            if "lt-lv1" in shortname: shortname = "Lithuania - Latvia 1"
+            if "tw-hk1" in shortname: shortname = "Taiwan - Hong Kong 1"
+            if "us-ca2" in shortname: shortname = "United States - Canada 2"
+            if "lv-tor1" in shortname: shortname = "Latvia Tor 1"
+            if "se-tor1" in shortname: shortname = "Sweden Tor 1"
+        proto = ""
+        if "tcp443" in profile: proto = "(TCP)"
+        if "udp1194" in profile: proto = "(UDP)"
+        filename = shortname + " " + proto + ".ovpn"
         profile_file = open(profile, 'r')
         output_file = open(destination_path + filename, 'w')
         profile_contents = profile_file.readlines()
@@ -693,7 +715,7 @@ def resolveCountry(code):
         'Benin': 'BJ',
         'Bermuda': 'BM',
         'Bhutan': 'BT',
-        'Bolivia, Plurinational State of': 'BO',
+        'Bolivia': 'BO',
         'Bonaire, Sint Eustatius and Saba': 'BQ',
         'Bosnia and Herzegovina': 'BA',
         'Botswana': 'BW',
@@ -718,7 +740,7 @@ def resolveCountry(code):
         'Colombia': 'CO',
         'Comoros': 'KM',
         'Congo': 'CG',
-        'Congo, the Democratic Republic of the': 'CD',
+        'Congo': 'CD',
         'Cook Islands': 'CK',
         'Costa Rica': 'CR',
         'Country name': 'Code',
@@ -773,7 +795,7 @@ def resolveCountry(code):
         'Iceland': 'IS',
         'India': 'IN',
         'Indonesia': 'ID',
-        'Iran, Islamic Republic of': 'IR',
+        'Iran': 'IR',
         'Iraq': 'IQ',
         'Ireland': 'IE',
         'Isle of Man': 'IM',
@@ -786,8 +808,8 @@ def resolveCountry(code):
         'Kazakhstan': 'KZ',
         'Kenya': 'KE',
         'Kiribati': 'KI',
-        "Korea, Democratic People's Republic of": 'KP',
-        'Korea, Republic of': 'KR',
+        "Korea": 'KP',
+        'Korea': 'KR',
         'Kuwait': 'KW',
         'Kyrgyzstan': 'KG',
         "Lao People's Democratic Republic": 'LA',
@@ -800,7 +822,7 @@ def resolveCountry(code):
         'Lithuania': 'LT',
         'Luxembourg': 'LU',
         'Macao': 'MO',
-        'Macedonia, the former Yugoslav Republic of': 'MK',
+        'Macedonia': 'MK',
         'Madagascar': 'MG',
         'Malawi': 'MW',
         'Malaysia': 'MY',
@@ -813,8 +835,8 @@ def resolveCountry(code):
         'Mauritius': 'MU',
         'Mayotte': 'YT',
         'Mexico': 'MX',
-        'Micronesia, Federated States of': 'FM',
-        'Moldova, Republic of': 'MD',
+        'Micronesia': 'FM',
+        'Moldova': 'MD',
         'Monaco': 'MC',
         'Mongolia': 'MN',
         'Montenegro': 'ME',
@@ -838,7 +860,7 @@ def resolveCountry(code):
         'Oman': 'OM',
         'Pakistan': 'PK',
         'Palau': 'PW',
-        'Palestine, State of': 'PS',
+        'Palestine': 'PS',
         'Panama': 'PA',
         'Papua New Guinea': 'PG',
         'Paraguay': 'PY',
@@ -850,7 +872,7 @@ def resolveCountry(code):
         'Puerto Rico': 'PR',
         'Qatar': 'QA',
         'Romania': 'RO',
-        'Russian Federation': 'RU',
+        'Russia': 'RU',
         'Rwanda': 'RW',
         'Réunion': 'RE',
         'Saint Barthélemy': 'BL',
@@ -886,9 +908,9 @@ def resolveCountry(code):
         'Sweden': 'SE',
         'Switzerland': 'CH',
         'Syrian Arab Republic': 'SY',
-        'Taiwan, Province of China': 'TW',
+        'Taiwan': 'TW',
         'Tajikistan': 'TJ',
-        'Tanzania, United Republic of': 'TZ',
+        'Tanzania': 'TZ',
         'Thailand': 'TH',
         'Timor-Leste': 'TL',
         'Togo': 'TG',
@@ -910,8 +932,8 @@ def resolveCountry(code):
         'Uruguay': 'UY',
         'Uzbekistan': 'UZ',
         'Vanuatu': 'VU',
-        'Venezuela, Bolivarian Republic of': 'VE',
-        'Viet Nam': 'VN',
+        'Venezuela': 'VE',
+        'Vietnam': 'VN',
         'Virgin Islands, British': 'VG',
         'Virgin Islands, U.S.': 'VI',
         'Wallis and Futuna': 'WF',

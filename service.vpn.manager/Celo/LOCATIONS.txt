@@ -1,0 +1,16 @@
+Australia - Syndey (UDP),au1.celo.net au1.celo.net au1.celo.net au1.celo.net au1.celo.net au1.celo.net au1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=Australia_-_Syndey_ta.key #CERT=Australia_-_Syndey_ca.crt
+Australia - Syndey (TCP),au1.celo.net,tcp,443,#TLSKEY=Australia_-_Syndey_ta.key #CERT=Australia_-_Syndey_ca.crt
+Germany - Frankfurt (UDP),de1.celo.net de1.celo.net de1.celo.net de1.celo.net de1.celo.net de1.celo.net de1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=Germany_-_Frankfurt_ta.key #CERT=Germany_-_Frankfurt_ca.crt
+Germany - Frankfurt (TCP),de1.celo.net,tcp,443,#TLSKEY=Germany_-_Frankfurt_ta.key #CERT=Germany_-_Frankfurt_ca.crt
+Netherlands - Amsterdam (UDP),nl1.celo.net nl1.celo.net nl1.celo.net nl1.celo.net nl1.celo.net nl1.celo.net nl1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=Netherlands_-_Amsterdam_ta.key #CERT=Netherlands_-_Amsterdam_ca.crt
+Netherlands - Amsterdam (TCP),nl1.celo.net,tcp,443,#TLSKEY=Netherlands_-_Amsterdam_ta.key #CERT=Netherlands_-_Amsterdam_ca.crt
+Russia - Moscow (UDP),ru1.celo.net ru1.celo.net ru1.celo.net ru1.celo.net ru1.celo.net ru1.celo.net ru1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=Russia_-_Moscow_ta.key #CERT=Russia_-_Moscow_ca.crt
+Russia - Moscow (TCP),ru1.celo.net,tcp,443,#TLSKEY=Russia_-_Moscow_ta.key #CERT=Russia_-_Moscow_ca.crt
+Sweden - Stockholm (UDP),sw1.celo.net sw1.celo.net sw1.celo.net sw1.celo.net sw1.celo.net sw1.celo.net sw1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=Sweden_-_Stockholm_ta.key #CERT=Sweden_-_Stockholm_ca.crt
+Sweden - Stockholm (TCP),sw1.celo.net,tcp,443,#TLSKEY=Sweden_-_Stockholm_ta.key #CERT=Sweden_-_Stockholm_ca.crt
+UK - London (UDP),uk1.celo.net uk1.celo.net uk1.celo.net uk1.celo.net uk1.celo.net uk1.celo.net uk1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=UK_-_London_ta.key #CERT=UK_-_London_ca.crt
+UK - London (TCP),uk1.celo.net,tcp,443,#TLSKEY=UK_-_London_ta.key #CERT=UK_-_London_ca.crt
+US - Los Angeles (UDP),us2.celo.net us2.celo.net us2.celo.net us2.celo.net us2.celo.net us2.celo.net us2.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=US_-_Los_Angeles_ta.key #CERT=US_-_Los_Angeles_ca.crt
+US - Los Angeles (TCP),us2.celo.net,tcp,443,#TLSKEY=US_-_Los_Angeles_ta.key #CERT=US_-_Los_Angeles_ca.crt
+US - Phoenix (UDP),us1.celo.net us1.celo.net us1.celo.net us1.celo.net us1.celo.net us1.celo.net us1.celo.net,udp,1194 1194 1194 1194 1194 1194 1194,#TLSKEY=US_-_Phoenix_ta.key #CERT=US_-_Phoenix_ca.crt
+US - Phoenix (TCP),us1.celo.net,tcp,443,#TLSKEY=US_-_Phoenix_ta.key #CERT=US_-_Phoenix_ca.crt

@@ -28,7 +28,7 @@ import xbmcgui
 import xbmc
 import glob
 import sys
-from libs.platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
+from libs.platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from libs.platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from libs.platform import getPlatformString, checkPlatform, useSudo
 from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug
@@ -167,16 +167,24 @@ def stopVPNConnection():
 
     # End any existing openvpn process
     waiting = True
+    i = 0
     while waiting:
-        # Send the kill command to end the openvpn process
-        stopVPN()
+        i = i + 10
+        
+        # Send the kill command to end the openvpn process.
+        # After 10 seconds hit it with the -9 hammer
+        if i < 20:
+            stopVPN()
+        else:
+            stopVPN9()
     
         # Wait half a second just to make sure the process has time to die
         xbmc.sleep(500)
 
         # See if the openvpn process is still alive
         waiting = isVPNConnected()
-            
+        
+        
     setVPNState("stopped")
     return
 
@@ -758,7 +766,7 @@ def connectVPN(connection_order, vpn_profile):
 
     if not addon.getSetting("ran_openvpn") == "true":
         debugTrace("Checking openvpn can be run")
-        stopVPN()    
+        stopVPN9()    
         if checkVPNCommand(addon): addon.setSetting("ran_openvpn", "true")
         else: return
     
@@ -1085,7 +1093,7 @@ def connectVPN(connection_order, vpn_profile):
         
         # Don't know how far we got, if we were trying to connect and then got cancelled,
         # there might still be an instance of openvpn running we need to kill
-        stopVPN()
+        stopVPN9()
     else:
         # An error occurred, The current connection is already invalidated.  The VPN credentials might 
         # be ok, but if they need re-entering, the user must update them which will force a reset.  
@@ -1136,7 +1144,7 @@ def connectVPN(connection_order, vpn_profile):
         errorTrace("common.py", dialog_message)
 
         # The VPN might be having a spaz still so we want to ensure it's stopped
-        stopVPN()
+        stopVPN9()
 
     # Restart service
     if not startService():

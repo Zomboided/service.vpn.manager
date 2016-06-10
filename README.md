@@ -25,7 +25,7 @@ Cycling
 Additionally, primary VPN profiles can be cycled through either using the add-on menu, or at any time, a button on the remote.  On pressing the button the first time, the current VPN state will be displayed.  Subsequent presses will cycle around the available connections (and optionally disconnect).
 After a short period (~10 seconds), the VPN last displayed will be connected.  If you don't want this to happen, cycle back to the current connected VPN.  If the network is active during a switch any traffic will likely be disrupted
 
-To set up the cycle funtion, there's a remote.xml file within the add-on zip which shows how to map the cycle function onto a key (I'm using the blue key on my remote).  You can use the Keymap Editor add-on to create an xml file within the userdata directory (/storage/.kodi/userdata/keymaps) and edit it to contain the RunScript command show in remote.xml.
+To set up the cycle funtion, there's a remote.xml file within the add-on zip which shows how to map the cycle function onto a key (I'm using the blue key on my remote).  You can use the Keymap Editor add-on to create an xml file within the userdata directory (/storage/.kodi/userdata/keymaps) and edit it to contain the RunScript command shown in remote.xml.
 
 
 Popup Info Display
@@ -49,11 +49,11 @@ User Defined Connections and Using Two Providers
 ------------------------------------------------
 To use the User Defined 'provider' (ie a set of connections managed by the user), put the relevant files in the userdata/addon_data/service.vpn.manager/UserDefined.  This directory probably won't exist so will need to be created.  All files in this directory will be copied for use in the add-on when the first connection is attempted.  
 
-If the User Defined settings on the Settings/VPN Configuration tab indicate that the User Defined username and password should be used, then a pass.txt file will be generated and the path to that file updated in each .ovpn file.  
+If the User Defined settings on the Settings/VPN Configuration tab indicate that the User Defined username and password should be used, then a pass.txt file will be generated and the path to that file updated in each .ovpn file.  The ovpn file must include 'auth-user-pass pass.txt', which will be updated with the correct path name by the addon
 
-Likewise if the user key and certificate option is selected, then the key and cert files will be requested during connection.  These files are put in the userdata directory and the .ovpn files updated to point to them.
+Likewise if the user key and certificate option is selected, then the key and cert files will be requested during connection.  These files are put in the userdata directory and the .ovpn files updated to point to them.  The ovpn file must include 'key user.key' and 'cert user.crt' parameters, which will be updated with the correct path name by the addon.
 
-Each .ovpn file can include the tag, '#PATH' which will be replaced with the working directory path.  This can be used to point at any password, key or cert files which will be copied across from the userdata directory.  An example to how you might use this is 'auth-user-pass #PATH/pass.txt'
+Each .ovpn file can include the tag, '#PATH' which will be replaced with the working directory path.  This can be used to point at any user supplied password, key or cert files which will be copied across from the userdata directory.  An example to how you might use this is 'auth-user-pass #PATH/pass.txt'
 
 The naming of the ovpn files is important if you want to use the filtering of UDP and TCP connections.  If the Settings/VPN Configuration is showing the protocol to be UDP, then only ovpn files with the string '(UDP' in them will be displayed.  If protocol is showing TCP, then only ovpn files with '(TCP' in the name will be displayed.  If the protocol is UDP and TCP, then all ovpn files will be displayed.
 

@@ -21,21 +21,19 @@
 import xbmc
 import xbmcaddon
 
-addon = xbmcaddon.Addon("service.vpn.manager")
-addon_name = addon.getAddonInfo("name")
-
 
 def ifDebug():
-    if addon.getSetting("vpn_enable_debug") == "true":
+    if xbmcaddon.Addon("service.vpn.manager").getSetting("vpn_enable_debug") == "true":
         return True
     return False
 
     
 def debugTrace(data):    
-    log = "VPN Mgr : " + data
-    if addon.getSetting("vpn_enable_debug") == "true":
-        print log        
+    if ifDebug():
+        log = "VPN Mgr Debug: " + data
+        xbmc.log(msg=log, level=xbmc.LOGNONE)       
     else:
+        log = "VPN Mgr : " + data
         xbmc.log(msg=log, level=xbmc.LOGDEBUG)
     
     

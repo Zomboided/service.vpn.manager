@@ -27,7 +27,7 @@ msgid "VPN Configuration"
 msgstr ""
 
 msgctxt "#32001"
-msgid "Set up your VPN provider, then validate some VPN connections"
+msgid "Set up VPN provider, then validate VPN connections"
 msgstr ""
 
 msgctxt "#32002"
@@ -112,7 +112,7 @@ msgid "VPN Connections"
 msgstr ""
 
 msgctxt "#32026"
-msgid "Click the boxes below to validate or update the primary VPN connections"
+msgid "Click the boxes below to validate primary VPN connections"
 msgstr ""
 
 msgctxt "#32027"
@@ -202,7 +202,7 @@ msgid "Add-on Filter"
 msgstr ""
 
 msgctxt "#32062"
-msgid "Select the add-ons for which a VPN should not be used"
+msgid "Select add-ons for which a VPN won't be used"
 msgstr ""
 
 msgctxt "#32063"
@@ -210,7 +210,7 @@ msgid "Excluded"
 msgstr ""
 
 msgctxt "#32064"
-msgid "Select the add-ons which use one of the primary VPN connections"
+msgid "Select which VPN connection to use with which add-on"
 msgstr ""
 
 msgctxt "#32065"
@@ -439,34 +439,38 @@ msgid "Never"
 msgstr ""
 
 msgctxt "#32138"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "(Linux) Stop openvpn with killall -9 instead of -15"
 msgstr ""
 
 msgctxt "#32139"
-msgid "Information Display"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32140"
-msgid "Enable enhanced information menu option"
+msgid "Information Display"
 msgstr ""
 
 msgctxt "#32141"
-msgid "View system information window"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32142"
-msgid "Change IP location provider"
+msgid "View system information window"
 msgstr ""
 
 msgctxt "#32143"
-msgid "IP-API"
+msgid "Change IP location provider"
 msgstr ""
 
 msgctxt "#32144"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32145"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32146"
 msgid "freegeoip.net"
 msgstr ""
 
@@ -482,77 +486,85 @@ msgid "BTGuard"
 msgstr ""
 
 msgctxt "#32203"
-msgid "CyberGhost"
+msgid "Celo"
 msgstr ""
 
 msgctxt "#32204"
-msgid "ExpressVPN"
+msgid "CyberGhost"
 msgstr ""
 
 msgctxt "#32205"
-msgid "Hide.Me"
+msgid "ExpressVPN"
 msgstr ""
 
 msgctxt "#32206"
-msgid "Hide My Ass"
+msgid "Hide.Me"
 msgstr ""
 
 msgctxt "#32207"
-msgid "HideIPVPN"
+msgid "Hide My Ass"
 msgstr ""
 
 msgctxt "#32208"
-msgid "Invisible Browsing VPN"
+msgid "HideIPVPN"
 msgstr ""
 
 msgctxt "#32209"
-msgid "IPVanish"
+msgid "Invisible Browsing VPN"
 msgstr ""
 
 msgctxt "#32210"
-msgid "LimeVPN"
+msgid "IPVanish"
 msgstr ""
 
 msgctxt "#32211"
-msgid "LiquidVPN"
+msgid "LimeVPN"
 msgstr ""
 
 msgctxt "#32212"
-msgid "NordVPN"
+msgid "LiquidVPN"
 msgstr ""
 
 msgctxt "#32213"
-msgid "Perfect Privacy"
+msgid "NordVPN"
 msgstr ""
 
 msgctxt "#32214"
-msgid "Private Internet Access"
+msgid "Perfect Privacy"
 msgstr ""
 
 msgctxt "#32215"
-msgid "PureVPN"
+msgid "Private Internet Access"
 msgstr ""
 
 msgctxt "#32216"
-msgid "SaferVPN"
+msgid "PureVPN"
 msgstr ""
 
 msgctxt "#32217"
-msgid "tigerVPN"
+msgid "SaferVPN"
 msgstr ""
 
 msgctxt "#32218"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32219"
-msgid "User Defined"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32220"
-msgid "VPN Unlimited"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32221"
+msgid "VPN.ht"
+msgstr ""
+
+msgctxt "#32222"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32223"
 msgid "VyprVPN"
 msgstr ""

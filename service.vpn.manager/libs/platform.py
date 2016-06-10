@@ -69,6 +69,14 @@ def useSudo():
         if not getAddonPath(True, "").startswith("/storage/.kodi/"): return True
     return False
 
+
+def useBigHammer():
+    hammer = xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_killall")
+    if hammer == "true": 
+        return True
+    else:
+        return False
+    
     
 def getPlatformString():
     p = getPlatform()
@@ -93,15 +101,31 @@ def getVPNLogFilePath():
     
 
 def stopVPN():
+    # Little hammer
+    stopVPNn("15")
+    return
+    
+    
+def stopVPN9():
+    # Big hammer
+    stopVPNn("9")
+    return
+
+    
+def stopVPNn(n):
     # Stop the platform VPN task.
     if not fakeConnection():
         p = getPlatform()
         if p == platforms.LINUX or p == platforms.RPI:
-            command = "killall -9 openvpn"            
-            if useSudo() : command = "sudo " + command
+            if useBigHammer(): n = "9"
+            command = "killall -" + n + " openvpn"
+            if useSudo(): command = "sudo " + command
             debugTrace("(Linux) Stopping VPN with " + command)
             os.system(command)
         if p == platforms.WINDOWS:
+            # This call doesn't pay any attention to the size of the hammer.
+            # Probably for Windows, if n is 15, then I should omit the /F but
+            # I've not noticed any problems using /F so the n is ignored
             command = "taskkill /F /T /IM openvpn*"
             debugTrace("(Windows) Stopping VPN with " + command)
             args = shlex.split(command)

@@ -32,8 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateSaferVPN()
+    generateVPNht()
+    generateCelo()
     return
+    generateSaferVPN()
     generateNordVPN()
     generateVyprVPN()
     generateBTGuard()
@@ -69,6 +71,83 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateCelo():
+    # Data is stored as a bunch of ovpn files
+    # File name has location.  File has the server
+    profiles = getProfileList("Celo")
+    location_file = getLocations("Celo", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo_key = (geo + "_ta.key").replace(" ", "_")
+        geo_cert = (geo + "_ca.crt").replace(" ", "_")
+        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_key)):
+            geo = "****ERROR****"
+        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_key)):
+            geo = "****ERROR****"
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        servers_udp = ""
+        servers_tcp = ""
+        ports_udp = ""
+        ports_tcp = ""
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port, proto = line.split()
+                proto = proto.lower()
+                if proto == "udp":
+                    if not servers_udp == "" : servers_udp = servers_udp + " "
+                    servers_udp = servers_udp + server
+                    if not ports_udp == "" : ports_udp = ports_udp + " "
+                    ports_udp = ports_udp + port
+                if proto == "tcp":
+                    if not servers_tcp == "" : servers_tcp = servers_tcp + " "
+                    servers_tcp = servers_tcp + server
+                    if not ports_tcp == "" : ports_tcp = ports_tcp + " "
+                    ports_tcp = ports_tcp + port
+        output_line_udp = geo + " (UDP)," + servers_udp + "," + "udp," + ports_udp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n" 
+        output_line_tcp = geo + " (TCP)," + servers_tcp + "," + "tcp," + ports_tcp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n"         
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
+    location_file.close()
+    
+    
+def generateVPNht():
+    # Data is stored in a flat text file
+    # Location on one line, then server on the next
+    location_file_smartdns = getLocations("VPN.ht", "With SmartDNS")
+    location_file_without = getLocations("VPN.ht", "Without SmartDNS")
+    location_file_all = getLocations("VPN.ht", "All Connections")
+    source_file = open(getAddonPath(True, "providers/VPN.ht/Servers.txt"), 'r')
+    source = source_file.readlines()
+    source_file.close()
+    i = 0
+    for line in source:
+        if i == 0:
+            i = 1
+            geo = line.strip(' \t\n\r')
+        else:
+            i = 0
+            server = line.strip(' \t\n\r')
+            n = server[server.index(".")-2:server.index(".")]
+            geo = geo + " " + n
+            output_line_udp_no = geo + " (UDP)," + server + "," + "udp,1194" + ",#REMOVE=1\n"
+            output_line_udp = geo + " (UDP SmartDNS)," + server + "," + "udp,1194" + "\n"
+            output_line_tcp_no = geo + " (TCP)," + server + "," + "tcp,443"  + ",#REMOVE=1\n"
+            output_line_tcp = geo + " (TCP SmartDNS)," + server + "," + "tcp,443"  + "\n"
+            location_file_smartdns.write(output_line_udp)
+            location_file_smartdns.write(output_line_tcp)
+            location_file_without.write(output_line_udp_no)
+            location_file_without.write(output_line_tcp_no)
+            location_file_all.write(output_line_udp)
+            location_file_all.write(output_line_tcp)
+            location_file_all.write(output_line_udp_no)
+            location_file_all.write(output_line_tcp_no)
+    location_file_smartdns.close()   
+    location_file_without.close()
+    location_file_all.close()
+    
+    
 def generateSaferVPN():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the server

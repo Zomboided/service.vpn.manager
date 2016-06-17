@@ -33,8 +33,9 @@ from libs.common import getFriendlyProfileName
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
     generateVPNht()
-    generateCelo()
     return
+    generateTotalVPN()    
+    generateCelo()
     generateSaferVPN()
     generateNordVPN()
     generateVyprVPN()
@@ -71,6 +72,30 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateTotalVPN():
+    # Data is stored in a flat text file
+    # Location, tab, server - free locations are marked with a leading *
+    location_file_full = getLocations("TotalVPN", "Full Account")
+    location_file_free = getLocations("TotalVPN", "Free Account")
+    source_file = open(getAddonPath(True, "providers/TotalVPN/Servers.txt"), 'r')
+    source = source_file.readlines()
+    source_file.close()
+    for line in source:
+        line = line.strip(" \t\n\r")
+        geo, server = line.split("\t")
+        geo = geo.strip(" *\t\n\r")
+        geo = geo.replace(",", " -")
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,1194"  + "\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
+        location_file_full.write(output_line_udp)
+        location_file_full.write(output_line_tcp)
+        if "*" in line:
+            location_file_free.write(output_line_udp)
+            location_file_free.write(output_line_tcp)
+    location_file_full.close()
+    location_file_free.close()
+    
+    
 def generateCelo():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the server
@@ -129,10 +154,11 @@ def generateVPNht():
         else:
             i = 0
             server = line.strip(' \t\n\r')
-            n = server[server.index(".")-2:server.index(".")]
-            geo = geo + " " + n
-            output_line_udp_no = geo + " (UDP)," + server + "," + "udp,1194" + ",#REMOVE=1\n"
-            output_line_udp = geo + " (UDP SmartDNS)," + server + "," + "udp,1194" + "\n"
+            serverudp = server
+            for j in range (1, 7):
+                serverudp = serverudp + " " + server
+            output_line_udp = geo + " (UDP)," + serverudp + "," + "udp,1194 1195 1196 1197 1198 1199 1200"  + "\n"
+            output_line_udp_no = geo + " (UDP SmartDNS)," + serverudp + "," + "udp,1194 1195 1196 1197 1198 1199 1200"  + ",#REMOVE=1\n"
             output_line_tcp_no = geo + " (TCP)," + server + "," + "tcp,443"  + ",#REMOVE=1\n"
             output_line_tcp = geo + " (TCP SmartDNS)," + server + "," + "tcp,443"  + "\n"
             location_file_smartdns.write(output_line_udp)

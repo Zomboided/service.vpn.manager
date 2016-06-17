@@ -1,254 +1,46 @@
-Australia 01 (UDP, SmartDNS),au01.vpn.ht,udp,1194
-Australia 01 (TCP, SmartDNS),au01.vpn.ht,tcp,443
-Australia 02 (UDP, SmartDNS),au02.vpn.ht,udp,1194
-Australia 02 (TCP, SmartDNS),au02.vpn.ht,tcp,443
-Brazil 01 (UDP, SmartDNS),br01.vpn.ht,udp,1194
-Brazil 01 (TCP, SmartDNS),br01.vpn.ht,tcp,443
-Canada 01 (UDP, SmartDNS),ca-tor01.vpn.ht,udp,1194
-Canada 01 (TCP, SmartDNS),ca-tor01.vpn.ht,tcp,443
-Canada 01 (UDP, SmartDNS),ca-mtl01.vpn.ht,udp,1194
-Canada 01 (TCP, SmartDNS),ca-mtl01.vpn.ht,tcp,443
-Canada 02 (UDP, SmartDNS),ca-mtl02.vpn.ht,udp,1194
-Canada 02 (TCP, SmartDNS),ca-mtl02.vpn.ht,tcp,443
-Canada 03 (UDP, SmartDNS),ca-mtl03.vpn.ht,udp,1194
-Canada 03 (TCP, SmartDNS),ca-mtl03.vpn.ht,tcp,443
-Canada 04 (UDP, SmartDNS),ca-mtl04.vpn.ht,udp,1194
-Canada 04 (TCP, SmartDNS),ca-mtl04.vpn.ht,tcp,443
-Canada 05 (UDP, SmartDNS),ca-mtl05.vpn.ht,udp,1194
-Canada 05 (TCP, SmartDNS),ca-mtl05.vpn.ht,tcp,443
-Canada 06 (UDP, SmartDNS),ca-mtl06.vpn.ht,udp,1194
-Canada 06 (TCP, SmartDNS),ca-mtl06.vpn.ht,tcp,443
-Canada 07 (UDP, SmartDNS),ca-mtl07.vpn.ht,udp,1194
-Canada 07 (TCP, SmartDNS),ca-mtl07.vpn.ht,tcp,443
-Canada 08 (UDP, SmartDNS),ca-mtl08.vpn.ht,udp,1194
-Canada 08 (TCP, SmartDNS),ca-mtl08.vpn.ht,tcp,443
-Canada 09 (UDP, SmartDNS),ca-mtl09.vpn.ht,udp,1194
-Canada 09 (TCP, SmartDNS),ca-mtl09.vpn.ht,tcp,443
-Canada 10 (UDP, SmartDNS),ca-mtl10.vpn.ht,udp,1194
-Canada 10 (TCP, SmartDNS),ca-mtl10.vpn.ht,tcp,443
-Germany 01 (UDP, SmartDNS),de01.vpn.ht,udp,1194
-Germany 01 (TCP, SmartDNS),de01.vpn.ht,tcp,443
-Germany 02 (UDP, SmartDNS),de02.vpn.ht,udp,1194
-Germany 02 (TCP, SmartDNS),de02.vpn.ht,tcp,443
-Germany 03 (UDP, SmartDNS),de03.vpn.ht,udp,1194
-Germany 03 (TCP, SmartDNS),de03.vpn.ht,tcp,443
-Germany 04 (UDP, SmartDNS),de04.vpn.ht,udp,1194
-Germany 04 (TCP, SmartDNS),de04.vpn.ht,tcp,443
-Germany 05 (UDP, SmartDNS),de05.vpn.ht,udp,1194
-Germany 05 (TCP, SmartDNS),de05.vpn.ht,tcp,443
-Germany 06 (UDP, SmartDNS),de06.vpn.ht,udp,1194
-Germany 06 (TCP, SmartDNS),de06.vpn.ht,tcp,443
-Germany 07 (UDP, SmartDNS),de07.vpn.ht,udp,1194
-Germany 07 (TCP, SmartDNS),de07.vpn.ht,tcp,443
-Germany 08 (UDP, SmartDNS),de08.vpn.ht,udp,1194
-Germany 08 (TCP, SmartDNS),de08.vpn.ht,tcp,443
-Denmark 01 (UDP, SmartDNS),dk01.vpn.ht,udp,1194
-Denmark 01 (TCP, SmartDNS),dk01.vpn.ht,tcp,443
-France 01 (UDP, SmartDNS),fr01.vpn.ht,udp,1194
-France 01 (TCP, SmartDNS),fr01.vpn.ht,tcp,443
-France 02 (UDP, SmartDNS),fr02.vpn.ht,udp,1194
-France 02 (TCP, SmartDNS),fr02.vpn.ht,tcp,443
-France 03 (UDP, SmartDNS),fr03.vpn.ht,udp,1194
-France 03 (TCP, SmartDNS),fr03.vpn.ht,tcp,443
-France 04 (UDP, SmartDNS),fr04.vpn.ht,udp,1194
-France 04 (TCP, SmartDNS),fr04.vpn.ht,tcp,443
-France 05 (UDP, SmartDNS),fr05.vpn.ht,udp,1194
-France 05 (TCP, SmartDNS),fr05.vpn.ht,tcp,443
-France 06 (UDP, SmartDNS),fr06.vpn.ht,udp,1194
-France 06 (TCP, SmartDNS),fr06.vpn.ht,tcp,443
-France 07 (UDP, SmartDNS),fr07.vpn.ht,udp,1194
-France 07 (TCP, SmartDNS),fr07.vpn.ht,tcp,443
-France 08 (UDP, SmartDNS),fr08.vpn.ht,udp,1194
-France 08 (TCP, SmartDNS),fr08.vpn.ht,tcp,443
-France 09 (UDP, SmartDNS),fr09.vpn.ht,udp,1194
-France 09 (TCP, SmartDNS),fr09.vpn.ht,tcp,443
-France 10 (UDP, SmartDNS),fr10.vpn.ht,udp,1194
-France 10 (TCP, SmartDNS),fr10.vpn.ht,tcp,443
-France 11 (UDP, SmartDNS),fr11.vpn.ht,udp,1194
-France 11 (TCP, SmartDNS),fr11.vpn.ht,tcp,443
-France 12 (UDP, SmartDNS),fr12.vpn.ht,udp,1194
-France 12 (TCP, SmartDNS),fr12.vpn.ht,tcp,443
-France 13 (UDP, SmartDNS),fr13.vpn.ht,udp,1194
-France 13 (TCP, SmartDNS),fr13.vpn.ht,tcp,443
-France 14 (UDP, SmartDNS),fr14.vpn.ht,udp,1194
-France 14 (TCP, SmartDNS),fr14.vpn.ht,tcp,443
-France 15 (UDP, SmartDNS),fr15.vpn.ht,udp,1194
-France 15 (TCP, SmartDNS),fr15.vpn.ht,tcp,443
-France 16 (UDP, SmartDNS),fr16.vpn.ht,udp,1194
-France 16 (TCP, SmartDNS),fr16.vpn.ht,tcp,443
-France 17 (UDP, SmartDNS),fr17.vpn.ht,udp,1194
-France 17 (TCP, SmartDNS),fr17.vpn.ht,tcp,443
-France 18 (UDP, SmartDNS),fr18.vpn.ht,udp,1194
-France 18 (TCP, SmartDNS),fr18.vpn.ht,tcp,443
-France 19 (UDP, SmartDNS),fr19.vpn.ht,udp,1194
-France 19 (TCP, SmartDNS),fr19.vpn.ht,tcp,443
-France 20 (UDP, SmartDNS),fr20.vpn.ht,udp,1194
-France 20 (TCP, SmartDNS),fr20.vpn.ht,tcp,443
-United Kingdom 01 (UDP, SmartDNS),uk01.vpn.ht,udp,1194
-United Kingdom 01 (TCP, SmartDNS),uk01.vpn.ht,tcp,443
-United Kingdom 02 (UDP, SmartDNS),uk02.vpn.ht,udp,1194
-United Kingdom 02 (TCP, SmartDNS),uk02.vpn.ht,tcp,443
-United Kingdom 03 (UDP, SmartDNS),uk03.vpn.ht,udp,1194
-United Kingdom 03 (TCP, SmartDNS),uk03.vpn.ht,tcp,443
-United Kingdom 04 (UDP, SmartDNS),uk04.vpn.ht,udp,1194
-United Kingdom 04 (TCP, SmartDNS),uk04.vpn.ht,tcp,443
-United Kingdom 05 (UDP, SmartDNS),uk05.vpn.ht,udp,1194
-United Kingdom 05 (TCP, SmartDNS),uk05.vpn.ht,tcp,443
-United Kingdom 06 (UDP, SmartDNS),uk06.vpn.ht,udp,1194
-United Kingdom 06 (TCP, SmartDNS),uk06.vpn.ht,tcp,443
-United Kingdom 07 (UDP, SmartDNS),uk07.vpn.ht,udp,1194
-United Kingdom 07 (TCP, SmartDNS),uk07.vpn.ht,tcp,443
-United Kingdom 08 (UDP, SmartDNS),uk08.vpn.ht,udp,1194
-United Kingdom 08 (TCP, SmartDNS),uk08.vpn.ht,tcp,443
-United Kingdom 09 (UDP, SmartDNS),uk09.vpn.ht,udp,1194
-United Kingdom 09 (TCP, SmartDNS),uk09.vpn.ht,tcp,443
-Hong Kong 01 (UDP, SmartDNS),hk01.vpn.ht,udp,1194
-Hong Kong 01 (TCP, SmartDNS),hk01.vpn.ht,tcp,443
-Italy 01 (UDP, SmartDNS),it01.vpn.ht,udp,1194
-Italy 01 (TCP, SmartDNS),it01.vpn.ht,tcp,443
-Japan 01 (UDP, SmartDNS),jp01.vpn.ht,udp,1194
-Japan 01 (TCP, SmartDNS),jp01.vpn.ht,tcp,443
-Korea 01 (UDP, SmartDNS),kr01.vpn.ht,udp,1194
-Korea 01 (TCP, SmartDNS),kr01.vpn.ht,tcp,443
-Lithuania 01 (UDP, SmartDNS),lt01.vpn.ht,udp,1194
-Lithuania 01 (TCP, SmartDNS),lt01.vpn.ht,tcp,443
-Lithuania 02 (UDP, SmartDNS),lt02.vpn.ht,udp,1194
-Lithuania 02 (TCP, SmartDNS),lt02.vpn.ht,tcp,443
-Lithuania 03 (UDP, SmartDNS),lt03.vpn.ht,udp,1194
-Lithuania 03 (TCP, SmartDNS),lt03.vpn.ht,tcp,443
-Luxembourg 01 (UDP, SmartDNS),lu01.vpn.ht,udp,1194
-Luxembourg 01 (TCP, SmartDNS),lu01.vpn.ht,tcp,443
-Luxembourg 02 (UDP, SmartDNS),lu02.vpn.ht,udp,1194
-Luxembourg 02 (TCP, SmartDNS),lu02.vpn.ht,tcp,443
-Mexico 01 (UDP, SmartDNS),mex01.vpn.ht,udp,1194
-Mexico 01 (TCP, SmartDNS),mex01.vpn.ht,tcp,443
-Netherlands 01 (UDP, SmartDNS),nl01.vpn.ht,udp,1194
-Netherlands 01 (TCP, SmartDNS),nl01.vpn.ht,tcp,443
-Netherlands 02 (UDP, SmartDNS),nl02.vpn.ht,udp,1194
-Netherlands 02 (TCP, SmartDNS),nl02.vpn.ht,tcp,443
-Netherlands 03 (UDP, SmartDNS),nl03.vpn.ht,udp,1194
-Netherlands 03 (TCP, SmartDNS),nl03.vpn.ht,tcp,443
-Netherlands 04 (UDP, SmartDNS),nl04.vpn.ht,udp,1194
-Netherlands 04 (TCP, SmartDNS),nl04.vpn.ht,tcp,443
-Netherlands 05 (UDP, SmartDNS),nl05.vpn.ht,udp,1194
-Netherlands 05 (TCP, SmartDNS),nl05.vpn.ht,tcp,443
-Netherlands 06 (UDP, SmartDNS),nl06.vpn.ht,udp,1194
-Netherlands 06 (TCP, SmartDNS),nl06.vpn.ht,tcp,443
-Netherlands 07 (UDP, SmartDNS),nl07.vpn.ht,udp,1194
-Netherlands 07 (TCP, SmartDNS),nl07.vpn.ht,tcp,443
-Netherlands 08 (UDP, SmartDNS),nl08.vpn.ht,udp,1194
-Netherlands 08 (TCP, SmartDNS),nl08.vpn.ht,tcp,443
-Netherlands 09 (UDP, SmartDNS),nl09.vpn.ht,udp,1194
-Netherlands 09 (TCP, SmartDNS),nl09.vpn.ht,tcp,443
-Netherlands 10 (UDP, SmartDNS),nl10.vpn.ht,udp,1194
-Netherlands 10 (TCP, SmartDNS),nl10.vpn.ht,tcp,443
-Netherlands 11 (UDP, SmartDNS),nl11.vpn.ht,udp,1194
-Netherlands 11 (TCP, SmartDNS),nl11.vpn.ht,tcp,443
-Netherlands 12 (UDP, SmartDNS),nl12.vpn.ht,udp,1194
-Netherlands 12 (TCP, SmartDNS),nl12.vpn.ht,tcp,443
-Netherlands 13 (UDP, SmartDNS),nl13.vpn.ht,udp,1194
-Netherlands 13 (TCP, SmartDNS),nl13.vpn.ht,tcp,443
-Netherlands 14 (UDP, SmartDNS),nl14.vpn.ht,udp,1194
-Netherlands 14 (TCP, SmartDNS),nl14.vpn.ht,tcp,443
-Netherlands 15 (UDP, SmartDNS),nl15.vpn.ht,udp,1194
-Netherlands 15 (TCP, SmartDNS),nl15.vpn.ht,tcp,443
-Netherlands 16 (UDP, SmartDNS),nl16.vpn.ht,udp,1194
-Netherlands 16 (TCP, SmartDNS),nl16.vpn.ht,tcp,443
-Netherlands 17 (UDP, SmartDNS),nl17.vpn.ht,udp,1194
-Netherlands 17 (TCP, SmartDNS),nl17.vpn.ht,tcp,443
-Netherlands 18 (UDP, SmartDNS),nl18.vpn.ht,udp,1194
-Netherlands 18 (TCP, SmartDNS),nl18.vpn.ht,tcp,443
-Netherlands 19 (UDP, SmartDNS),nl19.vpn.ht,udp,1194
-Netherlands 19 (TCP, SmartDNS),nl19.vpn.ht,tcp,443
-Netherlands 20 (UDP, SmartDNS),nl20.vpn.ht,udp,1194
-Netherlands 20 (TCP, SmartDNS),nl20.vpn.ht,tcp,443
-Netherlands 21 (UDP, SmartDNS),nl21.vpn.ht,udp,1194
-Netherlands 21 (TCP, SmartDNS),nl21.vpn.ht,tcp,443
-Netherlands 22 (UDP, SmartDNS),nl22.vpn.ht,udp,1194
-Netherlands 22 (TCP, SmartDNS),nl22.vpn.ht,tcp,443
-Norway 01 (UDP, SmartDNS),no01.vpn.ht,udp,1194
-Norway 01 (TCP, SmartDNS),no01.vpn.ht,tcp,443
-Norway 02 (UDP, SmartDNS),no02.vpn.ht,udp,1194
-Norway 02 (TCP, SmartDNS),no02.vpn.ht,tcp,443
-Norway 03 (UDP, SmartDNS),no03.vpn.ht,udp,1194
-Norway 03 (TCP, SmartDNS),no03.vpn.ht,tcp,443
-Norway 04 (UDP, SmartDNS),no04.vpn.ht,udp,1194
-Norway 04 (TCP, SmartDNS),no04.vpn.ht,tcp,443
-Norway 05 (UDP, SmartDNS),no05.vpn.ht,udp,1194
-Norway 05 (TCP, SmartDNS),no05.vpn.ht,tcp,443
-New Zealand 01 (UDP, SmartDNS),nz01.vpn.ht,udp,1194
-New Zealand 01 (TCP, SmartDNS),nz01.vpn.ht,tcp,443
-Romania 01 (UDP, SmartDNS),ro01.vpn.ht,udp,1194
-Romania 01 (TCP, SmartDNS),ro01.vpn.ht,tcp,443
-Romania 02 (UDP, SmartDNS),ro02.vpn.ht,udp,1194
-Romania 02 (TCP, SmartDNS),ro02.vpn.ht,tcp,443
-Russian Federation 01 (UDP, SmartDNS),ru01.vpn.ht,udp,1194
-Russian Federation 01 (TCP, SmartDNS),ru01.vpn.ht,tcp,443
-Sweden 01 (UDP, SmartDNS),se01.vpn.ht,udp,1194
-Sweden 01 (TCP, SmartDNS),se01.vpn.ht,tcp,443
-Sweden 02 (UDP, SmartDNS),se02.vpn.ht,udp,1194
-Sweden 02 (TCP, SmartDNS),se02.vpn.ht,tcp,443
-Sweden 03 (UDP, SmartDNS),se03.vpn.ht,udp,1194
-Sweden 03 (TCP, SmartDNS),se03.vpn.ht,tcp,443
-Sweden 04 (UDP, SmartDNS),se04.vpn.ht,udp,1194
-Sweden 04 (TCP, SmartDNS),se04.vpn.ht,tcp,443
-Sweden 05 (UDP, SmartDNS),se05.vpn.ht,udp,1194
-Sweden 05 (TCP, SmartDNS),se05.vpn.ht,tcp,443
-Sweden 06 (UDP, SmartDNS),se06.vpn.ht,udp,1194
-Sweden 06 (TCP, SmartDNS),se06.vpn.ht,tcp,443
-Sweden 07 (UDP, SmartDNS),se07.vpn.ht,udp,1194
-Sweden 07 (TCP, SmartDNS),se07.vpn.ht,tcp,443
-Sweden 08 (UDP, SmartDNS),se08.vpn.ht,udp,1194
-Sweden 08 (TCP, SmartDNS),se08.vpn.ht,tcp,443
-Sweden 09 (UDP, SmartDNS),se09.vpn.ht,udp,1194
-Sweden 09 (TCP, SmartDNS),se09.vpn.ht,tcp,443
-Sweden 10 (UDP, SmartDNS),se10.vpn.ht,udp,1194
-Sweden 10 (TCP, SmartDNS),se10.vpn.ht,tcp,443
-Singapore 01 (UDP, SmartDNS),sg01.vpn.ht,udp,1194
-Singapore 01 (TCP, SmartDNS),sg01.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-nyc01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-nyc01.vpn.ht,tcp,443
-United States 02 (UDP, SmartDNS),us-nyc02.vpn.ht,udp,1194
-United States 02 (TCP, SmartDNS),us-nyc02.vpn.ht,tcp,443
-United States 03 (UDP, SmartDNS),us-nyc03.vpn.ht,udp,1194
-United States 03 (TCP, SmartDNS),us-nyc03.vpn.ht,tcp,443
-United States 04 (UDP, SmartDNS),us-nyc04.vpn.ht,udp,1194
-United States 04 (TCP, SmartDNS),us-nyc04.vpn.ht,tcp,443
-United States 05 (UDP, SmartDNS),us-nyc05.vpn.ht,udp,1194
-United States 05 (TCP, SmartDNS),us-nyc05.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-mia01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-mia01.vpn.ht,tcp,443
-United States 02 (UDP, SmartDNS),us-mia02.vpn.ht,udp,1194
-United States 02 (TCP, SmartDNS),us-mia02.vpn.ht,tcp,443
-United States 03 (UDP, SmartDNS),us-mia03.vpn.ht,udp,1194
-United States 03 (TCP, SmartDNS),us-mia03.vpn.ht,tcp,443
-United States 04 (UDP, SmartDNS),us-mia04.vpn.ht,udp,1194
-United States 04 (TCP, SmartDNS),us-mia04.vpn.ht,tcp,443
-United States 05 (UDP, SmartDNS),us-mia05.vpn.ht,udp,1194
-United States 05 (TCP, SmartDNS),us-mia05.vpn.ht,tcp,443
-United States 06 (UDP, SmartDNS),us-mia06.vpn.ht,udp,1194
-United States 06 (TCP, SmartDNS),us-mia06.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-sea01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-sea01.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-wa01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-wa01.vpn.ht,tcp,443
-United States 02 (UDP, SmartDNS),us-wa02.vpn.ht,udp,1194
-United States 02 (TCP, SmartDNS),us-wa02.vpn.ht,tcp,443
-United States 03 (UDP, SmartDNS),us-wa03.vpn.ht,udp,1194
-United States 03 (TCP, SmartDNS),us-wa03.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-ca01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-ca01.vpn.ht,tcp,443
-United States 02 (UDP, SmartDNS),us-ca02.vpn.ht,udp,1194
-United States 02 (TCP, SmartDNS),us-ca02.vpn.ht,tcp,443
-United States 03 (UDP, SmartDNS),us-ca03.vpn.ht,udp,1194
-United States 03 (TCP, SmartDNS),us-ca03.vpn.ht,tcp,443
-United States 04 (UDP, SmartDNS),us-ca04.vpn.ht,udp,1194
-United States 04 (TCP, SmartDNS),us-ca04.vpn.ht,tcp,443
-United States 05 (UDP, SmartDNS),us-ca05.vpn.ht,udp,1194
-United States 05 (TCP, SmartDNS),us-ca05.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-tx01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-tx01.vpn.ht,tcp,443
-United States 01 (UDP, SmartDNS),us-sjc01.vpn.ht,udp,1194
-United States 01 (TCP, SmartDNS),us-sjc01.vpn.ht,tcp,443
-South Africa 01 (UDP, SmartDNS),za01.vpn.ht,udp,1194
-South Africa 01 (TCP, SmartDNS),za01.vpn.ht,tcp,443
+Australia (UDP),au.vpn.ht au.vpn.ht au.vpn.ht au.vpn.ht au.vpn.ht au.vpn.ht au.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Australia (TCP SmartDNS),au.vpn.ht,tcp,443
+Brazil (UDP),br.vpn.ht br.vpn.ht br.vpn.ht br.vpn.ht br.vpn.ht br.vpn.ht br.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Brazil (TCP SmartDNS),br.vpn.ht,tcp,443
+Canada (UDP),ca.vpn.ht ca.vpn.ht ca.vpn.ht ca.vpn.ht ca.vpn.ht ca.vpn.ht ca.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Canada (TCP SmartDNS),ca.vpn.ht,tcp,443
+Germany (UDP),de.vpn.ht de.vpn.ht de.vpn.ht de.vpn.ht de.vpn.ht de.vpn.ht de.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Germany (TCP SmartDNS),de.vpn.ht,tcp,443
+Denmark (UDP),dk.vpn.ht dk.vpn.ht dk.vpn.ht dk.vpn.ht dk.vpn.ht dk.vpn.ht dk.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Denmark (TCP SmartDNS),dk.vpn.ht,tcp,443
+France (UDP),fr.vpn.ht fr.vpn.ht fr.vpn.ht fr.vpn.ht fr.vpn.ht fr.vpn.ht fr.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+France (TCP SmartDNS),fr.vpn.ht,tcp,443
+United Kingdom (UDP),uk.vpn.ht uk.vpn.ht uk.vpn.ht uk.vpn.ht uk.vpn.ht uk.vpn.ht uk.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+United Kingdom (TCP SmartDNS),uk.vpn.ht,tcp,443
+Hong Kong (UDP),hk.vpn.ht hk.vpn.ht hk.vpn.ht hk.vpn.ht hk.vpn.ht hk.vpn.ht hk.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Hong Kong (TCP SmartDNS),hk.vpn.ht,tcp,443
+Italy (UDP),it.vpn.ht it.vpn.ht it.vpn.ht it.vpn.ht it.vpn.ht it.vpn.ht it.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Italy (TCP SmartDNS),it.vpn.ht,tcp,443
+Japan (UDP),jp.vpn.ht jp.vpn.ht jp.vpn.ht jp.vpn.ht jp.vpn.ht jp.vpn.ht jp.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Japan (TCP SmartDNS),jp.vpn.ht,tcp,443
+Korea (UDP),kr.vpn.ht kr.vpn.ht kr.vpn.ht kr.vpn.ht kr.vpn.ht kr.vpn.ht kr.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Korea (TCP SmartDNS),kr.vpn.ht,tcp,443
+Lithuania (UDP),lt.vpn.ht lt.vpn.ht lt.vpn.ht lt.vpn.ht lt.vpn.ht lt.vpn.ht lt.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Lithuania (TCP SmartDNS),lt.vpn.ht,tcp,443
+Luxembourg (UDP),lu.vpn.ht lu.vpn.ht lu.vpn.ht lu.vpn.ht lu.vpn.ht lu.vpn.ht lu.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Luxembourg (TCP SmartDNS),lu.vpn.ht,tcp,443
+Mexico (UDP),mex.vpn.ht mex.vpn.ht mex.vpn.ht mex.vpn.ht mex.vpn.ht mex.vpn.ht mex.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Mexico (TCP SmartDNS),mex.vpn.ht,tcp,443
+Netherlands (UDP),nl.vpn.ht nl.vpn.ht nl.vpn.ht nl.vpn.ht nl.vpn.ht nl.vpn.ht nl.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Netherlands (TCP SmartDNS),nl.vpn.ht,tcp,443
+Norway (UDP),no.vpn.ht no.vpn.ht no.vpn.ht no.vpn.ht no.vpn.ht no.vpn.ht no.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Norway (TCP SmartDNS),no.vpn.ht,tcp,443
+New Zealand (UDP),nz.vpn.ht nz.vpn.ht nz.vpn.ht nz.vpn.ht nz.vpn.ht nz.vpn.ht nz.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+New Zealand (TCP SmartDNS),nz.vpn.ht,tcp,443
+Romania (UDP),ro.vpn.ht ro.vpn.ht ro.vpn.ht ro.vpn.ht ro.vpn.ht ro.vpn.ht ro.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Romania (TCP SmartDNS),ro.vpn.ht,tcp,443
+Russian Federation (UDP),ru.vpn.ht ru.vpn.ht ru.vpn.ht ru.vpn.ht ru.vpn.ht ru.vpn.ht ru.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Russian Federation (TCP SmartDNS),ru.vpn.ht,tcp,443
+Sweden (UDP),se.vpn.ht se.vpn.ht se.vpn.ht se.vpn.ht se.vpn.ht se.vpn.ht se.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Sweden (TCP SmartDNS),se.vpn.ht,tcp,443
+Singapore (UDP),sg.vpn.ht sg.vpn.ht sg.vpn.ht sg.vpn.ht sg.vpn.ht sg.vpn.ht sg.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+Singapore (TCP SmartDNS),sg.vpn.ht,tcp,443
+United States (UDP),us.vpn.ht us.vpn.ht us.vpn.ht us.vpn.ht us.vpn.ht us.vpn.ht us.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+United States (TCP SmartDNS),us.vpn.ht,tcp,443
+South Africa (UDP),za.vpn.ht za.vpn.ht za.vpn.ht za.vpn.ht za.vpn.ht za.vpn.ht za.vpn.ht,udp,1194 1195 1196 1197 1198 1199 1200
+South Africa (TCP SmartDNS),za.vpn.ht,tcp,443

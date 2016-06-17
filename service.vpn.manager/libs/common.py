@@ -789,6 +789,10 @@ def connectVPN(connection_order, vpn_profile):
     if connection_order == "10" : connection_title = " tenth"
     
     state = ""
+    got_keys = True
+    keys_copied = True
+    cancel_attempt = False
+    cancel_clear = False
     
     forceCycleLock()
     
@@ -852,9 +856,6 @@ def connectVPN(connection_order, vpn_profile):
         vpn_username = addon.getSetting("vpn_username")
         vpn_password = addon.getSetting("vpn_password")
         
-        # print "AUTH DEBUG: Got user " + vpn_username + " from settings"
-        # print "AUTH DEBUG: Got pass " + vpn_password + " from settings"
-        
         # Reset the setting indicating we've a good configuration for just this connection
         if not connection_order == "0":
             existing_connection = addon.getSetting(connection_order + "_vpn_validated")
@@ -863,8 +864,6 @@ def connectVPN(connection_order, vpn_profile):
         last_provider = addon.getSetting("vpn_provider_validated")
         last_credentials = addon.getSetting("vpn_username_validated") + " " + addon.getSetting("vpn_password_validated")
         if last_provider == "" : last_provider = "?"
-
-        # print "AUTH DEBUG: Got last credentials " + last_credentials
         
         # Provider or credentials we've used previously have changed so we need to reset all validated connections
         vpn_credentials = vpn_username + " " + vpn_password
@@ -888,27 +887,37 @@ def connectVPN(connection_order, vpn_profile):
                 locations[i] = location[location.index("LOCATIONS")+10:location.index(".txt")]
                 if locations[i] == "" : locations[i] = default_label
                 i = i + 1
+                
+            cancel_text = "[I]Cancel connection attempt[/I]"
             selected_profile = ""
+            
             if len(locations) == 0 and ovpnGenerated(getVPNLocation(vpn_provider)):
                 errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
             if len(locations) > 1:
+                # Add the cancel option to the dialog box list
+                locations.append(cancel_text)
                 selected_location = xbmcgui.Dialog().select("Select connections profile", locations)
                 selected_profile = locations[selected_location]
                 if selected_profile == default_label : selected_profile = ""
             
-            addon.setSetting("vpn_locations_list", selected_profile)
-            progress_message = "Setting up VPN provider " + vpn_provider + "."
-            progress.update(11, progress_title, progress_message)
-            # Delete any old files in other directories
-            debugTrace("Deleting all generated ovpn files")
-            removeGeneratedFiles()
-            # Generate new ones
-            try:
-                provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
-            except:
-                errorTrace("common.py", "Couldn't generate new .ovpn files")
+            if not selected_profile == cancel_text:
+                addon.setSetting("vpn_locations_list", selected_profile)
+                progress_message = "Setting up VPN provider " + vpn_provider + "."
+                progress.update(11, progress_title, progress_message)
+                # Delete any old files in other directories
+                debugTrace("Deleting all generated ovpn files")
+                removeGeneratedFiles()
+                # Generate new ones
+                try:
+                    provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
+                except:
+                    errorTrace("common.py", "Couldn't generate new .ovpn files")
+                    provider_gen = False
+                xbmc.sleep(500)
+            else:
+                # User selected cancel on dialog box
                 provider_gen = False
-            xbmc.sleep(500)
+                cancel_attempt = True
 
     if provider_gen:
         if not progress.iscanceled():
@@ -922,17 +931,9 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace("Attempting to use the credentials in " + credentials_path)
             if (not last_credentials == vpn_credentials) or (not xbmcvfs.exists(credentials_path)) or (not connectionValidated(addon)):
                 progress_message = "Configuring authentication settings for user " + vpn_username + "."
-
-                # print "AUTH DEBUG: Got user " + vpn_username + ", about to write credentials"
-                # print "AUTH DEBUG: Got pass " + vpn_password + ", about to write credentials"
-
                 progress.update(16, progress_title, progress_message)
                 provider_gen = writeCredentials(addon)
 
-    got_keys = True
-    keys_copied = True
-    cancel_attempt = False
-    cancel_clear = False
     if provider_gen:
         ovpn_name = ""
         if not progress.iscanceled():
@@ -1005,14 +1006,6 @@ def connectVPN(connection_order, vpn_profile):
         if (not progress.iscanceled()) and (not ovpn_name == "") and got_keys:    
             progress_message = "Connecting using profile " + ovpn_name + "."
             debugTrace(progress_message)
-
-            # print "AUTH DEBUG: Reading contents of pass.txt before connecting"                
-            # credentials_path = getCredentialsPath(addon)                
-            # credentials = open(credentials_path,'r')
-            # lines = credentials.readlines()
-            # credentials.close()
-            # for line in lines:
-            #    print "AUTH DEBUG: " + line
             
             # Start the connection and wait a second before starting to check the state
             startVPN(ovpn_connection)

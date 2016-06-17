@@ -554,17 +554,21 @@ msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32220"
-msgid "User Defined"
+msgid "TotalVPN"
 msgstr ""
 
 msgctxt "#32221"
-msgid "VPN.ht"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32222"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32223"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32224"
 msgid "VyprVPN"
 msgstr ""

@@ -1,3 +1,14 @@
+v1.3.0
+- Added TotalVPN
+- Readded VyprVPN...
+- Fixed VPN.ht
+- Allowed connection attempt to be cancelled when selecting profiles.
+
+v1.2.0
+- Added Celo and VPN.ht
+- Changed kill -9 to kill -15 (with GUI option to override)
+- Fixed debug output in Kodi 16
+
 v1.1.0
 - Added SaferVPN
 - Updated NordVPN UDP connections with new certificates

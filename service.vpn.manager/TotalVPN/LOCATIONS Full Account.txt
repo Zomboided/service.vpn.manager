@@ -1,0 +1,68 @@
+New York - US (UDP),newyork.unifiedvpn.com,udp,1194
+New York - US (TCP),newyork.unifiedvpn.com,tcp,443
+Chicago - US (UDP),chicago.unifiedvpn.com,udp,1194
+Chicago - US (TCP),chicago.unifiedvpn.com,tcp,443
+Los Angeles - US (UDP),losangeles.unifiedvpn.com,udp,1194
+Los Angeles - US (TCP),losangeles.unifiedvpn.com,tcp,443
+Toronto - CA (UDP),toronto.unifiedvpn.com,udp,1194
+Toronto - CA (TCP),toronto.unifiedvpn.com,tcp,443
+New York - US (UDP),super-newyork.unifiedvpn.com,udp,1194
+New York - US (TCP),super-newyork.unifiedvpn.com,tcp,443
+Los Angeles - US (UDP),super-losangeles.unifiedvpn.com,udp,1194
+Los Angeles - US (TCP),super-losangeles.unifiedvpn.com,tcp,443
+Miami - US (UDP),miami.unifiedvpn.com,udp,1194
+Miami - US (TCP),miami.unifiedvpn.com,tcp,443
+Atlanta - US (UDP),atlanta.unifiedvpn.com,udp,1194
+Atlanta - US (TCP),atlanta.unifiedvpn.com,tcp,443
+Seattle - US (UDP),seattle.unifiedvpn.com,udp,1194
+Seattle - US (TCP),seattle.unifiedvpn.com,tcp,443
+San Jose - US (UDP),sanjose.unifiedvpn.com,udp,1194
+San Jose - US (TCP),sanjose.unifiedvpn.com,tcp,443
+Dublin - IE (UDP),ireland.unifiedvpn.com,udp,1194
+Dublin - IE (TCP),ireland.unifiedvpn.com,tcp,443
+London - GB (UDP),england.unifiedvpn.com,udp,1194
+London - GB (TCP),england.unifiedvpn.com,tcp,443
+Vienna - AT (UDP),austria.unifiedvpn.com,udp,1194
+Vienna - AT (TCP),austria.unifiedvpn.com,tcp,443
+Amsterdam - NL (UDP),amsterdam.unifiedvpn.com,udp,1194
+Amsterdam - NL (TCP),amsterdam.unifiedvpn.com,tcp,443
+Bruges - BE (UDP),belgium.unifiedvpn.com,udp,1194
+Bruges - BE (TCP),belgium.unifiedvpn.com,tcp,443
+Keflavik - IS (UDP),iceland.unifiedvpn.com,udp,1194
+Keflavik - IS (TCP),iceland.unifiedvpn.com,tcp,443
+Moscow - RU (UDP),russia.unifiedvpn.com,udp,1194
+Moscow - RU (TCP),russia.unifiedvpn.com,tcp,443
+Stockholm - SE (UDP),sweden.unifiedvpn.com,udp,1194
+Stockholm - SE (TCP),sweden.unifiedvpn.com,tcp,443
+Zurich - CH (UDP),switzerland.unifiedvpn.com,udp,1194
+Zurich - CH (TCP),switzerland.unifiedvpn.com,tcp,443
+Milan - IT (UDP),italy.unifiedvpn.com,udp,1194
+Milan - IT (TCP),italy.unifiedvpn.com,tcp,443
+Warsaw - PL (UDP),poland.unifiedvpn.com,udp,1194
+Warsaw - PL (TCP),poland.unifiedvpn.com,tcp,443
+Frankfurt - DE (UDP),germany.unifiedvpn.com,udp,1194
+Frankfurt - DE (TCP),germany.unifiedvpn.com,tcp,443
+London - GB (UDP),super-england.unifiedvpn.com,udp,1194
+London - GB (TCP),super-england.unifiedvpn.com,tcp,443
+Paris - FR (UDP),france.unifiedvpn.com,udp,1194
+Paris - FR (TCP),france.unifiedvpn.com,tcp,443
+Madrid - ES (UDP),spain.unifiedvpn.com,udp,1194
+Madrid - ES (TCP),spain.unifiedvpn.com,tcp,443
+Bucharest - RO (UDP),romania.unifiedvpn.com,udp,1194
+Bucharest - RO (TCP),romania.unifiedvpn.com,tcp,443
+Singapore - SG (UDP),singapore.unifiedvpn.com,udp,1194
+Singapore - SG (TCP),singapore.unifiedvpn.com,tcp,443
+Hong Kong - HK (UDP),hongkong.unifiedvpn.com,udp,1194
+Hong Kong - HK (TCP),hongkong.unifiedvpn.com,tcp,443
+Tel Aviv - IL (UDP),israel.unifiedvpn.com,udp,1194
+Tel Aviv - IL (TCP),israel.unifiedvpn.com,tcp,443
+Tokyo - JP (UDP),japan.unifiedvpn.com,udp,1194
+Tokyo - JP (TCP),japan.unifiedvpn.com,tcp,443
+Mumbai - IN (UDP),india.unifiedvpn.com,udp,1194
+Mumbai - IN (TCP),india.unifiedvpn.com,tcp,443
+Johannesburg - ZA (UDP),southafrica.unifiedvpn.com,udp,1194
+Johannesburg - ZA (TCP),southafrica.unifiedvpn.com,tcp,443
+Buenos Aires - AR (UDP),argentina.unifiedvpn.com,udp,1194
+Buenos Aires - AR (TCP),argentina.unifiedvpn.com,tcp,443
+Sydney - AU (UDP),sydney.unifiedvpn.com,udp,1194
+Sydney - AU (TCP),sydney.unifiedvpn.com,tcp,443

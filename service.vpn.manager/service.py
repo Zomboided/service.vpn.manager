@@ -73,15 +73,17 @@ def isAddonFiltered(path, current):
     # return the current connected VPN if it matches, otherwise return the first.  If there
     # are duplicate entries, disconnect will always win.
     
-    # Strip out the leading 'plugin://' or 'addons://' string 
+    # Strip out the leading 'plugin://' or 'addons://' string
     found = -1
     filtered_addon_path = path[9:]
     if filtered_addon_path == "" : return -1
+    # Strip out the trailing '/' to enable full pattern match
+    filtered_addon_path = filtered_addon_path[:len(filtered_addon_path)-1]
     # # Adjust 11 below if changing number of conn_max
     for i in range (0, 11):
         if not filtered_addons[i] == None :
             for filtered_string in filtered_addons[i] : 
-                if filtered_addon_path.startswith(filtered_string):
+                if filtered_addon_path == filtered_string:
                     if found == -1 : found = i
                     if i > 0 and i == current : found = i
     return found

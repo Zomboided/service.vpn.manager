@@ -1,3 +1,8 @@
+v1.4.0
+- Added WiTopia
+- Eased user profile filtering
+- Changed filter matching
+
 v1.3.0
 - Added TotalVPN
 - Readded VyprVPN...

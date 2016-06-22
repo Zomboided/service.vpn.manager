@@ -51,7 +51,7 @@ msgid "Advanced settings (leave as default if in doubt)"
 msgstr ""
 
 msgctxt "#32007"
-msgid "Protocol (UDP recommended)"
+msgid "Protocol filter (UDP recommended)"
 msgstr ""
 
 msgctxt "#32008"
@@ -562,13 +562,17 @@ msgid "User Defined"
 msgstr ""
 
 msgctxt "#32222"
-msgid "VPN.ht"
+msgid "WiTopia"
 msgstr ""
 
 msgctxt "#32223"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32224"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32225"
 msgid "VyprVPN"
 msgstr ""

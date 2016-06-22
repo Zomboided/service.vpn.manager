@@ -34,7 +34,7 @@ from libs.platform import getPlatformString, checkPlatform, useSudo
 from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
-from libs.vpnproviders import usesPassAuth, cleanPassFiles
+from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
 from libs.ipinfo import getIPInfoFrom, getIPSources
 from libs.logbox import popupOpenVPNLog
 
@@ -951,6 +951,13 @@ def connectVPN(connection_order, vpn_profile):
                 debugTrace("Displaying list of connections")
                 all_connections = getAddonList(vpn_provider, "*.ovpn")
                 ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
+                none_filter = "UDP and TCP"
+                # If there are no connections, reset the filter to show everything and try again
+                if len(ovpn_connections) == 0 and isUserDefined(vpn_provider):
+                    infoTrace("common.py", "No .ovpn files found for " + vpn_protocol + ", removing protocol filter and retrying.")
+                    addon.setSetting("vpn_protocol", none_filter)
+                    vpn_protocol = addon.getSetting("vpn_protocol")
+                    ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
                 ovpn_connections.sort()
                 connections = getFriendlyProfileList(ovpn_connections)
                 
@@ -1107,7 +1114,7 @@ def connectVPN(connection_order, vpn_profile):
                 dialog_message = "User key and certificate files are required, but were not provided.  Locate the files and try again."
         elif ovpn_name == "":
             log_option = False
-            dialog_message = "No VPN profiles were available for " + vpn_protocol + ".\nThey've all been used, or none exist for the selected protocol."
+            dialog_message = "No VPN profiles were available for " + vpn_protocol + ". They've all been used or none exist for the selected protocol filter."
         else:
             # This second set of errors happened because we tried to connect and failed
             if state == connection_status.AUTH_FAILED: 

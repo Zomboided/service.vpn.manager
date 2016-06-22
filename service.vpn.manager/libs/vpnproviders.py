@@ -29,25 +29,26 @@ from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSepa
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in setup.xml)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
 # Names must match the directory names as used in providers, just above
 providers_with_multiple_keys = ["PerfectPrivacy", "Celo"]
-providers_with_single_keys = ["AirVPN", "CyberGhost", "HMA", "HideIPVPN", "VPNUnlimited", "ExpressVPN"]
+providers_with_single_keys = ["AirVPN", "CyberGhost", "HMA", "HideIPVPN", "VPNUnlimited", "ExpressVPN", "WiTopia"]
 
 # *** ADD VPN PROVIDERS HERE IF THEY DON'T USE USERNAME AND PASSWORD ****
 # List of providers which don't use auth-user-pass.
 # Names must match the directory names as used in providers, just above
-providers_no_pass = ["AirVPN", "VPNUnlimited", "ExpressVPN"]
+providers_no_pass = ["AirVPN", "VPNUnlimited", "ExpressVPN", "WiTopia"]
 
 # Leave this alone...it must match the text in providers
+user_def_disp_str = "User Defined"
 user_def_str = "UserDefined"
         
 def getAddonPathWrapper(path):
@@ -251,7 +252,7 @@ def ovpnGenerated(vpn_provider):
 
     
 def isUserDefined(vpn_provider):
-    if vpn_provider == user_def_str: return True
+    if vpn_provider == user_def_str or vpn_provider == user_def_disp_str: return True
     return False
     
     

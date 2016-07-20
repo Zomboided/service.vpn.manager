@@ -1,3 +1,7 @@
+v1.5.0
+- Updated PIA to remove Russian servers, add strong encryption.
+- Fixed filter matching bug introduced in 1.4.0
+
 v1.4.0
 - Added WiTopia
 - Eased user profile filtering

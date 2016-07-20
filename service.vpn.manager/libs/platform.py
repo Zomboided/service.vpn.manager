@@ -281,6 +281,7 @@ def isVPNTaskRunning():
             pid = os.system(command)
             # This horrible call returns 0 if it finds a process, it's not returning the PID number
             if pid == 0 : return True
+            debugTrace("(Linux) Didn't find a running process")
             return False
         except:
             errorTrace("platform.py", "VPN task list failed")
@@ -294,6 +295,7 @@ def isVPNTaskRunning():
             if "openvpn.exe" in out:
                 return True
             else:
+                debugTrace("(Windows) Didn't find a running process")
                 return False
         except:
             errorTrace("platform.py", "VPN task list failed")

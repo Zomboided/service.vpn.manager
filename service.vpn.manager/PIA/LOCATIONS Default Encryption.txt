@@ -1,0 +1,70 @@
+AU Melbourne (UDP),aus-melbourne.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+AU Melbourne (TCP),aus-melbourne.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+AU Sydney (UDP),aus.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+AU Sydney (TCP),aus.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Brazil (UDP),brazil.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Brazil (TCP),brazil.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+CA North York (UDP),ca.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+CA North York (TCP),ca.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+CA Toronto (UDP),ca-toronto.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+CA Toronto (TCP),ca-toronto.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Denmark (UDP),denmark.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Denmark (TCP),denmark.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Finland (UDP),fi.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Finland (TCP),fi.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+France (UDP),france.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+France (TCP),france.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Germany (UDP),germany.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Germany (TCP),germany.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Hong Kong (UDP),hk.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Hong Kong (TCP),hk.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+India (UDP),in.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+India (TCP),in.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Ireland (UDP),ireland.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Ireland (TCP),ireland.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Israel (UDP),israel.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Israel (TCP),israel.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Italy (UDP),italy.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Italy (TCP),italy.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Japan (UDP),japan.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Japan (TCP),japan.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Mexico (UDP),mexico.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Mexico (TCP),mexico.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Netherlands (UDP),nl.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Netherlands (TCP),nl.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+New Zealand (UDP),nz.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+New Zealand (TCP),nz.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Norway (UDP),no.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Norway (TCP),no.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Romania (UDP),ro.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Romania (TCP),ro.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Singapore (UDP),sg.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Singapore (TCP),sg.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Sweden (UDP),sweden.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Sweden (TCP),sweden.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Switzerland (UDP),swiss.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Switzerland (TCP),swiss.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Turkey (UDP),turkey.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+Turkey (TCP),turkey.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+UK London (UDP),uk-london.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+UK London (TCP),uk-london.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+UK Southampton (UDP),uk-southampton.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+UK Southampton (TCP),uk-southampton.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US California (UDP),us-california.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US California (TCP),us-california.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US East (UDP),us-east.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US East (TCP),us-east.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Florida (UDP),us-florida.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Florida (TCP),us-florida.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Midwest (UDP),us-midwest.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Midwest (TCP),us-midwest.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US New York City (UDP),us-newyorkcity.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US New York City (TCP),us-newyorkcity.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Seattle (UDP),us-seattle.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Seattle (TCP),us-seattle.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Silicon Valley (UDP),us-siliconvalley.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Silicon Valley (TCP),us-siliconvalley.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Texas (UDP),us-texas.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US Texas (TCP),us-texas.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US West (UDP),us-west.privateinternetaccess.com,udp,1198,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem
+US West (TCP),us-west.privateinternetaccess.com,tcp,443,#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem

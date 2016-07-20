@@ -6,15 +6,16 @@ resolv-retry 30
 nobind
 persist-key
 persist-tun
-ca #CERT
+#REMOVE2cipher aes-128-cbc
+#REMOVE2auth sha1
+#REMOVE1cipher aes-256-cbc
+#REMOVE1auth sha256
 tls-client
 remote-cert-tls server
 auth-user-pass #PASS
-auth-nocache
 comp-lzo
 verb 1
 reneg-sec 0
-explicit-exit-notify 2
 crl-verify #CRLVERIFY
-
-
+ca #CERT
+disable-occ

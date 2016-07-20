@@ -46,6 +46,11 @@ def infoTrace(module, data):
     log = "VPN Mgr : (" + module + ") " + data
     xbmc.log(msg=log, level=xbmc.LOGNOTICE)
 
+
+def newPrint(data):
+    log = data
+    xbmc.log(msg=log, level=xbmc.LOGERROR)
+
     
 def enum(**enums):
     return type('Enum', (), enums)    

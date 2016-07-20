@@ -34,7 +34,7 @@ from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, 
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog
-from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug
+from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, generateOVPNFiles, getVPNLocation, usesPassAuth
 
 debugTrace("-- Entered service.py --")
@@ -73,16 +73,16 @@ def isAddonFiltered(path, current):
     # return the current connected VPN if it matches, otherwise return the first.  If there
     # are duplicate entries, disconnect will always win.
     
-    # Strip out the leading 'plugin://' or 'addons://' string
+    # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
     found = -1
-    filtered_addon_path = path[9:]
+    filtered_addon_path = path[path.index("://")+3:]
+    if "/" in filtered_addon_path:
+        filtered_addon_path = filtered_addon_path[:filtered_addon_path.index("/")]
     if filtered_addon_path == "" : return -1
-    # Strip out the trailing '/' to enable full pattern match
-    filtered_addon_path = filtered_addon_path[:len(filtered_addon_path)-1]
     # # Adjust 11 below if changing number of conn_max
     for i in range (0, 11):
         if not filtered_addons[i] == None :
-            for filtered_string in filtered_addons[i] : 
+            for filtered_string in filtered_addons[i]: 
                 if filtered_addon_path == filtered_string:
                     if found == -1 : found = i
                     if i > 0 and i == current : found = i

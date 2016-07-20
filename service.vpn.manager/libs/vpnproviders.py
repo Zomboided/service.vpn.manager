@@ -345,6 +345,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
             # Initialise the set of values that can be modified by the location file tuples
             ca_cert = "ca.crt"
             ta_key = "ta.key"
+            crl_pem = "crl.pem"
             user_key = getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, geo))
             user_cert = getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, geo))
             remove_flags = ""
@@ -361,6 +362,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                     if "#TLSKEY" in pair[0]: ta_key = pair[1].strip()
                     if "#USERKEY" in pair[0]: user_key = pair[1].strip()
                     if "#USERCERT" in pair[0]: user_cert = pair[1].strip()
+                    if "#CRLVERIFY" in pair[0]: crl_pem = pair[1].strip()
             if proto == "udp" and not portUDP == "": port = portUDP
             if proto == "tcp" and not portTCP == "": port = portTCP
             if port == "" and len(ports) == 1: port = ports[0]
@@ -409,9 +411,10 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 output_line = output_line.replace("#PASS", getAddonPathWrapper(vpn_provider + "/" + "pass.txt"))
                 output_line = output_line.replace("#CERT", getAddonPathWrapper(vpn_provider + "/" + ca_cert))
                 output_line = output_line.replace("#TLSKEY", getAddonPathWrapper(vpn_provider + "/" + ta_key))
-                output_line = output_line.replace("#CRLVERIFY", getAddonPathWrapper(vpn_provider + "/" + "crl.pem"))
+                output_line = output_line.replace("#CRLVERIFY", getAddonPathWrapper(vpn_provider + "/" + crl_pem))
                 output_line = output_line.replace("#USERKEY", user_key)
                 output_line = output_line.replace("#USERCERT", user_cert)
+                output_line = output_line.replace("#PATH", getAddonPathWrapper(vpn_provider))
                 # Overwrite the verb value with the one in the settings
                 if output_line.startswith("verb "):
                     output_line = "verb " + verb_value

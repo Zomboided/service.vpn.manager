@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateWiTopia()
+    generatePIA()
     return
+    generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
     generateCelo()
@@ -43,7 +44,6 @@ def generateAll():
     generateBTGuard()
     generateVPNUnlim()
     generateHideMe()
-    generatePIA()
     generateLimeVPN()
     generateHideIPVPN()
     generateVyprVPN()
@@ -630,7 +630,8 @@ def generatePIA():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the server
     profiles = getProfileList("PIA")
-    location_file = getLocations("PIA", "")
+    location_file_def = getLocations("PIA", "Default Encryption")
+    location_file_strong = getLocations("PIA", "Strong Encryption")
     for profile in profiles:
         geo = profile[profile.index("PIA")+4:]
         geo = geo.replace(".ovpn", "")
@@ -640,11 +641,16 @@ def generatePIA():
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()  
-        output_line_udp = geo + " (UDP)," + server + "," + "udp,1194" + "\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
-        location_file.write(output_line_udp)
-        location_file.write(output_line_tcp)
-    location_file.close()
+        output_line_udp_def = geo + " (UDP)," + server + "," + "udp,1198" + ",#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem\n"
+        output_line_tcp_def = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem\n"
+        output_line_udp_strong = geo + " (UDP)," + server + "," + "udp,1197" + ",#REMOVE=2 #CERT=ca.rsa.4096.crt #CRLVERIFY=crl.rsa.4096.pem\n"
+        output_line_tcp_strong = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2 #CERT=ca.rsa.4096.crt #CRLVERIFY=crl.rsa.4096.pem\n"
+        location_file_def.write(output_line_udp_def)
+        location_file_def.write(output_line_tcp_def)
+        location_file_strong.write(output_line_udp_strong)
+        location_file_strong.write(output_line_tcp_strong)
+    location_file_def.close()
+    location_file_strong.close()
         
     
 def generateIPVanish():

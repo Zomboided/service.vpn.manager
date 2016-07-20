@@ -134,7 +134,10 @@ if __name__ == '__main__':
             resetVPNConfig(addon, 1)
             xbmcgui.Dialog().ok(addon_name, "This particular update to VPN Manager for OpenVPN requires that all VPN connections are re-validated before use.  Sorry about that, won't happen again...") 
             xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
-    
+        # PIA changed in 1.5.0 to offer different options.  If PIA is using the old connections, force a reconnection
+        if addon.getSetting("vpn_provider_validated") == "Private Internet Access" and addon.getSetting("vpn_locations_list") == "":
+            addon.setSetting("1_vpn_validated", "reset")
+            
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)

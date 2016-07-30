@@ -26,7 +26,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from libs.utility import debugTrace, errorTrace, infoTrace, enum
+from libs.utility import debugTrace, errorTrace, infoTrace, infoPrint, enum
 from sys import platform
 
 
@@ -364,7 +364,7 @@ def writeVPNLog():
         log_file.close()
         infoTrace("platform.py", "VPN log file start >>>")
         for line in log_output:
-            print line
+            infoPrint(line)
         infoTrace("platform.py", "<<< VPN log file end")
     except:
         errorTrace("platform.py", "Couldn't write VPN error log")

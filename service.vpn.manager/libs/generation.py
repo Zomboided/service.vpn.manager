@@ -32,7 +32,7 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generatePIA()
+    generatePureVPN()
     return
     generateWiTopia()
     generateVPNht()
@@ -52,7 +52,7 @@ def generateAll():
     generateibVPN()
     generatePP()    
     generateAirVPN()
-    generatePureVPN()
+    generatePIA()
     generateLiquidVPN()
     generatetigerVPN()
     generateHMA()    
@@ -784,10 +784,7 @@ def generatePureVPN():
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()             
-        output_line = geo + "," + server + "," + proto + "," + port
-        if udp_found : output_line = output_line + ",#REMOVE=1"
-        if tcp_found : output_line = output_line + ",#REMOVE=2"
-        output_line = output_line + "\n"
+        output_line = geo + "," + server + "," + proto + "," + port + "\n"
         location_file.write(output_line)
     location_file.close()
 

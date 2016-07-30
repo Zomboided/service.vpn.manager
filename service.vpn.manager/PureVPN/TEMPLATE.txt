@@ -2,6 +2,7 @@ client
 dev tun
 proto #PROTO
 remote #SERVER #PORT
+nobind
 persist-key
 persist-tun
 ca #CERT
@@ -15,6 +16,5 @@ route-delay 2
 route 0.0.0.0 0.0.0.0
 auth-user-pass #PASS
 explicit-exit-notify 2
-#REMOVE1float
+float
 ifconfig-nowarn
-#REMOVE2auth-nocache

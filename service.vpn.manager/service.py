@@ -75,6 +75,8 @@ def isAddonFiltered(path, current):
     
     # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
     found = -1
+    # Filter out local sources (files) being passed in and return not found
+    if not ("://" in path): return -1
     filtered_addon_path = path[path.index("://")+3:]
     if "/" in filtered_addon_path:
         filtered_addon_path = filtered_addon_path[:filtered_addon_path.index("/")]
@@ -269,26 +271,33 @@ if __name__ == '__main__':
             # This forces a connection validation after something stops playing
             if player.isPlaying():
                 playing = True
-            if playing and not player.isPlaying():
+            elif playing:
                 playing = False
                 timer = connection_retry_time + 1
                                         
 			# This just checks the connection is still good every hour, providing the player is not busy
-            if vpn_setup and not player.isPlaying() and timer > connection_retry_time:
-                addon = xbmcaddon.Addon()
-                if addon.getSetting("vpn_reconnect") == "true":
-                    debugTrace("Reconnect timer triggered, checking connection")
-                    if not isVPNConnected() and not (getVPNState() == "off"):
-                        # Don't know why we're disconnected, but reconnect to the last known VPN
-                        errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
-                        writeVPNLog()
-                        if getVPNRequestedProfile() == "":
-                            setVPNRequestedProfile(getVPNProfile())
-                            setVPNRequestedProfileFriendly(getVPNProfileFriendly())
-                        setVPNProfile("")
-                        setVPNProfileFriendly("")
-                        reconnect_vpn = True
+            if not playing:
+                if vpn_setup and timer > connection_retry_time:
+                    addon = xbmcaddon.Addon()
+                    if addon.getSetting("vpn_reconnect") == "true":
+                        debugTrace("Reconnect timer triggered, checking connection")
+                        if not isVPNConnected() and not (getVPNState() == "off"):
+                            # Don't know why we're disconnected, but reconnect to the last known VPN
+                            errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
+                            writeVPNLog()
+                            if getVPNRequestedProfile() == "":
+                                setVPNRequestedProfile(getVPNProfile())
+                                setVPNRequestedProfileFriendly(getVPNProfileFriendly())
+                            setVPNProfile("")
+                            setVPNProfileFriendly("")
+                            reconnect_vpn = True
                     timer = 0
+            else:
+                if timer > connection_retry_time:
+                    debugTrace("Reconnect timer triggered but media playing so didn't check connection")
+                    timer = 0
+                    
+                
 
             # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
             if (not player.isPlaying()) and reboot_timer >= seconds_to_reboot_check:

@@ -1,175 +1,175 @@
-ALBANIA (TCP),al1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ALBANIA (UDP),al1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-ARGENTINA (TCP),ar1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ARGENTINA (UDP),ar1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-ARUBA (TCP),aw1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-ARUBA (UDP),aw1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-AUSTRALIA (TCP),au1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-AUSTRALIA (UDP),au1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-BAHAMAS (TCP),bs1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-BAHAMAS (UDP),bs1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-BAHRAIN (TCP),bh1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-BAHRAIN (UDP),bh1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-BELGIUM (TCP),be1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-BELIZE (TCP),bz1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-BELIZE (UDP),bz1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-BOSNIA - HERZEGOWINA (TCP),ba1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-BOSNIA - HERZEGOWINA (UDP),ba1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-BRUNEI - DARUSSALAM (TCP),bn1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-BRUNEI - DARUSSALAM (UDP),bn1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-BULGARIA Virtual (TCP),vlus-bg1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-BULGARIA (UDP),vlus-bg1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-CANADA - QUEBEC (TCP),caq1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-CANADA - QUEBEC (UDP),caq1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-CHILE (TCP),cl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-CHILE (UDP),cl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-CHINA (TCP),cn1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-CHINA (UDP),cn1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-COLOMBIA (TCP),co1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-COLOMBIA (UDP),co1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-COSTA - RICA (TCP),cr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-COSTA - RICA (UDP),cr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-CROATIA (TCP),hr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-CROATIA (UDP),hr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-DENMARK (TCP),dk1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-DENMARK (UDP),dk1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-EGYPT Virtual (TCP),vlus-eg1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-EGYPT Virtual (UDP),vlus-eg1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-ESTONIA (TCP),ee1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ESTONIA (UDP),ee1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-FRANCE Virtual (TCP),vleu-fr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-FRANCE Virtual (UDP),vleu-fr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-GEORGIA (TCP),ge1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-GEORGIA (UDP),ge1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-GERMANY (TCP),de1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-GERMANY (UDP),de1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-GHANA (TCP),gh1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-GHANA (UDP),gh1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-GREECE (TCP),gr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-GREECE (UDP),gr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-HONG KONG (TCP),hk1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-HONG KONG (UDP),hk1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-HUNGARY (TCP),hu1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-HUNGARY (UDP),hu1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-ICELAND (TCP),is1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ICELAND (UDP),is1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-INDIA (TCP),in1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-INDIA (UDP),in1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-IRELAND (TCP),ie1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-IRELAND (UDP),ie1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-ISLE OF MAN (TCP),im1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-ISLE OF MAN (UDP),im1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-ITALY (TCP),it1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ITALY (UDP),it1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-JAPAN (TCP),jp1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-JAPAN (UDP),jp1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-JORDAN Virtual (TCP),vlus-jo1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-JORDON Virtual (UDP),vlus-jo1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-KENYA (TCP),ke1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-KENYA (UDP),ke1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-KOREA (TCP),kr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-KOREA (UDP),kr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-KUWAIT Virtual (TCP),vlus-kw1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-KUWAIT Virtual (UDP),vlus-kw1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-LATVIA (TCP),lv1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-LATVIA (UDP),lv1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-LEBANON (TCP),lb1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-LEBANON (UDP),lb1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-LITHUANIA (TCP),lt1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-LITHUANIA (UDP),lt1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-LUXEMBOURG (TCP),lu1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-LUXEMBOURG (UDP),lu1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-MALTA (TCP),mt1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-MALTA (UDP),mt1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-MEXICO (TCP),mx1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-MEXICO (UDP),mx1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-MOLDOVA (TCP),md1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-MOLDOVA (UDP),md1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-MONGOLIA (TCP),mn1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-MONGOLIA (UDP),mn1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-MONTENEGRO (TCP),me1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-MONTENEGRO (UDP),me1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-NETHERLANDS (TCP),nl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-NETHERLANDS (UDP),nl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-NEWZEALAND (TCP),nz1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-NEWZEALAND (UDP),nz1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-NIGERIA (TCP),ng1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-NIGERIA (UDP),ng1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-NORWAY (TCP),no1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-NORWAY (UDP),no1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-OMAN (TCP),om1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-OMAN (UDP),om1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-PANAMA Virtual (TCP),vlus-pa1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-PANAMA Virtual (UDP),vlus-pa1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-PERU (TCP),pe1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-PERU (UDP),pe1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-PHILIPINES Virtual (TCP),vlap-ph1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
+ALBANIA (TCP),al1-ovpn-tcp.purevpn.net,tcp,80
+ALBANIA (UDP),al1-ovpn-udp.purevpn.net,udp,53
+ARGENTINA (TCP),ar1-ovpn-tcp.purevpn.net,tcp,80
+ARGENTINA (UDP),ar1-ovpn-udp.purevpn.net,udp,53
+ARUBA (TCP),aw1-ovpn-tcp.pointtoserver.com,tcp,80
+ARUBA (UDP),aw1-ovpn-udp.pointtoserver.com,udp,53
+AUSTRALIA (TCP),au1-ovpn-tcp.purevpn.net,tcp,80
+AUSTRALIA (UDP),au1-ovpn-udp.purevpn.net,udp,53
+BAHAMAS (TCP),bs1-ovpn-tcp.pointtoserver.com,tcp,80
+BAHAMAS (UDP),bs1-ovpn-udp.pointtoserver.com,udp,53
+BAHRAIN (TCP),bh1-ovpn-tcp.purevpn.net,tcp,80
+BAHRAIN (UDP),bh1-ovpn-udp.purevpn.net,udp,53
+BELGIUM (TCP),be1-ovpn-tcp.purevpn.net,tcp,80
+BELIZE (TCP),bz1-ovpn-tcp.pointtoserver.com,tcp,80
+BELIZE (UDP),bz1-ovpn-udp.pointtoserver.com,udp,53
+BOSNIA - HERZEGOWINA (TCP),ba1-ovpn-tcp.purevpn.net,tcp,80
+BOSNIA - HERZEGOWINA (UDP),ba1-ovpn-udp.purevpn.net,udp,53
+BRUNEI - DARUSSALAM (TCP),bn1-ovpn-tcp.purevpn.net,tcp,80
+BRUNEI - DARUSSALAM (UDP),bn1-ovpn-udp.purevpn.net,udp,53
+BULGARIA Virtual (TCP),vlus-bg1-ovpn-tcp.purevpn.net,tcp,80
+BULGARIA (UDP),vlus-bg1-ovpn-udp.purevpn.net,udp,53
+CANADA - QUEBEC (TCP),caq1-ovpn-tcp.purevpn.net,tcp,80
+CANADA - QUEBEC (UDP),caq1-ovpn-udp.purevpn.net,udp,53
+CHILE (TCP),cl1-ovpn-tcp.purevpn.net,tcp,80
+CHILE (UDP),cl1-ovpn-udp.purevpn.net,udp,53
+CHINA (TCP),cn1-ovpn-tcp.purevpn.net,tcp,80
+CHINA (UDP),cn1-ovpn-udp.purevpn.net,udp,53
+COLOMBIA (TCP),co1-ovpn-tcp.purevpn.net,tcp,80
+COLOMBIA (UDP),co1-ovpn-udp.purevpn.net,udp,53
+COSTA - RICA (TCP),cr1-ovpn-tcp.purevpn.net,tcp,80
+COSTA - RICA (UDP),cr1-ovpn-udp.purevpn.net,udp,53
+CROATIA (TCP),hr1-ovpn-tcp.purevpn.net,tcp,80
+CROATIA (UDP),hr1-ovpn-udp.purevpn.net,udp,53
+DENMARK (TCP),dk1-ovpn-tcp.purevpn.net,tcp,80
+DENMARK (UDP),dk1-ovpn-udp.purevpn.net,udp,53
+EGYPT Virtual (TCP),vlus-eg1-ovpn-tcp.purevpn.net,tcp,80
+EGYPT Virtual (UDP),vlus-eg1-ovpn-udp.purevpn.net,udp,53
+ESTONIA (TCP),ee1-ovpn-tcp.purevpn.net,tcp,80
+ESTONIA (UDP),ee1-ovpn-udp.purevpn.net,udp,53
+FRANCE Virtual (TCP),vleu-fr1-ovpn-tcp.purevpn.net,tcp,80
+FRANCE Virtual (UDP),vleu-fr1-ovpn-udp.purevpn.net,udp,53
+GEORGIA (TCP),ge1-ovpn-tcp.purevpn.net,tcp,80
+GEORGIA (UDP),ge1-ovpn-udp.purevpn.net,udp,53
+GERMANY (TCP),de1-ovpn-tcp.purevpn.net,tcp,80
+GERMANY (UDP),de1-ovpn-udp.purevpn.net,udp,53
+GHANA (TCP),gh1-ovpn-tcp.purevpn.net,tcp,80
+GHANA (UDP),gh1-ovpn-udp.purevpn.net,udp,53
+GREECE (TCP),gr1-ovpn-tcp.purevpn.net,tcp,80
+GREECE (UDP),gr1-ovpn-udp.purevpn.net,udp,53
+HONG KONG (TCP),hk1-ovpn-tcp.purevpn.net,tcp,80
+HONG KONG (UDP),hk1-ovpn-udp.purevpn.net,udp,53
+HUNGARY (TCP),hu1-ovpn-tcp.purevpn.net,tcp,80
+HUNGARY (UDP),hu1-ovpn-udp.purevpn.net,udp,53
+ICELAND (TCP),is1-ovpn-tcp.purevpn.net,tcp,80
+ICELAND (UDP),is1-ovpn-udp.purevpn.net,udp,53
+INDIA (TCP),in1-ovpn-tcp.purevpn.net,tcp,80
+INDIA (UDP),in1-ovpn-udp.purevpn.net,udp,53
+IRELAND (TCP),ie1-ovpn-tcp.purevpn.net,tcp,80
+IRELAND (UDP),ie1-ovpn-udp.purevpn.net,udp,53
+ISLE OF MAN (TCP),im1-ovpn-tcp.pointtoserver.com,tcp,80
+ISLE OF MAN (UDP),im1-ovpn-udp.pointtoserver.com,udp,53
+ITALY (TCP),it1-ovpn-tcp.purevpn.net,tcp,80
+ITALY (UDP),it1-ovpn-udp.purevpn.net,udp,53
+JAPAN (TCP),jp1-ovpn-tcp.purevpn.net,tcp,80
+JAPAN (UDP),jp1-ovpn-udp.purevpn.net,udp,53
+JORDAN Virtual (TCP),vlus-jo1-ovpn-tcp.purevpn.net,tcp,80
+JORDON Virtual (UDP),vlus-jo1-ovpn-udp.purevpn.net,udp,53
+KENYA (TCP),ke1-ovpn-tcp.pointtoserver.com,tcp,80
+KENYA (UDP),ke1-ovpn-udp.pointtoserver.com,udp,53
+KOREA (TCP),kr1-ovpn-tcp.purevpn.net,tcp,80
+KOREA (UDP),kr1-ovpn-udp.purevpn.net,udp,53
+KUWAIT Virtual (TCP),vlus-kw1-ovpn-tcp.purevpn.net,tcp,80
+KUWAIT Virtual (UDP),vlus-kw1-ovpn-udp.purevpn.net,udp,53
+LATVIA (TCP),lv1-ovpn-tcp.purevpn.net,tcp,80
+LATVIA (UDP),lv1-ovpn-udp.purevpn.net,udp,53
+LEBANON (TCP),lb1-ovpn-tcp.pointtoserver.com,tcp,80
+LEBANON (UDP),lb1-ovpn-udp.pointtoserver.com,udp,53
+LITHUANIA (TCP),lt1-ovpn-tcp.purevpn.net,tcp,80
+LITHUANIA (UDP),lt1-ovpn-udp.purevpn.net,udp,53
+LUXEMBOURG (TCP),lu1-ovpn-tcp.purevpn.net,tcp,80
+LUXEMBOURG (UDP),lu1-ovpn-udp.purevpn.net,udp,53
+MALTA (TCP),mt1-ovpn-tcp.purevpn.net,tcp,80
+MALTA (UDP),mt1-ovpn-udp.purevpn.net,udp,53
+MEXICO (TCP),mx1-ovpn-tcp.purevpn.net,tcp,80
+MEXICO (UDP),mx1-ovpn-udp.purevpn.net,udp,53
+MOLDOVA (TCP),md1-ovpn-tcp.purevpn.net,tcp,80
+MOLDOVA (UDP),md1-ovpn-udp.purevpn.net,udp,53
+MONGOLIA (TCP),mn1-ovpn-tcp.purevpn.net,tcp,80
+MONGOLIA (UDP),mn1-ovpn-udp.purevpn.net,udp,53
+MONTENEGRO (TCP),me1-ovpn-tcp.purevpn.net,tcp,80
+MONTENEGRO (UDP),me1-ovpn-udp.purevpn.net,udp,53
+NETHERLANDS (TCP),nl1-ovpn-tcp.purevpn.net,tcp,80
+NETHERLANDS (UDP),nl1-ovpn-udp.purevpn.net,udp,53
+NEWZEALAND (TCP),nz1-ovpn-tcp.purevpn.net,tcp,80
+NEWZEALAND (UDP),nz1-ovpn-udp.purevpn.net,udp,53
+NIGERIA (TCP),ng1-ovpn-tcp.purevpn.net,tcp,80
+NIGERIA (UDP),ng1-ovpn-udp.purevpn.net,udp,53
+NORWAY (TCP),no1-ovpn-tcp.purevpn.net,tcp,80
+NORWAY (UDP),no1-ovpn-udp.purevpn.net,udp,53
+OMAN (TCP),om1-ovpn-tcp.purevpn.net,tcp,80
+OMAN (UDP),om1-ovpn-udp.purevpn.net,udp,53
+PANAMA Virtual (TCP),vlus-pa1-ovpn-tcp.purevpn.net,tcp,80
+PANAMA Virtual (UDP),vlus-pa1-ovpn-udp.purevpn.net,udp,53
+PERU (TCP),pe1-ovpn-tcp.purevpn.net,tcp,80
+PERU (UDP),pe1-ovpn-udp.purevpn.net,udp,53
+PHILIPINES Virtual (TCP),vlap-ph1-ovpn-tcp.purevpn.net,tcp,80
 PHILIPINES Virtual,vlap-ph1-ovpn-udp.purevpn.net,tcp,53
-POLAND (TCP),pl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-POLAND (UDP),pl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-QATAR (TCP),qa1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-QATAR (UDP),qa1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-ROMANIA (TCP),ro1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ROMANIA (UDP),ro1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-RUSSIA Virtual (TCP),vlus-ru1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-RUSSIA Virtual (UDP),vlus-ru1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SAUDIAARABIA (TCP),sa1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-SAUDIAARABIA (UDP),sa1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-SERBIA (TCP),rs1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SERBIA (UDP),rs1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SINGAPORE (TCP),sg1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SINGAPORE (UDP),sg1-ovpn-udp.purevpn.ne,udp,53,#REMOVE=1
-SLOVAKIA (TCP),sk1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SLOVAKIA (UDP),sk1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SLOVENIA (TCP),si1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SLOVENIA (UDP),si1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SPAIN (TCP),es1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SPAIN (UDP),es1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SWEDEN Virtual (TCP),vlus-se1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SWEDEN (UDP),vlus-se1-ovpn-tcp.purevpn.net,udp,53,#REMOVE=1
-SWITZERLAND (TCP),ch1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-SWITZERLAND (UDP),ch1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-SYRIA (TCP),sy1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-SYRIA (UDP),sy1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-TAIWAN (TCP),tw1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-TAIWAN (UDP),tw1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-THAILAND (TCP),th1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-THAILAND (UDP),th1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-TURKEY Virtual (TCP),vlus-tr1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-TURKEY Virtual (UDP),vlus-tr1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UAE (TCP),ae1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UAE (UDP),ae1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UK - GOSPORT (TCP),ukg1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UK - GOSPORT (UDP),ukg1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UK - LONDON1 Virtual (TCP),vlbr-ukl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UK - LONDON1 Virtual (UDP),vlbr-ukl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UK - LONDON2 Virtual (TCP),vlsa-ukl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UK - LONDON2 Virtual (UDP),vlsa-ukl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UK - MAIDENHEAD (TCP),ukm1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UK - MAIDENHEAD (UDP),ukm1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-UKRAINE (TCP),ua1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-UKRAINE (UDP),ua1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - FLORIDA (TCP),usfl1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - FLORIDA (UDP),usfl1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - GEORGIA - ATLANTA (TCP),usga1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - GEORGIA - ATLANTA (UDP),usga1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
+POLAND (TCP),pl1-ovpn-tcp.purevpn.net,tcp,80
+POLAND (UDP),pl1-ovpn-udp.purevpn.net,udp,53
+QATAR (TCP),qa1-ovpn-tcp.pointtoserver.com,tcp,80
+QATAR (UDP),qa1-ovpn-udp.pointtoserver.com,udp,53
+ROMANIA (TCP),ro1-ovpn-tcp.purevpn.net,tcp,80
+ROMANIA (UDP),ro1-ovpn-udp.purevpn.net,udp,53
+RUSSIA Virtual (TCP),vlus-ru1-ovpn-tcp.purevpn.net,tcp,80
+RUSSIA Virtual (UDP),vlus-ru1-ovpn-udp.purevpn.net,udp,53
+SAUDIAARABIA (TCP),sa1-ovpn-tcp.pointtoserver.com,tcp,80
+SAUDIAARABIA (UDP),sa1-ovpn-udp.pointtoserver.com,udp,53
+SERBIA (TCP),rs1-ovpn-tcp.purevpn.net,tcp,80
+SERBIA (UDP),rs1-ovpn-udp.purevpn.net,udp,53
+SINGAPORE (TCP),sg1-ovpn-tcp.purevpn.net,tcp,80
+SINGAPORE (UDP),sg1-ovpn-udp.purevpn.ne,udp,53
+SLOVAKIA (TCP),sk1-ovpn-tcp.purevpn.net,tcp,80
+SLOVAKIA (UDP),sk1-ovpn-udp.purevpn.net,udp,53
+SLOVENIA (TCP),si1-ovpn-tcp.purevpn.net,tcp,80
+SLOVENIA (UDP),si1-ovpn-udp.purevpn.net,udp,53
+SPAIN (TCP),es1-ovpn-tcp.purevpn.net,tcp,80
+SPAIN (UDP),es1-ovpn-udp.purevpn.net,udp,53
+SWEDEN Virtual (TCP),vlus-se1-ovpn-tcp.purevpn.net,tcp,80
+SWEDEN (UDP),vlus-se1-ovpn-tcp.purevpn.net,udp,53
+SWITZERLAND (TCP),ch1-ovpn-tcp.purevpn.net,tcp,80
+SWITZERLAND (UDP),ch1-ovpn-udp.purevpn.net,udp,53
+SYRIA (TCP),sy1-ovpn-tcp.pointtoserver.com,tcp,80
+SYRIA (UDP),sy1-ovpn-udp.pointtoserver.com,udp,53
+TAIWAN (TCP),tw1-ovpn-tcp.purevpn.net,tcp,80
+TAIWAN (UDP),tw1-ovpn-udp.purevpn.net,udp,53
+THAILAND (TCP),th1-ovpn-tcp.purevpn.net,tcp,80
+THAILAND (UDP),th1-ovpn-udp.purevpn.net,udp,53
+TURKEY Virtual (TCP),vlus-tr1-ovpn-tcp.purevpn.net,tcp,80
+TURKEY Virtual (UDP),vlus-tr1-ovpn-udp.purevpn.net,udp,53
+UAE (TCP),ae1-ovpn-tcp.purevpn.net,tcp,80
+UAE (UDP),ae1-ovpn-udp.purevpn.net,udp,53
+UK - GOSPORT (TCP),ukg1-ovpn-tcp.purevpn.net,tcp,80
+UK - GOSPORT (UDP),ukg1-ovpn-udp.purevpn.net,udp,53
+UK - LONDON1 Virtual (TCP),vlbr-ukl1-ovpn-tcp.purevpn.net,tcp,80
+UK - LONDON1 Virtual (UDP),vlbr-ukl1-ovpn-udp.purevpn.net,udp,53
+UK - LONDON2 Virtual (TCP),vlsa-ukl1-ovpn-tcp.purevpn.net,tcp,80
+UK - LONDON2 Virtual (UDP),vlsa-ukl1-ovpn-udp.purevpn.net,udp,53
+UK - MAIDENHEAD (TCP),ukm1-ovpn-tcp.purevpn.net,tcp,80
+UK - MAIDENHEAD (UDP),ukm1-ovpn-udp.purevpn.net,udp,53
+UKRAINE (TCP),ua1-ovpn-tcp.purevpn.net,tcp,80
+UKRAINE (UDP),ua1-ovpn-udp.purevpn.net,udp,53
+USA - FLORIDA (TCP),usfl1-ovpn-tcp.purevpn.net,tcp,80
+USA - FLORIDA (UDP),usfl1-ovpn-udp.purevpn.net,udp,53
+USA - GEORGIA - ATLANTA (TCP),usga1-ovpn-tcp.purevpn.net,tcp,80
+USA - GEORGIA - ATLANTA (UDP),usga1-ovpn-udp.purevpn.net,udp,53
 USA - ILLINOIS - CHICAGO,usil1-ovpn-udp.purevpn.net,udp,53
-USA - LOSANGELES (TCP),usla1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - LOSANGELES (UDP),usla1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - NEWYORK (TCP),usny1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - NEWYORK (UDP),usny1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - PHOENIX (TCP),usphx1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - PHOENIX (UDP),usphx1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - SANFRANCISCO Virtual (TCP),vlsa-ussf1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - SANFRANCISCO Virtual (UDP),vlsa-ussf1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - VIRGINIA Virtual (TCP),vlbr-usvc1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-USA - VIRGINIA Virtual (UDP),vlbr-usvc1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-USA - WASHINGTON (UDP),ussa1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-VENEZUELA (TCP),ve1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-VENEZUELA (UDP),ve1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-VIETNAM Virtual (TCP),vlap-vn1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-VIETNAM Virtual (UDP),vlap-vn1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
-YEMEN (TCP),ym1-ovpn-tcp.pointtoserver.com,tcp,80,#REMOVE=2
-YEMEN (UDP),ym1-ovpn-udp.pointtoserver.com,udp,53,#REMOVE=1
-ZAMBIA (TCP),za1-ovpn-tcp.purevpn.net,tcp,80,#REMOVE=2
-ZAMBIA (UDP),za1-ovpn-udp.purevpn.net,udp,53,#REMOVE=1
+USA - LOSANGELES (TCP),usla1-ovpn-tcp.purevpn.net,tcp,80
+USA - LOSANGELES (UDP),usla1-ovpn-udp.purevpn.net,udp,53
+USA - NEWYORK (TCP),usny1-ovpn-tcp.purevpn.net,tcp,80
+USA - NEWYORK (UDP),usny1-ovpn-udp.purevpn.net,udp,53
+USA - PHOENIX (TCP),usphx1-ovpn-tcp.purevpn.net,tcp,80
+USA - PHOENIX (UDP),usphx1-ovpn-udp.purevpn.net,udp,53
+USA - SANFRANCISCO Virtual (TCP),vlsa-ussf1-ovpn-tcp.purevpn.net,tcp,80
+USA - SANFRANCISCO Virtual (UDP),vlsa-ussf1-ovpn-udp.purevpn.net,udp,53
+USA - VIRGINIA Virtual (TCP),vlbr-usvc1-ovpn-tcp.purevpn.net,tcp,80
+USA - VIRGINIA Virtual (UDP),vlbr-usvc1-ovpn-udp.purevpn.net,udp,53
+USA - WASHINGTON (UDP),ussa1-ovpn-udp.purevpn.net,udp,53
+VENEZUELA (TCP),ve1-ovpn-tcp.pointtoserver.com,tcp,80
+VENEZUELA (UDP),ve1-ovpn-udp.pointtoserver.com,udp,53
+VIETNAM Virtual (TCP),vlap-vn1-ovpn-tcp.purevpn.net,tcp,80
+VIETNAM Virtual (UDP),vlap-vn1-ovpn-udp.purevpn.net,udp,53
+YEMEN (TCP),ym1-ovpn-tcp.pointtoserver.com,tcp,80
+YEMEN (UDP),ym1-ovpn-udp.pointtoserver.com,udp,53
+ZAMBIA (TCP),za1-ovpn-tcp.purevpn.net,tcp,80
+ZAMBIA (UDP),za1-ovpn-udp.purevpn.net,udp,53

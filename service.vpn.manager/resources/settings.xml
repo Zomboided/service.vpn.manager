@@ -49,9 +49,10 @@
         <setting label="32043" type="lsep"/>	        
 		<setting label="32044" type="bool" id="vpn_connect_at_boot" default="true"/>
 		<setting label="32045" type="bool" id="vpn_reconnect" default="true"/>
-		<setting label="32046" type="bool" id="vpn_reconnect_filtering" default="true"/>
-        <setting label="32047" type="bool" id="allow_cycle_disconnect" default="false"/>
-        <setting label="32048" type="bool" id="display_location_on_connect" default="false"/>
+        <setting label="32046" type="bool" id="vpn_reconnect_reboot" default="true"/>
+		<setting label="32047" type="bool" id="vpn_reconnect_filtering" default="true"/>
+        <setting label="32048" type="bool" id="allow_cycle_disconnect" default="false"/>
+        <setting label="32049" type="bool" id="display_location_on_connect" default="false"/>
     </category>
     <category label="32060">	
         <setting label="32041" type="lsep"/>      
@@ -81,6 +82,7 @@
         <setting label="32114" type="time" id="reboot_time" default="02:00"/>
         <setting label="32115" type="bool" id="reboot_file_enabled" default="false"/>
         <setting label="32116" type="file" visible="!eq(-1,false)" id="reboot_file" default=""/>
+        <setting label=""      type="text" id="last_boot_text" enable="false" visible="true" default=""/>        
         <setting label=""      type="lsep"/>
         <setting label="32117" type="lsep"/>        
         <setting label="32118" type="file" id="speed_test_source" default=""/>
@@ -132,5 +134,8 @@
         <setting label=""      type="bool" id="checked_openvpn" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="ran_openvpn" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="monitor_paused" enable="false" visible="false" default="false"/>
+        <setting label=""      type="text" id="boot_time" enable="false" visible="false" default=""/>
+        <setting label=""      type="text" id="boot_reason" enable="false" visible="false" default="unscheduled"/>
+        <setting label=""      type="text" id="last_boot_reason" enable="false" visible="false" default="unscheduled"/>
     </category>
 </settings>

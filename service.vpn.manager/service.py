@@ -73,17 +73,17 @@ def isAddonFiltered(path, current):
     # return the current connected VPN if it matches, otherwise return the first.  If there
     # are duplicate entries, disconnect will always win.
     
-    # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
-    found = -1
     # Filter out local sources (files) being passed in and return not found
     if not ("://" in path): return -1
+    # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
+    found = -1
     filtered_addon_path = path[path.index("://")+3:]
     if "/" in filtered_addon_path:
         filtered_addon_path = filtered_addon_path[:filtered_addon_path.index("/")]
-    if filtered_addon_path == "" : return -1
+    if filtered_addon_path == "": return -1
     # # Adjust 11 below if changing number of conn_max
     for i in range (0, 11):
-        if not filtered_addons[i] == None :
+        if not filtered_addons[i] == None:
             for filtered_string in filtered_addons[i]: 
                 if filtered_addon_path == filtered_string:
                     if found == -1 : found = i
@@ -136,9 +136,17 @@ if __name__ == '__main__':
             resetVPNConfig(addon, 1)
             xbmcgui.Dialog().ok(addon_name, "This particular update to VPN Manager for OpenVPN requires that all VPN connections are re-validated before use.  Sorry about that, won't happen again...") 
             xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
-        # PIA changed in 1.5.0 to offer different options.  If PIA is using the old connections, force a reconnection
-        if addon.getSetting("vpn_provider_validated") == "Private Internet Access" and addon.getSetting("vpn_locations_list") == "":
-            addon.setSetting("1_vpn_validated", "reset")
+        else:
+            # Do a bunch of version number dependent tests
+            last_version = int(addon.getSetting("version_number").replace(".", ""))
+            # VPN Unlimited and PureVPN template files were fixed in 1.6.0 so force a reconnect
+            if addon.getSetting("vpn_provider_validated") == "VPN Unlimited" and last_version < 160:
+                addon.setSetting("1_vpn_validated", "reset")
+            if addon.getSetting("vpn_provider_validated") == "PureVPN" and last_version < 160:
+                addon.setSetting("1_vpn_validated", "reset")
+            # PIA changed in 1.5.0 to offer different connection options so need the user to decide which one to use and reconnect
+            if addon.getSetting("vpn_provider_validated") == "Private Internet Access" and last_version < 150:
+                addon.setSetting("1_vpn_validated", "reset")
             
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
@@ -152,7 +160,14 @@ if __name__ == '__main__':
             cleanPassFiles()
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
-    
+
+    # Store the boot time and update the reboot reason
+    addon.setSetting("boot_time", time.strftime('%Y-%m-%d %H:%M:%S'))
+    addon.setSetting("last_boot_reason", addon.getSetting("boot_reason"))
+    addon.setSetting("boot_reason", "unscheduled")
+    # This is just formatted text to display on the settings page
+    addon.setSetting("last_boot_text", "Last reboot was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
+            
     # Need to go and request the main loop fetches the settings
     updateService()
     
@@ -165,7 +180,8 @@ if __name__ == '__main__':
         setVPNMonitorState("Stopped")
     
     # Timer values in seconds
-    connection_retry_time = 3600
+    connection_retry_time_min = 60
+    connection_retry_time = connection_retry_time_min
     timer = 0
     cycle_timer = 0
     reboot_timer = 0
@@ -275,7 +291,7 @@ if __name__ == '__main__':
                 playing = False
                 timer = connection_retry_time + 1
                                         
-			# This just checks the connection is still good every hour, providing the player is not busy
+			# This just checks the connection is still good, providing the player is not busy
             if not playing:
                 if vpn_setup and timer > connection_retry_time:
                     addon = xbmcaddon.Addon()
@@ -292,12 +308,6 @@ if __name__ == '__main__':
                             setVPNProfileFriendly("")
                             reconnect_vpn = True
                     timer = 0
-            else:
-                if timer > connection_retry_time:
-                    debugTrace("Reconnect timer triggered but media playing so didn't check connection")
-                    timer = 0
-                    
-                
 
             # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
             if (not player.isPlaying()) and reboot_timer >= seconds_to_reboot_check:
@@ -318,6 +328,7 @@ if __name__ == '__main__':
                             if addon.getSetting("reboot_file_enabled") == "true":
                                 if not xbmcgui.Dialog().yesno(addon_name, "System reboot about to happen because server rebooted.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
                                     infoTrace("service.py", "Server rebooted, going down for a reboot")
+                                    addon.setSetting("boot_reason", "server rebooted")
                                     xbmc.executebuiltin("Reboot")
                                 else:
                                     infoTrace("service.py", "Server rebooted, system reboot aborted by user")
@@ -332,7 +343,7 @@ if __name__ == '__main__':
                     setReboot("waiting")
                     if not reboot_day == "Off":
                         if xbmc.getInfoLabel("System.Date(DDD)") == reboot_day:
-                            time_now_secs = getSeconds(time.strftime('%H:%M'))                        
+                            time_now_secs = getSeconds(time.strftime('%H:%M'))             
                             reboot_time_secs = getSeconds(reboot_time)
                             if time_now_secs > reboot_time_secs:
                                 # Reboot is today but it's happened already already
@@ -346,6 +357,7 @@ if __name__ == '__main__':
                             # Put up dialog warning of reboot and give user a chance to abort
                             if not xbmcgui.Dialog().yesno(addon_name, "Weekly system reboot about to happen.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
                                 infoTrace("service.py", "Weekly reboot timer triggered (for " + reboot_day + " " + reboot_time + "), going down for a reboot.")
+                                addon.setSetting("boot_reason", "weekly timer")
                                 xbmc.executebuiltin("Reboot")
                             else:
                                 infoTrace("service.py", "Weekly reboot timer aborted by user")
@@ -560,19 +572,27 @@ if __name__ == '__main__':
                                     setVPNState("off")
                                 else:
                                     connection_errors = getConnectionErrorCount() + 1
-                                    if connection_errors > 11:
+                                    if connection_errors > 9:
+                                        if addon.getSetting("vpn_reconnect_reboot") == "true" and connection_errors == 10:
+                                            if not xbmcgui.Dialog().yesno(addon_name, "Cannot connect to VPN, rebooting system.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                                                infoTrace("service.py", "Reboot because of VPN connection errors.")
+                                                addon.setSetting("boot_reason", "VPN errors")
+                                                xbmc.executebuiltin("Reboot")
+                                            else:
+                                                infoTrace("service.py", "VPN connection reboot aborted by user")
                                         # Too many errors, limit retry to once every hour
-                                        timer = 1
+                                        connection_retry_time = 3600
                                     else:
-                                        setConnectionErrorCount(connection_errors)
-                                        # Try to reconnect with reducing frequency (5 minute increments)
-                                        timer = connection_retry_time - connection_errors * 300
-                                        xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, check network. Retrying in " + str((connection_errors * 300)/60) + " minutes.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
+                                        # Try to reconnect increasing frequency (a minute longer each time)
+                                        connection_retry_time = 60 * connection_errors
+                                    setConnectionErrorCount(connection_errors)
+                                    xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, check network. Retrying in " + str((connection_retry_time/60)) + " minutes.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
+                                    timer = 1
                                 # Want to kill any running process if it's not completed successfully
                                 stopVPNConnection()
                                 errorTrace("service.py", "VPN connect to " + getVPNLastConnectedProfile() + " has failed, VPN error was " + str(state))
                                 writeVPNLog()
-                                debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " timer is " + str(timer))
+                                debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
                             else:
                                 if ifDebug(): writeVPNLog()
                                 if addon.getSetting("display_location_on_connect") == "true":
@@ -592,6 +612,7 @@ if __name__ == '__main__':
                     setVPNRequestedProfile("")
                     setVPNRequestedProfileFriendly("")
                     clearVPNCycle()
+                    connection_retry_time = connection_retry_time_min
 				
                 # Let the cycle code run again
                 freeCycleLock()

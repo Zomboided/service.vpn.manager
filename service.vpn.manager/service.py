@@ -180,7 +180,7 @@ if __name__ == '__main__':
         setVPNMonitorState("Stopped")
     
     # Timer values in seconds
-    connection_retry_time_min = 60
+    connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
     connection_retry_time = connection_retry_time_min
     timer = 0
     cycle_timer = 0
@@ -291,12 +291,13 @@ if __name__ == '__main__':
                 playing = False
                 timer = connection_retry_time + 1
                                         
-			# This just checks the connection is still good, providing the player is not busy
-            if not playing:
+			# This checks the connection is still good.  It will always do it whilst there's 
+            # no playback but there's an option to suppress this during playback
+            addon = xbmcaddon.Addon()
+            if (not playing) or addon.getSetting("vpn_reconnect_while_playing") == "true":
                 if vpn_setup and timer > connection_retry_time:
                     addon = xbmcaddon.Addon()
                     if addon.getSetting("vpn_reconnect") == "true":
-                        debugTrace("Reconnect timer triggered, checking connection")
                         if not isVPNConnected() and not (getVPNState() == "off"):
                             # Don't know why we're disconnected, but reconnect to the last known VPN
                             errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
@@ -307,11 +308,12 @@ if __name__ == '__main__':
                             setVPNProfile("")
                             setVPNProfileFriendly("")
                             reconnect_vpn = True
+                    connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
                     timer = 0
+                    
 
             # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
-            if (not player.isPlaying()) and reboot_timer >= seconds_to_reboot_check:
-                addon = xbmcaddon.Addon()
+            if (not playing) and reboot_timer >= seconds_to_reboot_check:
                 reboot_timer = 0
                 # Assume the next check is in an hour
                 seconds_to_reboot_check = 3600

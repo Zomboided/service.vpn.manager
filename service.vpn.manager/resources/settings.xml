@@ -49,7 +49,7 @@
         <setting label="32043" type="lsep"/>	        
 		<setting label="32044" type="bool" id="vpn_connect_at_boot" default="true"/>
 		<setting label="32045" type="bool" id="vpn_reconnect" default="true"/>
-        <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="false"/>
+        <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="true"/>
         <setting label="32047" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
         <setting label="32048" type="bool" id="vpn_reconnect_reboot" default="true"/>
 		<setting label="32049" type="bool" id="vpn_reconnect_filtering" default="true"/>

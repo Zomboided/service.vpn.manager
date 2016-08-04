@@ -2,6 +2,7 @@ v1.6.0
 - Updated PureVPN and VPN Unlimited ovpn template file
 - Fixed another filter matching bug when accessing local media
 - Added reboot information to Settings/Utilities
+- Improved reconnection functionality
 
 v1.5.0
 - Updated PIA to remove Russian servers, add strong encryption.

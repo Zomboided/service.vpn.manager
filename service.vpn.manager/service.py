@@ -166,7 +166,7 @@ if __name__ == '__main__':
     addon.setSetting("last_boot_reason", addon.getSetting("boot_reason"))
     addon.setSetting("boot_reason", "unscheduled")
     # This is just formatted text to display on the settings page
-    addon.setSetting("last_boot_text", "Last reboot was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
+    addon.setSetting("last_boot_text", "Last restart was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
             
     # Need to go and request the main loop fetches the settings
     updateService()

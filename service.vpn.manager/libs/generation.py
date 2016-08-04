@@ -94,7 +94,9 @@ def generateproXPN():
                 server = line[line.index("  "):line.index(".com")+4]
             server = server.strip(" \t\n\r")
             if "UDP" in line:    
+                output_line = geo + " (UDP)," + server + "," + "udp,443" + "\n"
             if "TCP" in line:
+                output_line = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
             if "Free" in geo:
                 location_file_free.write(output_line)
             else:

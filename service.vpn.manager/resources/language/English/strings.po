@@ -550,41 +550,45 @@ msgid "Private Internet Access"
 msgstr ""
 
 msgctxt "#32216"
-msgid "PureVPN"
+msgid "proXPN"
 msgstr ""
 
 msgctxt "#32217"
-msgid "SaferVPN"
+msgid "PureVPN"
 msgstr ""
 
 msgctxt "#32218"
-msgid "tigerVPN"
+msgid "SaferVPN"
 msgstr ""
 
 msgctxt "#32219"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32220"
-msgid "TotalVPN"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32221"
-msgid "User Defined"
+msgid "TotalVPN"
 msgstr ""
 
 msgctxt "#32222"
-msgid "WiTopia"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32223"
-msgid "VPN.ht"
+msgid "WiTopia"
 msgstr ""
 
 msgctxt "#32224"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32225"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32226"
 msgid "VyprVPN"
 msgstr ""

@@ -1,0 +1,34 @@
+New York - USA (TCP),openvpn-bny3.proxpn.com,tcp,443
+New York - USA (UDP),udp-bny2.proxpn.com,udp,443
+Miami - USA (TCP),openvpn-mfl.proxpn.com,tcp,443
+Miami - USA (UDP),udp-mfl2.proxpn.com,udp,443
+Seattle - USA (TCP),openvpn-bse.proxpn.com,tcp,443
+Seattle - USA (UDP),udp-bse2.proxpn.com,udp,443
+Chicago - USA (TCP),openvpn-chi.proxpn.com,tcp,443
+Chicago - USA (UDP),udp-chi3.proxpn.com,udp,443
+Toronto - CA (TCP),openvpn-tor.proxpn.com,tcp,443
+Toronto - CA (UDP),udp-tor1.proxpn.com,udp,443
+Hong Kong - CN (UDP),udp-hk1.proxpn.com,udp,443
+Los Angeles - USA (TCP),openvpn-la.proxpn.com,tcp,443
+Los Angeles - USA (UDP),udp-la1.proxpn.com,udp,443
+Los Angeles - USA 2 (UDP),udp-la2.proxpn.com,udp,443
+Netherlands - NL (TCP),openvpn-nl.proxpn.com,tcp,443
+Netherlands - NL (UDP),udp-nl1.proxpn.com,udp,443
+Netherlands - NL 2 (UDP),udp-nl2.proxpn.com,udp,443
+Stockholm - SE (TCP),openvpn-swe.proxpn.com,tcp,443
+Stockholm - SE (UDP),udp-swe1.proxpn.com,udp,443
+London - UK (TCP),openvpn-uk.proxpn.com,tcp,443
+London - UK (UDP),udp-uk1.proxpn.com,udp,443
+Bucharest - RO (UDP),udp-rou1.proxpn.com,udp,443
+Sydney - AU (TCP),openvpn-au.proxpn.com,tcp,443
+Sydney - AU (UDP),udp-au1.proxpn.com,udp,443
+Frankfurt - DE (TCP),openvpn-fde.proxpn.com,tcp,443
+Frankfurt - DE (UDP),udp-fde1.proxpn.com,udp,443
+Frankfurt - DE 2 (TCP),openvpn-de.proxpn.com,tcp,443
+Frankfurt - DE 2 (UDP),udp-de1.proxpn.com,udp,443
+Paris - FR (UDP),udp-fr2.proxpn.com,udp,443
+Singapore - SG (UDP),udp-sg4.proxpn.com,udp,443
+San Jose - CR (TCP),openvpn-cr.proxpn.com,tcp,443
+San Jose - CR (UDP),udp-cr1.proxpn.com,udp,443
+Hafnarfjordur - IS (UDP),udp-is1.proxpn.com,udp,443
+Zurich - CH (UDP),udp-zch1.proxpn.com,udp,443

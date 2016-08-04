@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generatePureVPN()
+    generateproXPN()
     return
+    generatePureVPN()
     generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
@@ -73,6 +74,34 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateproXPN():
+    # Data is stored in a flat text file
+    # Location, tab, server - free locations are marked with a leading *
+    location_file_full = getLocations("proXPN", "Full Account")
+    location_file_free = getLocations("proXPN", "Free Account")
+    source_file = open(getAddonPath(True, "providers/proXPN/Servers.txt"), 'r')
+    source = source_file.readlines()
+    source_file.close()
+    for line in source:
+        line = line.strip(" \t\n\r")
+        if not ("UDP" in line or "TCP" in line):
+            geo = line.strip(" \t\n\r")
+            geo = geo.replace(",", " -")
+        else:
+            if "Free" in geo:
+                server = line[line.index("IP:")+3:]
+            else:
+                server = line[line.index("  "):line.index(".com")+4]
+            server = server.strip(" \t\n\r")
+            if "UDP" in line:    
+            if "TCP" in line:
+            if "Free" in geo:
+                location_file_free.write(output_line)
+            else:
+                location_file_full.write(output_line)
+    location_file_full.close()
+    location_file_free.close()    
+    
 def generateWiTopia():
     # Data is stored in a flat text file
     # City name followed by server name, or just server name (starts with vpn.)

@@ -29,12 +29,12 @@ from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSepa
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in setup.xml)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
@@ -414,7 +414,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 output_line = output_line.replace("#CRLVERIFY", getAddonPathWrapper(vpn_provider + "/" + crl_pem))
                 output_line = output_line.replace("#USERKEY", user_key)
                 output_line = output_line.replace("#USERCERT", user_cert)
-                output_line = output_line.replace("#PATH", getAddonPathWrapper(vpn_provider))
+                output_line = output_line.replace("#PATH", getAddonPathWrapper(vpn_provider + "/"))
                 # Overwrite the verb value with the one in the settings
                 if output_line.startswith("verb "):
                     output_line = "verb " + verb_value

@@ -1,0 +1,24 @@
+remote #SERVER #PORT
+client
+dev tun0
+proto #PROTO
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+cipher BF-CBC
+keysize 512
+comp-lzo
+verb 4
+mute 5
+tun-mtu 1500
+mssfix 1450
+auth-user-pass #PASS
+reneg-sec 0
+auth-nocache
+route-method exe
+route-delay 1
+route 0.0.0.0 0.0.0.0
+ca #CERT
+cert #PATHclient.crt
+key #PATHclient.key

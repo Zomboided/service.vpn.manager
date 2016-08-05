@@ -625,9 +625,8 @@ if __name__ == '__main__':
         # Sleep/wait for abort
         if monitor.waitForAbort(delay):
             # Abort was requested while waiting. We should exit
+            infoTrace("service.py", "Abort received, shutting down service")
             break
             
         timer = timer + delay
         reboot_timer = reboot_timer + delay
-                
-debugTrace("-- Exit service.py --")        

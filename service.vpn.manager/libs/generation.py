@@ -32,15 +32,15 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateproXPN()
+    generateNordVPN()
     return
+    generateproXPN()
     generatePureVPN()
     generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
     generateCelo()
     generateSaferVPN()
-    generateNordVPN()
     generateVyprVPN()
     generateBTGuard()
     generateVPNUnlim()
@@ -839,6 +839,8 @@ def generateNordVPN():
             if "lt-lv1" in shortname: shortname = "Lithuania - Latvia 1"
             if "tw-hk1" in shortname: shortname = "Taiwan - Hong Kong 1"
             if "us-ca2" in shortname: shortname = "United States - Canada 2"
+            if "nl1-ru1" in shortname: shortname = "Netherlands - Russia 1"
+            if "ru-nl1" in shortname: shortname = "Russia - Netherlands 1"
             if "lv-tor1" in shortname: shortname = "Latvia Tor 1"
             if "se-tor1" in shortname: shortname = "Sweden Tor 1"
         proto = ""

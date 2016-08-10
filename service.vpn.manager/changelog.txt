@@ -1,4 +1,6 @@
 v1.8.0
+- Added block-outside-dns option for openvpn 2.3.10 and later (disable it for 2.3.9)
+- Added IVPN (untested)
 
 v1.7.0
 - Updated NordVPN ovpn files

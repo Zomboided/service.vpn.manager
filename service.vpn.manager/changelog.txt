@@ -1,3 +1,9 @@
+v1.8.0
+
+v1.7.0
+- Updated NordVPN ovpn files
+- Fix plugin enable/disable hang issue
+
 v1.6.0
 - Updated PureVPN and VPN Unlimited ovpn template file
 - Fixed another filter matching bug when accessing local media

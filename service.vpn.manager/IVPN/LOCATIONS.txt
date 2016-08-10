@@ -1,0 +1,34 @@
+Canada (TCP),ca.gw.ivpn.net,tcp-client,443
+Canada (UDP),ca.gw.ivpn.net,udp,2049
+France (TCP),fr.gw.ivpn.net,tcp-client,443
+France (UDP),fr.gw.ivpn.net,udp,2049
+Germany (TCP),de.gw.ivpn.net,tcp-client,443
+Germany (UDP),de.gw.ivpn.net,udp,2049
+Hong Kong (TCP),hk.gw.ivpn.net,tcp-client,443
+Hong Kong (UDP),hk.gw.ivpn.net,udp,2049
+Iceland (TCP),is.gw.ivpn.net,tcp-client,443
+Iceland (UDP),is.gw.ivpn.net,udp,2049
+Italy (TCP),it.gw.ivpn.net,tcp-client,443
+Italy (UDP),it.gw.ivpn.net,udp,2049
+Netherlands (TCP),nl.gw.ivpn.net,tcp-client,443
+Netherlands (UDP),nl.gw.ivpn.net,udp,2049
+Romania (TCP),ro.gw.ivpn.net,tcp-client,443
+Romania (UDP),ro.gw.ivpn.net,udp,2049
+Sweden (TCP),se.gw.ivpn.net,tcp-client,443
+Sweden (UDP),se.gw.ivpn.net,udp,2049
+Switzerland (TCP),ch.gw.ivpn.net,tcp-client,443
+Switzerland (UDP),ch.gw.ivpn.net,udp,2049
+United Kingdom (TCP),gb.gw.ivpn.net,tcp-client,443
+United Kingdom (UDP),gb.gw.ivpn.net,udp,2049
+USA - Atlanta (TCP),us-ga.gw.ivpn.net,tcp-client,443
+USA - Atlanta (UDP),us-ga.gw.ivpn.net,udp,2049
+USA - Dallas (TCP),us-tx.gw.ivpn.net,tcp-client,443
+USA - Dallas (UDP),us-tx.gw.ivpn.net,udp,2049
+USA - Los Angeles (TCP),us-ca.gw.ivpn.net,tcp-client,443
+USA - Los Angeles (UDP),us-ca.gw.ivpn.net,udp,2049
+USA - Miami (TCP),us-fl.gw.ivpn.net,tcp-client,443
+USA - Miami (UDP),us-fl.gw.ivpn.net,udp,2049
+USA - New Jersey (TCP),us-nj.gw.ivpn.net,tcp-client,443
+USA - New Jersey (UDP),us-nj.gw.ivpn.net,udp,2049
+USA - Salt Lake City (TCP),us-ut.gw.ivpn.net,tcp-client,443
+USA - Salt Lake City (UDP),us-ut.gw.ivpn.net,udp,2049

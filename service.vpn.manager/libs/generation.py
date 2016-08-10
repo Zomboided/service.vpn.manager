@@ -32,15 +32,16 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateproXPN()
+    generateIVPN()
     return
+    generateNordVPN()
+    generateproXPN()
     generatePureVPN()
     generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
     generateCelo()
     generateSaferVPN()
-    generateNordVPN()
     generateVyprVPN()
     generateBTGuard()
     generateVPNUnlim()
@@ -74,6 +75,28 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateIVPN():
+    # Data is stored as a bunch of OVPN files
+    # File name has location, file has server and port
+    profiles = getProfileList("IVPN")
+    location_file = getLocations("IVPN", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()
+        if "-TCP" in geo:
+            geo = geo.replace("-TCP", " (TCP)")
+            output_line = geo + "," + server + "," + "tcp-client," + port + "\n"
+        else:
+            geo = geo + " (UDP)"
+            output_line = geo + "," + server + "," + "udp," + port + "\n"
+        location_file.write(output_line)
+    location_file.close()
+    
 def generateproXPN():
     # Data is stored in a flat text file
     # Location, tab, server - free locations are marked with a leading *
@@ -258,6 +281,7 @@ def generateSaferVPN():
 
     
 def generateExpressVPN():
+    # Data is stored as a bunch of ovpn files
     profiles = getProfileList("ExpressVPN")
     location_file = getLocations("ExpressVPN", "")
     for profile in profiles:
@@ -839,6 +863,8 @@ def generateNordVPN():
             if "lt-lv1" in shortname: shortname = "Lithuania - Latvia 1"
             if "tw-hk1" in shortname: shortname = "Taiwan - Hong Kong 1"
             if "us-ca2" in shortname: shortname = "United States - Canada 2"
+            if "nl1-ru1" in shortname: shortname = "Netherlands - Russia 1"
+            if "ru-nl1" in shortname: shortname = "Russia - Netherlands 1"
             if "lv-tor1" in shortname: shortname = "Latvia Tor 1"
             if "se-tor1" in shortname: shortname = "Sweden Tor 1"
         proto = ""

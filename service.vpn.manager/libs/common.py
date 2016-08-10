@@ -1131,6 +1131,8 @@ def connectVPN(connection_order, vpn_profile):
                 dialog_message = "Error connecting to VPN, could not update routing table.\nRetry and then check log."
             elif state == connection_status.ACCESS_DENIED:
                 dialog_message = "Error connecting to VPN, could not update routing table.\nOn Windows, Kodi must be run as administrator."
+            elif state == connection_status.OPTIONS_ERROR:
+                dialog_message = "Error connecting to VPN, unrecognised option.\nDisable block-outside-dns in debug menu, reset ovpn files and retry. Or check log and review ovpn file in use."
             else:
                 dialog_message = "Error connecting to VPN, something unexpected happened.\nRetry to check openvpn operation and then check log."
                 addon.setSetting("ran_openvpn", "false")

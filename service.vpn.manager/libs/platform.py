@@ -306,7 +306,7 @@ def isVPNTaskRunning():
     return False
 
 
-connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, ERROR=7) 
+connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, OPTIONS_ERROR=7, ERROR=8) 
     
 def getVPNConnectionStatus():
     # Open the openvpn output file and parse it for known phrases
@@ -337,6 +337,8 @@ def getVPNConnectionStatus():
                     state = connection_status.NETWORK_FAILED
                 if "Connection timed out" in line:
                     state = connection_status.TIMEOUT
+                if "Options error" in line:
+                    state = connection_status.OPTIONS_ERROR
                 if p == platforms.WINDOWS and "ROUTE" in line and "Access is denied" in line:
                     # This is a Windows, not running Kodi as administrator error
                     state = connection_status.ACCESS_DENIED

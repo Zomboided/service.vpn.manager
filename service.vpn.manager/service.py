@@ -129,16 +129,17 @@ if __name__ == '__main__':
         xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
         # This is just wiping out the old way of using pre-generated ovpn files before
         # moving to the brave new world of generating them when they're needed
-        if addon.getSetting("version_number") == "":
-            infoTrace("service.py", "Resetting the world for 0.1.0, found " + addon.getSetting("version_number"))
+        stored_version = addon.getSetting("version_number").strip()
+        if stored_version == "":
+            infoTrace("service.py", "New install, resetting the world " + addon.getSetting("version_number"))
             cleanPassFiles()
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
-            xbmcgui.Dialog().ok(addon_name, "This particular update to VPN Manager for OpenVPN requires that all VPN connections are re-validated before use.  Sorry about that, won't happen again...") 
+            xbmcgui.Dialog().ok(addon_name, "VPN Manager installed.\nPlease set up a VPN provider and then validate a connection")
             xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
         else:
             # Do a bunch of version number dependent tests
-            last_version = int(addon.getSetting("version_number").replace(".", ""))
+            last_version = int(stored_version.replace(".", ""))
             # VPN Unlimited and PureVPN template files were fixed in 1.6.0 so force a reconnect
             if addon.getSetting("vpn_provider_validated") == "VPN Unlimited" and last_version < 160:
                 addon.setSetting("1_vpn_validated", "reset")

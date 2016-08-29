@@ -313,7 +313,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         errorTrace("vpnproviders.py", "Couldn't open the template file for " + vpn_provider)
         return False
     
-    if addon.getSetting("block_outside_dns") == "true":
+    if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
         template.append("block-outside-dns")
     
     # Load locations file

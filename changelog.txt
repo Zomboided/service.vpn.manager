@@ -1,3 +1,10 @@
+v1.9.0
+- Added SecureVPN
+- Updated NordVPN (again...) and LimeVPN
+
+v1.8.2
+- block-outside-dns is Windows only
+
 v1.8.1
 - Fixed issue with fresh install
 

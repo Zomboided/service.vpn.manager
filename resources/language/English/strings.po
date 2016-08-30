@@ -435,7 +435,7 @@ msgid "5"
 msgstr ""
 
 msgctxt "#32134"
-msgid "Force block-outside-dns (reset .ovpn files after updating)"
+msgid "(Windows) Force block-outside-dns (reset .ovpn files after updating)"
 msgstr ""
 
 msgctxt "#32135"
@@ -570,33 +570,37 @@ msgid "SaferVPN"
 msgstr ""
 
 msgctxt "#32220"
-msgid "tigerVPN"
+msgid "SecureVPN.to"
 msgstr ""
 
 msgctxt "#32221"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32222"
-msgid "TotalVPN"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32223"
-msgid "User Defined"
+msgid "TotalVPN"
 msgstr ""
 
 msgctxt "#32224"
-msgid "WiTopia"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32225"
-msgid "VPN.ht"
+msgid "WiTopia"
 msgstr ""
 
 msgctxt "#32226"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32227"
+msgid "VPN Unlimited"
+msgstr ""
+
+msgctxt "#32228"
 msgid "VyprVPN"
 msgstr ""

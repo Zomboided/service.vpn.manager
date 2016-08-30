@@ -26,15 +26,18 @@ import xbmcgui
 import xbmcvfs
 import glob
 import string
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
 from libs.platform import getAddonPath, fakeConnection
 from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateIVPN()
+    
+    generateLimeVPN()
     return
+    generateSecureVPN()
     generateNordVPN()
+    generateIVPN()
     generateproXPN()
     generatePureVPN()
     generateWiTopia()
@@ -46,7 +49,6 @@ def generateAll():
     generateBTGuard()
     generateVPNUnlim()
     generateHideMe()
-    generateLimeVPN()
     generateHideIPVPN()
     generateVyprVPN()
     generateCyberGhost()
@@ -75,6 +77,42 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateSecureVPN():
+    # Can't use a template as SecureVPN use multiple everything. 
+    # Copy the file to the target directory and strip it of user keys
+    existing_profiles = glob.glob(getAddonPath(True, "SecureVPN" + "/*.ovpn"))
+    for connection in existing_profiles:
+        xbmcvfs.delete(connection)
+    # Get the list from the provider data directory
+    profiles = getProfileList("SecureVPN")
+    destination_path = getAddonPath(True, "SecureVPN" + "/")   
+    for profile in profiles:
+        shortname = profile[profile.index("SecureVPN")+10:]
+        shortname = shortname[:shortname.index(".")]
+        proto = "(UDP)"
+        filename = shortname + " " + proto + ".ovpn"
+        profile_file = open(profile, 'r')
+        output_file = open(destination_path + filename, 'w')
+        profile_contents = profile_file.readlines()
+        profile_file.close()
+        output = ""
+        i = 0
+        write = True;
+        for line in profile_contents:
+            line = line.strip(' \t\n\r')
+            if not (line == "" or line.startswith("#")) :
+                if "<key>" in line or "<cert>" in line: write = False
+                if "</key>" in line: 
+                    write = True
+                    line = "key #USERKEY"
+                if "</cert>" in line:
+                    write = True
+                    line = "cert #USERCERT"
+                if write : output_file.write(line + "\n")
+            i = i + 1    
+        output_file.close()
+        
+    
 def generateIVPN():
     # Data is stored as a bunch of OVPN files
     # File name has location, file has server and port
@@ -328,41 +366,53 @@ def generateBTGuard():
             location_file.write(output_line_tcp)
     location_file.close()    
     
-    
+
 def generateLimeVPN():
-    # Data is stored as a bunch of ovpn files
-    # File name has the country, but needs translation, files have multiple servers/ports
+    # Can't use a template as LimeVPN use server certs. 
+    # Copy the file to the target directory and strip it of user keys
+    existing_profiles = glob.glob(getAddonPath(True, "LimeVPN" + "/*.ovpn"))
+    for connection in existing_profiles:
+        xbmcvfs.delete(connection)
+    # Get the list from the provider data directory
     profiles = getProfileList("LimeVPN")
-    location_file = getLocations("LimeVPN", "")
+    destination_path = getAddonPath(True, "LimeVPN" + "/")   
     for profile in profiles:
-        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
-        geo = geo.replace(".limevpn"," ")
-        geo = geo.replace("aus", "Australia ")
-        geo = geo.replace("ca", "Canada ")
-        geo = geo.replace("jp", "Japan ")
-        geo = geo.replace("nl", "Netherlands ")
-        geo = geo.replace("ru", "Russia ")
-        geo = geo.replace("sg", "Singapore ")
-        geo = geo.replace("uk", "United Kingdom ")
-        if not "Australia" in geo and not "Russia" in geo: geo = geo.replace("us", "United States ")
+        shortname = profile[profile.index("LimeVPN")+8:]
+        shortname = shortname.replace("_openvpn_remote_access_l3", "")
+        shortname = shortname[:shortname.index(".")]
+        shortname = shortname.replace("aus", "au")
+        shortname = shortname.replace("sw", "se")
+        shortname = shortname.replace("sk", "kr")
+        countryname = resolveCountry(shortname[0:2].upper())
+        if len(shortname) == 3:
+            shortname = " " + shortname[2:3]
+        else:
+            shortname = ""
+        proto = " (UDP)"
+        filename = countryname + shortname + proto + ".ovpn"
         profile_file = open(profile, 'r')
-        lines = profile_file.readlines()
+        output_file = open(destination_path + filename, 'w')
+        profile_contents = profile_file.readlines()
         profile_file.close()
-        servers = ""
-        ports = ""
-        for line in lines:
-            if line.startswith("remote "):
-                line = line[:line.index("#")-1]
-                _, server, port = line.split()
-                if not servers == "" : servers = servers + " "
-                servers = servers + server
-                if not ports == "" : ports = ports + " "
-                ports = ports + port
-            if line.startswith("proto "):
-                _, proto = line.split()
-        output_line = geo + "(" + proto.upper() + ")," + servers + "," + proto + "," + ports + "\n" 
-        location_file.write(output_line)
-    location_file.close()      
+        output = ""
+        i = 0
+        write = True;
+        newPrint(destination_path + filename)
+        for line in profile_contents:
+            line = line.strip(' \t\n\r')
+            if not (line == "" or line.startswith("#")) :
+                if "<key>" in line or "<cert>" in line: write = False
+                if "</key>" in line: 
+                    write = True
+                    line = ""
+                if "</cert>" in line:
+                    write = True
+                    line = ""
+                if write and not line == "" : 
+                    output_file.write(line + "\n")
+                    newPrint(line)
+            i = i + 1    
+        output_file.close()   
     
     
 def generateHideIPVPN():
@@ -1003,8 +1053,8 @@ def resolveCountry(code):
         'Kazakhstan': 'KZ',
         'Kenya': 'KE',
         'Kiribati': 'KI',
-        "Korea": 'KP',
-        'Korea': 'KR',
+        "North Korea": 'KP',
+        'South Korea': 'KR',
         'Kuwait': 'KW',
         'Kyrgyzstan': 'KG',
         "Lao People's Democratic Republic": 'LA',

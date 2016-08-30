@@ -148,6 +148,9 @@ if __name__ == '__main__':
             # PIA changed in 1.5.0 to offer different connection options so need the user to decide which one to use and reconnect
             if addon.getSetting("vpn_provider_validated") == "Private Internet Access" and last_version < 150:
                 addon.setSetting("1_vpn_validated", "reset")
+            # Lime changed in 1.9.0 to go from template to separate ovpn files
+            if addon.getSetting("vpn_provider_validated") == "LimeVPN" and last_version < 190:
+                addon.setSetting("1_vpn_validated", "reset")
             
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

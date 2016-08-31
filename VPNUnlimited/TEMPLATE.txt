@@ -8,6 +8,7 @@ persist-key
 ping 5
 ping-exit 30
 nobind
+verb 3
 comp-lzo adaptive
 ns-cert-type server
 route-metric 1

@@ -1,6 +1,6 @@
 v1.9.0
 - Added SecureVPN
-- Updated NordVPN (again...) and LimeVPN
+- Updated NordVPN (again...), LimeVPN and ExpressVPN
 
 v1.8.2
 - block-outside-dns is Windows only

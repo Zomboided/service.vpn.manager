@@ -32,9 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    
-    generateLimeVPN()
+    generateExpressVPN()
     return
+    generateSecureVPN()
+    generateLimeVPN()
     generateSecureVPN()
     generateNordVPN()
     generateIVPN()
@@ -61,7 +62,6 @@ def generateAll():
     generatetigerVPN()
     generateHMA()    
     generateIPVanish()    
-    generateExpressVPN()
 
 
 def getLocations(vpn_provider, path_ext):
@@ -338,8 +338,10 @@ def generateExpressVPN():
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()  
-        output_line = geo + " (UDP)," + server + "," + "udp," + port + "\n"
-        location_file.write(output_line)
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + ",#REMOVE=1\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2\n"
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
     location_file.close()
     
         

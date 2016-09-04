@@ -1,5 +1,6 @@
 dev tun
 fast-io
+proto #PROTO
 persist-key
 persist-tun
 nobind

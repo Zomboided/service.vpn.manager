@@ -339,7 +339,7 @@ def generateExpressVPN():
             if line.startswith("remote "):
                 _, server, port = line.split()  
         output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + ",#REMOVE=1\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp-client,443" + ",#REMOVE=2\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp)
     location_file.close()

@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateExpressVPN()
+    generateIPVanish()
     return
+    generateExpressVPN()
     generateSecureVPN()
     generateLimeVPN()
     generateSecureVPN()
@@ -779,8 +780,9 @@ def generateIPVanish():
         profile = profile.replace("Buenos-Aires", "Buenos Aires")        
         tokens = profile.split("-")
         server = tokens[3] + "-" + tokens[4].replace(".ovpn", "") + ".ipvanish.com"
-        output_line_udp = tokens[1] + " - " + tokens[2] + " (UDP)," + server + "," + "udp,443" + "\n"
-        output_line_tcp = tokens[1] + " - " + tokens[2] + " (TCP)," + server + "," + "tcp,443" + "\n"
+        server_num = tokens[4][1:3]
+        output_line_udp = resolveCountry(tokens[1]) + " - " + tokens[2] + " " + server_num + " (UDP)," + server + "," + "udp,443" + "\n"
+        output_line_tcp = resolveCountry(tokens[1]) + " - " + tokens[2] + " " + server_num + " (TCP)," + server + "," + "tcp,443" + "\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp)
     location_file.close()
@@ -899,6 +901,7 @@ def generatePureVPN():
 def generateNordVPN():
     # Can't use a template here as NordVPN use multiple certificate and keys. 
     # Copy the file to the target directory and rename it to something more tidy
+    # Latest can be found at https://nordvpn.com/api/files/zip
     # Remove what's there to start with
     existing_profiles = glob.glob(getAddonPath(True, "NordVPN" + "/*.ovpn"))
     for connection in existing_profiles:

@@ -1,3 +1,6 @@
+v2.0.0
+- Updated IPVanish with many more servers
+
 v1.9.0
 - Added SecureVPN
 - Updated NordVPN (again...), LimeVPN and ExpressVPN

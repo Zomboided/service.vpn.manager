@@ -151,6 +151,8 @@ if __name__ == '__main__':
             # Lime changed in 1.9.0 to go from template to separate ovpn files
             if addon.getSetting("vpn_provider_validated") == "LimeVPN" and last_version < 190:
                 addon.setSetting("1_vpn_validated", "reset")
+            if addon.getSetting("vpn_provider_validated") == "HideIPVPN" and last_version < 191:
+                addon.setSetting("1_vpn_validated", "reset")
             
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

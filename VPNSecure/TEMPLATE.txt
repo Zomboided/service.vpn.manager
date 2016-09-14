@@ -1,0 +1,20 @@
+client
+proto #PROTO
+dev tun
+ca #CERT
+dh #DH
+cert #USERCERT
+key #USERKEY
+remote #SERVER #PORT
+cipher DES-CBC
+verb 2
+mute 20
+keepalive 10 120
+comp-lzo
+persist-key
+persist-tun
+float
+resolv-retry 30
+nobind
+auth-nocache
+ns-cert-type server

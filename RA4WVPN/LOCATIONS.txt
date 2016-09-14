@@ -1,0 +1,72 @@
+Australia - Sydney (TCP),au-sydney.ra4wvpn.com,tcp,443
+Australia - Sydney (UDP),au-sydney.ra4wvpn.com,udp,1194
+Bulgaria - Sofia (TCP),bg-sofia.ra4wvpn.com,tcp,443
+Bulgaria - Sofia (UDP),bg-sofia.ra4wvpn.com,udp,1194
+Switzerland - Zurich (TCP),ch-zurich.ra4wvpn.com,tcp,443
+Switzerland - Zurich (UDP),ch-zurich.ra4wvpn.com,udp,1194
+Czech Republic - Prague (TCP),cz-prague.ra4wvpn.com,tcp,443
+Czech Republic - Prague (UDP),cz-prague.ra4wvpn.com,udp,1194
+Germany - Falkenstein (TCP),de-falkenstein.ra4wvpn.com,tcp,443
+Germany - Falkenstein (UDP),de-falkenstein.ra4wvpn.com,udp,1194
+Germany - Frankfurt (TCP),de-frankfurt.ra4wvpn.com,tcp,443
+Germany - Frankfurt (UDP),de-frankfurt.ra4wvpn.com,udp,1194
+Denmark - Copenhagen (TCP),dk-copenhagen.ra4wvpn.com,tcp,443
+Denmark - Copenhagen (UDP),dk-copenhagen.ra4wvpn.com,udp,1194
+Spain - Madrid (TCP),es-madrid.ra4wvpn.com,tcp,443
+Spain - Madrid (UDP),es-madrid.ra4wvpn.com,udp,1194
+Finland - Espoo (TCP),fi-espoo.ra4wvpn.com,tcp,443
+Finland - Espoo (UDP),fi-espoo.ra4wvpn.com,udp,1194
+France - Paris (TCP),fr-paris.ra4wvpn.com,tcp,443
+France - Paris (UDP),fr-paris.ra4wvpn.com,udp,1194
+France - Roubaix (TCP),fr-roubaix.ra4wvpn.com,tcp,443
+France - Roubaix (UDP),fr-roubaix.ra4wvpn.com,udp,1194
+Greece - Athens (TCP),gr-athens.ra4wvpn.com,tcp,443
+Greece - Athens (UDP),gr-athens.ra4wvpn.com,udp,1194
+Hong Kong - Hong Kong (TCP),hk-hongkong.ra4wvpn.com,tcp,443
+Hong Kong - Hong Kong (UDP),hk-hongkong.ra4wvpn.com,udp,1194
+Hungary - Budapest (TCP),hu-budapest.ra4wvpn.com,tcp,443
+Hungary - Budapest (UDP),hu-budapest.ra4wvpn.com,udp,1194
+Italy - Milano (TCP),it-milano.ra4wvpn.com,tcp,443
+Italy - Milano (UDP),it-milano.ra4wvpn.com,udp,1194
+Japan - Tokyo (TCP),jp-tokyo.ra4wvpn.com,tcp,443
+Japan - Tokyo (UDP),jp-tokyo.ra4wvpn.com,udp,1194
+South Korea - Seoul (TCP),kr-seoul.ra4wvpn.com,tcp,443
+South Korea - Seoul (UDP),kr-seoul.ra4wvpn.com,udp,1194
+Netherlands - Amsterdam (TCP),nl-alblasserdam.ra4wvpn.com,tcp,443
+Netherlands - Amsterdam (UDP),nl-alblasserdam.ra4wvpn.com,udp,1194
+Netherlands - Dronten (TCP),nl-dronten.ra4wvpn.com,tcp,443
+Netherlands - Dronten (UDP),nl-dronten.ra4wvpn.com,udp,1194
+Norway - Sandefjord (TCP),no-sandefjord.ra4wvpn.com,tcp,443
+Norway - Sandefjord (UDP),no-sandefjord.ra4wvpn.com,udp,1194
+New Zealand - Auckland (TCP),nz-auckland.ra4wvpn.com,tcp,443
+New Zealand - Auckland (UDP),nz-auckland.ra4wvpn.com,udp,1194
+Panama - Panama City (TCP),pa-panamacity.ra4wvpn.com,tcp,443
+Panama - Panama City (UDP),pa-panamacity.ra4wvpn.com,udp,1194
+Poland - Warsaw (TCP),pl-warsaw.ra4wvpn.com,tcp,443
+Poland - Warsaw (UDP),pl-warsaw.ra4wvpn.com,udp,1194
+Portugal - Lisbon (TCP),pt-lisbon.ra4wvpn.com,tcp,443
+Portugal - Lisbon (UDP),pt-lisbon.ra4wvpn.com,udp,1194
+Romania - Bucharest (TCP),ro-bucharest.ra4wvpn.com,tcp,443
+Romania - Bucharest (UDP),ro-bucharest.ra4wvpn.com,udp,1194
+Russia - Chelyabinsk (TCP),ru-chelyabinsk.ra4wvpn.com,tcp,443
+Russia - Chelyabinsk (UDP),ru-chelyabinsk.ra4wvpn.com,udp,1194
+Russia - Moscow (TCP),ru-moscow.ra4wvpn.com,tcp,443
+Russia - Moscow (UDP),ru-moscow.ra4wvpn.com,udp,1194
+Russia - St Petersburg (TCP),ru-stpetersburg.ra4wvpn.com,tcp,443
+Russia - St Petersburg (UDP),ru-stpetersburg.ra4wvpn.com,udp,1194
+Ukraine - Kharkov (TCP),ua-kharkov.ra4wvpn.com,tcp,443
+Ukraine - Kharkov (UDP),ua-kharkov.ra4wvpn.com,udp,1194
+United Kingdom - Hampshire (TCP),uk-hampshire.ra4wvpn.com,tcp,443
+United Kingdom - Hampshire (UDP),uk-hampshire.ra4wvpn.com,udp,1194
+United Kingdom - Manchester (TCP),uk-manchester.ra4wvpn.com,tcp,443
+United Kingdom - Manchester (UDP),uk-manchester.ra4wvpn.com,udp,1194
+United States - Atlanta (TCP),us-atlanta.ra4wvpn.com,tcp,443
+United States - Atlanta (UDP),us-atlanta.ra4wvpn.com,udp,1194
+United States - Los Angeles (TCP),us-losangeles.ra4wvpn.com,tcp,443
+United States - Los Angeles (UDP),us-losangeles.ra4wvpn.com,udp,1194
+United States - Washington Dc (TCP),us-washingtondc.ra4wvpn.com,tcp,443
+United States - Washington Dc (UDP),us-washingtondc.ra4wvpn.com,udp,1194
+Kosovo - Pristina (TCP),xk-pristina.ra4wvpn.com,tcp,443
+Kosovo - Pristina (UDP),xk-pristina.ra4wvpn.com,udp,1194
+South Africa - Johannesburg (TCP),za-johannesburg.ra4wvpn.com,tcp,443
+South Africa - Johannesburg (UDP),za-johannesburg.ra4wvpn.com,udp,1194

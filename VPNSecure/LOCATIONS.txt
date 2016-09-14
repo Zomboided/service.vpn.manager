@@ -1,0 +1,134 @@
+United Arab Emirates 1 (UDP),ae1.isponeder.com,udp,1191
+United Arab Emirates 1 (TCP),tcp-ae1.isponeder.com,tcp,443
+Austria 1 (UDP),at1.isponeder.com,udp,1191
+Austria 1 (TCP),tcp-at1.isponeder.com,tcp,443
+Australia 1 (UDP),au1.isponeder.com,udp,1191
+Australia 1 (TCP),tcp-au1.isponeder.com,tcp,443
+Australia 2 (UDP),au2.isponeder.com,udp,1191
+Australia 2 (TCP),tcp-au2.isponeder.com,tcp,443
+Australia 4 (UDP),au4.isponeder.com,udp,1191
+Australia 4 (TCP),tcp-au4.isponeder.com,tcp,443
+Brazil 1 (UDP),br1.isponeder.com,udp,1191
+Brazil 1 (TCP),tcp-br1.isponeder.com,tcp,443
+Canada 1 (UDP),ca1.isponeder.com,udp,1191
+Canada 1 (TCP),tcp-ca1.isponeder.com,tcp,443
+Canada 2 (UDP),ca2.isponeder.com,udp,1191
+Canada 2 (TCP),tcp-ca2.isponeder.com,tcp,443
+Switzerland 1 (UDP),ch1.isponeder.com,udp,1191
+Switzerland 1 (TCP),tcp-ch1.isponeder.com,tcp,443
+Chile 1 (UDP),cl1.isponeder.com,udp,1191
+Chile 1 (TCP),tcp-cl1.isponeder.com,tcp,443
+Costa Rica 1 (UDP),cr1.isponeder.com,udp,1191
+Costa Rica 1 (TCP),tcp-cr1.isponeder.com,tcp,443
+Czech Republic 1 (UDP),cz1.isponeder.com,udp,1191
+Czech Republic 1 (TCP),tcp-cz1.isponeder.com,tcp,443
+Germany 1 (UDP),de1.isponeder.com,udp,1191
+Germany 1 (TCP),tcp-de1.isponeder.com,tcp,443
+Germany 2 (UDP),de2.isponeder.com,udp,1191
+Germany 2 (TCP),tcp-de2.isponeder.com,tcp,443
+Denmark 1 (UDP),dk1.isponeder.com,udp,1191
+Denmark 1 (TCP),tcp-dk1.isponeder.com,tcp,443
+Egypt 1 (UDP),eg1.isponeder.com,udp,1191
+Egypt 1 (TCP),tcp-eg1.isponeder.com,tcp,443
+Spain 1 (UDP),es1.isponeder.com,udp,1191
+Spain 1 (TCP),tcp-es1.isponeder.com,tcp,443
+Finland 1 (UDP),fi1.isponeder.com,udp,1191
+Finland 1 (TCP),tcp-fi1.isponeder.com,tcp,443
+France 1 (UDP),fr1.isponeder.com,udp,1191
+France 1 (TCP),tcp-fr1.isponeder.com,tcp,443
+Hong Kong 1 (UDP),hk1.isponeder.com,udp,1191
+Hong Kong 1 (TCP),tcp-hk1.isponeder.com,tcp,443
+Indonesia 1 (UDP),id1.isponeder.com,udp,1191
+Indonesia 1 (TCP),tcp-id1.isponeder.com,tcp,443
+Ireland 1 (UDP),ie1.isponeder.com,udp,1191
+Ireland 1 (TCP),tcp-ie1.isponeder.com,tcp,443
+Israel 1 (UDP),il1.isponeder.com,udp,1191
+Israel 1 (TCP),tcp-il1.isponeder.com,tcp,443
+Isle of Man 1 (UDP),im1.isponeder.com,udp,1191
+Isle of Man 1 (TCP),tcp-im1.isponeder.com,tcp,443
+India 1 (UDP),in1.isponeder.com,udp,1191
+India 1 (TCP),tcp-in1.isponeder.com,tcp,443
+India 2 (UDP),in2.isponeder.com,udp,1191
+India 2 (TCP),tcp-in2.isponeder.com,tcp,443
+Iceland 1 (UDP),is1.isponeder.com,udp,1191
+Iceland 1 (TCP),tcp-is1.isponeder.com,tcp,443
+Italy 1 (UDP),it1.isponeder.com,udp,1191
+Italy 1 (TCP),tcp-it1.isponeder.com,tcp,443
+Japan 1 (UDP),jp1.isponeder.com,udp,1191
+Japan 1 (TCP),tcp-jp1.isponeder.com,tcp,443
+Japan 2 (UDP),jp2.isponeder.com,udp,1191
+Japan 2 (TCP),udp-jp2.isponeder.com,tcp,443
+Japan 3 (UDP),jp3.isponeder.com,udp,1191
+Japan 3 (TCP),tcp-jp3.isponeder.com,tcp,443
+South Korea 1 (UDP),kr1.isponeder.com,udp,1191
+South Korea 1 (TCP),tcp-kr1.isponeder.com,tcp,443
+Lithuania 1 (UDP),lt1.isponeder.com,udp,1191
+Lithuania 1 (TCP),tcp-lt1.isponeder.com,tcp,443
+Luxembourg 1 (UDP),lu1.isponeder.com,udp,1191
+Luxembourg 1 (TCP),tcp-lu1.isponeder.com,tcp,443
+Latvia 1 (UDP),lv1.isponeder.com,udp,1191
+Latvia 1 (TCP),tcp-lv1.isponeder.com,tcp,443
+Moldova 1 (UDP),md1.isponeder.com,udp,1191
+Moldova 1 (TCP),tcp-md1.isponeder.com,tcp,443
+Mexico 1 (UDP),mx1.isponeder.com,udp,1191
+Mexico 1 (TCP),tcp-mx1.isponeder.com,tcp,443
+Malaysia 1 (UDP),my1.isponeder.com,udp,1191
+Malaysia 1 (TCP),tcp-my1.isponeder.com,tcp,443
+Netherlands 1 (UDP),nl1.isponeder.com,udp,1191
+Netherlands 1 (TCP),tcp-nl1.isponeder.com,tcp,443
+Netherlands 2 (UDP),nl2.isponeder.com,udp,1191
+Netherlands 2 (TCP),udp-nl2.isponeder.com,tcp,443
+New Zealand 1 (UDP),nz1.isponeder.com,udp,1191
+New Zealand 1 (TCP),tcp-nz1.isponeder.com,tcp,443
+New Zealand 2 (UDP),nz2.isponeder.com,udp,1191
+New Zealand 2 (TCP),tcp-nz2.isponeder.com,tcp,443
+Panama 1 (UDP),pa1.isponeder.com,udp,1191
+Panama 1 (TCP),tcp-pa1.isponeder.com,tcp,443
+Poland 1 (UDP),pl1.isponeder.com,udp,1191
+Poland 1 (TCP),tcp-pl1.isponeder.com,tcp,443
+Portugal 1 (UDP),pt1.isponeder.com,udp,1191
+Portugal 1 (TCP),tcp-pt1.isponeder.com,tcp,443
+Romania 1 (UDP),ro1.isponeder.com,udp,1191
+Romania 1 (TCP),tcp-ro1.isponeder.com,tcp,443
+Russia 1 (UDP),ru1.isponeder.com,udp,1191
+Russia 1 (TCP),tcp-ru1.isponeder.com,tcp,443
+Sweden 1 (UDP),se1.isponeder.com,udp,1191
+Sweden 1 (TCP),tcp-se1.isponeder.com,tcp,443
+Singapore 1 (UDP),sg1.isponeder.com,udp,1191
+Singapore 1 (TCP),tcp-sg1.isponeder.com,tcp,443
+Turkey 1 (UDP),tr1.isponeder.com,udp,1191
+Turkey 1 (TCP),tcp-tr1.isponeder.com,tcp,443
+Taiwan 1 (UDP),tw1.isponeder.com,udp,1191
+Taiwan 1 (TCP),tcp-tw1.isponeder.com,tcp,443
+Ukraine 1 (UDP),ua1.isponeder.com,udp,1191
+Ukraine 1 (TCP),tcp-ua1.isponeder.com,tcp,443
+United Kingdom 1 (UDP),uk1.isponeder.com,udp,1191
+United Kingdom 1 (TCP),tcp-uk1.isponeder.com,tcp,443
+United Kingdom 2 (UDP),uk2.isponeder.com,udp,1191
+United Kingdom 2 (TCP),tcp-uk2.isponeder.com,tcp,443
+United Kingdom 3 (UDP),uk3.isponeder.com,udp,1191
+United Kingdom 3 (TCP),tcp-uk3.isponeder.com,tcp,443
+United States 1 (UDP),us1.isponeder.com,udp,1191
+United States 1 (TCP),tcp-us1.isponeder.com,tcp,443
+United States 2 (UDP),us2.isponeder.com,udp,1191
+United States 2 (TCP),tcp-us2.isponeder.com,tcp,443
+United States 3 (UDP),us3.isponeder.com,udp,1191
+United States 3 (TCP),tcp-us3.isponeder.com,tcp,443
+United States 4 (UDP),us4.isponeder.com,udp,1191
+United States 4 (TCP),tcp-us4.isponeder.com,tcp,443
+United States 5 (UDP),us5.isponeder.com,udp,1191
+United States 5 (TCP),tcp-us5.isponeder.com,tcp,443
+United States 6 (UDP),us6.isponeder.com,udp,1191
+United States 6 (TCP),tcp-us6.isponeder.com,tcp,443
+United States 7 (UDP),us7.isponeder.com,udp,1191
+United States 7 (TCP),tcp-us7.isponeder.com,tcp,443
+United States 8 (UDP),us8.isponeder.com,udp,1191
+United States 8 (TCP),tcp-us8.isponeder.com,tcp,443
+United States 9 (UDP),us9.isponeder.com,udp,1191
+United States 9 (TCP),tcp-us9.isponeder.com,tcp,443
+Ustream 1 (UDP),ustream1.isponeder.com,udp,1191
+Ustream 1 (TCP),udp-ustream1.isponeder.com,tcp,443
+Vietnam 1 (UDP),vn1.isponeder.com,udp,1191
+Vietnam 1 (TCP),tcp-vn1.isponeder.com,tcp,443
+South Africa 1 (UDP),za1.isponeder.com,udp,1191
+South Africa 1 (TCP),udp-za1.isponeder.com,tcp,443

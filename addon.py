@@ -213,7 +213,7 @@ elif not connectionValidated(addon) and action != "":
     if not addon.getSetting("vpn_wizard_run") == "true" : 
         wizard()
     else:
-        if not action =="settings": xbmcgui.Dialog().ok(addon_name, "Please validate a primary VPN connection first.  You can do this using the VPN Configuration tab within the Settings dialog.")
+        if not action =="settings": xbmcgui.Dialog().ok(addon_name, "Please validate a primary VPN connection first.  You can do this using the VPN Configuration and VPN Connections tabs within the Settings dialog.")
     xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
 else:
     # User wants to see settings, list connections or they've selected to change something.  

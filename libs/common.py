@@ -756,7 +756,8 @@ def connectVPN(connection_order, vpn_profile):
 
     # If we've not arrived here though the addon (because we've used the add-on setting
     # on the option menu), we want to surpress running the wizard as there's no need.
-    addon.setSetting("vpn_wizard_run", "true")
+    if not addon.getSetting("vpn_wizard_run") == "true":
+        addon.setSetting("vpn_wizard_run", "true")
 
     # Check openvpn installed and runs
     if not addon.getSetting("checked_openvpn") == "true":

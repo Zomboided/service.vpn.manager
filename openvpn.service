@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenVPN Autorun Service
+
+[Service]
+Type=forking
+Requires=network-online.service
+After=network-online.service
+ExecStart=/usr/sbin/openvpn --daemon --config /storage/.config/openvpn.config
+Restart=no
+
+[Install]
+WantedBy=kodi.target

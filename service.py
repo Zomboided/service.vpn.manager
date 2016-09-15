@@ -33,7 +33,7 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog
+from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportPrebootConnect
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, generateOVPNFiles, getVPNLocation, usesPassAuth
 
@@ -52,6 +52,8 @@ primary_vpns_friendly = []
 # Set the addon name for use in the dialogs
 addon = xbmcaddon.Addon()
 addon_name = addon.getAddonInfo('name')
+
+accepting_changes = False
 
 
 def refreshAddonFilterLists():
@@ -104,6 +106,17 @@ def refreshPrimaryVPNs():
     return
 
     
+def refreshPlatformInfo():
+    # Write the platform so that options only appear in the settings menu when relevant
+    addon.setSetting("platform", str(getPlatform()))
+    
+    # Determine if systemd is available so that extra options appear in the settings menu
+    if supportPrebootConnect():
+        addon.setSetting("show_preboot_connect", "true")
+    else:
+        addon.setSetting("show_preboot_connect", "false")
+    
+    
 def setReboot(property):
     xbmcgui.Window(10000).setProperty("vpn_mgr_reboot", property)
 
@@ -117,6 +130,20 @@ def getSeconds(hour_min):
     return int(hour_min[0:2])*3600 + int(hour_min[3:5])*60
     
 
+# Monitor class which will get called when the settings change    
+class KodiMonitor( xbmc.Monitor ):
+
+    # This gets called every time a setting is changed either programmatically or via the settings dialog.
+    # We do our best to ignore settings changing as part of common processes so that we don't do too much
+    # work refreshing things, but there are a few calls that will happen anyway (and better to do this)
+    # than to miss out on an update that a user makes via the GUI.
+    def onSettingsChanged( self ):
+        if accepting_changes:
+            #xbmcgui.Dialog().notification(addon_name, "VPN monitor using updated settings.", xbmcgui.NOTIFICATION_INFO, 3000)
+            debugTrace("Requested update to service process via settings monitor")
+            updateService()
+                            
+
 if __name__ == '__main__':   
 
     # Initialise some variables we'll be using repeatedly
@@ -124,6 +151,9 @@ if __name__ == '__main__':
     player = xbmc.Player() 
     addon = xbmcaddon.Addon()
     
+    # Create a monitor to look out for settings changes
+    settingsMonitor = KodiMonitor()
+            
     # See if this is a new install...we might want to do things here
     if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")):
         xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
@@ -173,11 +203,7 @@ if __name__ == '__main__':
     addon.setSetting("boot_reason", "unscheduled")
     # This is just formatted text to display on the settings page
     addon.setSetting("last_boot_text", "Last restart was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
-            
-    # Indicate if systemd boot is supported on this platform
-    # <FIXME> This is LibreELEC (or systemd) only!
-    addon.setSetting("show_preboot_connect", "false")        
-            
+        
     # Need to go and request the main loop fetches the settings
     updateService()
     
@@ -209,6 +235,8 @@ if __name__ == '__main__':
     vpn_provider = ""
     playing = False
     
+    accepting_changes = True
+    
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
     infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
     
@@ -221,6 +249,7 @@ if __name__ == '__main__':
                 debugTrace("Service received a stop request")
                 ackStop()                
                 stop = True
+                accepting_changes = False
                 delay = 2
                 clearVPNCycle()
             elif startRequested():
@@ -228,6 +257,7 @@ if __name__ == '__main__':
 				# When we're told we can start again, acknowledge that and reset the delay back up.
                 ackStart()                
                 stop = False
+                accepting_changes = True
                 delay = 5					
         else:	
 			# See if there's been an update	requested from the main add-on
@@ -235,6 +265,7 @@ if __name__ == '__main__':
                 # Need to get the addon again to ensure the updated settings are picked up
                 addon = xbmcaddon.Addon()
                 infoTrace("service.py", "VPN monitor service was requested to run an update")
+                accepting_changes = False
 				# Acknowledge update needs to happen
                 ackUpdate()
 
@@ -242,6 +273,9 @@ if __name__ == '__main__':
                 debugTrace("Update primary VPNs from settings")
                 refreshPrimaryVPNs()
 
+                # Update the platform settings to make the right options appear
+                refreshPlatformInfo()
+                
                 # Determine if the VPN has been set up
                 if primary_vpns[0] == "":
                     debugTrace("Found no VPNs, setup is invalid")
@@ -288,11 +322,11 @@ if __name__ == '__main__':
                             else: 
                                 # Not connecting at boot or not set up yet
                                 setVPNState("off") 
-                        else:
-							# Unknown state, so try and reconnect
+                        elif getConnectionErrorCount() == 0:
+							# Unknown state, and not in an error retry cycle, so try and reconnect immediately
                             debugTrace("Unknown VPN state so forcing reconnect")
                             reconnect_vpn = True
-										
+                accepting_changes = True						
 
             # This forces a connection validation after something stops playing
             if player.isPlaying():
@@ -390,8 +424,6 @@ if __name__ == '__main__':
             current_name = xbmc.getInfoLabel("Container.FolderName")          
 			# See if it's a different add-on the last time we checked.  If we don't know the
             # current_name (like when the player is playing within an addon), then skip making a change.
-            #print "Current path = " + current_path
-            #print "Current name = " + current_name
             if vpn_setup and not (xbmcgui.Window(10000).getProperty(last_addon) == current_name) and not current_name == "":
                 if isVPNMonitorRunning():
                     # If the monitor is paused, we want to warn
@@ -640,3 +672,4 @@ if __name__ == '__main__':
             
         timer = timer + delay
         reboot_timer = reboot_timer + delay
+        

@@ -37,6 +37,7 @@ platforms_str = ("Unknown", "Windows", "Linux, openvpn installed", "Linux, openv
 
 def fakeConnection():
     # Return True to fake out any calls to openVPN to change the network
+    #return True
     return False
 
     
@@ -60,6 +61,37 @@ def getPlatform():
     return platforms.UNKNOWN    
         
 
+def supportPrebootConnect():
+    # /storage/.config/system.d
+    return False
+        
+
+def addPrebootConnect():
+    #  systemctl enable openvpn.service
+    # Copy the ovpn to somewhere this command works /usr/sbin/openvpn --daemon --config /storage/.config/openvpn.config
+    # NOTES:
+    #
+    # 1) Edit /storage/.config/openvpn.config to the .config/.conf/.ovpn file
+    # from your VPN service provider and test it works first by connecting at
+    # the console:
+    #
+    #   /usr/sbin/openvpn --daemon --config /storage/.config/openvpn.config
+    #
+    # 2) The openvpn.service file must be addeded to the active systemd config
+    # before it will work. This is done by running:
+    #
+    #   systemctl enable openvpn.service
+    #
+    return
+
+
+    
+def removePrebootConnect():
+    # systemctl disable openvpn.service
+    return
+
+
+        
 def useSudo():
     sudo_setting = xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_sudo")
     if sudo_setting == "Always": return True

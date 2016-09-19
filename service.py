@@ -268,7 +268,7 @@ if __name__ == '__main__':
             if updateServiceRequested():
                 # Need to get the addon again to ensure the updated settings are picked up
                 addon = xbmcaddon.Addon()
-                infoTrace("service.py", "VPN monitor service was requested to run an update")
+                debugTrace("VPN monitor service was requested to run an update")
                 accepting_changes = False
 				# Acknowledge update needs to happen
                 ackUpdate()
@@ -286,7 +286,7 @@ if __name__ == '__main__':
                 if (not connect_on_boot_setting == addon.getSetting("vpn_connect_before_boot")) or (not connect_on_boot_ovpn == addon.getSetting("1_vpn_validated")):
                     connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
                     connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
-                    infoTrace("service.py", "Need to update systemd " + connect_on_boot_setting + " " + connect_on_boot_ovpn)
+                    infoTrace("service.py", "Updating systemd, connect before boot is " + connect_on_boot_setting + ", location is " + connect_on_boot_ovpn)
                     removeSystemd()
                     if connect_on_boot_setting == "true" and (not connect_on_boot_ovpn == ""):
                         copySystemdFiles()
@@ -328,8 +328,8 @@ if __name__ == '__main__':
                         if getVPNState() == "":
 							# Just booted/started service.  If we're not connected at boot, then we're
 							# deliberately disconnected until the user uses one of the connect options
-                            if addon.getSetting("vpn_connect_at_boot") == "true" and isVPNTaskRunning():
-                                if addon.getSetting("vpn_connect_before_boot") == "true":
+                            if addon.getSetting("vpn_connect_at_boot") == "true":
+                                if addon.getSetting("vpn_connect_before_boot") == "true" and isVPNTaskRunning():
                                     # Assume that the boot connect worked and populate the state variables
                                     debugTrace("Connecting to primary VPN during boot")
                                     setVPNProfile(addon.getSetting("1_vpn_validated"))

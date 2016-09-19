@@ -32,8 +32,11 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateIPVanish()
+    generateRA4W()
     return
+    generateVPNSecure()
+    generateIPVanish()
+    generateHideIPVPN()
     generateExpressVPN()
     generateSecureVPN()
     generateLimeVPN()
@@ -77,7 +80,64 @@ def getProfileList(vpn_provider):
     path = getAddonPath(True, "providers/" + vpn_provider + "/*.ovpn")
     return glob.glob(path)      
 
+    
+def generateRA4W():
+    # Data is stored as a bunch of OVPN files
+    # File name has location, file has server and port
+    profiles = getProfileList("RA4WVPN")
+    location_file = getLocations("RA4WVPN", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace("ra4wvpn-", "")
+        geo = geo.replace("-tcp443", "")
+        geo = geo.replace("washingtondc", "Washington DC")
+        geo = geo.replace("hongkong", "Hong Kong")
+        geo = geo.replace("losangeles", "Los Angeles")
+        geo = geo.replace("stpetersburg", "St Petersburg")
+        geo = geo.replace("panamacity", "Panama City")
+        geo = resolveCountry(geo[0:2].upper()) + " - " + string.capwords(geo[3:])
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()
+        if "-tcp" in profile:
+            geo = geo + " (TCP)"
+            output_line = geo + "," + server + "," + "tcp," + port + "\n"
+        else:
+            geo = geo + " (UDP)"
+            output_line = geo + "," + server + "," + "udp," + port + "\n"
+        location_file.write(output_line)
+    location_file.close()     
+    
 
+def generateVPNSecure():
+    # Data is stored as a bunch of OVPN files
+    # File name has location, file has server and port
+    profiles = getProfileList("VPNSecure")
+    location_file = getLocations("VPNSecure", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")][0:3]
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()
+        geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:3]
+        if "ustream" in profile:
+            geo = "Ustream 1"            
+        if "-TCP" in profile:
+            geo = geo + " (TCP)"
+            output_line = geo + "," + server + "," + "tcp," + port + "\n"
+        else:
+            geo = geo + " (UDP)"
+            output_line = geo + "," + server + "," + "udp," + port + "\n"
+        location_file.write(output_line)
+    location_file.close()    
+
+    
 def generateSecureVPN():
     # Can't use a template as SecureVPN use multiple everything. 
     # Copy the file to the target directory and strip it of user keys
@@ -1191,7 +1251,8 @@ def resolveCountry(code):
         'Yemen': 'YE',
         'Zambia': 'ZM',
         'Zimbabwe': 'ZW',
-        'Åland Islands': 'AX'}   
+        'Åland Islands': 'AX',
+        'Kosovo': 'XK'}   
     for c in Countries:
         if Countries[c] == code: return c        
     return code + " is unknown"

@@ -33,7 +33,7 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportPrebootConnect
+from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles, isVPNTaskRunning
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, generateOVPNFiles, getVPNLocation, usesPassAuth
 
@@ -108,13 +108,15 @@ def refreshPrimaryVPNs():
     
 def refreshPlatformInfo():
     # Write the platform so that options only appear in the settings menu when relevant
-    addon.setSetting("platform", str(getPlatform()))
+    if not addon.getSetting("platform") == str(getPlatform()): addon.setSetting("platform", str(getPlatform()))
     
     # Determine if systemd is available so that extra options appear in the settings menu
-    if supportPrebootConnect():
-        addon.setSetting("show_preboot_connect", "true")
+    curr_sysd = addon.getSetting("show_preboot_connect")
+    if supportSystemd():
+        new_sysd = "true"
     else:
-        addon.setSetting("show_preboot_connect", "false")
+        new_sysd = "false"
+    if not curr_sysd == new_sysd: addon.setSetting("show_preboot_connect", new_sysd)
     
     
 def setReboot(property):
@@ -139,9 +141,8 @@ class KodiMonitor( xbmc.Monitor ):
     # than to miss out on an update that a user makes via the GUI.
     def onSettingsChanged( self ):
         if accepting_changes:
-            #xbmcgui.Dialog().notification(addon_name, "VPN monitor using updated settings.", xbmcgui.NOTIFICATION_INFO, 3000)
             debugTrace("Requested update to service process via settings monitor")
-            updateService()
+            updateService("KodiMonitor")
                             
 
 if __name__ == '__main__':   
@@ -205,7 +206,7 @@ if __name__ == '__main__':
     addon.setSetting("last_boot_text", "Last restart was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
         
     # Need to go and request the main loop fetches the settings
-    updateService()
+    updateService("service initalisation")
     
     reconnect_vpn = False
     warned_monitor = False
@@ -215,6 +216,9 @@ if __name__ == '__main__':
     else:
         setVPNMonitorState("Stopped")
     
+    connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
+    connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
+        
     # Timer values in seconds
     connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
     connection_retry_time = connection_retry_time_min
@@ -276,6 +280,18 @@ if __name__ == '__main__':
                 # Update the platform settings to make the right options appear
                 refreshPlatformInfo()
                 
+                # See if the primary VPN Or boot setting has changed.  If it has, systemd needs fixing
+                if (addon.getSetting("vpn_connect_at_boot") == "false" and connect_on_boot_setting == "true"):
+                    addon.setSetting("vpn_connect_before_boot", "false")
+                if (not connect_on_boot_setting == addon.getSetting("vpn_connect_before_boot")) or (not connect_on_boot_ovpn == addon.getSetting("1_vpn_validated")):
+                    connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
+                    connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
+                    infoTrace("service.py", "Need to update systemd " + connect_on_boot_setting + " " + connect_on_boot_ovpn)
+                    removeSystemd()
+                    if connect_on_boot_setting == "true" and (not connect_on_boot_ovpn == ""):
+                        copySystemdFiles()
+                        addSystemd()
+                
                 # Determine if the VPN has been set up
                 if primary_vpns[0] == "":
                     debugTrace("Found no VPNs, setup is invalid")
@@ -312,13 +328,27 @@ if __name__ == '__main__':
                         if getVPNState() == "":
 							# Just booted/started service.  If we're not connected at boot, then we're
 							# deliberately disconnected until the user uses one of the connect options
-                            if addon.getSetting("vpn_connect_at_boot") == "true":
-                                debugTrace("Connecting to primary VPN at boot time")
-                                setVPNRequestedProfile(primary_vpns[0])
-                                setVPNRequestedProfileFriendly(primary_vpns_friendly[0])
-                                setVPNLastConnectedProfile("")
-                                setVPNLastConnectedProfileFriendly("")
-                                reconnect_vpn = True
+                            if addon.getSetting("vpn_connect_at_boot") == "true" and isVPNTaskRunning():
+                                if addon.getSetting("vpn_connect_before_boot") == "true":
+                                    # Assume that the boot connect worked and populate the state variables
+                                    debugTrace("Connecting to primary VPN during boot")
+                                    setVPNProfile(addon.getSetting("1_vpn_validated"))
+                                    setVPNProfileFriendly(addon.getSetting("1_vpn_validated_friendly"))
+                                    setVPNState("started")
+                                    setVPNRequestedProfile("")
+                                    setVPNRequestedProfileFriendly("")
+                                    setVPNLastConnectedProfile("")
+                                    setVPNLastConnectedProfileFriendly("")
+                                    setConnectionErrorCount(0)
+                                    xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, "/resources/connected.png"), 5000, False)
+                                else:
+                                    # No connect on boot (or it didn't work), so force a connect
+                                    debugTrace("Connecting to primary VPN at Kodi start up")
+                                    setVPNRequestedProfile(primary_vpns[0])
+                                    setVPNRequestedProfileFriendly(primary_vpns_friendly[0])
+                                    setVPNLastConnectedProfile("")
+                                    setVPNLastConnectedProfileFriendly("")
+                                    reconnect_vpn = True
                             else: 
                                 # Not connecting at boot or not set up yet
                                 setVPNState("off") 

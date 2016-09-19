@@ -32,7 +32,7 @@ import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation
 from libs.utility import debugTrace, errorTrace, infoTrace
-from libs.platform import getLogPath, getUserDataPath, writeVPNLog
+from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd
 from libs.common import resetVPNConnections, isVPNConnected
 #from libs.generation import generateAll
 

@@ -416,9 +416,9 @@ def ackStop():
     xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "stopped")
 
     
-def updateService():
+def updateService(reason):
     # Set a windows property to tell the background service to update using the latest config data
-    debugTrace("Update service requested")
+    debugTrace("Update service requested " + reason)
     xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Update", "update")
 
     
@@ -588,7 +588,7 @@ def resetVPNConnections(addon):
     
     # No need to stop/start monitor, just need to let it know that things have changed.
     # Because this is a reset of the VPN, the monitor should just work out it has no good connections
-    updateService()
+    updateService("resetVPNConnections")
     debugTrace("Stopping any active VPN connections")
     stopVPNConnection()
     
@@ -1067,7 +1067,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNLastConnectedProfileFriendly("")
         setConnectionErrorCount(0)
         # Indicate to the service that it should update its settings
-        updateService()        
+        updateService("connectVPN")        
     elif progress.iscanceled() or cancel_attempt:
         # User pressed cancel.  Don't change any of the settings as we've no idea how far we got
         # down the path of installing the VPN, configuring the credentials or selecting the connection

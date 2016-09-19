@@ -69,7 +69,7 @@ def getPlatform():
 def supportSystemd():
     if fakeSystemd() : return True
     # Only supporting systemd VPN connection on LibreELEC
-    if getPlatform() == platforms.LINUX:
+    if getPlatform() == platforms.LINUX and xbmcvfs.exists("etc/os-release"):
         os_info = open("etc/os-release", 'r')
         lines = os_info.readlines()
         os_info.close()

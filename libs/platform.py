@@ -26,7 +26,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from libs.utility import debugTrace, errorTrace, infoTrace, infoPrint, enum
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum
 from sys import platform
 
 
@@ -68,8 +68,16 @@ def getPlatform():
 
 def supportSystemd():
     if fakeSystemd() : return True
-    # <FIXME> Check we're on LE
-    return xbmcvfs.exists(getSystemdPath("system.d/"))
+    # Only supporting systemd VPN connection on LibreELEC
+    if getPlatform() == platforms.LINUX:
+        os_info = open("etc/os-release", 'r')
+        lines = os_info.readlines()
+        os_info.close()
+        for line in lines:
+            if "LibreELEC" in line:
+                # Shouldn't really need to check this as LibreELEC comes with systemd installed
+                return xbmcvfs.exists(getSystemdPath("system.d/"))
+    return False
     
     
 def copySystemdFiles():

@@ -35,7 +35,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles, isVPNTaskRunning
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
-from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, generateOVPNFiles, getVPNLocation, usesPassAuth
+from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth
 
 debugTrace("-- Entered service.py --")
 
@@ -118,6 +118,15 @@ def refreshPlatformInfo():
         new_sysd = "false"
     if not curr_sysd == new_sysd: addon.setSetting("show_preboot_connect", new_sysd)
     
+
+def checkConnections():
+    # Check that all of the connections exist
+    # Adjust 11 below if changing number of conn_max
+    for i in range (1, 11):        
+        next_conn = (addon.getSetting(str(i)+"_vpn_validated"))
+        if not next_conn == "" and not xbmcvfs.exists(next_conn):
+            return False
+    return True
     
 def setReboot(property):
     xbmcgui.Window(10000).setProperty("vpn_mgr_reboot", property)
@@ -190,10 +199,11 @@ if __name__ == '__main__':
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
     # then regenerate the OVPNs for the validated provider.  
     primary_path = addon.getSetting("1_vpn_validated")
+
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         infoTrace("service.py", "New install, but was using good VPN previously.  Regenerate OVPNs")
-        if not generateOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not xbmcvfs.exists(primary_path):
-            xbmcgui.Dialog().ok(addon_name, "The VPN connection you were using previously is no longer available.  Please re-validate the connections using the available connections.") 
+        if not fixOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not checkConnections():
+            xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.") 
             cleanPassFiles()
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)

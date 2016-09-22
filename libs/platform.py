@@ -36,14 +36,15 @@ platforms_str = ("Unknown", "Windows", "Linux, openvpn installed", "Linux, openv
 
 
 def fakeConnection():
-    # Return True to fake out any calls to openVPN to change the network
-    #return True
-    return False
+    # Return True to fake out any calls to openVPN to change the network.
+    # This is governed by the existance of 'FAKECONNECTION.txt' in the userdata directory.
+    return xbmcvfs.exists(getUserDataPath("FAKECONNECTION.txt"))
+
     
 def fakeSystemd():
     # Return True to pretend that systemd exists, but not make OS calls to use it
-    #return True
-    return False
+    # This is governed by the existance of 'FAKESYSTEMD.txt' in the userdata directory.
+    return xbmcvfs.exists(getUserDataPath("FAKESYSTEMD.txt"))
 
     
 def getPlatform():

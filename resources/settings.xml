@@ -9,18 +9,20 @@
         <setting label=""      type="text" id="vpn_username_validated" visible="false" enable="false" default=""/>
 		<setting label="32004" type="text" id="vpn_username" enable="eq(-4,)" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" visible="false" enable="false" default=""/>
-		<setting label="32005" type="text" id="vpn_password" enable="eq(-6,)" option="hidden"  default=""/>   
+		<setting label="32005" type="text" id="vpn_password" enable="eq(-6,)" visible="eq(2,true)" option="hidden"  default=""/>
+        <setting label="32005" type="text" id="vpn_password" enable="eq(-7,)" visible="!eq(1,true)" default=""/>
+        <setting label="32006" type="bool" id="vpn_password_hidden" visible="true" enable="true" default="true"/>        
         <setting label=""      type='lsep'/>
-        <setting label="32006" type='lsep'/>
-        <setting label="32007" type="labelenum" id="vpn_protocol" lvalues="32008|32009|32010"/>
-        <setting label="32011" type="bool" id="default_udp" enable="eq(-10,)" default="true"/>
-        <setting label="32012" type="number" id="alternative_udp_port" enable="eq(-11,)" visible="!eq(-1,true)" default="1194"/>
-        <setting label="32013" type="bool" id="default_tcp" enable="eq(-12,)" default="true"/>
-        <setting label="32014" type="number" id="alternative_tcp_port" enable="eq(-13,)" visible="!eq(-1,true)" default="443"/>
+        <setting label="32007" type='lsep'/>
+        <setting label="32008" type="labelenum" id="vpn_protocol" lvalues="32009|32010|32011"/>
+        <setting label="32012" type="bool" id="default_udp" enable="eq(-12,)" default="true"/>
+        <setting label="32013" type="number" id="alternative_udp_port" enable="eq(-13,)" visible="!eq(-1,true)" default="1194"/>
+        <setting label="32014" type="bool" id="default_tcp" enable="eq(-14,)" default="true"/>
+        <setting label="32015" type="number" id="alternative_tcp_port" enable="eq(-15,)" visible="!eq(-1,true)" default="443"/>
         <setting label=""      type='lsep'/>
-        <setting label="32015" type='lsep'/>
-        <setting label="32016" type="bool" id="user_def_credentials" enable="eq(-16,)" default="true"/>        
-        <setting label="32017" type="labelenum" id="user_def_keys" enable="eq(-17,)" lvalues="32018|32019|32020"/>
+        <setting label="32016" type='lsep'/>
+        <setting label="32017" type="bool" id="user_def_credentials" enable="eq(-16,)" default="true"/>        
+        <setting label="32018" type="labelenum" id="user_def_keys" enable="eq(-17,)" lvalues="32019|32020|32021"/>
     </category>
     <category label="32025">
 		<setting label="32026" type='lsep'/>

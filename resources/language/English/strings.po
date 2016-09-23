@@ -47,62 +47,66 @@ msgid "Password"
 msgstr ""
 
 msgctxt "#32006"
-msgid "Advanced settings (leave as default if in doubt)"
+msgid "Show/hide password"
 msgstr ""
 
 msgctxt "#32007"
-msgid "Protocol filter (UDP recommended)"
+msgid "Advanced settings (leave as default if in doubt)"
 msgstr ""
 
 msgctxt "#32008"
-msgid "UDP"
+msgid "Protocol filter (UDP recommended)"
 msgstr ""
 
 msgctxt "#32009"
-msgid "TCP"
+msgid "UDP"
 msgstr ""
 
 msgctxt "#32010"
-msgid "UDP and TCP"
+msgid "TCP"
 msgstr ""
 
 msgctxt "#32011"
-msgid "Use VPN provider default UDP port"
+msgid "UDP and TCP"
 msgstr ""
 
 msgctxt "#32012"
-msgid "  Alternative UDP port"
+msgid "Use VPN provider default UDP port"
 msgstr ""
 
 msgctxt "#32013"
-msgid "Use VPN provider default TCP port"
+msgid "  Alternative UDP port"
 msgstr ""
 
 msgctxt "#32014"
-msgid "  Alternative TCP port"
+msgid "Use VPN provider default TCP port"
 msgstr ""
 
 msgctxt "#32015"
-msgid "[I]User Defined[/I]  provider authentication"
+msgid "  Alternative TCP port"
 msgstr ""
 
 msgctxt "#32016"
-msgid "Username and password"
+msgid "[I]User Defined[/I]  provider authentication"
 msgstr ""
 
 msgctxt "#32017"
-msgid "Client or User key and certificate files"
+msgid "Manage username and password"
 msgstr ""
 
 msgctxt "#32018"
-msgid "None"
+msgid "Manage client or user key and cert files"
 msgstr ""
 
 msgctxt "#32019"
-msgid "Single"
+msgid "None"
 msgstr ""
 
 msgctxt "#32020"
+msgid "Single"
+msgstr ""
+
+msgctxt "#32021"
 msgid "Multiple"
 msgstr ""
 

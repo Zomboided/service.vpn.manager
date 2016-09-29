@@ -142,6 +142,16 @@ def getUserCerts(vpn_provider):
     path = getUserDataPath(getVPNLocation(vpn_provider)+"/*.crt")
     debugTrace("Getting certificate files " + path)
     return (glob.glob(path))         
+
+
+def clearKeysAndCerts(vpn_provider):
+    # Clear all of the keys for the given provider
+    keys = getUserKeys(vpn_provider)
+    for file in keys:
+        if xbmcvfs.exists(file): xbmcvfs.delete(file)
+    certs = getUserCerts(vpn_provider)
+    for file in certs:
+        if xbmcvfs.exists(file): xbmcvfs.delete(file)
     
     
 def gotKeys(vpn_provider, ovpn_name):

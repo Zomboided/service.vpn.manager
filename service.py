@@ -35,7 +35,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles, isVPNTaskRunning
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
-from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth
+from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
 
 debugTrace("-- Entered service.py --")
 
@@ -193,13 +193,17 @@ if __name__ == '__main__':
                 addon.setSetting("1_vpn_validated", "reset")
             if addon.getSetting("vpn_provider_validated") == "HideIPVPN" and last_version < 191:
                 addon.setSetting("1_vpn_validated", "reset")
-            
+            # HMA got a cert change in 2.0.2
+            if addon.getSetting("vpn_provider_validated") == "HMA" and last_version < 202:
+                addon.setSetting("1_vpn_validated", "reset")                
+                clearKeysAndCerts("HMA")
+    
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
     # then regenerate the OVPNs for the validated provider.  
     primary_path = addon.getSetting("1_vpn_validated")
-
+    
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         infoTrace("service.py", "New install, but was using good VPN previously.  Regenerate OVPNs")
         if not fixOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not checkConnections():

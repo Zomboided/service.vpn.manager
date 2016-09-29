@@ -47,7 +47,7 @@ msgid "Password"
 msgstr ""
 
 msgctxt "#32006"
-msgid "Show/hide password"
+msgid "Show password"
 msgstr ""
 
 msgctxt "#32007"

@@ -27,13 +27,12 @@ import xbmcvfs
 import glob
 import string
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-from libs.platform import getAddonPath, fakeConnection
+from libs.platform import getAddonPath, getUserDataPath, fakeConnection
 from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
     generateRA4W()
-    return
     generateVPNSecure()
     generateIPVanish()
     generateHideIPVPN()
@@ -66,7 +65,7 @@ def generateAll():
     generatetigerVPN()
     generateHMA()    
     generateIPVanish()    
-
+    return
 
 def getLocations(vpn_provider, path_ext):
     if path_ext == "":
@@ -77,7 +76,7 @@ def getLocations(vpn_provider, path_ext):
 
 
 def getProfileList(vpn_provider):
-    path = getAddonPath(True, "providers/" + vpn_provider + "/*.ovpn")
+    path = getUserDataPath("providers/" + vpn_provider + "/*.ovpn")
     return glob.glob(path)      
 
     
@@ -141,7 +140,7 @@ def generateVPNSecure():
 def generateSecureVPN():
     # Can't use a template as SecureVPN use multiple everything. 
     # Copy the file to the target directory and strip it of user keys
-    existing_profiles = glob.glob(getAddonPath(True, "SecureVPN" + "/*.ovpn"))
+    existing_profiles = glob.glob(getUserDataPath("providers/SecureVPN" + "/*.ovpn"))
     for connection in existing_profiles:
         xbmcvfs.delete(connection)
     # Get the list from the provider data directory
@@ -201,7 +200,7 @@ def generateproXPN():
     # Location, tab, server - free locations are marked with a leading *
     location_file_full = getLocations("proXPN", "Full Account")
     location_file_free = getLocations("proXPN", "Free Account")
-    source_file = open(getAddonPath(True, "providers/proXPN/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/proXPN/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     for line in source:
@@ -230,7 +229,7 @@ def generateWiTopia():
     # Data is stored in a flat text file
     # City name followed by server name, or just server name (starts with vpn.)
     location_file = getLocations("WiTopia", "")
-    source_file = open(getAddonPath(True, "providers/WiTopia/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/WiTopia/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     city = ""
@@ -260,7 +259,7 @@ def generateTotalVPN():
     # Location, tab, server - free locations are marked with a leading *
     location_file_full = getLocations("TotalVPN", "Full Account")
     location_file_free = getLocations("TotalVPN", "Free Account")
-    source_file = open(getAddonPath(True, "providers/TotalVPN/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/TotalVPN/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     for line in source:
@@ -290,7 +289,7 @@ def generateCelo():
         geo_cert = (geo + "_ca.crt").replace(" ", "_")
         if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_key)):
             geo = "****ERROR****"
-        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_key)):
+        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_cert)):
             geo = "****ERROR****"
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
@@ -326,7 +325,7 @@ def generateVPNht():
     location_file_smartdns = getLocations("VPN.ht", "With SmartDNS")
     location_file_without = getLocations("VPN.ht", "Without SmartDNS")
     location_file_all = getLocations("VPN.ht", "All Connections")
-    source_file = open(getAddonPath(True, "providers/VPN.ht/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/VPN.ht/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     i = 0
@@ -664,7 +663,7 @@ def generateHideMe():
 def generateVPNUnlim():
     # Data is stored in ovpn files with location info in Servers.txt
     location_file = getLocations("VPNUnlimited", "")
-    source_file = open(getAddonPath(True, "providers/VPNUnlimited/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/VPNUnlimited/Servers.txt"), 'r')
     servers = source_file.readlines()
     source_file.close()
     for entry in servers:
@@ -855,7 +854,7 @@ def generateVyprVPN():
     # Both use the same certificate.
     location_file_vypr = getLocations("VyprVPN", "VyprVPN Account")
     location_file_giga = getLocations("VyprVPN", "Giganews Account")
-    source_file = open(getAddonPath(True, "providers/VyprVPN/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/VyprVPN/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     for line in source:
@@ -880,7 +879,7 @@ def generateHMA():
     # Data is stored in a flat text file
     # <Continent> - <Country>  xx.yy.rocks  random.xx.yy.rocks
     location_file = getLocations("HMA", "")
-    source_file = open(getAddonPath(True, "providers/HMA/Servers.txt"), 'r')
+    source_file = open(getUserDataPath("providers/HMA/Servers.txt"), 'r')
     source = source_file.readlines()
     source_file.close()
     for line in source:
@@ -905,7 +904,7 @@ def generatetigerVPN():
     # valid for UDP and TCP using the standard ports
     location_file_full = getLocations("tigerVPN", "tigerVPN Full Account")
     location_file_lite = getLocations("tigerVPN", "tigerVPN Lite Account")
-    source_file = open(getAddonPath(True, "providers/tigerVPN/tigerVPN.csv"), 'r')
+    source_file = open(getUserDataPath("providers/tigerVPN/tigerVPN.csv"), 'r')
     source = source_file.readlines()
     source_file.close()
     for line in source:

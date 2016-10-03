@@ -1,556 +1,556 @@
-North America - United States of America (UDP),us.hma.rocks,udp,53
-North America - United States of America (TCP),us.hma.rocks,tcp,443
-USA - Alabama (UDP),al.us.hma.rocks,udp,53
-USA - Alabama (TCP),al.us.hma.rocks,tcp,443
-USA - Alaska (UDP),ak.us.hma.rocks,udp,53
-USA - Alaska (TCP),ak.us.hma.rocks,tcp,443
-USA - Arizona (UDP),az.us.hma.rocks,udp,53
-USA - Arizona (TCP),az.us.hma.rocks,tcp,443
-USA - Arkansas (UDP),ar.us.hma.rocks,udp,53
-USA - Arkansas (TCP),ar.us.hma.rocks,tcp,443
-USA - California (UDP),ca.us.hma.rocks,udp,53
-USA - California (TCP),ca.us.hma.rocks,tcp,443
-USA - Colorado (UDP),co.us.hma.rocks,udp,53
-USA - Colorado (TCP),co.us.hma.rocks,tcp,443
-USA - Connecticut (UDP),ct.us.hma.rocks,udp,53
-USA - Connecticut (TCP),ct.us.hma.rocks,tcp,443
-USA - Delaware (UDP),de.us.hma.rocks,udp,53
-USA - Delaware (TCP),de.us.hma.rocks,tcp,443
-USA - Florida (UDP),fl.us.hma.rocks,udp,53
-USA - Florida (TCP),fl.us.hma.rocks,tcp,443
-USA - Georgia (UDP),ga.us.hma.rocks,udp,53
-USA - Georgia (TCP),ga.us.hma.rocks,tcp,443
-USA - Hawaii (UDP),hi.us.hma.rocks,udp,53
-USA - Hawaii (TCP),hi.us.hma.rocks,tcp,443
-USA - Idaho (UDP),id.us.hma.rocks,udp,53
-USA - Idaho (TCP),id.us.hma.rocks,tcp,443
-USA - Illinois (UDP),il.us.hma.rocks,udp,53
-USA - Illinois (TCP),il.us.hma.rocks,tcp,443
-USA - Indiana (UDP),in.us.hma.rocks,udp,53
-USA - Indiana (TCP),in.us.hma.rocks,tcp,443
-USA - Iowa (UDP),ia.us.hma.rocks,udp,53
-USA - Iowa (TCP),ia.us.hma.rocks,tcp,443
-USA - Kansas (UDP),ks.us.hma.rocks,udp,53
-USA - Kansas (TCP),ks.us.hma.rocks,tcp,443
-USA - Kentucky (UDP),ky.us.hma.rocks,udp,53
-USA - Kentucky (TCP),ky.us.hma.rocks,tcp,443
-USA - Louisiana (UDP),la.us.hma.rocks,udp,53
-USA - Louisiana (TCP),la.us.hma.rocks,tcp,443
-USA - Maine (UDP),me.us.hma.rocks,udp,53
-USA - Maine (TCP),me.us.hma.rocks,tcp,443
-USA - Maryland (UDP),md.us.hma.rocks,udp,53
-USA - Maryland (TCP),md.us.hma.rocks,tcp,443
-USA - Massachusetts (UDP),ma.us.hma.rocks,udp,53
-USA - Massachusetts (TCP),ma.us.hma.rocks,tcp,443
-USA - Michigan (UDP),mi.us.hma.rocks,udp,53
-USA - Michigan (TCP),mi.us.hma.rocks,tcp,443
-USA - Minnesota (UDP),mn.us.hma.rocks,udp,53
-USA - Minnesota (TCP),mn.us.hma.rocks,tcp,443
-USA - Mississippi (UDP),ms.us.hma.rocks,udp,53
-USA - Mississippi (TCP),ms.us.hma.rocks,tcp,443
-USA - Missouri (UDP),mo.us.hma.rocks,udp,53
-USA - Missouri (TCP),mo.us.hma.rocks,tcp,443
-USA - Montana (UDP),mt.us.hma.rocks,udp,53
-USA - Montana (TCP),mt.us.hma.rocks,tcp,443
-USA - Nebraska (UDP),ne.us.hma.rocks,udp,53
-USA - Nebraska (TCP),ne.us.hma.rocks,tcp,443
-USA - Nevada (UDP),nv.us.hma.rocks,udp,53
-USA - Nevada (TCP),nv.us.hma.rocks,tcp,443
-USA - New Hampshire (UDP),nh.us.hma.rocks,udp,53
-USA - New Hampshire (TCP),nh.us.hma.rocks,tcp,443
-USA - New Jersey (UDP),nj.us.hma.rocks,udp,53
-USA - New Jersey (TCP),nj.us.hma.rocks,tcp,443
-USA - New Mexico (UDP),nm.us.hma.rocks,udp,53
-USA - New Mexico (TCP),nm.us.hma.rocks,tcp,443
-USA - New York (UDP),ny.us.hma.rocks,udp,53
-USA - New York (TCP),ny.us.hma.rocks,tcp,443
-USA - North Carolina (UDP),nc.us.hma.rocks,udp,53
-USA - North Carolina (TCP),nc.us.hma.rocks,tcp,443
-USA - North Dakota (UDP),nd.us.hma.rocks,udp,53
-USA - North Dakota (TCP),nd.us.hma.rocks,tcp,443
-USA - Ohio (UDP),oh.us.hma.rocks,udp,53
-USA - Ohio (TCP),oh.us.hma.rocks,tcp,443
-USA - Oklahoma (UDP),ok.us.hma.rocks,udp,53
-USA - Oklahoma (TCP),ok.us.hma.rocks,tcp,443
-USA - Oregon (UDP),or.us.hma.rocks,udp,53
-USA - Oregon (TCP),or.us.hma.rocks,tcp,443
-USA - Pennsylvania (UDP),pa.us.hma.rocks,udp,53
-USA - Pennsylvania (TCP),pa.us.hma.rocks,tcp,443
-USA - Rhode Island (UDP),ri.us.hma.rocks,udp,53
-USA - Rhode Island (TCP),ri.us.hma.rocks,tcp,443
-USA - South Carolina (UDP),sc.us.hma.rocks,udp,53
-USA - South Carolina (TCP),sc.us.hma.rocks,tcp,443
-USA - South Dakota (UDP),sd.us.hma.rocks,udp,53
-USA - South Dakota (TCP),sd.us.hma.rocks,tcp,443
-USA - Tennessee (UDP),tn.us.hma.rocks,udp,53
-USA - Tennessee (TCP),tn.us.hma.rocks,tcp,443
-USA - Texas (UDP),tx.us.hma.rocks,udp,53
-USA - Texas (TCP),tx.us.hma.rocks,tcp,443
-USA - Utah (UDP),ut.us.hma.rocks,udp,53
-USA - Utah (TCP),ut.us.hma.rocks,tcp,443
-USA - Vermont (UDP),vt.us.hma.rocks,udp,53
-USA - Vermont (TCP),vt.us.hma.rocks,tcp,443
-USA - Virginia (UDP),va.us.hma.rocks,udp,53
-USA - Virginia (TCP),va.us.hma.rocks,tcp,443
-USA - Washington (UDP),wa.us.hma.rocks,udp,53
-USA - Washington (TCP),wa.us.hma.rocks,tcp,443
-USA - West Virginia (UDP),wv.us.hma.rocks,udp,53
-USA - West Virginia (TCP),wv.us.hma.rocks,tcp,443
-USA - Wisconsin (UDP),wi.us.hma.rocks,udp,53
-USA - Wisconsin (TCP),wi.us.hma.rocks,tcp,443
-USA - Wyoming (UDP),wy.us.hma.rocks,udp,53
-USA - Wyoming (TCP),wy.us.hma.rocks,tcp,443
-North America - Canada (UDP),ca.hma.rocks,udp,53
-North America - Canada (TCP),ca.hma.rocks,tcp,443
-Europe - United Kingdom (UDP),gb.hma.rocks,udp,53
-Europe - United Kingdom (TCP),gb.hma.rocks,tcp,443
-UK - Berkshire (UDP),berkshire.gb.hma.rocks,udp,53
-UK - Berkshire (TCP),berkshire.gb.hma.rocks,tcp,443
-UK - Hampshire (UDP),hampshire.gb.hma.rocks,udp,53
-UK - Hampshire (TCP),hampshire.gb.hma.rocks,tcp,443
-UK - Kent (UDP),kent.gb.hma.rocks,udp,53
-UK - Kent (TCP),kent.gb.hma.rocks,tcp,443
-UK - Leicester (UDP),leicester.gb.hma.rocks,udp,53
-UK - Leicester (TCP),leicester.gb.hma.rocks,tcp,443
-UK - London (UDP),london.gb.hma.rocks,udp,53
-UK - London (TCP),london.gb.hma.rocks,tcp,443
-UK - Manchester (UDP),manchester.gb.hma.rocks,udp,53
-UK - Manchester (TCP),manchester.gb.hma.rocks,tcp,443
-UK - Nottinghamshire (UDP),nottinghamshire.gb.hma.rocks,udp,53
-UK - Nottinghamshire (TCP),nottinghamshire.gb.hma.rocks,tcp,443
-UK - Scotland (UDP),scotland.gb.hma.rocks,udp,53
-UK - Scotland (TCP),scotland.gb.hma.rocks,tcp,443
-Europe - Netherlands (UDP),nl.hma.rocks,udp,53
-Europe - Netherlands (TCP),nl.hma.rocks,tcp,443
-Europe - Aland Islands (UDP),ax.hma.rocks,udp,53
-Europe - Aland Islands (TCP),ax.hma.rocks,tcp,443
-Europe - Albania (UDP),al.hma.rocks,udp,53
-Europe - Albania (TCP),al.hma.rocks,tcp,443
-Europe - Andorra (UDP),ad.hma.rocks,udp,53
-Europe - Andorra (TCP),ad.hma.rocks,tcp,443
-Europe - Austria (UDP),at.hma.rocks,udp,53
-Europe - Austria (TCP),at.hma.rocks,tcp,443
-Europe - Belarus (UDP),by.hma.rocks,udp,53
-Europe - Belarus (TCP),by.hma.rocks,tcp,443
-Europe - Belgium (UDP),be.hma.rocks,udp,53
-Europe - Belgium (TCP),be.hma.rocks,tcp,443
-Europe - Bosnia (UDP),ba.hma.rocks,udp,53
-Europe - Bosnia (TCP),ba.hma.rocks,tcp,443
-Europe - Bulgaria (UDP),bg.hma.rocks,udp,53
-Europe - Bulgaria (TCP),bg.hma.rocks,tcp,443
-Europe - Croatia (UDP),hr.hma.rocks,udp,53
-Europe - Croatia (TCP),hr.hma.rocks,tcp,443
-Europe - Cyprus (UDP),cy.hma.rocks,udp,53
-Europe - Cyprus (TCP),cy.hma.rocks,tcp,443
-Europe - Czech Republic (UDP),cz.hma.rocks,udp,53
-Europe - Czech Republic (TCP),cz.hma.rocks,tcp,443
-Europe - Denmark (UDP),dk.hma.rocks,udp,53
-Europe - Denmark (TCP),dk.hma.rocks,tcp,443
-Europe - Georgia (UDP),ge.hma.rocks,udp,53
-Europe - Georgia (TCP),ge.hma.rocks,tcp,443
-Europe - Germany (UDP),de.hma.rocks,udp,53
-Europe - Germany (TCP),de.hma.rocks,tcp,443
-Europe - Gibraltar (UDP),gi.hma.rocks,udp,53
-Europe - Gibraltar (TCP),gi.hma.rocks,tcp,443
-Europe - Greece (UDP),gr.hma.rocks,udp,53
-Europe - Greece (TCP),gr.hma.rocks,tcp,443
-Europe - Estonia (UDP),ee.hma.rocks,udp,53
-Europe - Estonia (TCP),ee.hma.rocks,tcp,443
-Europe - Faroe Islands (UDP),fo.hma.rocks,udp,53
-Europe - Faroe Islands (TCP),fo.hma.rocks,tcp,443
-Europe - Finland (UDP),fi.hma.rocks,udp,53
-Europe - Finland (TCP),fi.hma.rocks,tcp,443
-Europe - France (UDP),fr.hma.rocks,udp,53
-Europe - France (TCP),fr.hma.rocks,tcp,443
-Europe - Hungary (UDP),hu.hma.rocks,udp,53
-Europe - Hungary (TCP),hu.hma.rocks,tcp,443
-Europe - Ireland (UDP),ie.hma.rocks,udp,53
-Europe - Ireland (TCP),ie.hma.rocks,tcp,443
-Europe - Iceland (UDP),is.hma.rocks,udp,53
-Europe - Iceland (TCP),is.hma.rocks,tcp,443
-Europe - Italy (UDP),it.hma.rocks,udp,53
-Europe - Italy (TCP),it.hma.rocks,tcp,443
-Europe - Latvia (UDP),lv.hma.rocks,udp,53
-Europe - Latvia (TCP),lv.hma.rocks,tcp,443
-Europe - Liechtenstein (UDP),li.hma.rocks,udp,53
-Europe - Liechtenstein (TCP),li.hma.rocks,tcp,443
-Europe - Lithuania (UDP),lt.hma.rocks,udp,53
-Europe - Lithuania (TCP),lt.hma.rocks,tcp,443
-Europe - Luxembourg (UDP),lu.hma.rocks,udp,53
-Europe - Luxembourg (TCP),lu.hma.rocks,tcp,443
-Europe - Macedonia (UDP),mk.hma.rocks,udp,53
-Europe - Macedonia (TCP),mk.hma.rocks,tcp,443
-Europe - Malta (UDP),mt.hma.rocks,udp,53
-Europe - Malta (TCP),mt.hma.rocks,tcp,443
-Europe - Moldova (UDP),md.hma.rocks,udp,53
-Europe - Moldova (TCP),md.hma.rocks,tcp,443
-Europe - Monaco (UDP),mc.hma.rocks,udp,53
-Europe - Monaco (TCP),mc.hma.rocks,tcp,443
-Europe - Montenegro (UDP),me.hma.rocks,udp,53
-Europe - Montenegro (TCP),me.hma.rocks,tcp,443
-Europe - Norway (UDP),no.hma.rocks,udp,53
-Europe - Norway (TCP),no.hma.rocks,tcp,443
-Europe - Poland (UDP),pl.hma.rocks,udp,53
-Europe - Poland (TCP),pl.hma.rocks,tcp,443
-Europe - Portugal (UDP),pt.hma.rocks,udp,53
-Europe - Portugal (TCP),pt.hma.rocks,tcp,443
-Europe - Romania (UDP),ro.hma.rocks,udp,53
-Europe - Romania (TCP),ro.hma.rocks,tcp,443
-Europe - Russia (UDP),ru.hma.rocks,udp,53
-Europe - Russia (TCP),ru.hma.rocks,tcp,443
-Europe - San Marino (UDP),sm.hma.rocks,udp,53
-Europe - San Marino (TCP),sm.hma.rocks,tcp,443
-Europe - Serbia (UDP),rs.hma.rocks,udp,53
-Europe - Serbia (TCP),rs.hma.rocks,tcp,443
-Europe - Slovakia (UDP),sk.hma.rocks,udp,53
-Europe - Slovakia (TCP),sk.hma.rocks,tcp,443
-Europe - Slovenia (UDP),si.hma.rocks,udp,53
-Europe - Slovenia (TCP),si.hma.rocks,tcp,443
-Europe - Spain (UDP),es.hma.rocks,udp,53
-Europe - Spain (TCP),es.hma.rocks,tcp,443
-Europe - Svalbard and Jan Mayen (UDP),sj.hma.rocks,udp,53
-Europe - Svalbard and Jan Mayen (TCP),sj.hma.rocks,tcp,443
-Europe - Sweden (UDP),se.hma.rocks,udp,53
-Europe - Sweden (TCP),se.hma.rocks,tcp,443
-Europe - Switzerland (UDP),ch.hma.rocks,udp,53
-Europe - Switzerland (TCP),ch.hma.rocks,tcp,443
-Europe - Turkey (UDP),tr.hma.rocks,udp,53
-Europe - Turkey (TCP),tr.hma.rocks,tcp,443
-Europe - Ukraine (UDP),ua.hma.rocks,udp,53
-Europe - Ukraine (TCP),ua.hma.rocks,tcp,443
-Europe - Vatican (UDP),va.hma.rocks,udp,53
-Europe - Vatican (TCP),va.hma.rocks,tcp,443
-Asia - Afghanistan (UDP),af.hma.rocks,udp,53
-Asia - Afghanistan (TCP),af.hma.rocks,tcp,443
-Asia - Armenia (UDP),am.hma.rocks,udp,53
-Asia - Armenia (TCP),am.hma.rocks,tcp,443
-Asia - Azerbaijan (UDP),az.hma.rocks,udp,53
-Asia - Azerbaijan (TCP),az.hma.rocks,tcp,443
-Asia - Bahrain (UDP),bh.hma.rocks,udp,53
-Asia - Bahrain (TCP),bh.hma.rocks,tcp,443
-Asia - Bangladesh (UDP),bd.hma.rocks,udp,53
-Asia - Bangladesh (TCP),bd.hma.rocks,tcp,443
-Asia - Bhutan (UDP),bt.hma.rocks,udp,53
-Asia - Bhutan (TCP),bt.hma.rocks,tcp,443
-Asia - Brunei (UDP),bn.hma.rocks,udp,53
-Asia - Brunei (TCP),bn.hma.rocks,tcp,443
-Asia - Cambodia (UDP),kh.hma.rocks,udp,53
-Asia - Cambodia (TCP),kh.hma.rocks,tcp,443
-Asia - China (UDP),cn.hma.rocks,udp,53
-Asia - China (TCP),cn.hma.rocks,tcp,443
-Asia - Cocos Islands (UDP),cc.hma.rocks,udp,53
-Asia - Cocos Islands (TCP),cc.hma.rocks,tcp,443
-Asia - Hong Kong (UDP),hk.hma.rocks,udp,53
-Asia - Hong Kong (TCP),hk.hma.rocks,tcp,443
-Asia - India (UDP),in.hma.rocks,udp,53
-Asia - India (TCP),in.hma.rocks,tcp,443
-Asia - Indonesia (UDP),id.hma.rocks,udp,53
-Asia - Indonesia (TCP),id.hma.rocks,tcp,443
-Asia - Iran (UDP),ir.hma.rocks,udp,53
-Asia - Iran (TCP),ir.hma.rocks,tcp,443
-Asia - Iraq (UDP),iq.hma.rocks,udp,53
-Asia - Iraq (TCP),iq.hma.rocks,tcp,443
-Asia - Israel (UDP),il.hma.rocks,udp,53
-Asia - Israel (TCP),il.hma.rocks,tcp,443
-Asia - Jordan (UDP),jo.hma.rocks,udp,53
-Asia - Jordan (TCP),jo.hma.rocks,tcp,443
-Asia - Japan (UDP),jp.hma.rocks,udp,53
-Asia - Japan (TCP),jp.hma.rocks,tcp,443
-Asia - Kazakhstan (UDP),kz.hma.rocks,udp,53
-Asia - Kazakhstan (TCP),kz.hma.rocks,tcp,443
-Asia - Kyrgyzstan (UDP),kg.hma.rocks,udp,53
-Asia - Kyrgyzstan (TCP),kg.hma.rocks,tcp,443
-Asia - Kuwait (UDP),kw.hma.rocks,udp,53
-Asia - Kuwait (TCP),kw.hma.rocks,tcp,443
-Asia - Laos (UDP),la.hma.rocks,udp,53
-Asia - Laos (TCP),la.hma.rocks,tcp,443
-Asia - Lebanon (UDP),lb.hma.rocks,udp,53
-Asia - Lebanon (TCP),lb.hma.rocks,tcp,443
-Asia - Macau (UDP),mo.hma.rocks,udp,53
-Asia - Macau (TCP),mo.hma.rocks,tcp,443
-Asia - Malaysia (UDP),my.hma.rocks,udp,53
-Asia - Malaysia (TCP),my.hma.rocks,tcp,443
-Asia - Maldives (UDP),mv.hma.rocks,udp,53
-Asia - Maldives (TCP),mv.hma.rocks,tcp,443
-Asia - Mongolia (UDP),mn.hma.rocks,udp,53
-Asia - Mongolia (TCP),mn.hma.rocks,tcp,443
-Asia - Myanmar (UDP),mm.hma.rocks,udp,53
-Asia - Myanmar (TCP),mm.hma.rocks,tcp,443
-Asia - Nepal (UDP),np.hma.rocks,udp,53
-Asia - Nepal (TCP),np.hma.rocks,tcp,443
-Asia - North Korea (UDP),kp.hma.rocks,udp,53
-Asia - North Korea (TCP),kp.hma.rocks,tcp,443
-Asia - Oman (UDP),om.hma.rocks,udp,53
-Asia - Oman (TCP),om.hma.rocks,tcp,443
-Asia - Pakistan (UDP),pk.hma.rocks,udp,53
-Asia - Pakistan (TCP),pk.hma.rocks,tcp,443
-Asia - Palestine (UDP),ps.hma.rocks,udp,53
-Asia - Palestine (TCP),ps.hma.rocks,tcp,443
-Asia - Philippines (UDP),ph.hma.rocks,udp,53
-Asia - Philippines (TCP),ph.hma.rocks,tcp,443
-Asia - Qatar (UDP),qa.hma.rocks,udp,53
-Asia - Qatar (TCP),qa.hma.rocks,tcp,443
-Asia - Saudi Arabia (UDP),sa.hma.rocks,udp,53
-Asia - Saudi Arabia (TCP),sa.hma.rocks,tcp,443
-Asia - Singapore (UDP),sg.hma.rocks,udp,53
-Asia - Singapore (TCP),sg.hma.rocks,tcp,443
-Asia - South Korea (UDP),kr.hma.rocks,udp,53
-Asia - South Korea (TCP),kr.hma.rocks,tcp,443
-Asia - Sri Lanka (UDP),lk.hma.rocks,udp,53
-Asia - Sri Lanka (TCP),lk.hma.rocks,tcp,443
-Asia - Syria (UDP),sy.hma.rocks,udp,53
-Asia - Syria (TCP),sy.hma.rocks,tcp,443
-Asia - Taiwan (UDP),tw.hma.rocks,udp,53
-Asia - Taiwan (TCP),tw.hma.rocks,tcp,443
-Asia - Tajikistan (UDP),tj.hma.rocks,udp,53
-Asia - Tajikistan (TCP),tj.hma.rocks,tcp,443
-Asia - Thailand (UDP),th.hma.rocks,udp,53
-Asia - Thailand (TCP),th.hma.rocks,tcp,443
-Asia - Turkmenistan (UDP),tm.hma.rocks,udp,53
-Asia - Turkmenistan (TCP),tm.hma.rocks,tcp,443
-Asia - United Arab Emirates (UDP),ae.hma.rocks,udp,53
-Asia - United Arab Emirates (TCP),ae.hma.rocks,tcp,443
-Asia - Uzbekistan (UDP),uz.hma.rocks,udp,53
-Asia - Uzbekistan (TCP),uz.hma.rocks,tcp,443
-Asia - Vietnam (UDP),vn.hma.rocks,udp,53
-Asia - Vietnam (TCP),vn.hma.rocks,tcp,443
-Asia - Yemen (UDP),ye.hma.rocks,udp,53
-Asia - Yemen (TCP),ye.hma.rocks,tcp,443
-Oceania - American Samoa (UDP),as.hma.rocks,udp,53
-Oceania - American Samoa (TCP),as.hma.rocks,tcp,443
-Oceania - Australia (UDP),au.hma.rocks,udp,53
-Oceania - Australia (TCP),au.hma.rocks,tcp,443
-Oceania - Christmas Island (UDP),cx.hma.rocks,udp,53
-Oceania - Christmas Island (TCP),cx.hma.rocks,tcp,443
-Oceania - Cook Islands (UDP),ck.hma.rocks,udp,53
-Oceania - Cook Islands (TCP),ck.hma.rocks,tcp,443
-Oceania - Fiji (UDP),fj.hma.rocks,udp,53
-Oceania - Fiji (TCP),fj.hma.rocks,tcp,443
-Oceania - Guam (UDP),gu.hma.rocks,udp,53
-Oceania - Guam (TCP),gu.hma.rocks,tcp,443
-Oceania - Kiribati (UDP),ki.hma.rocks,udp,53
-Oceania - Kiribati (TCP),ki.hma.rocks,tcp,443
-Oceania - Nauru (UDP),nr.hma.rocks,udp,53
-Oceania - Nauru (TCP),nr.hma.rocks,tcp,443
-Oceania - New Caledonia (UDP),nc.hma.rocks,udp,53
-Oceania - New Caledonia (TCP),nc.hma.rocks,tcp,443
-Oceania - New Zealand (UDP),nz.hma.rocks,udp,53
-Oceania - New Zealand (TCP),nz.hma.rocks,tcp,443
-Oceania - Niue (UDP),nu.hma.rocks,udp,53
-Oceania - Niue (TCP),nu.hma.rocks,tcp,443
-Oceania - Norfolk Island (UDP),nf.hma.rocks,udp,53
-Oceania - Norfolk Island (TCP),nf.hma.rocks,tcp,443
-Oceania - Palau (UDP),pw.hma.rocks,udp,53
-Oceania - Palau (TCP),pw.hma.rocks,tcp,443
-Oceania - Papua New Guinea (UDP),pg.hma.rocks,udp,53
-Oceania - Papua New Guinea (TCP),pg.hma.rocks,tcp,443
-Oceania - Pitcairn Islands (UDP),pn.hma.rocks,udp,53
-Oceania - Pitcairn Islands (TCP),pn.hma.rocks,tcp,443
-Oceania - Samoa (UDP),ws.hma.rocks,udp,53
-Oceania - Samoa (TCP),ws.hma.rocks,tcp,443
-Oceania - Solomon Islands (UDP),sb.hma.rocks,udp,53
-Oceania - Solomon Islands (TCP),sb.hma.rocks,tcp,443
-Oceania - Tokelau (UDP),tk.hma.rocks,udp,53
-Oceania - Tokelau (TCP),tk.hma.rocks,tcp,443
-Oceania - Tonga (UDP),to.hma.rocks,udp,53
-Oceania - Tonga (TCP),to.hma.rocks,tcp,443
-Oceania - Tuvalu (UDP),tv.hma.rocks,udp,53
-Oceania - Tuvalu (TCP),tv.hma.rocks,tcp,443
-Oceania - Vanuatu (UDP),vu.hma.rocks,udp,53
-Oceania - Vanuatu (TCP),vu.hma.rocks,tcp,443
-Central America - Belize (UDP),bz.hma.rocks,udp,53
-Central America - Belize (TCP),bz.hma.rocks,tcp,443
-Central America - Costa Rica (UDP),cr.hma.rocks,udp,53
-Central America - Costa Rica (TCP),cr.hma.rocks,tcp,443
-Central America - El Salvador (UDP),sv.hma.rocks,udp,53
-Central America - El Salvador (TCP),sv.hma.rocks,tcp,443
-Central America - Guatemala (UDP),gt.hma.rocks,udp,53
-Central America - Guatemala (TCP),gt.hma.rocks,tcp,443
-Central America - Honduras (UDP),hn.hma.rocks,udp,53
-Central America - Honduras (TCP),hn.hma.rocks,tcp,443
-Central America - Panama (UDP),pa.hma.rocks,udp,53
-Central America - Panama (TCP),pa.hma.rocks,tcp,443
-North America - Anguilla (UDP),ai.hma.rocks,udp,53
-North America - Anguilla (TCP),ai.hma.rocks,tcp,443
-North America - Antigua and Barbuda (UDP),ag.hma.rocks,udp,53
-North America - Antigua and Barbuda (TCP),ag.hma.rocks,tcp,443
-North America - Aruba (UDP),aw.hma.rocks,udp,53
-North America - Aruba (TCP),aw.hma.rocks,tcp,443
-North America - Bahamas (UDP),bs.hma.rocks,udp,53
-North America - Bahamas (TCP),bs.hma.rocks,tcp,443
-North America - Barbados (UDP),bb.hma.rocks,udp,53
-North America - Barbados (TCP),bb.hma.rocks,tcp,443
-North America - Bermuda (UDP),bm.hma.rocks,udp,53
-North America - Bermuda (TCP),bm.hma.rocks,tcp,443
-North America - British Virgin Islands (UDP),vg.hma.rocks,udp,53
-North America - British Virgin Islands (TCP),vg.hma.rocks,tcp,443
-North America - Cayman Islands (UDP),ky.hma.rocks,udp,53
-North America - Cayman Islands (TCP),ky.hma.rocks,tcp,443
-North America - Cuba (UDP),cu.hma.rocks,udp,53
-North America - Cuba (TCP),cu.hma.rocks,tcp,443
-North America - Dominica (UDP),dm.hma.rocks,udp,53
-North America - Dominica (TCP),dm.hma.rocks,tcp,443
-North America - Dominican Republic (UDP),do.hma.rocks,udp,53
-North America - Dominican Republic (TCP),do.hma.rocks,tcp,443
-North America - Greenland (UDP),gl.hma.rocks,udp,53
-North America - Greenland (TCP),gl.hma.rocks,tcp,443
-North America - Grenada (UDP),gd.hma.rocks,udp,53
-North America - Grenada (TCP),gd.hma.rocks,tcp,443
-North America - Guadeloupe (UDP),gp.hma.rocks,udp,53
-North America - Guadeloupe (TCP),gp.hma.rocks,tcp,443
-North America - Haiti (UDP),ht.hma.rocks,udp,53
-North America - Haiti (TCP),ht.hma.rocks,tcp,443
-North America - Jamaica (UDP),jm.hma.rocks,udp,53
-North America - Jamaica (TCP),jm.hma.rocks,tcp,443
-North America - Mexico (UDP),mx.hma.rocks,udp,53
-North America - Mexico (TCP),mx.hma.rocks,tcp,443
-North America - Montserrat (UDP),ms.hma.rocks,udp,53
-North America - Montserrat (TCP),ms.hma.rocks,tcp,443
-North America - Nicaragua (UDP),ni.hma.rocks,udp,53
-North America - Nicaragua (TCP),ni.hma.rocks,tcp,443
-North America - Puerto Rico (UDP),pr.hma.rocks,udp,53
-North America - Puerto Rico (TCP),pr.hma.rocks,tcp,443
-North America - Saint Kitts and Nevis (UDP),kn.hma.rocks,udp,53
-North America - Saint Kitts and Nevis (TCP),kn.hma.rocks,tcp,443
-North America - Saint Lucia (UDP),lc.hma.rocks,udp,53
-North America - Saint Lucia (TCP),lc.hma.rocks,tcp,443
-North America - Saint Pierre and Miquelon (UDP),pm.hma.rocks,udp,53
-North America - Saint Pierre and Miquelon (TCP),pm.hma.rocks,tcp,443
-North America - Saint Vincent and the Grenadines (UDP),vc.hma.rocks,udp,53
-North America - Saint Vincent and the Grenadines (TCP),vc.hma.rocks,tcp,443
-North America - Trinidad and Tobago (UDP),tt.hma.rocks,udp,53
-North America - Trinidad and Tobago (TCP),tt.hma.rocks,tcp,443
-North America - Turks and Caicos Islands (UDP),tc.hma.rocks,udp,53
-North America - Turks and Caicos Islands (TCP),tc.hma.rocks,tcp,443
-South America - Argentina (UDP),ar.hma.rocks,udp,53
-South America - Argentina (TCP),ar.hma.rocks,tcp,443
-South America - Bolivia (UDP),bo.hma.rocks,udp,53
-South America - Bolivia (TCP),bo.hma.rocks,tcp,443
-South America - Brasil (UDP),br.hma.rocks,udp,53
-South America - Brasil (TCP),br.hma.rocks,tcp,443
-South America - Chile (UDP),cl.hma.rocks,udp,53
-South America - Chile (TCP),cl.hma.rocks,tcp,443
-South America - Colombia (UDP),co.hma.rocks,udp,53
-South America - Colombia (TCP),co.hma.rocks,tcp,443
-South America - Ecuador (UDP),ec.hma.rocks,udp,53
-South America - Ecuador (TCP),ec.hma.rocks,tcp,443
-South America - Falkland Islands (UDP),fk.hma.rocks,udp,53
-South America - Falkland Islands (TCP),fk.hma.rocks,tcp,443
-South America - Guyana (UDP),gy.hma.rocks,udp,53
-South America - Guyana (TCP),gy.hma.rocks,tcp,443
-South America - Paraguay (UDP),py.hma.rocks,udp,53
-South America - Paraguay (TCP),py.hma.rocks,tcp,443
-South America - Peru (UDP),pe.hma.rocks,udp,53
-South America - Peru (TCP),pe.hma.rocks,tcp,443
-South America - Suriname (UDP),sr.hma.rocks,udp,53
-South America - Suriname (TCP),sr.hma.rocks,tcp,443
-South America - Uruguay (UDP),uy.hma.rocks,udp,53
-South America - Uruguay (TCP),uy.hma.rocks,tcp,443
-South America - Venezuela (UDP),ve.hma.rocks,udp,53
-South America - Venezuela (TCP),ve.hma.rocks,tcp,443
-Africa - Algeria (UDP),dz.hma.rocks,udp,53
-Africa - Algeria (TCP),dz.hma.rocks,tcp,443
-Africa - Angola (UDP),ao.hma.rocks,udp,53
-Africa - Angola (TCP),ao.hma.rocks,tcp,443
-Africa - Benin (UDP),bj.hma.rocks,udp,53
-Africa - Benin (TCP),bj.hma.rocks,tcp,443
-Africa - Botswana (UDP),bw.hma.rocks,udp,53
-Africa - Botswana (TCP),bw.hma.rocks,tcp,443
-Africa - Burkina Faso (UDP),bf.hma.rocks,udp,53
-Africa - Burkina Faso (TCP),bf.hma.rocks,tcp,443
-Africa - Burundi (UDP),bi.hma.rocks,udp,53
-Africa - Burundi (TCP),bi.hma.rocks,tcp,443
-Africa - Cameroon (UDP),cm.hma.rocks,udp,53
-Africa - Cameroon (TCP),cm.hma.rocks,tcp,443
-Africa - Cape Verde (UDP),cv.hma.rocks,udp,53
-Africa - Cape Verde (TCP),cv.hma.rocks,tcp,443
-Africa - Central African Republic (UDP),cf.hma.rocks,udp,53
-Africa - Central African Republic (TCP),cf.hma.rocks,tcp,443
-Africa - Chad (UDP),td.hma.rocks,udp,53
-Africa - Chad (TCP),td.hma.rocks,tcp,443
-Africa - Comoros (UDP),km.hma.rocks,udp,53
-Africa - Comoros (TCP),km.hma.rocks,tcp,443
-Africa - Congo (UDP),cd.hma.rocks,udp,53
-Africa - Congo (TCP),cd.hma.rocks,tcp,443
-Africa - Cote d`Ivoire (UDP),ci.hma.rocks,udp,53
-Africa - Cote d`Ivoire (TCP),ci.hma.rocks,tcp,443
-Africa - Djibouti (UDP),dj.hma.rocks,udp,53
-Africa - Djibouti (TCP),dj.hma.rocks,tcp,443
-Africa - Egypt (UDP),eg.hma.rocks,udp,53
-Africa - Egypt (TCP),eg.hma.rocks,tcp,443
-Africa - Equatorial Guinea (UDP),gq.hma.rocks,udp,53
-Africa - Equatorial Guinea (TCP),gq.hma.rocks,tcp,443
-Africa - Eritrea (UDP),er.hma.rocks,udp,53
-Africa - Eritrea (TCP),er.hma.rocks,tcp,443
-Africa - Ethiopia (UDP),et.hma.rocks,udp,53
-Africa - Ethiopia (TCP),et.hma.rocks,tcp,443
-Africa - Gabon (UDP),ga.hma.rocks,udp,53
-Africa - Gabon (TCP),ga.hma.rocks,tcp,443
-Africa - Gambia (UDP),gm.hma.rocks,udp,53
-Africa - Gambia (TCP),gm.hma.rocks,tcp,443
-Africa - Ghana (UDP),gh.hma.rocks,udp,53
-Africa - Ghana (TCP),gh.hma.rocks,tcp,443
-Africa - Guinea (UDP),gn.hma.rocks,udp,53
-Africa - Guinea (TCP),gn.hma.rocks,tcp,443
-Africa - Guinea-Bissau (UDP),gw.hma.rocks,udp,53
-Africa - Guinea-Bissau (TCP),gw.hma.rocks,tcp,443
-Africa - Kenya (UDP),ke.hma.rocks,udp,53
-Africa - Kenya (TCP),ke.hma.rocks,tcp,443
-Africa - Lesotho (UDP),ls.hma.rocks,udp,53
-Africa - Lesotho (TCP),ls.hma.rocks,tcp,443
-Africa - Liberia (UDP),lr.hma.rocks,udp,53
-Africa - Liberia (TCP),lr.hma.rocks,tcp,443
-Africa - Libya (UDP),ly.hma.rocks,udp,53
-Africa - Libya (TCP),ly.hma.rocks,tcp,443
-Africa - Madagascar (UDP),mg.hma.rocks,udp,53
-Africa - Madagascar (TCP),mg.hma.rocks,tcp,443
-Africa - Malawi (UDP),mw.hma.rocks,udp,53
-Africa - Malawi (TCP),mw.hma.rocks,tcp,443
-Africa - Mali (UDP),ml.hma.rocks,udp,53
-Africa - Mali (TCP),ml.hma.rocks,tcp,443
-Africa - Mauritania (UDP),mr.hma.rocks,udp,53
-Africa - Mauritania (TCP),mr.hma.rocks,tcp,443
-Africa - Mauritius (UDP),mu.hma.rocks,udp,53
-Africa - Mauritius (TCP),mu.hma.rocks,tcp,443
-Africa - Morocco (UDP),ma.hma.rocks,udp,53
-Africa - Morocco (TCP),ma.hma.rocks,tcp,443
-Africa - Mozambique (UDP),mz.hma.rocks,udp,53
-Africa - Mozambique (TCP),mz.hma.rocks,tcp,443
-Africa - Namibia (UDP),na.hma.rocks,udp,53
-Africa - Namibia (TCP),na.hma.rocks,tcp,443
-Africa - Niger (UDP),ne.hma.rocks,udp,53
-Africa - Niger (TCP),ne.hma.rocks,tcp,443
-Africa - Nigeria (UDP),ng.hma.rocks,udp,53
-Africa - Nigeria (TCP),ng.hma.rocks,tcp,443
-Africa - Republic of the Congo (UDP),cg.hma.rocks,udp,53
-Africa - Republic of the Congo (TCP),cg.hma.rocks,tcp,443
-Africa - Rwanda (UDP),rw.hma.rocks,udp,53
-Africa - Rwanda (TCP),rw.hma.rocks,tcp,443
-Africa - Saint Helena (UDP),sh.hma.rocks,udp,53
-Africa - Saint Helena (TCP),sh.hma.rocks,tcp,443
-Africa - Sao Tome and Principe (UDP),st.hma.rocks,udp,53
-Africa - Sao Tome and Principe (TCP),st.hma.rocks,tcp,443
-Africa - Senegal (UDP),sn.hma.rocks,udp,53
-Africa - Senegal (TCP),sn.hma.rocks,tcp,443
-Africa - Sierra Leone (UDP),sl.hma.rocks,udp,53
-Africa - Sierra Leone (TCP),sl.hma.rocks,tcp,443
-Africa - Somalia (UDP),so.hma.rocks,udp,53
-Africa - Somalia (TCP),so.hma.rocks,tcp,443
-Africa - South Africa (UDP),za.hma.rocks,udp,53
-Africa - South Africa (TCP),za.hma.rocks,tcp,443
-Africa - Sudan (UDP),sd.hma.rocks,udp,53
-Africa - Sudan (TCP),sd.hma.rocks,tcp,443
-Africa - Swaziland (UDP),sz.hma.rocks,udp,53
-Africa - Swaziland (TCP),sz.hma.rocks,tcp,443
-Africa - Tanzania (UDP),tz.hma.rocks,udp,53
-Africa - Tanzania (TCP),tz.hma.rocks,tcp,443
-Africa - Togo (UDP),tg.hma.rocks,udp,53
-Africa - Togo (TCP),tg.hma.rocks,tcp,443
-Africa - Tunisia (UDP),tn.hma.rocks,udp,53
-Africa - Tunisia (TCP),tn.hma.rocks,tcp,443
-Africa - Uganda (UDP),ug.hma.rocks,udp,53
-Africa - Uganda (TCP),ug.hma.rocks,tcp,443
-Africa - Zambia (UDP),zm.hma.rocks,udp,53
-Africa - Zambia (TCP),zm.hma.rocks,tcp,443
-Africa - Zimbabwe (UDP),zw.hma.rocks,udp,53
-Africa - Zimbabwe (TCP),zw.hma.rocks,tcp,443
+North America - United States of America (UDP),us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - United States of America (TCP),us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Alabama (UDP),al.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Alabama (TCP),al.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Alaska (UDP),ak.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Alaska (TCP),ak.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Arizona (UDP),az.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Arizona (TCP),az.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Arkansas (UDP),ar.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Arkansas (TCP),ar.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - California (UDP),ca.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - California (TCP),ca.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Colorado (UDP),co.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Colorado (TCP),co.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Connecticut (UDP),ct.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Connecticut (TCP),ct.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Delaware (UDP),de.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Delaware (TCP),de.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Florida (UDP),fl.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Florida (TCP),fl.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Georgia (UDP),ga.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Georgia (TCP),ga.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Hawaii (UDP),hi.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Hawaii (TCP),hi.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Idaho (UDP),id.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Idaho (TCP),id.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Illinois (UDP),il.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Illinois (TCP),il.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Indiana (UDP),in.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Indiana (TCP),in.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Iowa (UDP),ia.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Iowa (TCP),ia.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Kansas (UDP),ks.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Kansas (TCP),ks.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Kentucky (UDP),ky.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Kentucky (TCP),ky.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Louisiana (UDP),la.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Louisiana (TCP),la.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Maine (UDP),me.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Maine (TCP),me.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Maryland (UDP),md.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Maryland (TCP),md.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Massachusetts (UDP),ma.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Massachusetts (TCP),ma.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Michigan (UDP),mi.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Michigan (TCP),mi.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Minnesota (UDP),mn.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Minnesota (TCP),mn.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Mississippi (UDP),ms.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Mississippi (TCP),ms.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Missouri (UDP),mo.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Missouri (TCP),mo.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Montana (UDP),mt.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Montana (TCP),mt.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Nebraska (UDP),ne.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Nebraska (TCP),ne.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Nevada (UDP),nv.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Nevada (TCP),nv.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Hampshire (UDP),nh.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Hampshire (TCP),nh.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Jersey (UDP),nj.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Jersey (TCP),nj.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Mexico (UDP),nm.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New Mexico (TCP),nm.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New York (UDP),ny.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - New York (TCP),ny.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - North Carolina (UDP),nc.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - North Carolina (TCP),nc.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - North Dakota (UDP),nd.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - North Dakota (TCP),nd.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Ohio (UDP),oh.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Ohio (TCP),oh.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Oklahoma (UDP),ok.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Oklahoma (TCP),ok.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Oregon (UDP),or.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Oregon (TCP),or.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Pennsylvania (UDP),pa.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Pennsylvania (TCP),pa.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Rhode Island (UDP),ri.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Rhode Island (TCP),ri.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - South Carolina (UDP),sc.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - South Carolina (TCP),sc.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - South Dakota (UDP),sd.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - South Dakota (TCP),sd.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Tennessee (UDP),tn.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Tennessee (TCP),tn.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Texas (UDP),tx.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Texas (TCP),tx.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Utah (UDP),ut.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Utah (TCP),ut.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Vermont (UDP),vt.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Vermont (TCP),vt.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Virginia (UDP),va.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Virginia (TCP),va.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Washington (UDP),wa.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Washington (TCP),wa.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - West Virginia (UDP),wv.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - West Virginia (TCP),wv.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Wisconsin (UDP),wi.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Wisconsin (TCP),wi.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Wyoming (UDP),wy.us.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+USA - Wyoming (TCP),wy.us.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Canada (UDP),ca.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Canada (TCP),ca.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - United Kingdom (UDP),gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - United Kingdom (TCP),gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Berkshire (UDP),berkshire.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Berkshire (TCP),berkshire.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Hampshire (UDP),hampshire.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Hampshire (TCP),hampshire.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Kent (UDP),kent.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Kent (TCP),kent.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Leicester (UDP),leicester.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Leicester (TCP),leicester.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - London (UDP),london.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - London (TCP),london.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Manchester (UDP),manchester.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Manchester (TCP),manchester.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Nottinghamshire (UDP),nottinghamshire.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Nottinghamshire (TCP),nottinghamshire.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Scotland (UDP),scotland.gb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+UK - Scotland (TCP),scotland.gb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Netherlands (UDP),nl.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Netherlands (TCP),nl.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Aland Islands (UDP),ax.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Aland Islands (TCP),ax.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Albania (UDP),al.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Albania (TCP),al.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Andorra (UDP),ad.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Andorra (TCP),ad.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Austria (UDP),at.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Austria (TCP),at.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Belarus (UDP),by.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Belarus (TCP),by.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Belgium (UDP),be.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Belgium (TCP),be.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Bosnia (UDP),ba.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Bosnia (TCP),ba.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Bulgaria (UDP),bg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Bulgaria (TCP),bg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Croatia (UDP),hr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Croatia (TCP),hr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Cyprus (UDP),cy.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Cyprus (TCP),cy.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Czech Republic (UDP),cz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Czech Republic (TCP),cz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Denmark (UDP),dk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Denmark (TCP),dk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Georgia (UDP),ge.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Georgia (TCP),ge.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Germany (UDP),de.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Germany (TCP),de.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Gibraltar (UDP),gi.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Gibraltar (TCP),gi.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Greece (UDP),gr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Greece (TCP),gr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Estonia (UDP),ee.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Estonia (TCP),ee.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Faroe Islands (UDP),fo.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Faroe Islands (TCP),fo.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Finland (UDP),fi.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Finland (TCP),fi.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - France (UDP),fr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - France (TCP),fr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Hungary (UDP),hu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Hungary (TCP),hu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Ireland (UDP),ie.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Ireland (TCP),ie.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Iceland (UDP),is.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Iceland (TCP),is.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Italy (UDP),it.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Italy (TCP),it.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Latvia (UDP),lv.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Latvia (TCP),lv.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Liechtenstein (UDP),li.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Liechtenstein (TCP),li.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Lithuania (UDP),lt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Lithuania (TCP),lt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Luxembourg (UDP),lu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Luxembourg (TCP),lu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Macedonia (UDP),mk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Macedonia (TCP),mk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Malta (UDP),mt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Malta (TCP),mt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Moldova (UDP),md.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Moldova (TCP),md.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Monaco (UDP),mc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Monaco (TCP),mc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Montenegro (UDP),me.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Montenegro (TCP),me.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Norway (UDP),no.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Norway (TCP),no.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Poland (UDP),pl.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Poland (TCP),pl.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Portugal (UDP),pt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Portugal (TCP),pt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Romania (UDP),ro.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Romania (TCP),ro.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Russia (UDP),ru.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Russia (TCP),ru.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - San Marino (UDP),sm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - San Marino (TCP),sm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Serbia (UDP),rs.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Serbia (TCP),rs.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Slovakia (UDP),sk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Slovakia (TCP),sk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Slovenia (UDP),si.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Slovenia (TCP),si.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Spain (UDP),es.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Spain (TCP),es.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Svalbard and Jan Mayen (UDP),sj.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Svalbard and Jan Mayen (TCP),sj.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Sweden (UDP),se.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Sweden (TCP),se.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Switzerland (UDP),ch.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Switzerland (TCP),ch.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Turkey (UDP),tr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Turkey (TCP),tr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Ukraine (UDP),ua.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Ukraine (TCP),ua.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Vatican (UDP),va.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Europe - Vatican (TCP),va.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Afghanistan (UDP),af.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Afghanistan (TCP),af.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Armenia (UDP),am.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Armenia (TCP),am.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Azerbaijan (UDP),az.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Azerbaijan (TCP),az.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bahrain (UDP),bh.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bahrain (TCP),bh.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bangladesh (UDP),bd.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bangladesh (TCP),bd.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bhutan (UDP),bt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Bhutan (TCP),bt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Brunei (UDP),bn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Brunei (TCP),bn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Cambodia (UDP),kh.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Cambodia (TCP),kh.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - China (UDP),cn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - China (TCP),cn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Cocos Islands (UDP),cc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Cocos Islands (TCP),cc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Hong Kong (UDP),hk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Hong Kong (TCP),hk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - India (UDP),in.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - India (TCP),in.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Indonesia (UDP),id.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Indonesia (TCP),id.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Iran (UDP),ir.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Iran (TCP),ir.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Iraq (UDP),iq.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Iraq (TCP),iq.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Israel (UDP),il.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Israel (TCP),il.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Jordan (UDP),jo.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Jordan (TCP),jo.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Japan (UDP),jp.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Japan (TCP),jp.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kazakhstan (UDP),kz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kazakhstan (TCP),kz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kyrgyzstan (UDP),kg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kyrgyzstan (TCP),kg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kuwait (UDP),kw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Kuwait (TCP),kw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Laos (UDP),la.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Laos (TCP),la.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Lebanon (UDP),lb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Lebanon (TCP),lb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Macau (UDP),mo.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Macau (TCP),mo.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Malaysia (UDP),my.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Malaysia (TCP),my.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Maldives (UDP),mv.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Maldives (TCP),mv.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Mongolia (UDP),mn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Mongolia (TCP),mn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Myanmar (UDP),mm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Myanmar (TCP),mm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Nepal (UDP),np.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Nepal (TCP),np.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - North Korea (UDP),kp.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - North Korea (TCP),kp.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Oman (UDP),om.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Oman (TCP),om.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Pakistan (UDP),pk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Pakistan (TCP),pk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Palestine (UDP),ps.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Palestine (TCP),ps.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Philippines (UDP),ph.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Philippines (TCP),ph.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Qatar (UDP),qa.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Qatar (TCP),qa.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Saudi Arabia (UDP),sa.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Saudi Arabia (TCP),sa.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Singapore (UDP),sg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Singapore (TCP),sg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - South Korea (UDP),kr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - South Korea (TCP),kr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Sri Lanka (UDP),lk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Sri Lanka (TCP),lk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Syria (UDP),sy.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Syria (TCP),sy.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Taiwan (UDP),tw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Taiwan (TCP),tw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Tajikistan (UDP),tj.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Tajikistan (TCP),tj.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Thailand (UDP),th.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Thailand (TCP),th.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Turkmenistan (UDP),tm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Turkmenistan (TCP),tm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - United Arab Emirates (UDP),ae.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - United Arab Emirates (TCP),ae.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Uzbekistan (UDP),uz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Uzbekistan (TCP),uz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Vietnam (UDP),vn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Vietnam (TCP),vn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Yemen (UDP),ye.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Asia - Yemen (TCP),ye.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - American Samoa (UDP),as.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - American Samoa (TCP),as.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Australia (UDP),au.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Australia (TCP),au.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Christmas Island (UDP),cx.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Christmas Island (TCP),cx.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Cook Islands (UDP),ck.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Cook Islands (TCP),ck.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Fiji (UDP),fj.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Fiji (TCP),fj.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Guam (UDP),gu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Guam (TCP),gu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Kiribati (UDP),ki.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Kiribati (TCP),ki.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Nauru (UDP),nr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Nauru (TCP),nr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - New Caledonia (UDP),nc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - New Caledonia (TCP),nc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - New Zealand (UDP),nz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - New Zealand (TCP),nz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Niue (UDP),nu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Niue (TCP),nu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Norfolk Island (UDP),nf.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Norfolk Island (TCP),nf.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Palau (UDP),pw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Palau (TCP),pw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Papua New Guinea (UDP),pg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Papua New Guinea (TCP),pg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Pitcairn Islands (UDP),pn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Pitcairn Islands (TCP),pn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Samoa (UDP),ws.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Samoa (TCP),ws.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Solomon Islands (UDP),sb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Solomon Islands (TCP),sb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tokelau (UDP),tk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tokelau (TCP),tk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tonga (UDP),to.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tonga (TCP),to.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tuvalu (UDP),tv.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Tuvalu (TCP),tv.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Vanuatu (UDP),vu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Oceania - Vanuatu (TCP),vu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Belize (UDP),bz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Belize (TCP),bz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Costa Rica (UDP),cr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Costa Rica (TCP),cr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - El Salvador (UDP),sv.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - El Salvador (TCP),sv.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Guatemala (UDP),gt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Guatemala (TCP),gt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Honduras (UDP),hn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Honduras (TCP),hn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Panama (UDP),pa.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Central America - Panama (TCP),pa.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Anguilla (UDP),ai.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Anguilla (TCP),ai.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Antigua and Barbuda (UDP),ag.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Antigua and Barbuda (TCP),ag.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Aruba (UDP),aw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Aruba (TCP),aw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Bahamas (UDP),bs.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Bahamas (TCP),bs.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Barbados (UDP),bb.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Barbados (TCP),bb.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Bermuda (UDP),bm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Bermuda (TCP),bm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - British Virgin Islands (UDP),vg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - British Virgin Islands (TCP),vg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Cayman Islands (UDP),ky.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Cayman Islands (TCP),ky.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Cuba (UDP),cu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Cuba (TCP),cu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Dominica (UDP),dm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Dominica (TCP),dm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Dominican Republic (UDP),do.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Dominican Republic (TCP),do.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Greenland (UDP),gl.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Greenland (TCP),gl.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Grenada (UDP),gd.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Grenada (TCP),gd.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Guadeloupe (UDP),gp.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Guadeloupe (TCP),gp.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Haiti (UDP),ht.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Haiti (TCP),ht.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Jamaica (UDP),jm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Jamaica (TCP),jm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Mexico (UDP),mx.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Mexico (TCP),mx.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Montserrat (UDP),ms.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Montserrat (TCP),ms.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Nicaragua (UDP),ni.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Nicaragua (TCP),ni.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Puerto Rico (UDP),pr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Puerto Rico (TCP),pr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Kitts and Nevis (UDP),kn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Kitts and Nevis (TCP),kn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Lucia (UDP),lc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Lucia (TCP),lc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Pierre and Miquelon (UDP),pm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Pierre and Miquelon (TCP),pm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Vincent and the Grenadines (UDP),vc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Saint Vincent and the Grenadines (TCP),vc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Trinidad and Tobago (UDP),tt.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Trinidad and Tobago (TCP),tt.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Turks and Caicos Islands (UDP),tc.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+North America - Turks and Caicos Islands (TCP),tc.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Argentina (UDP),ar.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Argentina (TCP),ar.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Bolivia (UDP),bo.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Bolivia (TCP),bo.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Brasil (UDP),br.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Brasil (TCP),br.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Chile (UDP),cl.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Chile (TCP),cl.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Colombia (UDP),co.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Colombia (TCP),co.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Ecuador (UDP),ec.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Ecuador (TCP),ec.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Falkland Islands (UDP),fk.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Falkland Islands (TCP),fk.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Guyana (UDP),gy.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Guyana (TCP),gy.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Paraguay (UDP),py.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Paraguay (TCP),py.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Peru (UDP),pe.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Peru (TCP),pe.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Suriname (UDP),sr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Suriname (TCP),sr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Uruguay (UDP),uy.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Uruguay (TCP),uy.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Venezuela (UDP),ve.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+South America - Venezuela (TCP),ve.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Algeria (UDP),dz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Algeria (TCP),dz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Angola (UDP),ao.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Angola (TCP),ao.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Benin (UDP),bj.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Benin (TCP),bj.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Botswana (UDP),bw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Botswana (TCP),bw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Burkina Faso (UDP),bf.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Burkina Faso (TCP),bf.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Burundi (UDP),bi.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Burundi (TCP),bi.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cameroon (UDP),cm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cameroon (TCP),cm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cape Verde (UDP),cv.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cape Verde (TCP),cv.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Central African Republic (UDP),cf.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Central African Republic (TCP),cf.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Chad (UDP),td.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Chad (TCP),td.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Comoros (UDP),km.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Comoros (TCP),km.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Congo (UDP),cd.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Congo (TCP),cd.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cote d`Ivoire (UDP),ci.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Cote d`Ivoire (TCP),ci.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Djibouti (UDP),dj.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Djibouti (TCP),dj.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Egypt (UDP),eg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Egypt (TCP),eg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Equatorial Guinea (UDP),gq.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Equatorial Guinea (TCP),gq.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Eritrea (UDP),er.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Eritrea (TCP),er.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Ethiopia (UDP),et.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Ethiopia (TCP),et.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Gabon (UDP),ga.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Gabon (TCP),ga.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Gambia (UDP),gm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Gambia (TCP),gm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Ghana (UDP),gh.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Ghana (TCP),gh.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Guinea (UDP),gn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Guinea (TCP),gn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Guinea-Bissau (UDP),gw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Guinea-Bissau (TCP),gw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Kenya (UDP),ke.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Kenya (TCP),ke.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Lesotho (UDP),ls.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Lesotho (TCP),ls.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Liberia (UDP),lr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Liberia (TCP),lr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Libya (UDP),ly.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Libya (TCP),ly.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Madagascar (UDP),mg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Madagascar (TCP),mg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Malawi (UDP),mw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Malawi (TCP),mw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mali (UDP),ml.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mali (TCP),ml.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mauritania (UDP),mr.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mauritania (TCP),mr.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mauritius (UDP),mu.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mauritius (TCP),mu.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Morocco (UDP),ma.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Morocco (TCP),ma.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mozambique (UDP),mz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Mozambique (TCP),mz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Namibia (UDP),na.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Namibia (TCP),na.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Niger (UDP),ne.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Niger (TCP),ne.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Nigeria (UDP),ng.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Nigeria (TCP),ng.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Republic of the Congo (UDP),cg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Republic of the Congo (TCP),cg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Rwanda (UDP),rw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Rwanda (TCP),rw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Saint Helena (UDP),sh.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Saint Helena (TCP),sh.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sao Tome and Principe (UDP),st.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sao Tome and Principe (TCP),st.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Senegal (UDP),sn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Senegal (TCP),sn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sierra Leone (UDP),sl.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sierra Leone (TCP),sl.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Somalia (UDP),so.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Somalia (TCP),so.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - South Africa (UDP),za.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - South Africa (TCP),za.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sudan (UDP),sd.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Sudan (TCP),sd.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Swaziland (UDP),sz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Swaziland (TCP),sz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Tanzania (UDP),tz.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Tanzania (TCP),tz.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Togo (UDP),tg.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Togo (TCP),tg.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Tunisia (UDP),tn.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Tunisia (TCP),tn.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Uganda (UDP),ug.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Uganda (TCP),ug.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Zambia (UDP),zm.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Zambia (TCP),zm.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Zimbabwe (UDP),zw.hma.rocks,udp,53,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key
+Africa - Zimbabwe (TCP),zw.hma.rocks,tcp,443,#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key

@@ -12,6 +12,7 @@ ns-cert-type server
 verb 1
 route-metric 1
 ping-exit 30
+cipher AES-256-CBC
 cert #USERCERT
 key #USERKEY
 ca #CERT

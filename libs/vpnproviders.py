@@ -40,7 +40,7 @@ providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA"
 # List of providers which use user keys and certs, either a single one, or one per connection
 # Names must match the directory names as used in providers, just above
 providers_with_multiple_keys = ["PerfectPrivacy", "Celo", "SecureVPN"]
-providers_with_single_keys = ["AirVPN", "CyberGhost", "HMA", "HideIPVPN", "VPNUnlimited", "ExpressVPN", "WiTopia", "VPNSecure"]
+providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "VPNUnlimited", "ExpressVPN", "WiTopia", "VPNSecure"]
 
 # *** ADD VPN PROVIDERS HERE IF THEY DON'T USE USERNAME AND PASSWORD ****
 # List of providers which don't use auth-user-pass.

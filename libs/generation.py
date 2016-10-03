@@ -32,6 +32,8 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
+    generateHMA()
+    return
     generateRA4W()
     generateVPNSecure()
     generateIPVanish()
@@ -62,10 +64,8 @@ def generateAll():
     generateAirVPN()
     generatePIA()
     generateLiquidVPN()
-    generatetigerVPN()
-    generateHMA()    
+    generatetigerVPN()   
     generateIPVanish()    
-    return
 
 def getLocations(vpn_provider, path_ext):
     if path_ext == "":
@@ -878,6 +878,7 @@ def generateVyprVPN():
 def generateHMA():
     # Data is stored in a flat text file
     # <Continent> - <Country>  xx.yy.rocks  random.xx.yy.rocks
+    # https://www.hidemyass.com/vpn-config/ has the latest set
     location_file = getLocations("HMA", "")
     source_file = open(getUserDataPath("providers/HMA/Servers.txt"), 'r')
     source = source_file.readlines()
@@ -892,8 +893,8 @@ def generateHMA():
                 geo = geo.strip(' \t\n\r')
                 geo = geo.replace("USA,", "USA -")
                 geo = geo.replace("UK,", "UK -")
-                output_line_udp = geo + " (UDP)," + server + "," + "udp,53" + "\n"
-                output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443"  + "\n"
+                output_line_udp = geo + " (UDP)," + server + "," + "udp,53" + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
+                output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443"  + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
                 location_file.write(output_line_udp)
                 location_file.write(output_line_tcp) 
     location_file.close()

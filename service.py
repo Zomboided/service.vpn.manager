@@ -194,7 +194,7 @@ if __name__ == '__main__':
             if addon.getSetting("vpn_provider_validated") == "HideIPVPN" and last_version < 191:
                 addon.setSetting("1_vpn_validated", "reset")
             # HMA got a cert change in 2.0.2
-            if addon.getSetting("vpn_provider_validated") == "HMA" and last_version < 202:
+            if addon.getSetting("vpn_provider_validated") == "HMA" and last_version < 203:
                 addon.setSetting("1_vpn_validated", "reset")                
                 clearKeysAndCerts("HMA")
     

@@ -556,6 +556,18 @@ def clearVPNCycle():
     setVPNCycle("")
 
 
+def getAPICommand():
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_API_Command")
+
+    
+def setAPICommand(profile):
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_Command", profile)
+
+    
+def clearAPICommand():
+    setAPICommand("")
+    
+    
 def isVPNMonitorRunning():
     if xbmcgui.Window(10000).getProperty("VPN_Manager_Monitor_State") == "Started":
         return True

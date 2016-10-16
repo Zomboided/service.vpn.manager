@@ -33,6 +33,7 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
+from libs.common import getAPICommand, clearAPICommand
 from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles, isVPNTaskRunning
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
@@ -245,7 +246,9 @@ if __name__ == '__main__':
     last_file_check_time = 0
     
     last_cycle = ""
-    delay = 5
+    delay_min = 2
+    delay_max = 2
+    delay = delay_max
     connection_errors = 0
     stop = False
 
@@ -268,7 +271,7 @@ if __name__ == '__main__':
                 ackStop()                
                 stop = True
                 accepting_changes = False
-                delay = 2
+                delay = delay_min
                 clearVPNCycle()
             elif startRequested():
                 debugTrace("Service received a start request")
@@ -276,7 +279,7 @@ if __name__ == '__main__':
                 ackStart()                
                 stop = False
                 accepting_changes = True
-                delay = 5					
+                delay = delay_max				
         else:	
 			# See if there's been an update	requested from the main add-on
             if updateServiceRequested():
@@ -612,6 +615,18 @@ if __name__ == '__main__':
                 
                 freeCycleLock()
 
+            # Connect or disconnect in response to an API call
+            api_command = getAPICommand()
+            if vpn_setup and not api_command == "":
+                infoTrace("service.py", "API command found, " + api_command)
+                setVPNRequestedProfile(api_command)
+                if api_command == "Disconnect":
+                    setVPNRequestedProfileFriendly("Disconnect")
+                else:
+                    setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
+                clearAPICommand()
+                reconnect_vpn = True
+                
 			# Somewhere above we've requested we mess with the connection...
             if vpn_setup and reconnect_vpn:
                 addon = xbmcaddon.Addon()

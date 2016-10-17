@@ -59,7 +59,7 @@ if action == "ovpn":
         cleanPassFiles()
         xbmcgui.Dialog().ok(addon_name, "Deleted all .ovpn files.  Validate a connection to recreate them.\n")
 
-
+        
 # Copy the log file        
 elif action == "log":
     log_path = ""

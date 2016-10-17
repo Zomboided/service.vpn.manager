@@ -198,6 +198,8 @@ if __name__ == '__main__':
             if addon.getSetting("vpn_provider_validated") == "HMA" and last_version < 203:
                 addon.setSetting("1_vpn_validated", "reset")                
                 clearKeysAndCerts("HMA")
+            if addon.getSetting("vpn_provider_validated") == "IVPN" and last_version < 210:
+                addon.setSetting("1_vpn_validated", "reset")
     
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

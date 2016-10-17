@@ -11,7 +11,7 @@ persist-remote-ip
 cipher AES-256-CBC
 tls-cipher TLS-DHE-RSA-WITH-AES-256-CBC-SHA:TLS-DHE-DSS-WITH-AES-256-CBC-SHA:TLS-RSA-WITH-AES-256-CBC-SHA
 ns-cert-type server
-verify-x509-name ca name-prefix
+verify-x509-name #USER1 name-prefix
 key-direction 1
 comp-lzo
 verb 3

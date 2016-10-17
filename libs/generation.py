@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateHMA()
+    generateIVPN()
     return
+    generateHMA()
     generateRA4W()
     generateVPNSecure()
     generateIPVanish()
@@ -43,7 +44,6 @@ def generateAll():
     generateLimeVPN()
     generateSecureVPN()
     generateNordVPN()
-    generateIVPN()
     generateproXPN()
     generatePureVPN()
     generateWiTopia()
@@ -186,12 +186,14 @@ def generateIVPN():
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()
+            if line.startswith("verify-x509-name"):
+                _, prefix, _ = line.split()
         if "-TCP" in geo:
             geo = geo.replace("-TCP", " (TCP)")
-            output_line = geo + "," + server + "," + "tcp-client," + port + "\n"
+            output_line = geo + "," + server + "," + "tcp-client," + port + ",#USER1=" + prefix + "\n"
         else:
             geo = geo + " (UDP)"
-            output_line = geo + "," + server + "," + "udp," + port + "\n"
+            output_line = geo + "," + server + "," + "udp," + port + ",#USER1=" + prefix + "\n"
         location_file.write(output_line)
     location_file.close()
     

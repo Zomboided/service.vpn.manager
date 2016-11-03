@@ -32,8 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateIVPN()
+    generateCelo()
+    generateNordVPN()
     return
+    generateIVPN()
     generateHMA()
     generateRA4W()
     generateVPNSecure()
@@ -49,7 +51,6 @@ def generateAll():
     generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
-    generateCelo()
     generateSaferVPN()
     generateVyprVPN()
     generateBTGuard()
@@ -287,12 +288,13 @@ def generateCelo():
     location_file = getLocations("Celo", "")
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace("sw", "se")
+        geo = geo.replace(".celo.net", "")
+        geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:3]
         geo_key = (geo + "_ta.key").replace(" ", "_")
         geo_cert = (geo + "_ca.crt").replace(" ", "_")
-        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_key)):
-            geo = "****ERROR****"
-        if not xbmcvfs.exists(getAddonPath(True, "Celo/" + geo_cert)):
-            geo = "****ERROR****"
+        geo_key_file = open(getAddonPath(True, "Celo/" + geo_key), 'w')
+        geo_cert_file = open(getAddonPath(True, "Celo/" + geo_cert), 'w')
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
@@ -300,6 +302,7 @@ def generateCelo():
         servers_tcp = ""
         ports_udp = ""
         ports_tcp = ""
+        writeline = ""
         for line in lines:
             if line.startswith("remote "):
                 _, server, port, proto = line.split()
@@ -314,11 +317,28 @@ def generateCelo():
                     servers_tcp = servers_tcp + server
                     if not ports_tcp == "" : ports_tcp = ports_tcp + " "
                     ports_tcp = ports_tcp + port
+            if writeline == "ca":
+                if line.startswith("</ca>"):
+                    writeline = ""
+                    geo_cert_file.close()
+                else:
+                    if not line.startswith("#"): geo_cert_file.write(line)
+            if line.startswith("<ca>"):
+                writeline = "ca"
+            if writeline == "tls":
+                if line.startswith("</tls-auth>"):
+                    writeline = ""
+                    geo_key_file.close()
+                else:
+                    if not line.startswith("#"): geo_key_file.write(line)
+            if line.startswith("<tls-auth>"):
+                writeline = "tls"
+            
         output_line_udp = geo + " (UDP)," + servers_udp + "," + "udp," + ports_udp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n" 
         output_line_tcp = geo + " (TCP)," + servers_tcp + "," + "tcp," + ports_tcp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n"         
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp)
-    location_file.close()
+    location_file.close()   
     
     
 def generateVPNht():

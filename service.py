@@ -181,6 +181,8 @@ if __name__ == '__main__':
         else:
             # Do a bunch of version number dependent tests
             last_version = int(stored_version.replace(".", ""))
+            # This fixes a problem with the 2.2 version that causes the profiles to be regenerated
+            if last_version == 22: last_version = 220
             # VPN Unlimited and PureVPN template files were fixed in 1.6.0 so force a reconnect
             if addon.getSetting("vpn_provider_validated") == "VPN Unlimited" and last_version < 160:
                 addon.setSetting("1_vpn_validated", "reset")
@@ -206,7 +208,7 @@ if __name__ == '__main__':
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
     # then regenerate the OVPNs for the validated provider.  
     primary_path = addon.getSetting("1_vpn_validated")
-    
+
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         infoTrace("service.py", "New install, but was using good VPN previously.  Regenerate OVPNs")
         if not fixOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not checkConnections():

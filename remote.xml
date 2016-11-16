@@ -1,1 +1,1 @@
-<keymap><global><keyboard><key id="254">runscript(/storage/.kodi/addons/service.vpn.manager/cycle.py)</key></keyboard></global></keymap>
+<keymap><global><keyboard><key id="254">runscript(special://home/addons/service.vpn.manager/cycle.py)</key></keyboard></global></keymap>

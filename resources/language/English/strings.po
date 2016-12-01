@@ -110,6 +110,7 @@ msgctxt "#32021"
 msgid "Multiple"
 msgstr ""
 
+# VPN Connection Settings
 
 msgctxt "#32025"
 msgid "VPN Connections"
@@ -463,34 +464,38 @@ msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
 msgctxt "#32161"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "Enable up/down scripts (reset .ovpn files after updating)"
 msgstr ""
 
 msgctxt "#32162"
-msgid "Information Display"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32163"
-msgid "Enable enhanced information menu option"
+msgid "Information Display"
 msgstr ""
 
 msgctxt "#32164"
-msgid "View system information window"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32165"
-msgid "Change IP location provider"
+msgid "View system information window"
 msgstr ""
 
 msgctxt "#32166"
-msgid "IP-API"
+msgid "Change IP location provider"
 msgstr ""
 
 msgctxt "#32167"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32168"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32169"
 msgid "freegeoip.net"
 msgstr ""
 

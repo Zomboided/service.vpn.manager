@@ -216,6 +216,28 @@ def usesPassAuth(vpn_provider):
     return True
 
     
+def getUpParam(provider):
+    ext = "sh"
+    if getPlatform() == platforms.WINDOWS:
+        ext = "bat"
+    filename = getUserDataPathWrapper(getVPNLocation(provider) + "/up." + ext)
+    if xbmcvfs.exists(filename): return "up " + filename
+    filename = getAddonPathWrapper(getVPNLocation(provider) + "/up." + ext)
+    if xbmcvfs.exists(filename): return "up " + filename
+    return ""
+    
+
+def getDownParam(provider):
+    ext = "sh"
+    if getPlatform() == platforms.WINDOWS:
+        ext = "bat"
+    filename = getUserDataPathWrapper(getVPNLocation(provider) + "/down." + ext)
+    if xbmcvfs.exists(filename): return "down " + filename
+    filename = getAddonPathWrapper(getVPNLocation(provider) + "/down." + ext)
+    if xbmcvfs.exists(filename): return "down " + filename
+    return ""
+    
+    
 def getRegexPattern():
     # Return a regex expression to make a file name look good.
     return r'(?s).*/(.*).ovpn'
@@ -326,6 +348,11 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
     if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
         template.append("block-outside-dns")
     
+    if addon.getSetting("up_down_script") == "true":
+        template.append("script-security 2")
+        template.append(getUpParam(vpn_provider))
+        template.append(getDownParam(vpn_provider))
+        
     # Load locations file
     if not alternative_locations_name == "":
         if alternative_locations_name == "User":
@@ -491,9 +518,11 @@ def updateVPNFiles(vpn_provider):
             # Get the profile friendly name in case we need to generate key/cert names
             name = connection[connection.rfind(getSeparator())+1:connection.rfind(".ovpn")]
             
-            if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
-                lines.append("block-outside-dns")
-            
+            found_up = False
+            found_down = False
+            found_script_sec = False
+            found_block_dns = False
+    
             # Update the necessary values in the ovpn file
             for line in lines:
                 
@@ -528,7 +557,25 @@ def updateVPNFiles(vpn_provider):
                 if line.startswith("verb "):
                     line = "verb " + verb_value + "\n"
     
+                if line.startswith("up "):
+                    found_up = True
+                if line.startswith("down "):
+                    found_down = True
+                if line.startswith("script-security "):
+                    found_script_sec = True
+                if line.startswith("block-outside-dns"):
+                    found_block_dns = True
+    
                 f.write(line)
+            
+            if not found_block_dns and getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
+                f.write("block-outside-dns\n")
+                
+            if addon.getSetting("up_down_script") == "true":
+                if not found_script_sec: f.write("script-security 2\n")
+                if not found_up: f.write(getUpParam(vpn_provider)+"\n")
+                if not found_down: f.write(getDownParam(vpn_provider)+"\n")
+            
             f.close()
         except:
             errorTrace("vpnproviders.py", "Failed to update ovpn file")

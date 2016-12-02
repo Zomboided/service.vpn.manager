@@ -16,5 +16,3 @@ auth-user-pass #PASS
 reneg-sec 0
 explicit-exit-notify 2
 link-mtu 1578
-#up "/etc/openvpn/change_resolv_conf.sh up"
-#down "/etc/openvpn/change_resolv_conf.sh down"

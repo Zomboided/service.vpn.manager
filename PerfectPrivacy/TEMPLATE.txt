@@ -33,5 +33,4 @@ ca #CERT
 cert #USERCERT
 key #USERKEY
 tls-auth #TLSKEY 1
-#down /etc/openvpn/update-resolv-conf
-#up /etc/openvpn/update-resolv-conf
+

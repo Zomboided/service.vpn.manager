@@ -17,4 +17,3 @@ comp-lzo
 verb 3
 ca #CERT
 tls-auth #TLSKEY
-

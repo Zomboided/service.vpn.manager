@@ -32,10 +32,12 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateCelo()
-    generateNordVPN()
+    generatePIA()
     return
+    generateNordVPN()
+    generateExpressVPN()
     generateIVPN()
+    generateCelo()
     generateHMA()
     generateRA4W()
     generateVPNSecure()

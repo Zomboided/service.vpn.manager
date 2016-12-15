@@ -156,6 +156,13 @@ class KodiMonitor(xbmc.Monitor):
 
 
 # Player class which will be called when the playback state changes           
+#class KodiPlayer(xbmc.Player):
+#    def __init__ (self):
+#        xbmc.Player.__init__(self)
+#        self.logger = None
+#
+#    def onPlayBackStarted(self, *arg):
+#        newPrint("Playback started " + self.getPlayingFile())
 
         
 if __name__ == '__main__':   

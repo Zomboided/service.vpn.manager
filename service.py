@@ -143,7 +143,7 @@ def getSeconds(hour_min):
     
 
 # Monitor class which will get called when the settings change    
-class KodiMonitor( xbmc.Monitor ):
+class KodiMonitor(xbmc.Monitor):
 
     # This gets called every time a setting is changed either programmatically or via the settings dialog.
     # We do our best to ignore settings changing as part of common processes so that we don't do too much
@@ -153,8 +153,11 @@ class KodiMonitor( xbmc.Monitor ):
         if accepting_changes:
             debugTrace("Requested update to service process via settings monitor")
             updateService("KodiMonitor")
-                            
 
+
+# Player class which will be called when the playback state changes           
+
+        
 if __name__ == '__main__':   
 
     # Initialise some variables we'll be using repeatedly
@@ -164,6 +167,7 @@ if __name__ == '__main__':
     
     # Create a monitor to look out for settings changes
     settingsMonitor = KodiMonitor()
+    #playerMonitor = KodiPlayer()
             
     # See if this is a new install...we might want to do things here
     if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")):
@@ -361,7 +365,11 @@ if __name__ == '__main__':
                                     setVPNLastConnectedProfile("")
                                     setVPNLastConnectedProfileFriendly("")
                                     setConnectionErrorCount(0)
-                                    xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, "/resources/connected.png"), 5000, False)
+                                    if addon.getSetting("display_location_on_connect") == "true":
+                                        _, ip, country, isp = getIPInfo(addon)
+                                        xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, "/resources/connected.png"), 20000, False)
+                                    else:
+                                        xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, "/resources/connected.png"), 5000, False)
                                 else:
                                     # No connect on boot (or it didn't work), so force a connect
                                     debugTrace("Connecting to primary VPN at Kodi start up")
@@ -614,6 +622,11 @@ if __name__ == '__main__':
                         setVPNLastConnectedProfile("")
                         setVPNLastConnectedProfileFriendly("")
                         reconnect_vpn = True
+                    else:
+                        # Display the full details for those with this option switched on otherwise just let the notification box disappear
+                        if addon.getSetting("display_location_on_connect") == "true":
+                            _, ip, country, isp = getIPInfo(addon)
+                            xbmcgui.Dialog().notification(addon_name, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, "/resources/connected.png"), 20000, False)
                     clearVPNCycle()
                     cycle_timer = 0
                 

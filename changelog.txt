@@ -1,3 +1,33 @@
+v2.2.5
+- Fix display enhanced info
+- Update PIA server list
+- Add default up script (off by default)
+
+v2.2.4
+- Add support for up and down scripts
+
+v2.2.3
+- Upgrade NordVPN again
+
+v2.2.2
+- Update ExpressVPN
+Improve remote.xml example to use special paths
+
+v2.2.1
+- Fix upgrade bug
+
+v2.2.0
+- Update Celo and Nord profiles
+
+v2.1.1
+- Fix IVPN
+
+v2.1.0
+- Added connect and disconnect API accessable via a script
+
+v2.0.3
+- Fix HMA again
+
 v2.0.2
 - User Defined upgrade fix
 - Hide/show password

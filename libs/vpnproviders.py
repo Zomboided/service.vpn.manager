@@ -23,7 +23,7 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 import glob
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
 from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms
 
 
@@ -224,6 +224,9 @@ def getUpParam(provider):
     if xbmcvfs.exists(filename): return "up " + filename
     filename = getAddonPathWrapper(getVPNLocation(provider) + "/up." + ext)
     if xbmcvfs.exists(filename): return "up " + filename
+    if xbmcaddon.Addon("service.vpn.manager").getSetting("use_default_up_down") == "true":
+        filename = getAddonPathWrapper("up." + ext)
+        if xbmcvfs.exists(filename): return "up " + filename
     return ""
     
 
@@ -235,6 +238,9 @@ def getDownParam(provider):
     if xbmcvfs.exists(filename): return "down " + filename
     filename = getAddonPathWrapper(getVPNLocation(provider) + "/down." + ext)
     if xbmcvfs.exists(filename): return "down " + filename
+    if xbmcaddon.Addon("service.vpn.manager").getSetting("use_default_up_down") == "true":
+        filename = getAddonPathWrapper("down." + ext)
+        if xbmcvfs.exists(filename): return "down " + filename
     return ""
     
     

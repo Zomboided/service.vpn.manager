@@ -24,7 +24,7 @@ import xbmcvfs
 import xbmcaddon
 import glob
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms
+from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****
@@ -618,3 +618,19 @@ def writeGeneratedFile(vpn_provider):
     # Write a file to indicate successful generation of the ovpn files
     ovpn_file = open(getAddonPath(True, vpn_provider + "/GENERATED.txt"), 'w')
     ovpn_file.close()
+    
+    
+def writeDefaultUpFile():
+    p = getPlatform()
+    if p == platforms.LINUX or p == platforms.RPI:
+        infoTrace("vpnproviders.py", "Writing default up script")
+        up = open(getAddonPath(True, "up.sh"), 'w')
+        up.write("#!/bin/bash\n")
+        up.write("iptables -F\n")
+        up.write("iptables -A INPUT -i tun0 -m state --state ESTABLISHED,RELATED -j ACCEPT\n")
+        up.write("iptables -A INPUT -i tun0 -j DROP\n")
+        up.close()
+        command = "chmod +x " + getAddonPath(True, "up.sh")
+        if useSudo(): command = "sudo " + command
+        infoTrace("vpnproviders.py", "Fixing default up.sh " + command)
+        os.system(command)

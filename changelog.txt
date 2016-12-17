@@ -1,3 +1,6 @@
+v2.2.7
+- Fix default up script (still off by default)
+
 v2.2.6
 - Make checking for ovpn parameters less aggressive
 

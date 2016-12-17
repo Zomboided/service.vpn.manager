@@ -1,3 +1,6 @@
+v2.2.6
+- Make checking for ovpn parameters less aggressive
+
 v2.2.5
 - Fix display enhanced info
 - Update PIA server list

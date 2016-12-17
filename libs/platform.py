@@ -395,8 +395,10 @@ def getVPNConnectionStatus():
                     state = connection_status.NETWORK_FAILED
                 if "Connection timed out" in line:
                     state = connection_status.TIMEOUT
-                if "Options error" in line:
-                    state = connection_status.OPTIONS_ERROR
+                #if (not p == platforms.WINDOWS) and "Options error" in line and "block-outside-dns" in line
+                    #state = connection_status.OPTIONS_ERROR
+                    # This has been updated to what should be the right check, but other checks elsewhere 
+                    # have make it unnecessary (block-outside-dns is not written for non Windows platform).
                 if p == platforms.WINDOWS and "ROUTE" in line and "Access is denied" in line:
                     # This is a Windows, not running Kodi as administrator error
                     state = connection_status.ACCESS_DENIED

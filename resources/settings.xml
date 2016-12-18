@@ -104,7 +104,7 @@
         <setting label="32154" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
         <setting label="32155" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32156|32157|32158"/>
         <setting label="32159" type="bool" id="openvpn_killall" visible="eq(-3,2)|eq(-3,3)" default="false"/>
-        <setting label="32160" type="bool" id="alt_pid_check" visible="eq(-4,1)" default="false"/>
+        <setting label="32160" type="bool" id="alt_pid_check" visible="eq(-4,2)" default="false"/>
         <setting label="32161" type="text" visible="eq(-5,0)" enable="false"/>
         <setting label="32162" type="bool" id="up_down_script" default="true"/>
         <setting label="32163" type="bool" id="use_default_up_down" visible="eq(-7,2)|eq(-7,3)" enable="true" default="false"/>

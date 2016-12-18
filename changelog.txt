@@ -1,3 +1,6 @@
+V2.2.8
+- Fix default up script generation bug
+
 v2.2.7
 - Fix default up script (still off by default)
 

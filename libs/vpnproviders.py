@@ -304,6 +304,7 @@ def getLocationFiles(vpn_provider):
 
 def fixOVPNFiles(vpn_provider, alternative_locations_name):
     debugTrace("Fixing OVPN files for " + vpn_provider + " using list " + alternative_locations_name)
+    writeDefaultUpFile()
     # Generate or update the VPN files
     if ovpnGenerated(vpn_provider):
         if not isUserDefined(vpn_provider):

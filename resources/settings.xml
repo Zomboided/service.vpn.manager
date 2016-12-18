@@ -104,15 +104,16 @@
         <setting label="32154" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
         <setting label="32155" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32156|32157|32158"/>
         <setting label="32159" type="bool" id="openvpn_killall" visible="eq(-3,2)|eq(-3,3)" default="false"/>
-        <setting label="32160" type="text" visible="eq(-4,0)" enable="false"/>
-        <setting label="32161" type="bool" id="up_down_script" default="true"/>
-        <setting label="32162" type="bool" id="use_default_up_down" visible="eq(-6,2)|eq(-6,3)" enable="true" default="false"/>
-        <setting label="32163" type="bool" id="openvpn_log_location" default="false"/>
+        <setting label="32160" type="bool" id="alt_pid_check" visible="eq(-4,1)" default="false"/>
+        <setting label="32161" type="text" visible="eq(-5,0)" enable="false"/>
+        <setting label="32162" type="bool" id="up_down_script" default="true"/>
+        <setting label="32163" type="bool" id="use_default_up_down" visible="eq(-7,2)|eq(-7,3)" enable="true" default="false"/>
+        <setting label="32164" type="bool" id="openvpn_log_location" default="false"/>
         <setting label=""      type="lsep"/>
-        <setting label="32164" type="lsep"/>
-        <setting label="32165" type="bool" id="vpn_system_menu_item" default="false"/>
-        <setting label="32166" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
-        <setting label="32167" type="labelenum" id="ip_info_source" lvalues="32168|32169|32170"/>
+        <setting label="32165" type="lsep"/>
+        <setting label="32166" type="bool" id="vpn_system_menu_item" default="false"/>
+        <setting label="32167" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
+        <setting label="32168" type="labelenum" id="ip_info_source" lvalues="32169|32170|32171"/>
         <setting label=""      type="text" id="vpn_provider_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_username_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" enable="false" visible="false" default=""/>

@@ -1,4 +1,8 @@
-V2.2.8
+v2.2.9
+- Another attempt to fix default up script generation...
+- Alternative running task detection option for certain flavours of Linux
+
+v2.2.8
 - Fix default up script generation bug
 
 v2.2.7

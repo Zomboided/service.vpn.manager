@@ -18,6 +18,7 @@
 #
 #    VPN provider code used by the VPN Manager for OpenVPN add-on.
 
+import os
 import xbmc
 import xbmcgui
 import xbmcvfs

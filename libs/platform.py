@@ -338,7 +338,10 @@ def isVPNTaskRunning():
             debugTrace("(Linux) Checking VPN task with " + command)
             pid = os.system(command)
             # This horrible call returns 0 if it finds a process, it's not returning the PID number
-            if pid == 0 : return True
+            if xbmcaddon.Addon("service.vpn.manager").getSetting("alt_pid_check") == "true":
+                if pid > 0 : return True
+            else:
+                if pid == 0 : return True
             debugTrace("(Linux) Didn't find a running process")
             return False
         except:

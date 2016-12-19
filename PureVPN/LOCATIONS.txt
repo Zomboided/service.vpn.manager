@@ -1,175 +1,342 @@
-ALBANIA (TCP),al1-ovpn-tcp.purevpn.net,tcp,80
-ALBANIA (UDP),al1-ovpn-udp.purevpn.net,udp,53
-ARGENTINA (TCP),ar1-ovpn-tcp.purevpn.net,tcp,80
-ARGENTINA (UDP),ar1-ovpn-udp.purevpn.net,udp,53
-ARUBA (TCP),aw1-ovpn-tcp.pointtoserver.com,tcp,80
-ARUBA (UDP),aw1-ovpn-udp.pointtoserver.com,udp,53
-AUSTRALIA (TCP),au1-ovpn-tcp.purevpn.net,tcp,80
-AUSTRALIA (UDP),au1-ovpn-udp.purevpn.net,udp,53
-BAHAMAS (TCP),bs1-ovpn-tcp.pointtoserver.com,tcp,80
-BAHAMAS (UDP),bs1-ovpn-udp.pointtoserver.com,udp,53
-BAHRAIN (TCP),bh1-ovpn-tcp.purevpn.net,tcp,80
-BAHRAIN (UDP),bh1-ovpn-udp.purevpn.net,udp,53
-BELGIUM (TCP),be1-ovpn-tcp.purevpn.net,tcp,80
-BELIZE (TCP),bz1-ovpn-tcp.pointtoserver.com,tcp,80
-BELIZE (UDP),bz1-ovpn-udp.pointtoserver.com,udp,53
-BOSNIA - HERZEGOWINA (TCP),ba1-ovpn-tcp.purevpn.net,tcp,80
-BOSNIA - HERZEGOWINA (UDP),ba1-ovpn-udp.purevpn.net,udp,53
-BRUNEI - DARUSSALAM (TCP),bn1-ovpn-tcp.purevpn.net,tcp,80
-BRUNEI - DARUSSALAM (UDP),bn1-ovpn-udp.purevpn.net,udp,53
-BULGARIA Virtual (TCP),vlus-bg1-ovpn-tcp.purevpn.net,tcp,80
-BULGARIA (UDP),vlus-bg1-ovpn-udp.purevpn.net,udp,53
-CANADA - QUEBEC (TCP),caq1-ovpn-tcp.purevpn.net,tcp,80
-CANADA - QUEBEC (UDP),caq1-ovpn-udp.purevpn.net,udp,53
-CHILE (TCP),cl1-ovpn-tcp.purevpn.net,tcp,80
-CHILE (UDP),cl1-ovpn-udp.purevpn.net,udp,53
-CHINA (TCP),cn1-ovpn-tcp.purevpn.net,tcp,80
-CHINA (UDP),cn1-ovpn-udp.purevpn.net,udp,53
-COLOMBIA (TCP),co1-ovpn-tcp.purevpn.net,tcp,80
-COLOMBIA (UDP),co1-ovpn-udp.purevpn.net,udp,53
-COSTA - RICA (TCP),cr1-ovpn-tcp.purevpn.net,tcp,80
-COSTA - RICA (UDP),cr1-ovpn-udp.purevpn.net,udp,53
-CROATIA (TCP),hr1-ovpn-tcp.purevpn.net,tcp,80
-CROATIA (UDP),hr1-ovpn-udp.purevpn.net,udp,53
-DENMARK (TCP),dk1-ovpn-tcp.purevpn.net,tcp,80
-DENMARK (UDP),dk1-ovpn-udp.purevpn.net,udp,53
-EGYPT Virtual (TCP),vlus-eg1-ovpn-tcp.purevpn.net,tcp,80
-EGYPT Virtual (UDP),vlus-eg1-ovpn-udp.purevpn.net,udp,53
-ESTONIA (TCP),ee1-ovpn-tcp.purevpn.net,tcp,80
-ESTONIA (UDP),ee1-ovpn-udp.purevpn.net,udp,53
-FRANCE Virtual (TCP),vleu-fr1-ovpn-tcp.purevpn.net,tcp,80
-FRANCE Virtual (UDP),vleu-fr1-ovpn-udp.purevpn.net,udp,53
-GEORGIA (TCP),ge1-ovpn-tcp.purevpn.net,tcp,80
-GEORGIA (UDP),ge1-ovpn-udp.purevpn.net,udp,53
-GERMANY (TCP),de1-ovpn-tcp.purevpn.net,tcp,80
-GERMANY (UDP),de1-ovpn-udp.purevpn.net,udp,53
-GHANA (TCP),gh1-ovpn-tcp.purevpn.net,tcp,80
-GHANA (UDP),gh1-ovpn-udp.purevpn.net,udp,53
-GREECE (TCP),gr1-ovpn-tcp.purevpn.net,tcp,80
-GREECE (UDP),gr1-ovpn-udp.purevpn.net,udp,53
-HONG KONG (TCP),hk1-ovpn-tcp.purevpn.net,tcp,80
-HONG KONG (UDP),hk1-ovpn-udp.purevpn.net,udp,53
-HUNGARY (TCP),hu1-ovpn-tcp.purevpn.net,tcp,80
-HUNGARY (UDP),hu1-ovpn-udp.purevpn.net,udp,53
-ICELAND (TCP),is1-ovpn-tcp.purevpn.net,tcp,80
-ICELAND (UDP),is1-ovpn-udp.purevpn.net,udp,53
-INDIA (TCP),in1-ovpn-tcp.purevpn.net,tcp,80
-INDIA (UDP),in1-ovpn-udp.purevpn.net,udp,53
-IRELAND (TCP),ie1-ovpn-tcp.purevpn.net,tcp,80
-IRELAND (UDP),ie1-ovpn-udp.purevpn.net,udp,53
-ISLE OF MAN (TCP),im1-ovpn-tcp.pointtoserver.com,tcp,80
-ISLE OF MAN (UDP),im1-ovpn-udp.pointtoserver.com,udp,53
-ITALY (TCP),it1-ovpn-tcp.purevpn.net,tcp,80
-ITALY (UDP),it1-ovpn-udp.purevpn.net,udp,53
-JAPAN (TCP),jp1-ovpn-tcp.purevpn.net,tcp,80
-JAPAN (UDP),jp1-ovpn-udp.purevpn.net,udp,53
-JORDAN Virtual (TCP),vlus-jo1-ovpn-tcp.purevpn.net,tcp,80
-JORDON Virtual (UDP),vlus-jo1-ovpn-udp.purevpn.net,udp,53
-KENYA (TCP),ke1-ovpn-tcp.pointtoserver.com,tcp,80
-KENYA (UDP),ke1-ovpn-udp.pointtoserver.com,udp,53
-KOREA (TCP),kr1-ovpn-tcp.purevpn.net,tcp,80
-KOREA (UDP),kr1-ovpn-udp.purevpn.net,udp,53
-KUWAIT Virtual (TCP),vlus-kw1-ovpn-tcp.purevpn.net,tcp,80
-KUWAIT Virtual (UDP),vlus-kw1-ovpn-udp.purevpn.net,udp,53
-LATVIA (TCP),lv1-ovpn-tcp.purevpn.net,tcp,80
-LATVIA (UDP),lv1-ovpn-udp.purevpn.net,udp,53
-LEBANON (TCP),lb1-ovpn-tcp.pointtoserver.com,tcp,80
-LEBANON (UDP),lb1-ovpn-udp.pointtoserver.com,udp,53
-LITHUANIA (TCP),lt1-ovpn-tcp.purevpn.net,tcp,80
-LITHUANIA (UDP),lt1-ovpn-udp.purevpn.net,udp,53
-LUXEMBOURG (TCP),lu1-ovpn-tcp.purevpn.net,tcp,80
-LUXEMBOURG (UDP),lu1-ovpn-udp.purevpn.net,udp,53
-MALTA (TCP),mt1-ovpn-tcp.purevpn.net,tcp,80
-MALTA (UDP),mt1-ovpn-udp.purevpn.net,udp,53
-MEXICO (TCP),mx1-ovpn-tcp.purevpn.net,tcp,80
-MEXICO (UDP),mx1-ovpn-udp.purevpn.net,udp,53
-MOLDOVA (TCP),md1-ovpn-tcp.purevpn.net,tcp,80
-MOLDOVA (UDP),md1-ovpn-udp.purevpn.net,udp,53
-MONGOLIA (TCP),mn1-ovpn-tcp.purevpn.net,tcp,80
-MONGOLIA (UDP),mn1-ovpn-udp.purevpn.net,udp,53
-MONTENEGRO (TCP),me1-ovpn-tcp.purevpn.net,tcp,80
-MONTENEGRO (UDP),me1-ovpn-udp.purevpn.net,udp,53
-NETHERLANDS (TCP),nl1-ovpn-tcp.purevpn.net,tcp,80
-NETHERLANDS (UDP),nl1-ovpn-udp.purevpn.net,udp,53
-NEWZEALAND (TCP),nz1-ovpn-tcp.purevpn.net,tcp,80
-NEWZEALAND (UDP),nz1-ovpn-udp.purevpn.net,udp,53
-NIGERIA (TCP),ng1-ovpn-tcp.purevpn.net,tcp,80
-NIGERIA (UDP),ng1-ovpn-udp.purevpn.net,udp,53
-NORWAY (TCP),no1-ovpn-tcp.purevpn.net,tcp,80
-NORWAY (UDP),no1-ovpn-udp.purevpn.net,udp,53
-OMAN (TCP),om1-ovpn-tcp.purevpn.net,tcp,80
-OMAN (UDP),om1-ovpn-udp.purevpn.net,udp,53
-PANAMA Virtual (TCP),vlus-pa1-ovpn-tcp.purevpn.net,tcp,80
-PANAMA Virtual (UDP),vlus-pa1-ovpn-udp.purevpn.net,udp,53
-PERU (TCP),pe1-ovpn-tcp.purevpn.net,tcp,80
-PERU (UDP),pe1-ovpn-udp.purevpn.net,udp,53
-PHILIPINES Virtual (TCP),vlap-ph1-ovpn-tcp.purevpn.net,tcp,80
-PHILIPINES Virtual,vlap-ph1-ovpn-udp.purevpn.net,tcp,53
-POLAND (TCP),pl1-ovpn-tcp.purevpn.net,tcp,80
-POLAND (UDP),pl1-ovpn-udp.purevpn.net,udp,53
-QATAR (TCP),qa1-ovpn-tcp.pointtoserver.com,tcp,80
-QATAR (UDP),qa1-ovpn-udp.pointtoserver.com,udp,53
-ROMANIA (TCP),ro1-ovpn-tcp.purevpn.net,tcp,80
-ROMANIA (UDP),ro1-ovpn-udp.purevpn.net,udp,53
-RUSSIA Virtual (TCP),vlus-ru1-ovpn-tcp.purevpn.net,tcp,80
-RUSSIA Virtual (UDP),vlus-ru1-ovpn-udp.purevpn.net,udp,53
-SAUDIAARABIA (TCP),sa1-ovpn-tcp.pointtoserver.com,tcp,80
-SAUDIAARABIA (UDP),sa1-ovpn-udp.pointtoserver.com,udp,53
-SERBIA (TCP),rs1-ovpn-tcp.purevpn.net,tcp,80
-SERBIA (UDP),rs1-ovpn-udp.purevpn.net,udp,53
-SINGAPORE (TCP),sg1-ovpn-tcp.purevpn.net,tcp,80
-SINGAPORE (UDP),sg1-ovpn-udp.purevpn.ne,udp,53
-SLOVAKIA (TCP),sk1-ovpn-tcp.purevpn.net,tcp,80
-SLOVAKIA (UDP),sk1-ovpn-udp.purevpn.net,udp,53
-SLOVENIA (TCP),si1-ovpn-tcp.purevpn.net,tcp,80
-SLOVENIA (UDP),si1-ovpn-udp.purevpn.net,udp,53
-SPAIN (TCP),es1-ovpn-tcp.purevpn.net,tcp,80
-SPAIN (UDP),es1-ovpn-udp.purevpn.net,udp,53
-SWEDEN Virtual (TCP),vlus-se1-ovpn-tcp.purevpn.net,tcp,80
-SWEDEN (UDP),vlus-se1-ovpn-tcp.purevpn.net,udp,53
-SWITZERLAND (TCP),ch1-ovpn-tcp.purevpn.net,tcp,80
-SWITZERLAND (UDP),ch1-ovpn-udp.purevpn.net,udp,53
-SYRIA (TCP),sy1-ovpn-tcp.pointtoserver.com,tcp,80
-SYRIA (UDP),sy1-ovpn-udp.pointtoserver.com,udp,53
-TAIWAN (TCP),tw1-ovpn-tcp.purevpn.net,tcp,80
-TAIWAN (UDP),tw1-ovpn-udp.purevpn.net,udp,53
-THAILAND (TCP),th1-ovpn-tcp.purevpn.net,tcp,80
-THAILAND (UDP),th1-ovpn-udp.purevpn.net,udp,53
-TURKEY Virtual (TCP),vlus-tr1-ovpn-tcp.purevpn.net,tcp,80
-TURKEY Virtual (UDP),vlus-tr1-ovpn-udp.purevpn.net,udp,53
-UAE (TCP),ae1-ovpn-tcp.purevpn.net,tcp,80
-UAE (UDP),ae1-ovpn-udp.purevpn.net,udp,53
-UK - GOSPORT (TCP),ukg1-ovpn-tcp.purevpn.net,tcp,80
-UK - GOSPORT (UDP),ukg1-ovpn-udp.purevpn.net,udp,53
-UK - LONDON1 Virtual (TCP),vlbr-ukl1-ovpn-tcp.purevpn.net,tcp,80
-UK - LONDON1 Virtual (UDP),vlbr-ukl1-ovpn-udp.purevpn.net,udp,53
-UK - LONDON2 Virtual (TCP),vlsa-ukl1-ovpn-tcp.purevpn.net,tcp,80
-UK - LONDON2 Virtual (UDP),vlsa-ukl1-ovpn-udp.purevpn.net,udp,53
-UK - MAIDENHEAD (TCP),ukm1-ovpn-tcp.purevpn.net,tcp,80
-UK - MAIDENHEAD (UDP),ukm1-ovpn-udp.purevpn.net,udp,53
-UKRAINE (TCP),ua1-ovpn-tcp.purevpn.net,tcp,80
-UKRAINE (UDP),ua1-ovpn-udp.purevpn.net,udp,53
-USA - FLORIDA (TCP),usfl1-ovpn-tcp.purevpn.net,tcp,80
-USA - FLORIDA (UDP),usfl1-ovpn-udp.purevpn.net,udp,53
-USA - GEORGIA - ATLANTA (TCP),usga1-ovpn-tcp.purevpn.net,tcp,80
-USA - GEORGIA - ATLANTA (UDP),usga1-ovpn-udp.purevpn.net,udp,53
-USA - ILLINOIS - CHICAGO,usil1-ovpn-udp.purevpn.net,udp,53
-USA - LOSANGELES (TCP),usla1-ovpn-tcp.purevpn.net,tcp,80
-USA - LOSANGELES (UDP),usla1-ovpn-udp.purevpn.net,udp,53
-USA - NEWYORK (TCP),usny1-ovpn-tcp.purevpn.net,tcp,80
-USA - NEWYORK (UDP),usny1-ovpn-udp.purevpn.net,udp,53
-USA - PHOENIX (TCP),usphx1-ovpn-tcp.purevpn.net,tcp,80
-USA - PHOENIX (UDP),usphx1-ovpn-udp.purevpn.net,udp,53
-USA - SANFRANCISCO Virtual (TCP),vlsa-ussf1-ovpn-tcp.purevpn.net,tcp,80
-USA - SANFRANCISCO Virtual (UDP),vlsa-ussf1-ovpn-udp.purevpn.net,udp,53
-USA - VIRGINIA Virtual (TCP),vlbr-usvc1-ovpn-tcp.purevpn.net,tcp,80
-USA - VIRGINIA Virtual (UDP),vlbr-usvc1-ovpn-udp.purevpn.net,udp,53
-USA - WASHINGTON (UDP),ussa1-ovpn-udp.purevpn.net,udp,53
-VENEZUELA (TCP),ve1-ovpn-tcp.pointtoserver.com,tcp,80
-VENEZUELA (UDP),ve1-ovpn-udp.pointtoserver.com,udp,53
-VIETNAM Virtual (TCP),vlap-vn1-ovpn-tcp.purevpn.net,tcp,80
-VIETNAM Virtual (UDP),vlap-vn1-ovpn-udp.purevpn.net,udp,53
-YEMEN (TCP),ym1-ovpn-tcp.pointtoserver.com,tcp,80
-YEMEN (UDP),ym1-ovpn-udp.pointtoserver.com,udp,53
-ZAMBIA (TCP),za1-ovpn-tcp.purevpn.net,tcp,80
-ZAMBIA (UDP),za1-ovpn-udp.purevpn.net,udp,53
+Afghanistan (TCP),vlus-af1-ovpn-tcp.pointtoserver.com,tcp,80
+Afghanistan (UDP),vlus-af1--ovpn-udp.pointtoserver.com,udp,53
+Alaska (TCP),vlau-us1-ovpn-tcp.pointtoserver.com,tcp,80
+Alaska (UDP),vlau-us1-ovpn-udp.pointtoserver.com,udp,53
+Albania (TCP),al1-ovpn-tcp.pointtoserver.com,tcp,80
+Albania (UDP),al1-ovpn-udp.pointtoserver.com,udp,53
+Algeria (TCP),vlus-dz1-ovpn-tcp.pointtoserver.com,tcp,80
+Algeria (UDP),vlus-dz1-ovpn-udp.pointtoserver.com,udp,53
+Angula (TCP),vlus-ao1-ovpn-tcp.pointtoserver.com,tcp,80
+Angula (UDP),vlus-ao1-ovpn-udp.pointtoserver.com,udp,53
+Argentina (TCP),ar1-ovpn-tcp.pointtoserver.com,tcp,80
+Argentina (UDP),ar1-ovpn-udp.pointtoserver.com,udp,53
+Arizona Phoenix (TCP),usphx-ovpn-tcp.pointtoserver.com,tcp,80
+Arizona Phoenix (UDP),usphx-ovpn-udp.pointtoserver.com,udp,53
+Armenia (TCP),am1-ovpn-tcp.pointtoserver.com,tcp,80
+Armenia - upd,am1-ovpn-udp.pointtoserver.com,tcp,53
+Aruba (TCP),aw1-ovpn-tcp.pointtoserver.com,tcp,80
+Aruba (UDP),aw1-ovpn-udp.pointtoserver.com,udp,53
+Australia Melbourne (TCP),au1-ovpn-tcp.pointtoserver.com,tcp,80
+Australia Melbourne (UDP),au1-ovpn-udp.pointtoserver.com,udp,53
+Australia Perth (TCP),au-pe1-ovpn-tcp.pointtoserver,tcp,80
+Australia Perth (UDP),au-pe1-ovpn-udp.pointtoserver.com,udp,53
+Australia Sydney 1 (TCP),vlus-au-ovpn-tcp.pointtoserver.com,tcp,80
+Australia Sydney 1 (UDP),vlap-ukle1-ovpn-udp.pointtoserver.com,udp,53
+Australia Sydney 2 (TCP),vlap-ukle1-ovpn-tcp.pointtoserver.com,tcp,80
+Australia Sydney 2 (UDP),vlus-au-ovpn-udp.pointtoserver.com,udp,53
+Australia Sydney 3 (TCP),au-sd1-ovpn-tcp.pointtoserver.com,tcp,80
+Australia Sydney 3 (UDP),au-sd1-ovpn-udp.pointtoserver.com,udp,53
+Austria (TCP),at-ovpn-tcp.pointtoserver.com,tcp,80
+Austria (UDP),at-ovpn-udp.pointtoserver.com,udp,53
+Azerbaijan (TCP),az1-ovpn-tcp.pointtoserver.com,tcp,80
+Azerbaijan (UDP),az1-ovpn-udp.pointtoserver.com,udp,53
+Bahamas (TCP),bs1-ovpn-tcp.pointtoserver.com,tcp,80
+Bahamas (UDP),bs1-ovpn-udp.pointtoserver.com,udp,53
+Bahrain (TCP),bh1-ovpn-tcp.pointtoserver.com,tcp,80
+Bahrain (UDP),bh1-ovpn-udp.pointtoserver.com,udp,53
+Bangladesh (TCP),vlus-bd1-ovpn-tcp.pointtoserver.com,tcp,80
+Bangladesh (UDP),vlus-bd1-ovpn-udp.pointtoserver.com,udp,53
+Barbados (TCP),vleu-bb1-ovpn-tcp.pointtoserver.com,tcp,80
+Barbados (UDP),vleu-bb1-ovpn-udp.pointtoserver.com,udp,53
+Belgium (TCP),be1-ovpn-tcp.pointtoserver.com,tcp,80
+Belgium (UDP),be1-ovpn-udp.pointtoserver.com,udp,53
+Belize (TCP),bz1-ovpn-tcp.pointtoserver.com,tcp,80
+Belize (UDP),bz1-ovpn-udp.pointtoserver.com,udp,53
+Bermuda (TCP),vleu-bm1-ovpn-tcp.pointtoserver.com,tcp,80
+Bermuda (UDP),vleu-bm1-ovpn-udp.pointtoserver.com,udp,53
+Bolivia (TCP),vleu-bo1-ovpn-tcp.pointtoserver.com,tcp,80
+Bolivia (UDP),vleu-bo1-ovpn-udp.pointtoserver.com,udp,53
+Bosnia (TCP),ba1-ovpn-tcp.pointtoserver.com,tcp,80
+Bosnia (UDP),ba1-ovpn-udp.pointtoserver.com,udp,53
+Brazil (TCP),br-ovpn-tcp.pointtoserver.com,tcp,80
+Brazil (UDP),br-ovpn-udp.pointtoserver.com,udp,53
+Brunei (TCP),bn1-ovpn-tcp.pointtoserver.com,tcp,80
+Brunei (UDP),bn1-ovpn-udp.pointtoserver.com,udp,53
+Bulgaria (TCP),bg1-ovpn-tcp.pointtoserver.com,tcp,80
+Bulgaria (UDP),bg1-ovpn-udp.pointtoserver.com,udp,53
+Cambodia (TCP),kh1-ovpn-tcp.pointtoserver.com,tcp,80
+Cambodia (UDP),kh1-ovpn-udp.pointtoserver.com,udp,53
+Cape Verde (TCP),vleu-cv1-ovpn-tcp.pointtoserver.com,tcp,80
+Cape Verde (UDP),vleu-cv1-ovpn-udp.pointtoserver.com,udp,53
+Cayman Islands (TCP),vleu-ky1-ovpn-tcp.pointtoserver.com,tcp,80
+Cayman Islands (UDP),vleu-ky1-ovpn-udp.pointtoserver.com,udp,53
+Chicago (TCP),usil1-ovpn-tcp.pointtoserver.com,tcp,80
+Chicago (UDP),usil1-ovpn-udp.pointtoserver.com,udp,53
+Chile (TCP),vlbr-cl-ovpn-tcp.pointtoserver.com,tcp,80
+Chile (UDP),vlbr-cl-ovpn-udp.pointtoserver.com,udp,53
+China Guangdong 1 (TCP),cn1-ovpn-tcp.purevpn.net,tcp,80
+China Guangdong 1 (UDP),cn1-ovpn-udp.purevpn.net,udp,53
+China Guangdong 2 (TCP),vlus-cn-ovpn-tcp.pointtoserver.com,tcp,80
+China Guangdong 2 (UDP),vlus-cn-ovpn-udp.pointtoserver.com,udp,53
+Colombia (TCP),co1-ovpn-tcp.pointtoserver.com,tcp,80
+Colombia (UDP),co1-ovpn-udp.pointtoserver.com,udp,53
+Costa Rica (TCP),vlus-cr-ovpn-tcp.pointtoserver.com,tcp,80
+Costa Rica (UDP),vlus-cr-ovpn-udp.pointtoserver.com,udp,53
+Croatia (TCP),vlus-hr1-ovpn-tcp.pointtoserver.com,tcp,80
+Croatia (UDP),vlus-hr1-ovpn-udp.pointtoserver.com,udp,53
+Cuba (TCP),cu1-ovpn-tcp.pointtoserver.com,tcp,80
+Cuba (UDP),cu1-ovpn-udp.pointtoserver.com,udp,53
+Cyprus (TCP),cy1-ovpn-tcp.pointtoserver.com,tcp,80
+Cyprus (UDP),cy1-ovpn-udp.pointtoserver.com,udp,53
+DC Washington (TCP),uswdc1-ovpn-tcp.pointtoserver.com,tcp,80
+DC Washington (UDP),uswdc1-ovpn-udp.pointtoserver.com,udp,53
+Denmark (TCP),dk1-ovpn-tcp.pointtoserver.com,tcp,80
+Denmark (UDP),dk1-ovpn-udp.pointtoserver.com,udp,53
+Dominica (TCP),vleu-dm1-ovpn-tcp.pointtoserver.com,tcp,80
+Dominica (UDP),vleu-dm1-ovpn-udp.pointtoserver.com,udp,53
+Dominican Repubilc (TCP),vleu-do1-ovpn-tcp.pointtoserver.com,tcp,80
+Dominican Repubilc (UDP),vleu-do1-ovpn-udp.pointtoserver.com,udp,53
+Ecuador (TCP),vlus-ec1-ovpn-tcp.pointtoserver.com,tcp,80
+Ecuador (UDP),vlus-ec1-ovpn-udp.pointtoserver.com,udp,53
+Egypt (TCP),vlus-eg-ovpn-tcp.pointtoserver.com,tcp,80
+Egypt (UDP),vlus-eg-ovpn-udp.pointtoserver.com,udp,53
+El Salvador (TCP),vleu-sv1-ovpn-tcp.pointtoserver.com,tcp,80
+El Salvador (UDP),vleu-sv1-ovpn-udp.pointtoserver.com,udp,53
+Estonia (TCP),ee1-ovpn-tcp.pointtoserver.com,tcp,80
+Estonia (UDP),ee1-ovpn-udp.pointtoserver.com,udp,53
+Ethiopia (TCP),et1-ovpn-tcp.pointtoserver.com,tcp,80
+Ethiopia (UDP),et1-ovpn-udp.pointtoserver.com,udp,53
+Florida Miami (TCP),usfl-ovpn-tcp.pointtoserver.com,tcp,80
+Florida Miami (UDP),usfl-ovpn-udp.pointtoserver.com,udp,53
+France Paris (TCP),vleu-fr-ovpn-tcp.pointtoserver.com,tcp,80
+France Paris (UDP),vleu-fr-ovpn-udp.pointtoserver.com,udp,53
+France Roubaix (TCP),fr1-ovpn-tcp.pointtoserver.com,tcp,80
+France Roubaix (UDP),fr1-ovpn-udp.pointtoserver.com,udp,53
+Gautemala (TCP),vleu-gt1-ovpn-tcp.pointtoserver.com,tcp,80
+Gautemala (UDP),vleu-gt1-ovpn-udp.pointtoserver.com,udp,53
+Georgia (TCP),ge1-ovpn-tcp.pointtoserver.com,tcp,80
+Georgia (UDP),ge1-ovpn-udp.pointtoserver.com,udp,53
+Ghana (TCP),gh1-ovpn-tcp.pointtoserver.com,tcp,80
+Ghana (UDP),gh1-ovpn-udp.pointtoserver.com,udp,53
+Gosport (TCP),ukg-ovpn-tcp.pointtoserver.com,tcp,80
+Gosport (UDP),ukg-ovpn-udp.pointtoserver.com,udp,53
+Greece (TCP),gr1-ovpn-tcp.pointtoserver.com,tcp,80
+Greece (UDP),gr1-ovpn-udp.pointtoserver.com,udp,53
+Grenada (TCP),vleu-gd1-ovpn-tcp.pointtoserver.com,tcp,80
+Grenada (UDP),vleu-gd1-ovpn-udp.pointtoserver.com,udp,53
+Guyana (TCP),vleu-gy1-ovpn-tcp.pointtoserver.com,tcp,80
+Guyana (UDP),vleu-gy1-ovpn-udp.pointtoserver.com,udp,53
+Haiti (TCP),vleu-ht1-ovpn-tcp.pointtoserver.com,tcp,80
+Haiti (UDP),vleu-ht1-ovpn-udp.pointtoserver.com,udp,53
+Hessen (TCP),de1-ovpn-tcp.purevpn.net,tcp,80
+Hessen (UDP),de1-ovpn-udp.purevpn.net,udp,53
+Honduras (TCP),vleu-hn1-ovpn-tcp.pointtoserver.com,tcp,80
+Honduras (UDP),vleu-hn1-ovpn-udp.pointtoserver.com,udp,53
+Honkong (TCP),hk-ovpn-tcp.pointtoserver.com,tcp,80
+Honkong (UDP),hk-ovpn-udp.pointtoserver.com,udp,53
+Hungary (TCP),hu-ovpn-tcp.pointtoserver.com,tcp,80
+Hungary (UDP),hu-ovpn-udp.pointtoserver.com,udp,53
+India (TCP),in1-ovpn-tcp.pointtoserver.com,tcp,80
+India (UDP),in1-ovpn-udp.pointtoserver.com,udp,53
+Ireland (TCP),ie1-ovpn-tcp.pointtoserver.com,tcp,80
+Ireland (UDP),ie1-ovpn-udp.pointtoserver.com,udp,53
+Isle Of Man (TCP),im1-ovpn-tcp.pointtoserver.com,tcp,80
+Isle Of Man (UDP),im1-ovpn-udp.pointtoserver.com,udp,53
+Italy Milano 1 (TCP),vlus-it-ovpn-tcp.pointtoserver.com,tcp,80
+Italy Milano 1 (UDP),vlus-it-ovpn-udp.pointtoserver.com,udp,53
+Italy Milano 2 (TCP),it1-ovpn-tcp.pointtoserver.com,tcp,80
+Italy Milano 2 (UDP),it1-ovpn-udp.pointtoserver.com,udp,53
+Italy Porcia (TCP),it-po1-ovpn-tcp.pointtoserver.com,tcp,80
+Italy Porcia (UDP),it-po1-ovpn-udp.pointtoserver.com,udp,53
+Jamaica (TCP),jm1-ovpn-tcp.pointtoserver.com,tcp,80
+Jamaica (UDP),jm1-ovpn-udp.pointtoserver.com,udp,53
+Japan Tokyo 1 (TCP),vlap-jp-ovpn-tcp.pointtoserver.com,tcp,80
+Japan Tokyo 1 (UDP),vlap-jp-ovpn-udp.pointtoserver.com,udp,53
+Japan Tokyo 2 (TCP),jp-tk1-ovpn-tcp.pointtoserver.com,tcp,80
+Japan Tokyo 2 (UDP),jp-tk1-ovpn-udp.pointtoserver.com,udp,53
+Japan Tokyo 3 (TCP),vlus-jp-ovpn-tcp.pointtoserver.com,tcp,80
+Japan Tokyo 3 (UDP),vlus-jp-ovpn-udp.pointtoserver.com,udp,53
+Jordan (TCP),vlus-jo-ovpn-tcp.pointtoserver.com,tcp,80
+Jordan (UDP),vlus-jo-ovpn-udp.pointtoserver.com,udp,53
+Kazakhstan (TCP),vlus-kz1-ovpn-tcp.pointtoserver.com,tcp,80
+Kazakhstan (UDP),vlus-kz1-ovpn-udp.pointtoserver.com,udp,53
+Kenya (TCP),ke1-ovpn-tcp.pointtoserver.com,tcp,80
+Kenya (UDP),ke1-ovpn-udp.pointtoserver.com,udp,53
+Korea Seoul 1 (TCP),kr-ovpn-tcp.pointtoserver.com,tcp,80
+Korea Seoul 1 (UDP),kr-ovpn-udp.pointtoserver.com,udp,53
+Korea Seoul 2 (TCP),kr-se-ovpn-tcp.pointtoserver.com,tcp,80
+Korea Seoul 2 (UDP),kr-se-ovpn-udp.pointtoserver.com,udp,53
+Krygyzstan (TCP),vlus-kg1-ovpn-tcp.pointtoserver.com,tcp,80
+Krygyzstan (UDP),vlus-kg1-ovpn-udp.pointtoserver.com,udp,53
+Kuwait (TCP),vlus-kw1-ovpn-tcp.pointtoserver.com,tcp,80
+Kuwait (UDP),vlus-kw1-ovpn-udp.pointtoserver.com,udp,53
+LAOS (TCP),vlus-la1-ovpn-tcp.pointtoserver.com,tcp,80
+LAOS (UDP),vlus-la1-ovpn-udp.pointtoserver.com,udp,53
+Lebanon (TCP),vlus-la1-ovpn-tcp.pointtoserver.com,tcp,80
+Lebanon (UDP),lb1-ovpn-udp.pointtoserver.com,udp,53
+Leicester (TCP),vlap-ukle1-ovpn-TCP.pointtoserver.com,tcp,80
+Leicester (UDP),vlap-ukle1-ovpn-udp.pointtoserver.com,udp,53
+Liechtenstein (TCP),li1-ovpn-tcp.pointtoserver.com,tcp,80
+Liechtenstein (UDP),li1-ovpn-udp.pointtoserver.com,udp,53
+Lithuania (TCP),lt-ovpn-tcp.pointtoserver.com,tcp,80
+Lithuania (UDP),lt-ovpn-udp.pointtoserver.com,udp,53
+London 1 (TCP),vlsa-ukl-ovpn-tcp.pointtoserver.com,tcp,80
+London 1 (UDP),vlsa-ukl-ovpn-udp.pointtoserver.com,udp,53
+London 2 (TCP),vlus-ukl-ovpn-tcp.pointtoserver.com,tcp,80
+London 2 (UDP),vlus-ukl-ovpn-udp.pointtoserver.com,udp,53
+LosAngeles (TCP),usla-ovpn-TCP.pointtoserver.com,tcp,80
+LosAngeles (UDP),usla-ovpn-udp.pointtoserver.com,udp,53
+Luxembourg 1 (TCP),vlus-lu1-ovpn-tcp.pointtoserver.com,tcp,80
+Luxembourg 1 (UDP),vlus-lu1-ovpn-udp.pointtoserver.com,udp,53
+Luxembourg 2 (TCP),lu-ovpn-tcp.pointtoserver.com,tcp,80
+Luxembourg 2 (UDP),lu-ovpn-udp.pointtoserver.com,udp,53
+Macau (TCP),mo1-ovpn-tcp.pointtoserver.com,tcp,80
+Macau (UDP),mo1-ovpn-udp.pointtoserver.com,udp,53
+Madagascar (TCP),vlus-mg1-ovpn-tcp.pointtoserver.com,tcp,80
+Madagascar (UDP),vlus-mg1-ovpn-udp.pointtoserver.com,udp,53
+Maidenhead (TCP),ukm-ovpn-tcp.pointtoserver.com,tcp,80
+Maidenhead (UDP),ukm-ovpn-udp.pointtoserver.com,udp,53
+Malaysia kuala Lampur (TCP),my-kl1-ovpn-tcp.pointtoserver.com,tcp,80
+Malaysia kuala Lampur (UDP),my-kln1-ovpn-udp.pointtoserver.com,udp,53
+Malta (TCP),mt1-ovpn-tcp.pointtoserver.com,tcp,80
+Malta (UDP),mt1-ovpn-udp.pointtoserver.com,udp,53
+Manchester (TCP),vlus-uk-man1-ovpn-tcp.pointtoserver.com,tcp,80
+Manchester (UDP),vlus-uk-man1-ovpn-udp.pointtoserver.com,udp,53
+Mauritania (TCP),vlus-mr1-ovpn-tcp.pointtoserver.com,tcp,80
+Mauritania (UDP),vlus-mr1-ovpn-udp.pointtoserver.com,udp,53
+Mauritius (TCP),mu1-ovpn-tcp.pointtoserver.com,tcp,80
+Mauritius (UDP),mu1-ovpn-udp.pointtoserver.com,udp,53
+Mexico (TCP),mx1-ovpn-tcp.pointtoserver.com,tcp,80
+Mexico (UDP),mx1-ovpn-udp.pointtoserver.com,udp,53
+Moldova (TCP),md1-ovpn-tcp.pointtoserver.com,tcp,80
+Moldova (UDP),md1-ovpn-udp.pointtoserver.com,udp,53
+Monaco (TCP),mn1-ovpn-tcp.pointtoserver.com,tcp,80
+Monaco (UDP),mn1-ovpn-udp.pointtoserver.com,udp,53
+Mongolia (TCP),vlus-mn1-ovpn-tcp.pointtoserver.com,tcp,80
+Mongolia (UDP),vlus-mn1-ovpn-udp.pointtoserver.com,udp,53
+Montenegro (TCP),me1-ovpn-tcp.pointtoserver.com,tcp,80
+Montenegro (UDP),me1-ovpn-udp.pointtoserver.com,udp,53
+Montserrat (TCP),vleu-ms1-ovpn-tcp.pointtoserver.com,tcp,80
+Montserrat (UDP),vleu-ms1-ovpn-udp.pointtoserver.com,udp,53
+Morocco (TCP),ma1-ovpn-tcp.pointtoserver.com,tcp,80
+Morocco (UDP),ma1-ovpn-udp.pointtoserver.com,udp,53
+Munchen (TCP),vlus-de-ovpn-tcp.pointtoserver.com,tcp,80
+Munchen (UDP),vlus-de-ovpn-udp.pointtoserver.com,udp,53
+Myanmar (TCP),vlus-mm1-ovpn-tcp.pointtoserver.com,tcp,80
+Myanmar (UDP),vlus-mm1-ovpn-udp.pointtoserver.com,udp,53
+Netherlands 1 (TCP),nl-ovpn-tcp.pointtoserver.com,tcp,80
+Netherlands 1 (UDP),nl-ovpn-udp.pointtoserver.com,udp,53
+Netherlands 2 (TCP),vlus-nl-ovpn-tcp.pointtoserver.com,tcp,80
+Netherlands 2 (UDP),vlus-nl-ovpn-udp.pointtoserver.com,udp,53
+New Jersey (TCP),usnj1-ovpn-tcp.pointtoserver.com,tcp,80
+New Jersey (UDP),usnj1-ovpn-udp.pointtoserver.com,udp,53
+New York (TCP),usny1-ovpn-tcp.pointtoserver.net,tcp,80
+New York (UDP),usny1-ovpn-UDP.pointtoserver.net,udp,53
+New Zealand Auckland (TCP),nz1-ovpn-tcp.pointtoserver.com,tcp,80
+New Zealand Auckland (UDP),nz1-ovpn-udp.pointtoserver.com,udp,53
+New Zealand Wellington (TCP),vlus-nz-ovpn-tcp.pointtoserver.com,tcp,80
+New Zealand Wellington (UDP),vlus-nz-ovpn-udp.pointtoserver.com,udp,53
+Nicaragua (TCP),vleu-ni1-ovpn-tcp.pointtoserver.com,tcp,80
+Nicaragua (UDP),vleu-ni1-ovpn-udp.pointtoserver.com,udp,53
+Niger (TCP),vlus-ne1-ovpn-tcp.pointtoserver.com,tcp,80
+Niger (UDP),vlus-ne1-ovpn-udp.pointtoserver.com,udp,53
+Nigeria (TCP),ng1-ovpn-tcp.pointtoserver.com,tcp,80
+Nigeria (UDP),ng1-ovpn-Udp.pointtoserver.com,udp,53
+Norway (TCP),vleu-no1-ovpn-tcp.pointtoserver.com,tcp,80
+Norway (UDP),vleu-no1-ovpn-udp.pointtoserver.com,udp,53
+Nuremberg (TCP),de-ao1-ovpn-tcp.pointtoserver.com,tcp,80
+Nuremberg (UDP),de-ao1-ovpn-udp.pointtoserver.com,udp,53
+Ohio (TCP),vleu-usoh1-ovpn-tcp.pointtoserver.com,tcp,80
+Ohio (UDP),vleu-usoh1-ovpn-udp.pointtoserver.com,udp,53
+Oman (TCP),om1-ovpn-tcp.pointtoserver.com,tcp,80
+Oman (UDP),om1-ovpn-udp.pointtoserver.com,udp,53
+Pakistan (TCP),pk1-ovpn-tcp.pointtoserver.com,tcp,80
+Pakistan (UDP),pk1-ovpn-udp.pointtoserver.com,udp,53
+Panama (TCP),vlus-pa-ovpn-tcp.pointtoserver.com,tcp,80
+Panama (UDP),vlus-pa-ovpn-udp.pointtoserver.com,udp,53
+Papua New Guana (TCP),vlus-pg1-ovpn-tcp.pointtoserver.com,tcp,80
+Papua New Guana (UDP),vlus-pg1-ovpn-udp.pointtoserver.com,udp,53
+Paraguay (TCP),vleu-py1-ovpn-tcp.pointtoserver.com,tcp,80
+Paraguay (UDP),vleu-py1-ovpn-udp.pointtoserver.com,udp,53
+Peru (TCP),pe1-ovpn-tcp.pointtoserver.com,tcp,80
+Peru (UDP),pe1-ovpn-udp.pointtoserver.com,udp,53
+Philippine (TCP),vlap-ph-ovpn-tcp.pointtoserver.com,tcp,80
+Philippine (UDP),vlap-ph-ovpn-udp.pointtoserver.com,udp,53
+Poland (TCP),pl1-ovpn-tcp.pointtoserver.com,tcp,80
+Poland (UDP),pl1-ovpn-udp.pointtoserver.com,udp,53
+Portugal (TCP),pt1-ovpn-tcp.pointtoserver.com,tcp,80
+Portugal (UDP),pt1-ovpn-udp.pointtoserver.com,udp,53
+Puerto Rico (TCP),pr1-ovpn-tcp.pointtoserver.com,tcp,80
+Puerto Rico (UDP),pr1-ovpn-udp.pointtoserver.com,udp,53
+Qatar (TCP),qa-ovpn-tcp.pointtoserver.com,tcp,80
+Qatar (UDP),qa-ovpn-udp.pointtoserver.com,udp,53
+Quebec (TCP),caq-ovpn-tcp.pointtoserver.com,tcp,80
+Quebec (UDP),caq-ovpn-udp.pointtoserver.com,udp,53
+Romania (TCP),ro1-ovpn-tcp.pointtoserver.com,tcp,80
+Romania (UDP),ro1-ovpn-udp.pointtoserver.com,udp,53
+Russia (TCP),vlus-ru1-ovpn-tcp.pointtoserver.com,tcp,80
+Russia (UDP),vlus-ru1-ovpn-udp.pointtoserver.com,udp,53
+Saint Lucia (TCP),vleu-lc1-ovpn-tcp.pointtoserver.com,tcp,80
+Saint Lucia (UDP),vleu-lc1-ovpn-udp.pointtoserver.com,udp,53
+San Francisco (TCP),vlsa-ussf-ovpn-tcp.pointtoserver.com,tcp,80
+San Francisco (UDP),vlsa-ussf-ovpn-udp.pointtoserver.com,udp,53
+Saudi Arabia (TCP),sa1-ovpn-tcp.pointtoserver.com,tcp,80
+Saudi Arabia (UDP),sa1-ovpn-udp.pointtoserver.com,udp,53
+Senegal (TCP),vlus-sn1-ovpn-tcp.pointtoserver.com,tcp,80
+Senegal (UDP),vlus-sn1-ovpn-udp.pointtoserver.com,udp,53
+Serbia (TCP),rs1-ovpn-tcp.pointtoserver.com,tcp,80
+Serbia (UDP),rs1-ovpn-udp.pointtoserver.com,udp,53
+Seychelles (TCP),sc1-ovpn-tcp.pointtoserver.com,tcp,80
+Seychelles (UDP),sc1-ovpn-udp.pointtoserver.com,udp,53
+Singapore (TCP),sg1-ovpn-tcp.pointtoserver.com,tcp,80
+Singapore (UDP),sg1-ovpn-udp.pointtoserver.com,udp,53
+Slovakia (TCP),sk-ovpn-tcp.pointtoserver.com,tcp,80
+Slovakia (UDP),sk-ovpn-udp.pointtoserver.com,udp,53
+Slovenia (TCP),si1-ovpn-tcp.pointtoserver.com,tcp,80
+Slovenia (UDP),si1-ovpn-udp.pointtoserver.com,udp,53
+South Africa (TCP),za1-ovpn-tcp.pointtoserver.com,tcp,80
+South Africa (UDP),za1-ovpn-udp.pointtoserver.com,udp,53
+Spain (TCP),es-ovpn-tcp.pointtoserver.com,tcp,80
+Spain (UDP),es-ovpn-udp.pointtoserver.com,udp,53
+Sri Lanka (TCP),vlus-lk1-ovpn-tcp.pointtoserver.com,tcp,80
+Sri Lanka (UDP),vlus-lk1-ovpn-udp.pointtoserver.com,udp,53
+Suriname (TCP),vleu-sr1-ovpn-tcp.pointtoserver.com,tcp,80
+Suriname (UDP),vleu-sr1-ovpn-udp.pointtoserver.com,udp,53
+Sweden (TCP),vlus-se-ovpn-tcp.pointtoserver.com,tcp,80
+Sweden (UDP),vlus-se-ovpn-udp.pointtoserver.com,udp,53
+Switzerland (TCP),ch1-ovpn-tcp.pointtoserver.com,tcp,80
+Switzerland (UDP),ch1-ovpn-udp.pointtoserver.com,udp,53
+Syria (TCP),sy1-ovpn-tcp.pointtoserver.com,tcp,80
+Syria (UDP),sy1-ovpn-udp.pointtoserver.com,udp,53
+Taiwan Taipei 1 (TCP),vlap-tw-ovpn-tcp.pointtoserver.com,tcp,80
+Taiwan Taipei 1 (UDP),vlap-tw-ovpn-udp.pointtoserver.com,udp,53
+Taiwan Taipei 2 (TCP),tw-ovpn-tcp.pointtoserver.com,tcp,80
+Taiwan Taipei 2 (UDP),tw-ovpn-udp.pointtoserver.com,udp,53
+Tajikistan (TCP),vlus-tj-ovpn-tcp.pointtoserver.com,tcp,80
+Tajikistan (UDP),vlus-tj-ovpn-udp.pointtoserver.com,udp,53
+Tanzania (TCP),vlus-tz1-ovpn-tcp.pointtoserver.com,tcp,80
+Tanzania (UDP),vlus-tz1-ovpn-udp.pointtoserver.com,udp,53
+Texas Houstan (TCP),vlap-ustx1-ovpn-tcp.pointtoserver.com,tcp,80
+Texas Houstan (UDP),vlap-ustx1-ovpn-udp.pointtoserver.com,udp,53
+Thailand (TCP),vlap-th-ovpn-tcp.pointtoserver.com,tcp,80
+Thailand (UDP),vlap-th-ovpn-udp.pointtoserver.com,udp,53
+Trinidad and Tobago (TCP),vleu-tt1-ovpn-tcp.pointtoserver.com,tcp,80
+Trinidad and Tobago (UDP),vleu-tt1-ovpn-udp.pointtoserver.com,udp,53
+Tunisia (TCP),vlus-tn1-ovpn-tcp.pointtoserver.com,tcp,80
+Tunisia (UDP),vlus-tn1-ovpn-udp.pointtoserver.com,udp,53
+Turkey (TCP),vlus-tr-ovpn-tcp.pointtoserver.com,tcp,80
+Turkey (UDP),vlus-tr-ovpn-udp.pointtoserver.com,udp,53
+Turkmenistan (TCP),vlus-tm1-ovpn-tcp.pointtoserver.com,tcp,80
+Turkmenistan (UDP),vlus-tm1-ovpn-udp.pointtoserver.com,udp,53
+Turks and Caicos Island (TCP),vleu-tc1-ovpn-tcp.pointtoserver.com,tcp,80
+Turks and Caicos Island (UDP),vleu-tc1-ovpn-udp.pointtoserver.com,udp,53
+UAE (TCP),ae1-ovpn-tcp.pointtoserver.com,tcp,80
+UAE (UDP),ae1-ovpn-udp.pointtoserver.com,udp,53
+Ukraine (TCP),ua1-ovpn-tcp.pointtoserver.com,tcp,80
+Ukraine (UDP),ua1-ovpn-udp.pointtoserver.com,udp,53
+Uzbekistan (TCP),vlus-uz-ovpn-tcp.pointtoserver.com,tcp,80
+Uzbekistan (UDP),vlus-uz-ovpn-udp.pointtoserver.com,udp,53
+Vancouver (TCP),cav1-ovpn-tcp.pointtoserver.com,tcp,80
+Vancouver (UDP),cav1-ovpn-udp.pointtoserver.com,udp,53
+Venezuela (TCP),ve1-ovpn-tcp.pointtoserver.com,tcp,80
+Venezuela (UDP),ve1-ovpn-udp.pointtoserver.com,udp,53
+Vietnam (TCP),vlap-vn-ovpn-tcp.pointtoserver.com,tcp,80
+Vietnam (UDP),vlap-vn-ovpn-udp.pointtoserver.com,udp,53
+Virgin Islands (British) (TCP),vg1-ovpn-tcp.pointtoserver.com,tcp,80
+Virgin Islands (British) (UDP),vg1-ovpn-udp.pointtoserver.com,udp,53
+Virginia (TCP),vlbr-usvc-ovpn-tcp.pointtoserver.com,tcp,80
+Virginia (UDP),vlbr-usvc-ovpn-udp.pointtoserver.com,udp,53
+Washington Seattle (TCP),ussa1-ovpn-tcp.pointtoserver.com,tcp,80
+Washington Seattle (UDP),ussa1-ovpn-udp.pointtoserver.com,udp,53
+Yemen (TCP),ym1-ovpn-tcp.pointtoserver.com,tcp,80
+Yemen (UDP),ym1-ovpn-udp.pointtoserver.com,udp,53

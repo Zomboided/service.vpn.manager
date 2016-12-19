@@ -32,7 +32,8 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateWindscribe()
+
+    generatePureVPN()
     return
     generatePIA()
     generateNordVPN()
@@ -50,7 +51,7 @@ def generateAll():
     generateSecureVPN()
     generateNordVPN()
     generateproXPN()
-    generatePureVPN()
+    generateWindscribe()
     generateWiTopia()
     generateVPNht()
     generateTotalVPN()    
@@ -978,18 +979,25 @@ def generatePureVPN():
     for profile in profiles:
         geo = profile[profile.index("PureVPN\\")+8:]
         geo = geo.replace(".ovpn", "")
-        geo = geo.replace("ISLE-OF-MAN", "ISLE OF MAN")
+        geo = geo.replace("Isle of man", "Isle Of Man")
+        geo = geo.replace("MUNCHEN", "Munchen")
+        geo = geo.replace("GUANGDONG", "Guangdong")
+        geo = geo.replace(", ", " ")
+        geo = geo.replace(",", " ")
+        geo = geo.replace("1", " 1")
+        geo = geo.replace("2", " 2")
+        geo = geo.replace("3", " 3")
         udp_found = False
         tcp_found = False
         virtual_found = False
-        if "UDP" in profile: 
+        if "udp" in profile: 
             udp_found = True
             proto = "udp"
-            geo = geo.replace("-UDP", "")            
-        if "TCP" in profile: 
+            geo = geo.replace("-udp", "")            
+        if "tcp" in profile: 
             tcp_found = True
             proto = "tcp"
-            geo = geo.replace("-TCP", "")
+            geo = geo.replace("-tcp", "")
         if "(V)" in profile:
             virtual_found = True
             geo = geo.replace("(V)", "")

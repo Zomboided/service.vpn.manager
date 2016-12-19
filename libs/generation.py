@@ -32,9 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-
-    generatePureVPN()
+    generateSmartDNSProxy()
     return
+    generatePureVPN()
     generatePIA()
     generateNordVPN()
     generateExpressVPN()
@@ -85,6 +85,52 @@ def getProfileList(vpn_provider):
     return glob.glob(path)      
 
 
+def generateSmartDNSProxy():
+    # Data is stored as a bunch of ovpn files
+    profiles = getProfileList("SmartDNSProxy")
+    location_file = getLocations("SmartDNSProxy", "")
+    for profile in profiles:
+        geo = profile[profile.index("SmartDNSProxy\\")+14:]
+        geo = geo.replace(".ovpn", "")
+        udp_found = False
+        tcp_found = False
+        smart_found = False
+        if "UDP" in profile: 
+            udp_found = True
+            proto = "udp"
+            geo = geo.replace("UDP1194", "")            
+        if "TCP" in profile: 
+            tcp_found = True
+            proto = "tcp"
+            geo = geo.replace("TCP443", "")
+        if "SMART" in profile:
+            smart_found = True
+            geo = geo.replace("SMART", "")
+        geo = geo.replace("__", "_")
+        geo = geo.replace("_", " ")
+        geo = geo.replace("-", " - ")
+        if udp_found:
+            if smart_found:
+                geo = geo + ("(UDP Smart)")
+            else:
+                geo = geo + " (UDP)"
+        if tcp_found:
+            if smart_found:
+                geo = geo + " (TCP Smart)"
+            else:
+                geo = geo + " (TCP)"
+        geo = geo.replace("  ", " ")
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()             
+        output_line = geo + "," + server + "," + proto + "," + port + "\n"
+        location_file.write(output_line)
+    location_file.close()
+    
+    
 def generateWindscribe():
     # Data is stored in a flat text file
     # It's just a list of server names

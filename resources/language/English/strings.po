@@ -595,41 +595,45 @@ msgid "SecureVPN.to"
 msgstr ""
 
 msgctxt "#32222"
-msgid "tigerVPN"
+msgid "Smart DNS Proxy"
 msgstr ""
 
 msgctxt "#32223"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32224"
-msgid "TotalVPN"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32225"
-msgid "User Defined"
+msgid "TotalVPN"
 msgstr ""
 
 msgctxt "#32226"
-msgid "VPN.ht"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32227"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32228"
-msgid "VPNSecure"
+msgid "VPN Unlimited"
 msgstr ""
 
 msgctxt "#32229"
-msgid "VyprVPN"
+msgid "VPNSecure"
 msgstr ""
 
 msgctxt "#32230"
-msgid "WiTopia"
+msgid "VyprVPN"
 msgstr ""
 
 msgctxt "#32231"
+msgid "WiTopia"
+msgstr ""
+
+msgctxt "#32232"
 msgid "Windscribe"
 msgstr ""

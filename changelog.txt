@@ -1,5 +1,7 @@
 v2.3.0
 - Windscribe support
+- Smart DNS Proxy support
+- Update PureVPN servers
 
 v2.2.9
 - Another attempt to fix default up script generation...

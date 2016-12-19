@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generatePIA()
+    generateWindscribe()
     return
+    generatePIA()
     generateNordVPN()
     generateExpressVPN()
     generateIVPN()
@@ -81,6 +82,31 @@ def getLocations(vpn_provider, path_ext):
 def getProfileList(vpn_provider):
     path = getUserDataPath("providers/" + vpn_provider + "/*.ovpn")
     return glob.glob(path)      
+
+
+def generateWindscribe():
+    # Data is stored in a flat text file
+    # It's just a list of server names
+    location_file = getLocations("Windscribe", "")
+    source_file = open(getUserDataPath("providers/Windscribe/Servers.txt"), 'r')
+    source = source_file.readlines()
+    source_file.close()
+    for line in source:
+        line = line.strip(" \t\n\r")
+        server = line
+        geo = line.replace(".windscribe.com", "")
+        newPrint(geo)
+        if "-" in geo:
+            geo, rest = geo.split("-")
+            rest = " " + string.capwords(rest)
+        else:
+            rest = ""
+        geo = resolveCountry(geo.upper()) + rest
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,443"  + "\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
+    location_file.close()
 
     
 def generateRA4W():

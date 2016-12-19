@@ -1,0 +1,19 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+nobind
+auth-user-pass #PASS
+resolv-retry 30
+auth SHA512
+cipher AES-256-CBC
+keysize 256
+comp-lzo
+verb 2
+mute-replay-warnings
+ns-cert-type server
+persist-key
+persist-tun
+key-direction 1
+ca #CERT
+tls-auth #TLSKEY

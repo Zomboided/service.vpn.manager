@@ -1,3 +1,6 @@
+v2.3.0
+- Windscribe support
+
 v2.2.9
 - Another attempt to fix default up script generation...
 - Alternative running task detection option for certain flavours of Linux

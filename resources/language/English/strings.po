@@ -611,21 +611,25 @@ msgid "User Defined"
 msgstr ""
 
 msgctxt "#32226"
-msgid "WiTopia"
-msgstr ""
-
-msgctxt "#32227"
 msgid "VPN.ht"
 msgstr ""
 
-msgctxt "#32228"
+msgctxt "#32227"
 msgid "VPN Unlimited"
 msgstr ""
 
-msgctxt "#32229"
+msgctxt "#32228"
 msgid "VPNSecure"
 msgstr ""
 
-msgctxt "#32230"
+msgctxt "#32229"
 msgid "VyprVPN"
+msgstr ""
+
+msgctxt "#32230"
+msgid "WiTopia"
+msgstr ""
+
+msgctxt "#32231"
+msgid "Windscribe"
 msgstr ""

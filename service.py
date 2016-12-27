@@ -175,7 +175,11 @@ if __name__ == '__main__':
     # Create a monitor to look out for settings changes
     settingsMonitor = KodiMonitor()
     #playerMonitor = KodiPlayer()
-            
+    
+    if not xbmcvfs.exists(getAddonPath(True, "connect.py")):
+        xbmcgui.Dialog().ok(addon_name, "You've installed VPN Manager incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
+        errorTrace("service.py", "Install is in the wrong place, expecting to find the add-on installed in " + getAddonPath(True,""))
+    
     # See if this is a new install...we might want to do things here
     if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")):
         xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))

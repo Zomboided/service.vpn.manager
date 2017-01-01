@@ -1,3 +1,8 @@
+v2.3.1
+- Allow ovpn with key and cert to be supplied rather than individual key and cert files
+- Improve key and cert selection
+- VPN Unlimited goes from single key/cert to multiple key/certs in an attempt to fix support
+
 v2.3.0
 - Windscribe support
 - Smart DNS Proxy support

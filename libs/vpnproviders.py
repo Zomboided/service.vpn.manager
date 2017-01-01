@@ -40,8 +40,8 @@ providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA"
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
 # Names must match the directory names as used in providers, just above
-providers_with_multiple_keys = ["PerfectPrivacy", "Celo", "SecureVPN"]
-providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "VPNUnlimited", "ExpressVPN", "WiTopia", "VPNSecure"]
+providers_with_multiple_keys = ["PerfectPrivacy", "Celo", "SecureVPN", "VPNUnlimited"]
+providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "ExpressVPN", "WiTopia", "VPNSecure"]
 
 # *** ADD VPN PROVIDERS HERE IF THEY DON'T USE USERNAME AND PASSWORD ****
 # List of providers which don't use auth-user-pass.
@@ -177,17 +177,58 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
     key_source = user_key
     cert_dest = getUserDataPath(vpn_provider + "/" + getCertName(vpn_provider, ovpn_name))
     cert_source = user_cert
-    try:
-        debugTrace("Copying key " + key_source + " to " + key_dest)
-        if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
-        xbmcvfs.copy(key_source, key_dest)
-        debugTrace("Copying cert " + cert_source + " to " + cert_dest)
-        if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
-        xbmcvfs.copy(cert_source, cert_dest)
-        return True
-    except:
-        errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
-        return False
+    if key_source == cert_source:
+        # This means that a .ovpn was selected
+        try:
+            debugTrace("Extracing key and cert from " + key_source + " to " + key_dest + " and " + cert_dest)
+            ovpn_file = open(key_source, 'r')
+            key_file = open(key_dest, 'w')
+            cert_file = open(cert_dest, 'w')
+            ovpn = ovpn_file.readlines()
+            ovpn_file.close()
+            key = False
+            cert = False
+            key_count = 0
+            cert_count = 0
+            for line in ovpn:
+                line = line.strip(' \t\n\r')
+                if line.startswith("<key>"): key = True
+                elif line.startswith("</key>"): key = False
+                elif line.startswith("<cert>"): cert = True
+                elif line.startswith("</cert>"): cert = False
+                else:
+                    if key: 
+                        key_file.write(line + "\n")
+                        key_count += 1
+                    if cert: 
+                        cert_file.write(line + "\n")
+                        cert_count += 1
+            key_file.close()
+            cert_file.close()
+            if key_count > 0 and cert_count > 0:
+                return True
+            else:
+                # Couldn't extract key and/or cert, delete any remains and return error
+                errorTrace("vpnproviders.py", "Failed to extract user key or cert file from ovpn.  Key size was " + str(key_count) + " and cert size was " + str(cert_count))
+                if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
+                if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
+                return False
+        except:
+            errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
+            return False  
+    else:
+        # Individual key and crt files were selected
+        try:
+            debugTrace("Copying key " + key_source + " to " + key_dest)
+            if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
+            xbmcvfs.copy(key_source, key_dest)
+            debugTrace("Copying cert " + cert_source + " to " + cert_dest)
+            if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
+            xbmcvfs.copy(cert_source, cert_dest)
+            return True
+        except:
+            errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
+            return False
     
 
 def getKeyName(vpn_provider, ovpn_name):

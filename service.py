@@ -217,6 +217,11 @@ if __name__ == '__main__':
                 clearKeysAndCerts("HMA")
             if addon.getSetting("vpn_provider_validated") == "IVPN" and last_version < 210:
                 addon.setSetting("1_vpn_validated", "reset")
+            # VPN Unlim went from being single key to multiple keys in 2.3.1
+            if addon.getSetting("vpn_provider_validated") == "VPNUnlimited" and last_version < 231:
+                addon.setSetting("1_vpn_validated", "reset")
+                clearKeysAndCerts("VPNUnlimited")
+                
     
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

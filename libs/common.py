@@ -1001,18 +1001,23 @@ def connectVPN(connection_order, vpn_profile):
                 if not (gotKeys(getVPNLocation(vpn_provider), ovpn_name)):
                     # Stick out a helpful message if this is first time through
                     if not gotKeys(getVPNLocation(vpn_provider), ""):
-                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " provides unique key and certificate files to authenticate, typically called [I]client.key and client.crt[/I] or [I]user.key and user.crt[/I].  Make these files available on an accessable drive or USB key.")
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " provides unique key and certificate files to authenticate, typically called [I]client.key and client.crt[/I] or [I]user.key and user.crt[/I].  They can also both be provided within [I].ovpn[/I] files.  Make these files available on an accessable drive or USB key.")
                     # Get the last directory browsed to avoid starting from the top
                     start_dir = xbmcgui.Window(10000).getProperty("VPN_Manager_User_Directory")
-                    if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select the user key file to use for all connections"
-                    else: select_title = "Select the user key file to use for this individual connection"
-                    key_file = xbmcgui.Dialog().browse(1, select_title, "files", ".key", False, False, start_dir, False)
-                    if key_file.endswith(".key"):
+                    if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select key or ovpn with key/cert for all connections"
+                    else: select_title = "Select key or ovpn with key/cert for this individual connection"
+                    key_file = xbmcgui.Dialog().browse(1, select_title, "files", ".key|.ovpn", False, False, start_dir + getSeparator(), False)
+                    if key_file.endswith(".key") or key_file.endswith(".ovpn"):
                         start_dir = os.path.dirname(key_file)
-                        if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select the user certificate file to use for all connections"
-                        else: select_title = "Select the user certificate file to use for this individual connection"
-                        crt_file = xbmcgui.Dialog().browse(1, select_title, "files", ".crt", False, False, start_dir, False)                    
-                        if crt_file.endswith(".crt"):
+                        if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select the certificate for all connections"
+                        else: select_title = "Select the certificate for this individual connection"
+                        if key_file.endswith(".key"):
+                            crt_file = xbmcgui.Dialog().browse(1, select_title, "files", ".crt", False, False, start_dir + getSeparator(), False)
+                        else:
+                            # If an ovpn file was selected, let's assume the key and the cert are in there
+                            # The user can always separate them out themselves if this is wrong
+                            crt_file = key_file
+                        if crt_file.endswith(".crt") or crt_file.endswith(".ovpn"):
                             start_dir = os.path.dirname(crt_file)
                             xbmcgui.Window(10000).setProperty("VPN_Manager_User_Directory", start_dir)
                             keys_copied = copyKeyAndCert(getVPNLocation(vpn_provider), ovpn_name, key_file, crt_file)
@@ -1122,9 +1127,12 @@ def connectVPN(connection_order, vpn_profile):
         elif not got_keys:
             log_option = False
             if not keys_copied:
-                dialog_message = "Failed to copy supplied user key and cert files.\nCheck log and retry."
+                if key_file == crt_file:
+                    dialog_message = "Failed to extract user key or cert from ovpn file.\nCheck log and opvn file and retry."
+                else:
+                    dialog_message = "Failed to copy supplied user key and cert files.\nCheck log and retry."
             else:
-                dialog_message = "User key and certificate files are required, but were not provided.  Locate the files and try again."
+                dialog_message = "User key and certificate files are required, but were not provided.  Locate the files or an ovpn file that contains them and try again."
         elif ovpn_name == "":
             log_option = False
             dialog_message = "No VPN profiles were available for " + vpn_protocol + ". They've all been used or none exist for the selected protocol filter."

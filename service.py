@@ -218,15 +218,16 @@ if __name__ == '__main__':
             if addon.getSetting("vpn_provider_validated") == "IVPN" and last_version < 210:
                 addon.setSetting("1_vpn_validated", "reset")
             # VPN Unlim went from being single key to multiple keys in 2.3.1
-            if addon.getSetting("vpn_provider_validated") == "VPNUnlimited" and last_version < 231:
+            if addon.getSetting("vpn_provider_validated") == "VPNUnlimited" and last_version < 240:
                 addon.setSetting("1_vpn_validated", "reset")
+                addon.setSetting("user_def_keys", "None")
                 clearKeysAndCerts("VPNUnlimited")
                 
     
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
-    # then regenerate the OVPNs for the validated provider.  
+    # then regenerate the OVPNs for the validated provider.
     primary_path = addon.getSetting("1_vpn_validated")
 
     if not primary_path == "" and not xbmcvfs.exists(primary_path):

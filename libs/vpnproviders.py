@@ -213,8 +213,9 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
                 if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
                 if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
                 return False
-        except:
+        except Exception as e:
             errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
+            errorTrace("vpnproviders.py", str(e))
             return False  
     else:
         # Individual key and crt files were selected
@@ -226,8 +227,9 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
             if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
             xbmcvfs.copy(cert_source, cert_dest)
             return True
-        except:
+        except Exception as e:
             errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
+            errorTrace("vpnproviders.py", str(e))
             return False
     
 
@@ -390,8 +392,9 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         debugTrace("Opened template file for " + vpn_provider)
         template = template_file.readlines()
         template_file.close()
-    except:
+    except Exception as e:
         errorTrace("vpnproviders.py", "Couldn't open the template file for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
         return False
     
     if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
@@ -417,8 +420,9 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         debugTrace("Opened locations file for " + vpn_provider)
         locations = locations_file.readlines()
         locations_file.close()
-    except:
+    except Exception as e:
         errorTrace("vpnproviders.py", "Couldn't open the locations file for " + vpn_provider + "\n" + locations_name)
+        errorTrace("vpnproviders.py", str(e))
         return False
 
     # For each location, generate an OVPN file using the template
@@ -461,8 +465,9 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
             if proto == "udp" and not portUDP == "": port = portUDP
             if proto == "tcp" and not portTCP == "": port = portTCP
             if port == "" and len(ports) == 1: port = ports[0]
-        except:
+        except Exception as e:
             errorTrace("vpnproviders.py", "Location file for " + vpn_provider + " invalid on line\n" + location)
+            errorTrace("vpnproviders.py", str(e))
             return False
             
         try:
@@ -522,8 +527,9 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 if not output_line == "" : ovpn_file.write(output_line + "\n")
             ovpn_file.close()
             debugTrace("Wrote location " + geo + " " + proto)
-        except:
+        except Exception as e:
             errorTrace("vpnproviders.py", "Can't write a location file for " + vpn_provider + " failed on line\n" + location)
+            errorTrace("vpnproviders.py", str(e))
             return False
     
     # Flag that the files have been generated
@@ -575,10 +581,12 @@ def updateVPNFiles(vpn_provider):
             # Update the necessary values in the ovpn file
             for line in lines:
                 
+                line = line.strip(' \t\n\r')
+                
                 # Update path to pass.txt
                 if not isUserDefined(vpn_provider) or addon.getSetting("user_def_credentials") == "true":
                     if line.startswith("auth-user-pass"):
-                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt\n")
+                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")
 
                 # Update port numbers
                 if line.startswith("remote "):
@@ -594,9 +602,9 @@ def updateVPNFiles(vpn_provider):
                 # Update user cert and key                
                 if usesUserKeys(vpn_provider):
                     if line.startswith("cert "):
-                        line = "cert " + getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, name) + "\n")
+                        line = "cert " + getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, name))
                     if line.startswith("key "):
-                        line = "key " + getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, name) + "\n")
+                        line = "key " + getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, name))
                 
                 # For user defined profile we need to replace any path tags with the addon dir path
                 if isUserDefined(vpn_provider):
@@ -604,7 +612,7 @@ def updateVPNFiles(vpn_provider):
                 
                 # Set the logging level
                 if line.startswith("verb "):
-                    line = "verb " + verb_value + "\n"
+                    line = "verb " + verb_value
     
                 if line.startswith("up "):
                     found_up = True
@@ -615,7 +623,7 @@ def updateVPNFiles(vpn_provider):
                 if line.startswith("block-outside-dns"):
                     found_block_dns = True
     
-                f.write(line)
+                f.write(line + "\n")
             
             if not found_block_dns and getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
                 f.write("block-outside-dns\n")
@@ -626,8 +634,9 @@ def updateVPNFiles(vpn_provider):
                 if not found_down: f.write(getDownParam(vpn_provider)+"\n")
             
             f.close()
-        except:
+        except Exception as e:
             errorTrace("vpnproviders.py", "Failed to update ovpn file")
+            errorTrace("vpnproviders.py", str(e))
             return False
 
     # Flag that the files have been generated            
@@ -652,8 +661,9 @@ def copyUserDefinedFiles():
             dest_file = dest_path + getSeparator() + name
             xbmcvfs.copy(file, dest_file)
         return True
-    except:
+    except Exception as e:
         errorTrace("vpnproviders.py", "Error copying files from " + source_path + " to " + dest_path)
+        errorTrace("vpnproviders.py", str(e))
         return False
 
 

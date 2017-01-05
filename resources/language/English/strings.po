@@ -87,7 +87,7 @@ msgid "  Alternative TCP port"
 msgstr ""
 
 msgctxt "#32016"
-msgid "[I]User Defined[/I]  provider authentication"
+msgid "[I]User Defined[/I]  provider"
 msgstr ""
 
 msgctxt "#32017"
@@ -108,6 +108,14 @@ msgstr ""
 
 msgctxt "#32021"
 msgid "Multiple"
+msgstr ""
+
+msgctxt "#32022"
+msgid "User Defined import wizard"
+msgstr ""
+
+msgctxt "#32023"
+msgid "View last import wizard log"
 msgstr ""
 
 # VPN Connection Settings

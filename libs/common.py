@@ -694,8 +694,9 @@ def writeCredentials(addon):
         credentials.write(addon.getSetting("vpn_username")+"\n")
         credentials.write(addon.getSetting("vpn_password")+"\n")
         credentials.close()
-    except:
+    except Exception as e:
         errorTrace("common.py", "Couldn't create credentials file " + credentials_path)
+        errorTrace("common.py", str(e))
         return False
     xbmc.sleep(500)
     return True
@@ -819,6 +820,8 @@ def connectVPN(connection_order, vpn_profile):
     # Pause the monitor service
     progress_message = "Pausing VPN monitor."
     progress.update(1, progress_title, progress_message)
+    xbmc.sleep(500)
+    
     if not stopService():
         progress.close()
         # Display error result in an ok dialog
@@ -856,11 +859,15 @@ def connectVPN(connection_order, vpn_profile):
             default_file = open(default_path, 'r')
             default = default_file.readlines()
             default_file.close()
-            default_value = default[0].strip(' \t\n\r')
-            addon.setSetting("vpn_username", default_value)
-            default_value = default[1].strip(' \t\n\r')
-            addon.setSetting("vpn_password", default_value)  
-
+            if len(default) == 2:
+                default_value = default[0].strip(' \t\n\r')
+                addon.setSetting("vpn_username", default_value)
+                default_value = default[1].strip(' \t\n\r')
+                addon.setSetting("vpn_password", default_value)  
+            else:
+                errorTrace("common.py", "DEFAULT.txt found in VPN directory for " + vpn_provider + ", but file appears to be invalid.")
+                
+                
         # Reset the username/password if it's not being used
         if not usesPassAuth(getVPNLocation(vpn_provider)):
             addon.setSetting("vpn_username", "")
@@ -904,7 +911,7 @@ def connectVPN(connection_order, vpn_profile):
             cancel_text = "[I]Cancel connection attempt[/I]"
             selected_profile = ""
             
-            if len(locations) == 0 and ovpnGenerated(getVPNLocation(vpn_provider)):
+            if len(locations) == 0 and not isUserDefined(vpn_provider) and ovpnGenerated(getVPNLocation(vpn_provider)):
                 errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
             if len(locations) > 1:
                 # Add the cancel option to the dialog box list
@@ -923,8 +930,9 @@ def connectVPN(connection_order, vpn_profile):
                 # Generate new ones
                 try:
                     provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
-                except:
+                except Exception as e:
                     errorTrace("common.py", "Couldn't generate new .ovpn files")
+                    errorTrace("common.py", str(e))
                     provider_gen = False
                 xbmc.sleep(500)
             else:
@@ -1001,16 +1009,21 @@ def connectVPN(connection_order, vpn_profile):
                 if not (gotKeys(getVPNLocation(vpn_provider), ovpn_name)):
                     # Stick out a helpful message if this is first time through
                     if not gotKeys(getVPNLocation(vpn_provider), ""):
-                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " provides unique key and certificate files to authenticate, typically called [I]client.key and client.crt[/I] or [I]user.key and user.crt[/I].  They can also both be provided within [I].ovpn[/I] files.  Make these files available on an accessable drive or USB key.")
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " requires key and certificate files unique to you in order to authenticate.  These are typically called [I]client.key and client.crt[/I] or [I]user.key and user.crt[/I] or can be embedded within [I].ovpn[/I] files.")
+                        
                     # Get the last directory browsed to avoid starting from the top
                     start_dir = xbmcgui.Window(10000).getProperty("VPN_Manager_User_Directory")
-                    if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select key or ovpn with key/cert for all connections"
-                    else: select_title = "Select key or ovpn with key/cert for this individual connection"
+                    if usesSingleKey(getVPNLocation(vpn_provider)): 
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses the same key and certificate for all connections. Make either the .key and .crt, or the a .ovpn file available on an accessable drive or USB key.")
+                        select_title = "Select key or ovpn for all connections"
+                    else: 
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses a different key and certificate for each connection.  Make either the .key and .cert or .ovpn [COLOR red]relevant to your selected connection[/COLOR] available on an accessable drive or USB key.")
+                        select_title = "Select key or ovpn for " + ovpn_name
                     key_file = xbmcgui.Dialog().browse(1, select_title, "files", ".key|.ovpn", False, False, start_dir + getSeparator(), False)
                     if key_file.endswith(".key") or key_file.endswith(".ovpn"):
                         start_dir = os.path.dirname(key_file)
                         if usesSingleKey(getVPNLocation(vpn_provider)): select_title = "Select the certificate for all connections"
-                        else: select_title = "Select the certificate for this individual connection"
+                        else: select_title = "Select cert for " + ovpn_name
                         if key_file.endswith(".key"):
                             crt_file = xbmcgui.Dialog().browse(1, select_title, "files", ".crt", False, False, start_dir + getSeparator(), False)
                         else:

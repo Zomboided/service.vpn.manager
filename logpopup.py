@@ -21,7 +21,7 @@
 import xbmcaddon
 import xbmcgui
 from libs.utility import debugTrace, errorTrace, infoTrace
-from libs.logbox import popupOpenVPNLog, popupKodiLog
+from libs.logbox import popupOpenVPNLog, popupKodiLog, popupImportLog
 
 action = sys.argv[1]
 
@@ -32,5 +32,8 @@ if action == "kodi":
 
 if action == "openvpn":
     popupOpenVPNLog("")
+    
+if action == "import":
+    popupImportLog()
 
 debugTrace("-- Exit infopopup.py --")

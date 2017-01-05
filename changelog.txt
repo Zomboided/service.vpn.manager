@@ -1,3 +1,7 @@
+v2.4.0
+- User Defined import wizard
+- Improved error logging
+
 v2.3.1
 - Allow ovpn with key and cert to be supplied rather than individual key and cert files
 - Improve key and cert selection

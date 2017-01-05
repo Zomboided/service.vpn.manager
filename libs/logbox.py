@@ -22,7 +22,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 from libs.utility import debugTrace, errorTrace, infoTrace
-from libs.platform import getVPNLogFilePath, getLogPath, getAddonPath
+from libs.platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath
 
 
 ACTION_PREVIOUS_MENU = 10
@@ -62,20 +62,22 @@ def popupKodiLog():
         dialog_text = dialog_text + line
     showLogBox("Kodi Log", dialog_text)
 
+  
+def popupImportLog():
+    dialog_text = ""
+    if xbmcvfs.exists(getImportLogPath()):
+        log_file = open(getImportLogPath(), 'r')
+        log_output = log_file.readlines()
+        log_file.close()    
+        for line in log_output:
+            dialog_text = dialog_text + line
+    else:
+            dialog_text = dialog_text + "No import log file available.  A log file is only available once the import wizard has been run."
+    showLogBox("Import Wizard Log", dialog_text)
+
     
 def popupOpenVPNLog(provider):
     dialog_text = ""
-    #print "pass.txt is " + getAddonPath(True, provider + "/pass.txt")
-    #if xbmcvfs.exists(getAddonPath(True, provider + "/pass.txt")):
-    #    pass_file = open(getAddonPath(True, provider + "/pass.txt"), 'r')
-    #    pass_output = pass_file.readlines()
-    #    pass_file.close()
-    #    i = 0
-    #    for line in pass_output:
-    #        if i == 0 : dialog_text = dialog_text + "Username is " + line            
-    #        if i == 1 : dialog_text = dialog_text + "Password is " + line
-    #        i = i + 1
-    #    dialog_text = dialog_text + "\n"
     if xbmcvfs.exists(getVPNLogFilePath()):
         log_file = open(getVPNLogFilePath(), 'r')
         log_output = log_file.readlines()

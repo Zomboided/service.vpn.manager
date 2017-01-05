@@ -158,6 +158,10 @@ def getVPNLogFilePath():
     return ""
     
 
+def getImportLogPath():
+    return xbmc.translatePath("special://logpath/import.log")
+    
+    
 def stopVPN():
     # Little hammer
     stopVPNn("15")
@@ -344,8 +348,9 @@ def isVPNTaskRunning():
                 if pid == 0 : return True
             debugTrace("(Linux) Didn't find a running process")
             return False
-        except:
+        except Exception as e:
             errorTrace("platform.py", "VPN task list failed")
+            errorTrace("platform.py", str(e))
             return False
     if p == platforms.WINDOWS:
         try:
@@ -358,8 +363,9 @@ def isVPNTaskRunning():
             else:
                 debugTrace("(Windows) Didn't find a running process")
                 return False
-        except:
+        except Exception as e:
             errorTrace("platform.py", "VPN task list failed")
+            errorTrace("platform.py", str(e))
             return False
 
     # **** ADD MORE PLATFORMS HERE ****
@@ -431,8 +437,9 @@ def writeVPNLog():
         for line in log_output:
             infoPrint(line)
         infoTrace("platform.py", "<<< VPN log file end")
-    except:
+    except Exception as e:
         errorTrace("platform.py", "Couldn't write VPN error log")
+        errorTrace("platform.py", str(e))
 
 
 def getSeparator():

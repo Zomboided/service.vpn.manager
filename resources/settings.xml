@@ -20,9 +20,11 @@
         <setting label="32014" type="bool" id="default_tcp" enable="eq(-14,)" default="true"/>
         <setting label="32015" type="number" id="alternative_tcp_port" enable="eq(-15,)" visible="!eq(-1,true)" default="443"/>
         <setting label=""      type='lsep'/>
-        <setting label="32016" type='lsep'/>
+        <setting label="32016" type='lsep'/>   
         <setting label="32017" type="bool" id="user_def_credentials" enable="eq(-18,)" default="true"/>        
         <setting label="32018" type="labelenum" id="user_def_keys" enable="eq(-19,)" lvalues="32019|32020|32021"/>
+        <setting label="32022" type="action" enable="eq(-20,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/import.py)"/>
+        <setting label="32023" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, import)"/>
     </category>
     <category label="32025">
 		<setting label="32026" type='lsep'/>

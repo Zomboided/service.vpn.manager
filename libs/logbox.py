@@ -22,7 +22,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 from libs.utility import debugTrace, errorTrace, infoTrace
-from libs.platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath
+from libs.platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
 
 
 ACTION_PREVIOUS_MENU = 10
@@ -72,7 +72,9 @@ def popupImportLog():
         for line in log_output:
             dialog_text = dialog_text + line
     else:
-            dialog_text = dialog_text + "No import log file available.  A log file is only available once the import wizard has been run."
+            dialog_text = "No import log file available.  A log file is only available once the import wizard has been run.\n\n"
+            dialog_text = dialog_text + "The User Defined directory is " + getUserDataPath("UserDefined/") + "\n\n"
+            dialog_text = dialog_text + "More information on using User Defined VPNs can be found on the GitHub wiki for the service.vpn.manager project.\n"
     showLogBox("Import Wizard Log", dialog_text)
 
     
@@ -85,5 +87,5 @@ def popupOpenVPNLog(provider):
         for line in log_output:
             dialog_text = dialog_text + line
     else:
-        dialog_text = dialog_text + "No openvpn log file available.  A log file is only available once an attempt has been made to start a VPN connection."
+        dialog_text = dialog_text + "No openvpn log file available.  A log file is only available once an attempt has been made to start a VPN connection.\n"
     showLogBox("OpenVPN Log", dialog_text)    

@@ -35,10 +35,10 @@ from libs.logbox import popupImportLog
 
 # Delete any existing files
 def clearUserData():
-    debugTrace("Deleting contents of userdata UserDefined directory")
     # Deleting everything here, but not deleting 'DEFAULT.txt' as 
     # any existing user and password info will get deleted
     path = getUserDataPath("UserDefined" + "/*.*")
+    debugTrace("Deleting contents of User Defined directory" + path)
     files = glob.glob(path)
     try:
         for file in files:
@@ -69,7 +69,7 @@ errorMessage = ""
 success = False
 cancel = False
 
-xbmcgui.Dialog().ok(addon_name, "The User Defined import wizard helps you set up a VPN provider that's not supported.  It may not work without additional user intervention.  You should review the import log and subsequent VPN logs to debug any problems.")
+xbmcgui.Dialog().ok(addon_name, "The User Defined import wizard helps you set up an unsupported VPN provider.  It may not work without additional user intervention.  You should review the import log and subsequent VPN logs to debug any problems.")
 
 # Warn the user that files will be deleted and kittens will be harmed
 if xbmcgui.Dialog().yesno(addon_name, "Any existing User Defined settings and files will be deleted. Do you want to continue?", "", ""):
@@ -90,13 +90,16 @@ if success:
     else:
         directory_input = True
         dname = xbmcgui.Dialog().browse(0, "Select a directory containing VPN provider files", "files", "", False, False, "c:\\", False)
+        debugTrace("Found directory " + dname)
         files = glob.glob(dname + getSeparator() + "*.*")
+        
+        # FIXME Need to change glob for xbmcvfs
         
     # Separate the selected files into ovpn files and other files
     ovpn_files = []
     other_files = []
     for name in files:
-        newPrint("name is " + name)
+        debugTrace("Found file " + name)
         if name.endswith(".ovpn"):
             ovpn_files.append(name)
         else:
@@ -112,7 +115,7 @@ if success:
     summary = []
     detail = []
    
-    summary.append("Importing selected files to userdata directory, " + getUserDataPath("UserDefined/") + "\n")
+    summary.append("Importing selected files to User Defined directory, " + getUserDataPath("UserDefined/") + "\n")
     summary.append("at " + time.strftime('%Y-%m-%d %H:%M:%S') + "\n")
     detail.append("\n=== Import details ===\n\n")
     
@@ -266,10 +269,10 @@ if success:
     if cancel:
         summary.append("Import was cancelled\n")
     else:
-        summary.append("  Imported " + str(len(ovpn_files)) + " .ovpn files and " + str(len(other_files)) + " other files.\n")
-        summary.append("\nYou should understand any WARNINGs below, and validate that the files imported have been updated correctly.\n")
-        summary.append("If the connection fails, view the VPN log to determine why and use Google to understand the errors and fix any problems.\n")
-        summary.append("You can fix any problems by editing your local files and re-importing, or by editing the contents of the userdata directory.\n\n")
+        summary.append("Imported " + str(len(ovpn_files)) + " .ovpn files and " + str(len(other_files)) + " other files.\n")
+        summary.append("\nYou should understand any WARNINGs below, and validate that the .ovpn files imported have been updated correctly.\n\n")
+        summary.append("If the VPN connection fails view the VPN log to determine why, using Google to understand the errors if necessary.\n")
+        summary.append("You can fix problems by editing your local files and re-importing, or by editing the contents of the User Defined directory.\n\n")
         
         if update:
             # Report on how user names and passwords will be handled

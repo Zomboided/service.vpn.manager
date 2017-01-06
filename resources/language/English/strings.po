@@ -91,31 +91,31 @@ msgid "[I]User Defined[/I]  provider"
 msgstr ""
 
 msgctxt "#32017"
-msgid "Manage username and password"
-msgstr ""
-
-msgctxt "#32018"
-msgid "Manage client or user key and cert files"
-msgstr ""
-
-msgctxt "#32019"
-msgid "None"
-msgstr ""
-
-msgctxt "#32020"
-msgid "Single"
-msgstr ""
-
-msgctxt "#32021"
-msgid "Multiple"
-msgstr ""
-
-msgctxt "#32022"
 msgid "User Defined import wizard"
 msgstr ""
 
+msgctxt "#32018"
+msgid "View last User Defined import wizard log"
+msgstr ""
+
+msgctxt "#32019"
+msgid "Manage username and password"
+msgstr ""
+
+msgctxt "#32020"
+msgid "Manage client or user key and cert files"
+msgstr ""
+
+msgctxt "#32021"
+msgid "None"
+msgstr ""
+
+msgctxt "#32022"
+msgid "Single"
+msgstr ""
+
 msgctxt "#32023"
-msgid "View last import wizard log"
+msgid "Multiple"
 msgstr ""
 
 # VPN Connection Settings

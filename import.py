@@ -90,15 +90,15 @@ if success:
     else:
         directory_input = True
         dname = xbmcgui.Dialog().browse(0, "Select a directory containing VPN provider files", "files", "", False, False, "c:\\", False)
-        debugTrace("Found directory " + dname)
-        files = glob.glob(dname + getSeparator() + "*.*")
-        
-        # FIXME Need to change glob for xbmcvfs
+        debugTrace("Import from directory " + dname)
+        dirs, files = xbmcvfs.listdir(dname)
         
     # Separate the selected files into ovpn files and other files
     ovpn_files = []
     other_files = []
     for name in files:
+        if directory_input:
+            name = dname + name
         debugTrace("Found file " + name)
         if name.endswith(".ovpn"):
             ovpn_files.append(name)
@@ -272,7 +272,7 @@ if success:
         summary.append("Imported " + str(len(ovpn_files)) + " .ovpn files and " + str(len(other_files)) + " other files.\n")
         summary.append("\nYou should understand any WARNINGs below, and validate that the .ovpn files imported have been updated correctly.\n\n")
         summary.append("If the VPN connection fails view the VPN log to determine why, using Google to understand the errors if necessary.\n")
-        summary.append("You can fix problems by editing your local files and re-importing, or by editing the contents of the User Defined directory.\n\n")
+        summary.append("You can fix problems either by editing your local files and re-importing, or by editing the contents of the User Defined directory.\n\n")
         
         if update:
             # Report on how user names and passwords will be handled

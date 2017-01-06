@@ -136,6 +136,21 @@ if success:
     prog_step = 0
     xbmc.sleep(500)
     try:
+        dest_path = getUserDataPath("UserDefined/")
+        debugTrace("Checking directory path exists before copying " + dest_path)
+        if not os.path.exists(dest_path):
+            infoTrace("import.py", "Creating " + dest_path)
+            os.makedirs(os.path.dirname(dest_path))
+            xbmc.sleep(500)
+            # Loop around waiting for the directory to be created.  After 10 seconds we'll carry 
+            # on and let he open file calls fail and throw an exception
+            t = 0
+            while not os.path.exists(os.path.dirname(dest_path)):
+                if t == 9:
+                    errorTrace("vpnprovider.py", "Waited 10 seconds to create directory but it never appeared")
+                    break
+                xbmc.sleep(1000)
+                t += 1
         other_files_count = []
         for fname in other_files:
             path, dest_name = os.path.split(fname)

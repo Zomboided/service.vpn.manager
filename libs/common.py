@@ -31,7 +31,7 @@ import sys
 from libs.platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from libs.platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from libs.platform import getPlatformString, checkPlatform, useSudo
-from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug
+from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
 from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
@@ -784,7 +784,12 @@ def connectVPN(connection_order, vpn_profile):
         if checkVPNCommand(addon): addon.setSetting("ran_openvpn", "true")
         else: return
     
+    # This is needed because after a default it can end up as a null value rather than one of 
+    # the three selections.  If it's null, just force it to the best setting anyway.
     vpn_protocol = addon.getSetting("vpn_protocol")
+    if vpn_protocol == "":
+        addon.setSetting("vpn_protocol", "UDP")
+        vpn_protocol = "UDP"
     
     # Do some stuff to set up text used in dialog windows
     connection_title = ""
@@ -969,7 +974,7 @@ def connectVPN(connection_order, vpn_profile):
         if not progress.iscanceled():
 
             if not connection_order == "0":
-                debugTrace("Displaying list of connections")
+                debugTrace("Displaying list of connections with filter " + vpn_protocol)
                 all_connections = getAddonList(vpn_provider, "*.ovpn")
                 ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
                 none_filter = "UDP and TCP"

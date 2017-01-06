@@ -182,10 +182,24 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
         try:
             debugTrace("Extracing key and cert from " + key_source + " to " + key_dest + " and " + cert_dest)
             ovpn_file = open(key_source, 'r')
-            key_file = open(key_dest, 'w')
-            cert_file = open(cert_dest, 'w')
             ovpn = ovpn_file.readlines()
             ovpn_file.close()
+            debugTrace("Checking directory path exists for key and cert " + os.path.dirname(key_dest))
+            if not os.path.exists(os.path.dirname(key_dest)):
+                infoTrace("vpnprovider.py", "Creating " + os.path.dirname(key_dest))
+                os.makedirs(os.path.dirname(key_dest))
+                xbmc.sleep(500)
+                # Loop around waiting for the directory to be created.  After 10 seconds we'll carry 
+                # on and let he open file calls fail and throw an exception
+                t = 0
+                while not os.path.exists(os.path.dirname(key_dest)):
+                    if t == 9:
+                        errorTrace("vpnprovider.py", "Waited 10 seconds to create directory but it never appeared")
+                        break
+                    xbmc.sleep(1000)
+                    t += 1
+            key_file = open(key_dest, 'w')
+            cert_file = open(cert_dest, 'w')
             key = False
             cert = False
             key_count = 0
@@ -210,8 +224,8 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
             else:
                 # Couldn't extract key and/or cert, delete any remains and return error
                 errorTrace("vpnproviders.py", "Failed to extract user key or cert file from ovpn.  Key size was " + str(key_count) + " and cert size was " + str(cert_count))
-                if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
-                if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
+                #if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
+                #if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
                 return False
         except Exception as e:
             errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")

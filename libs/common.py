@@ -927,7 +927,7 @@ def connectVPN(connection_order, vpn_profile):
             
             if not selected_profile == cancel_text:
                 addon.setSetting("vpn_locations_list", selected_profile)
-                progress_message = "Setting up VPN provider " + vpn_provider + "."
+                progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)."
                 progress.update(11, progress_title, progress_message)
                 # Delete any old files in other directories
                 debugTrace("Deleting all generated ovpn files")

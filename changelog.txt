@@ -1,9 +1,9 @@
 v2.4.0
 - User Defined import wizard
+- Better VPN reset behaviour
 - Improved error logging
 - Fix ovpn import bug
 - Fix bug displaying all profiles on a new install
-- Better VPN reset behaviour
 
 v2.3.1
 - Allow ovpn with key and cert to be supplied rather than individual key and cert files

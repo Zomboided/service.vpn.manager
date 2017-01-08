@@ -184,17 +184,27 @@ if success:
                 path, dest_name = os.path.split(oname)
                 dest_name = getUserDataPath("UserDefined/" + dest_name)
 
-                # Report file being copied, then do it
-                progress_message = "Copying " + oname
+                # Update dialog to saywhat's happening
+                if update:
+                    progress_message = "Copying and updating " + oname
+                else:
+                    progress_message = "Copying " + oname
                 progress.update(prog_step, progress_title, progress_message)
                 xbmc.sleep(100)
-                prog_step += dialog_step            
+                prog_step += dialog_step
+
+                # Copy the ovpn file
+                infoTrace("import.py", "Copying " + oname + " to " + dest_name)
+                detail.append("Copying " + oname + " to " + dest_name + "\n")
+                xbmcvfs.copy(oname, dest_name)
+                
                 if update:
+                    # Read the copied file in and then overwrite it with any updates needed
+                    # Was doing a read from source and write here but this failed on Linux over an smb mount (file not found)
                     auth = False
-                    # Copy the ovpn file line by line and update anything that looks like it needs it
-                    infoTrace("import.py", "Copying and updating " + oname + " to " + dest_name)
-                    detail.append("Copying and updating " + oname + " to " + dest_name + "\n")
-                    source_file = open(oname, 'r')
+                    infoTrace("import.py", "Updating " + dest_name)
+                    detail.append("Updating " + dest_name + "\n")
+                    source_file = open(dest_name, 'r')
                     source = source_file.readlines()
                     source_file.close()
                     dest_file = open(dest_name, 'w')
@@ -261,14 +271,11 @@ if success:
                             detail.append("  Renamed to " + new_name + "\n")
                         else:
                             detail.append("  WARNING, couldn't rename file to " + new_name + " as a file with that name already exists\n")
-                else:
-                    # Copy the ovpn file, don't update it
-                    infoTrace("import.py", "Copying " + oname + " to " + dest_name)
-                    detail.append("Copying " + oname + " to " + dest_name + "\n")
-                    xbmcvfs.copy(oname, dest_name)
+
                 if progress.iscanceled():
                     cancel = True
                     break
+                    
     except Exception as e:
         errorTrace("import.py", "Failed to copy (or update) file")
         errorTrace("import.py", str(e))

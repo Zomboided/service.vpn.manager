@@ -184,7 +184,6 @@ def stopVPNConnection():
         # See if the openvpn process is still alive
         waiting = isVPNConnected()
         
-        
     setVPNState("stopped")
     return
 
@@ -589,6 +588,9 @@ def resetVPNConnections(addon):
     
     forceCycleLock()
     
+    debugTrace("Stopping any active VPN connections")
+    stopVPNConnection()
+    
     resetVPNConfig(addon, 1)
     # Remove any last connect settings
     setVPNLastConnectedProfile("")
@@ -601,9 +603,7 @@ def resetVPNConnections(addon):
     # No need to stop/start monitor, just need to let it know that things have changed.
     # Because this is a reset of the VPN, the monitor should just work out it has no good connections
     updateService("resetVPNConnections")
-    debugTrace("Stopping any active VPN connections")
-    stopVPNConnection()
-    
+
     freeCycleLock()
     
     xbmcgui.Dialog().notification(addon.getAddonInfo("name"), "Disconnected", getIconPath()+"disconnected.png", 5000, False)

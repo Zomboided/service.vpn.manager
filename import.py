@@ -124,9 +124,9 @@ if success:
     if xbmcgui.Dialog().yesno(addon_name, "Update the .ovpn files to best guess values and determine the best User Defined provider settings (recommended)?", "", ""):
         update = True
         detail.append("Updating the .ovpn files to best guess settings\n")
-    if xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections?", "", ""):
-        rename = True
-        detail.append("Files will be renamed to indicate UDP or TCP\n")        
+        if xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections?", "", ""):
+            rename = True
+            detail.append("Files will be renamed to indicate UDP or TCP\n")        
         
     # Display dialog to show progress of copying files
     dialog_step = 100/(len(ovpn_files) + len(other_files))

@@ -1,3 +1,6 @@
+v2.4.1
+- IPVanish update
+
 v2.4.0
 - User Defined import wizard
 - Better VPN reset behaviour

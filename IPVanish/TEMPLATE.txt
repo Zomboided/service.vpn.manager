@@ -8,11 +8,11 @@ persist-key
 persist-tun
 persist-remote-ip
 ca #CERT
-tls-remote #SERVER
+verify-x509-name #SERVER
 auth-user-pass #PASS
 comp-lzo
 verb 3
 auth SHA256
 cipher AES-256-CBC
 keysize 256
-tls-cipher DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA
+tls-cipher TLS-DHE-RSA-WITH-AES-256-CBC-SHA:TLS-DHE-DSS-WITH-AES-256-CBC-SHA:TLS-RSA-WITH-AES-256-CBC-SHA

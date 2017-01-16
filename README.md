@@ -1,7 +1,7 @@
 VPN Manager for OpenVPN
 =======================
 
-This add-on is a service for Kodi that automatically switches between different VPN profiles/locations, allowing seemless navigation between geo locked services.  
+This add-on is a service for Kodi that allows the user to vary the level of privacy required by automatically switching between different VPN profiles/locations.  
 
 It can connect to a VPN on Kodi startup (on OS boot for LibreELEC installs) and then maintain the VPN connection based on the add-ons being used.  The perceived location of the externally visable IP address is displayed upon connection.
 

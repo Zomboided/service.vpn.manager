@@ -34,7 +34,7 @@ from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation
 from libs.utility import debugTrace, errorTrace, infoTrace
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd
 from libs.common import resetVPNConnections, isVPNConnected
-#from libs.generation import generateAll
+from libs.generation import generateAll, generateVPNs
 
 addon = xbmcaddon.Addon("service.vpn.manager")
 addon_name = addon.getAddonInfo("name")
@@ -48,7 +48,9 @@ if action == "ovpn":
     if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the .ovpn files will reset all VPN connections.  Connections must be re-validated before use.\nContinue?"):
     
         # Only used during development to create location files
-        #generateAll()
+        if generateVPNs():
+            generateAll()
+            xbmcgui.Dialog().ok(addon_name, "Regenerated some or all of the VPN location files.\n")
 
         # Reset the connection before we do anything else
         resetVPNConnections(addon)            

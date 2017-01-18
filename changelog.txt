@@ -1,3 +1,6 @@
+v2.4.2
+- ExpressVPN update
+
 v2.4.1
 - IPVanish update
 

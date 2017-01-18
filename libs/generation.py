@@ -32,12 +32,12 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateSmartDNSProxy()
+    generateExpressVPN()
     return
     generatePureVPN()
     generatePIA()
     generateNordVPN()
-    generateExpressVPN()
+    generateSmartDNSProxy()
     generateIVPN()
     generateCelo()
     generateHMA()
@@ -495,8 +495,8 @@ def generateExpressVPN():
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()  
-        output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + ",#REMOVE=1\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp-client,443" + ",#REMOVE=2\n"
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + "\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp-client,443" + ",#REMOVE=1\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp)
     location_file.close()
@@ -1360,5 +1360,10 @@ def resolveCountry(code):
     for c in Countries:
         if Countries[c] == code: return c        
     return code + " is unknown"
-   
+
+
+def generateVPNs():
+    # Return True if the set of location files for the VPNs should be generated
+    # This is governed by the existance of 'GENERATEVPNS.txt' in the userdata directory.
+    return xbmcvfs.exists(getUserDataPath("GENERATEVPNS.txt"))  
    

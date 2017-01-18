@@ -8,7 +8,7 @@ persist-key
 persist-tun
 persist-remote-ip
 ca #CERT
-tls-remote #SERVER
+verify-x509-name #SERVER name
 auth-user-pass #PASS
 comp-lzo
 verb 1

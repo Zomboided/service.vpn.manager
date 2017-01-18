@@ -222,8 +222,10 @@ if __name__ == '__main__':
                 addon.setSetting("1_vpn_validated", "reset")
                 addon.setSetting("user_def_keys", "None")
                 clearKeysAndCerts("VPNUnlimited")
+            # VyprVPN added encryption levels in 2.4.2 and fiddled with some of the names
+            if addon.getSetting("vpn_provider_validated") == "VyprVPN" and last_version < 242:
+                addon.setSetting("1_vpn_validated", "reset")
                 
-    
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)

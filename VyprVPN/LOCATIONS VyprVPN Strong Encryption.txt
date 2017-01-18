@@ -1,0 +1,73 @@
+Algeria (UDP),dz1.vyprvpn.com,udp,1194
+Argentina (UDP),ar1.vyprvpn.com,udp,1194
+Australia - Melbourne (UDP),au2.vyprvpn.com,udp,1194
+Australia - Perth (UDP),au3.vyprvpn.com,udp,1194
+Australia - Sydney (UDP),au1.vyprvpn.com,udp,1194
+Austria (UDP),at1.vyprvpn.com,udp,1194
+Bahrain (UDP),bh1.vyprvpn.com,udp,1194
+Belgium (UDP),be1.vyprvpn.com,udp,1194
+Brazil (UDP),br1.vyprvpn.com,udp,1194
+Bulgaria (UDP),bg1.vyprvpn.com,udp,1194
+Canada (UDP),ca1.vyprvpn.com,udp,1194
+Columbia (UDP),co1.vyprvpn.com,udp,1194
+Costa Rica (UDP),cr1.vyprvpn.com,udp,1194
+Czech Republic (UDP),cz1.vyprvpn.com,udp,1194
+Denmark (UDP),dk1.vyprvpn.com,udp,1194
+Dubai (UDP),ae1.vyprvpn.com,udp,1194
+Egypt (UDP),eg1.vyprvpn.com,udp,1194
+El Salvador (UDP),sv1.vyprvpn.com,udp,1194
+Finland (UDP),fi1.vyprvpn.com,udp,1194
+France (UDP),fr1.vyprvpn.com,udp,1194
+Germany (UDP),de1.vyprvpn.com,udp,1194
+Greece (UDP),gr1.vyprvpn.com,udp,1194
+Hong Kong (UDP),hk1.vyprvpn.com,udp,1194
+Iceland (UDP),is1.vyprvpn.com,udp,1194
+India (UDP),in1.vyprvpn.com,udp,1194
+Indonesia (UDP),id1.vyprvpn.com,udp,1194
+Ireland (UDP),ie1.vyprvpn.com,udp,1194
+Israel (UDP),il1.vyprvpn.com,udp,1194
+Italy (UDP),it1.vyprvpn.com,udp,1194
+Japan (UDP),jp1.vyprvpn.com,udp,1194
+Latvia (UDP),lv1.vyprvpn.com,udp,1194
+Liechtenstein (UDP),li1.vyprvpn.com,udp,1194
+Lithuania (UDP),lt1.vyprvpn.com,udp,1194
+Luxembourg (UDP),lu1.vyprvpn.com,udp,1194
+Macao (UDP),mo1.vyprvpn.com,udp,1194
+Malaysia (UDP),my1.vyprvpn.com,udp,1194
+Maldives (UDP),mv1.vyprvpn.com,udp,1194
+Marshall Islands (UDP),mh1.vyprvpn.com,udp,1194
+Mexico (UDP),mx1.vyprvpn.com,udp,1194
+Netherlands (UDP),eu1.vyprvpn.com,udp,1194
+New Zealand (UDP),nz1.vyprvpn.com,udp,1194
+Norway (UDP),no1.vyprvpn.com,udp,1194
+Pakistan (UDP),pk1.vyprvpn.com,udp,1194
+Panama (UDP),pa1.vyprvpn.com,udp,1194
+Philippines (UDP),ph1.vyprvpn.com,udp,1194
+Poland (UDP),pl1.vyprvpn.com,udp,1194
+Portugal (UDP),pt1.vyprvpn.com,udp,1194
+Qatar (UDP),qa1.vyprvpn.com,udp,1194
+Romania (UDP),ro1.vyprvpn.com,udp,1194
+Russia (UDP),ru1.vyprvpn.com,udp,1194
+Saudi Arabia (UDP),sa1.vyprvpn.com,udp,1194
+Singapore (UDP),sg1.vyprvpn.com,udp,1194
+Slovakia (UDP),sk1.vyprvpn.com,udp,1194
+Slovenia (UDP),si1.vyprvpn.com,udp,1194
+South Korea (UDP),kr1.vyprvpn.com,udp,1194
+Spain (UDP),es1.vyprvpn.com,udp,1194
+Sweden (UDP),se1.vyprvpn.com,udp,1194
+Switzerland (UDP),ch1.vyprvpn.com,udp,1194
+Taiwan (UDP),tw1.vyprvpn.com,udp,1194
+Thailand (UDP),th1.vyprvpn.com,udp,1194
+Turkey (UDP),tr1.vyprvpn.com,udp,1194
+Ukraine (UDP),ua1.vyprvpn.com,udp,1194
+United Kingdom (UDP),uk1.vyprvpn.com,udp,1194
+Uruguay (UDP),uy1.vyprvpn.com,udp,1194
+USA - Austin (UDP),us3.vyprvpn.com,udp,1194
+USA - Chicago (UDP),us6.vyprvpn.com,udp,1194
+USA - Los Angeles (UDP),us1.vyprvpn.com,udp,1194
+USA - Miami (UDP),us4.vyprvpn.com,udp,1194
+USA - New York (UDP),us5.vyprvpn.com,udp,1194
+USA - San Francisco (UDP),us7.vyprvpn.com,udp,1194
+USA - Seattle (UDP),us8.vyprvpn.com,udp,1194
+USA - Washington DC (UDP),us2.vyprvpn.com,udp,1194
+Vietnam (UDP),vn1.vyprvpn.com,udp,1194

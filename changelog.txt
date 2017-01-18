@@ -1,5 +1,7 @@
 v2.4.2
 - ExpressVPN update
+- VyprVPN update to add servers, levels of encryption and work with OpenVPN 2.4.0
+- IPVanish update to work with OpenVPN 2.4.0
 
 v2.4.1
 - IPVanish update

@@ -18,7 +18,6 @@ ping-restart 0
 #REMOVE6route-delay 2
 
 #REMOVE6route-method exe
-script-security 3 system
 mute-replay-warnings
 verb 3
 

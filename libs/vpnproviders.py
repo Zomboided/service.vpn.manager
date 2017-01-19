@@ -46,7 +46,7 @@ providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "ExpressVPN",
 # *** ADD VPN PROVIDERS HERE IF THEY DON'T USE USERNAME AND PASSWORD ****
 # List of providers which don't use auth-user-pass.
 # Names must match the directory names as used in providers, just above
-providers_no_pass = ["AirVPN", "VPNUnlimited", "ExpressVPN", "WiTopia", "VPNSecure"]
+providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
 
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"

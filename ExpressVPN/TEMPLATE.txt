@@ -23,6 +23,7 @@ keysize 256
 auth SHA512
 sndbuf 524288
 rcvbuf 524288
+auth-user-pass #PASS
 ca #CERT
 cert #USERCERT
 key #USERKEY

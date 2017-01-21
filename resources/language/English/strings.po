@@ -321,66 +321,78 @@ msgid "Delete user key and cert files"
 msgstr ""
 
 msgctxt "#32104"
-msgid "System reboot"
+msgid "Key mappings"
 msgstr ""
 
 msgctxt "#32105"
-msgid "Weekly reboot day"
+msgid "Map VPN connection cycle button"
 msgstr ""
 
 msgctxt "#32106"
-msgid "Off"
+msgid "Map information display button"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Monday"
+msgid "System reboot"
 msgstr ""
 
 msgctxt "#32108"
-msgid "Tuesday"
+msgid "Weekly reboot day"
 msgstr ""
 
 msgctxt "#32109"
-msgid "Wednesday"
+msgid "Off"
 msgstr ""
 
 msgctxt "#32110"
-msgid "Thursday"
+msgid "Monday"
 msgstr ""
 
 msgctxt "#32111"
-msgid "Friday"
+msgid "Tuesday"
 msgstr ""
 
 msgctxt "#32112"
-msgid "Saturday"
+msgid "Wednesday"
 msgstr ""
 
 msgctxt "#32113"
-msgid "Sunday"
+msgid "Thursday"
 msgstr ""
 
 msgctxt "#32114"
-msgid "Weekly reboot time (24h)"
+msgid "Friday"
 msgstr ""
 
 msgctxt "#32115"
-msgid "Reboot if a remote server file changes"
+msgid "Saturday"
 msgstr ""
 
 msgctxt "#32116"
-msgid "Remote server file"
+msgid "Sunday"
 msgstr ""
 
 msgctxt "#32117"
-msgid "Local file read speed test"
+msgid "Weekly reboot time (24h)"
 msgstr ""
 
 msgctxt "#32118"
-msgid "Source file (>50MB)"
+msgid "Reboot if a remote server file changes"
 msgstr ""
 
 msgctxt "#32119"
+msgid "Remote server file"
+msgstr ""
+
+msgctxt "#32120"
+msgid "Local file read speed test"
+msgstr ""
+
+msgctxt "#32121"
+msgid "Source file (>50MB)"
+msgstr ""
+
+msgctxt "#32122"
 msgid "Run speed test"
 msgstr ""
 

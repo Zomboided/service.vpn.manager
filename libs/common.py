@@ -30,7 +30,7 @@ import glob
 import sys
 from libs.platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from libs.platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
-from libs.platform import getPlatformString, checkPlatform, useSudo
+from libs.platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName
 from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
@@ -360,6 +360,32 @@ def getSystemData(addon, vpn, network, vpnm, system):
         lines.append("Screen is " + xbmc.getInfoLabel("System.ScreenResolution"))
     return lines
 
+
+def fixKeymaps():
+    # Fix the keymap file name if it's been changed
+    name = getKeyMapsFileName()
+    dir = getKeyMapsPath(name + "*")
+    full_name = getKeyMapsPath(name)
+    try:
+        debugTrace("Getting contents of keymaps directory " + dir)
+        files = (glob.glob(dir))
+        files.sort(key=os.path.getmtime)
+        if not full_name in files and len(files) > 0:
+            # Last file in the list, sorted by modified date gets renamed to the keymap file
+            file = files[len(files)-1]
+            infoTrace("common.py", "Renaming " + file + " to " + full_name + " as something else has messed with the keymap")
+            xbmcvfs.rename(file, full_name)
+            xbmc.sleep(100)
+            # Wait 10 seconds for rename to happen otherwise quit and let it fail in the future
+            for i in range(0, 9):
+                if xbmcvfs.exists(full_name): break
+                xbmc.sleep(1000)
+            return True
+    except Exception as e:
+        errorTrace("common.py", "Problem fixing the keymap filename.")
+        errorTrace("common.py", str(e))
+    return False
+ 
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response

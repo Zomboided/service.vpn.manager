@@ -465,6 +465,14 @@ def getUserDataPath(path):
     return xbmc.translatePath("special://userdata/addon_data/service.vpn.manager/" + path)
     
     
+def getKeyMapsPath(path):
+    return xbmc.translatePath("special://userdata/keymaps/" + path)
+    
+
+def getKeyMapsFileName():
+    return "vpn.manager.xml"
+
+    
 def getLogPath():    
     return xbmc.translatePath("special://logpath/kodi.log")
         

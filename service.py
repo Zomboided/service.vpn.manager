@@ -33,8 +33,9 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.common import getAPICommand, clearAPICommand
-from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles, isVPNTaskRunning
+from libs.common import getAPICommand, clearAPICommand, fixKeymaps
+from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
+from libs.platform import isVPNTaskRunning
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
 
@@ -246,7 +247,11 @@ if __name__ == '__main__':
     addon.setSetting("boot_reason", "unscheduled")
     # This is just formatted text to display on the settings page
     addon.setSetting("last_boot_text", "Last restart was at " + addon.getSetting("boot_time") + ", " + addon.getSetting("last_boot_reason"))
-        
+
+    # Check the keymaps for this add-on are intact
+    if fixKeymaps():
+        xbmcgui.Dialog().ok(addon_name, "The VPN Manager keymap had been renamed.  This has been reverted to the correct name, but you must restart for the keymap to take effect.") 
+
     # Need to go and request the main loop fetches the settings
     updateService("service initalisation")
     

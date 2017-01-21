@@ -82,16 +82,20 @@
         <setting label="32102" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, ovpn)"/>
         <setting label="32103" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, user)"/>
         <setting label=""      type="lsep"/>
-        <setting label="32104" type="lsep"/>
-        <setting label="32105" type="labelenum" id="reboot_day" lvalues="32106|32107|32108|32109|32110|32111|32112|32113"/>/>
-        <setting label="32114" type="time" id="reboot_time" default="02:00"/>
-        <setting label="32115" type="bool" id="reboot_file_enabled" default="false"/>
-        <setting label="32116" type="file" visible="!eq(-1,false)" id="reboot_file" default=""/>
+        <setting label="32104" type="lsep"/>        
+        <setting label="32105" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/mapkey.py, cycle)"/>
+        <setting label="32106" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/mapkey.py, info)"/>
+        <setting label=""      type="lsep"/>
+        <setting label="32107" type="lsep"/>
+        <setting label="32108" type="labelenum" id="reboot_day" lvalues="32109|32110|32111|32112|32113|32114|32115|32116"/>/>
+        <setting label="32117" type="time" id="reboot_time" default="02:00"/>
+        <setting label="32118" type="bool" id="reboot_file_enabled" default="false"/>
+        <setting label="32119" type="file" visible="!eq(-1,false)" id="reboot_file" default=""/>
         <setting label=""      type="text" id="last_boot_text" enable="false" visible="true" default="Last restart time is unknown"/>        
         <setting label=""      type="lsep"/>
-        <setting label="32117" type="lsep"/>        
-        <setting label="32118" type="file" id="speed_test_source" default=""/>
-        <setting label="32119" type="action" enable="!eq(-1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/speedtest.py)"/>
+        <setting label="32120" type="lsep"/>        
+        <setting label="32121" type="file" id="speed_test_source" default=""/>
+        <setting label="32122" type="action" enable="!eq(-1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/speedtest.py)"/>
     </category>
     <category label="32140">
         <setting label="32141" type="lsep"/>

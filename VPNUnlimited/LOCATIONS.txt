@@ -4,6 +4,8 @@ Australia - Sydney (UDP),au-syd.vpnunlimitedapp.com,udp,443
 Australia - Sydney (TCP),au-syd.vpnunlimitedapp.com,tcp,80
 Austria - Vienna (UDP),at.vpnunlimitedapp.com,udp,443
 Austria - Vienna (TCP),at.vpnunlimitedapp.com,tcp,80
+Belgium (UDP),be.vpnunlimitedapp.com,udp,443
+Belgium (TCP),be.vpnunlimitedapp.com,tcp,80
 Brazil - Sao Paulo (UDP),br.vpnunlimitedapp.com,udp,443
 Brazil - Sao Paulo (TCP),br.vpnunlimitedapp.com,tcp,80
 Bulgaria - Sofia (UDP),bg.vpnunlimitedapp.com,udp,443
@@ -16,22 +18,38 @@ Canada - West - British Columbia Vancouver (UDP),ca-vn.vpnunlimitedapp.com,udp,4
 Canada - West - British Columbia Vancouver (TCP),ca-vn.vpnunlimitedapp.com,tcp,80
 Chile - Vina del Mar (UDP),cl.vpnunlimitedapp.com,udp,443
 Chile - Vina del Mar (TCP),cl.vpnunlimitedapp.com,tcp,80
+Croatia (UDP),hr.vpnunlimitedapp.com,udp,443
+Croatia (TCP),hr.vpnunlimitedapp.com,tcp,80
+Cyprus (UDP),cy.vpnunlimitedapp.com,udp,443
+Cyprus (TCP),cy.vpnunlimitedapp.com,tcp,80
 Czech Republic - Ceske Budejovice (UDP),cz.vpnunlimitedapp.com,udp,443
 Czech Republic - Ceske Budejovice (TCP),cz.vpnunlimitedapp.com,tcp,80
 Denmark - Copenhagen (UDP),dk.vpnunlimitedapp.com,udp,443
 Denmark - Copenhagen (TCP),dk.vpnunlimitedapp.com,tcp,80
+Estonia (UDP),ee.vpnunlimitedapp.com,udp,443
+Estonia (TCP),ee.vpnunlimitedapp.com,tcp,80
 France - Paris (UDP),fr.vpnunlimitedapp.com,udp,443
 France - Paris (TCP),fr.vpnunlimitedapp.com,tcp,80
 Finland - Helsinki (UDP),fi.vpnunlimitedapp.com,udp,443
 Finland - Helsinki (TCP),fi.vpnunlimitedapp.com,tcp,80
 Germany - Frankfurt am Main (UDP),de.vpnunlimitedapp.com,udp,443
 Germany - Frankfurt am Main (TCP),de.vpnunlimitedapp.com,tcp,80
+Greece (UDP),gr.vpnunlimitedapp.com,udp,443
+Greece (TCP),gr.vpnunlimitedapp.com,tcp,80
 Hong Kong - Hong Kong (UDP),hk.vpnunlimitedapp.com,udp,443
 Hong Kong - Hong Kong (TCP),hk.vpnunlimitedapp.com,tcp,80
+Hungary (UDP),hu.vpnunlimitedapp.com,udp,443
+Hungary (TCP),hu.vpnunlimitedapp.com,tcp,80
 Iceland - Hafnarfjordur (UDP),is.vpnunlimitedapp.com,udp,443
 Iceland - Hafnarfjordur (TCP),is.vpnunlimitedapp.com,tcp,80
 India - Pune (UDP),in.vpnunlimitedapp.com,udp,443
 India - Pune (TCP),in.vpnunlimitedapp.com,tcp,80
+India - Delhi (UDP),in-del.vpnunlimitedapp.com,udp,443
+India - Delhi (TCP),in-del.vpnunlimitedapp.com,tcp,80
+India - Karnataka (UDP),in-ka.vpnunlimitedapp.com,udp,443
+India - Karnataka (TCP),in-ka.vpnunlimitedapp.com,tcp,80
+Ireland - Dublin (UDP),ie-dub.vpnunlimitedapp.com,udp,443
+Ireland - Dublin (TCP),ie-dub.vpnunlimitedapp.com,tcp,80
 Italy - Milan (UDP),it-mil.vpnunlimitedapp.com,udp,443
 Italy - Milan (TCP),it-mil.vpnunlimitedapp.com,tcp,80
 Isle of Man - Douglas (UDP),im.vpnunlimitedapp.com,udp,443
@@ -56,14 +74,22 @@ Norway - Oslo (UDP),no.vpnunlimitedapp.com,udp,443
 Norway - Oslo (TCP),no.vpnunlimitedapp.com,tcp,80
 Panama - Bella Vista - Los Santo (UDP),pa.vpnunlimitedapp.com,udp,443
 Panama - Bella Vista - Los Santo (TCP),pa.vpnunlimitedapp.com,tcp,80
+Poland (UDP),pl.vpnunlimitedapp.com,udp,443
+Poland (TCP),pl.vpnunlimitedapp.com,tcp,80
+Portugal (UDP),pt.vpnunlimitedapp.com,udp,443
+Portugal (TCP),pt.vpnunlimitedapp.com,tcp,80
 Romania - Bucharest (UDP),ro.vpnunlimitedapp.com,udp,443
 Romania - Bucharest (TCP),ro.vpnunlimitedapp.com,tcp,80
 Russia - Moscow (UDP),ru-msk.vpnunlimitedapp.com,udp,443
 Russia - Moscow (TCP),ru-msk.vpnunlimitedapp.com,tcp,80
-Russia-Siberia - Tomsk (UDP),ru-tomsk.vpnunlimitedapp.com,udp,443
-Russia-Siberia - Tomsk (TCP),ru-tomsk.vpnunlimitedapp.com,tcp,80
+Russia - Saint Petersburg (UDP),ru-spb.vpnunlimitedapp.com,udp,443
+Russia - Saint Petersburg (TCP),ru-spb.vpnunlimitedapp.com,tcp,80
+Russia - Siberia - Tomsk (UDP),ru-tomsk.vpnunlimitedapp.com,udp,443
+Russia - Siberia - Tomsk (TCP),ru-tomsk.vpnunlimitedapp.com,tcp,80
 Singapore - Singapore (UDP),sg.vpnunlimitedapp.com,udp,443
 Singapore - Singapore (TCP),sg.vpnunlimitedapp.com,tcp,80
+Slovenia (UDP),si.vpnunlimitedapp.com,udp,443
+Slovenia (TCP),si.vpnunlimitedapp.com,tcp,80
 South Africa - Johannesburg (UDP),za.vpnunlimitedapp.com,udp,443
 South Africa - Johannesburg (TCP),za.vpnunlimitedapp.com,tcp,80
 South Korea - Seoul (UDP),kr.vpnunlimitedapp.com,udp,443
@@ -106,5 +132,7 @@ US - Streaming - San Francisco (UDP),us-stream.vpnunlimitedapp.com,udp,443
 US - Streaming - San Francisco (TCP),us-stream.vpnunlimitedapp.com,tcp,80
 US - Nevada - Las Vegas (UDP),us-lv.vpnunlimitedapp.com,udp,443
 US - Nevada - Las Vegas (TCP),us-lv.vpnunlimitedapp.com,tcp,80
+US - New York (UDP),us-ny.vpnunlimitedapp.com,udp,443
+US - New York (TCP),us-ny.vpnunlimitedapp.com,tcp,80
 US - Missouri - St Louis (UDP),us-sl.vpnunlimitedapp.com,udp,443
 US - Missouri - St Louis (TCP),us-sl.vpnunlimitedapp.com,tcp,80

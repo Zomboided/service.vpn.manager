@@ -22,8 +22,8 @@ import re
 import urllib2
 
 
-ip_sources = ["IP-API", "IPInfoDB", "freegeoip.net"]
-ip_urls = ["http://ip-api.com/json", "http://www.ipinfodb.com/my_ip_location.php", "http://freegeoip.net/json/"] 
+ip_sources = ["Auto select", "IP-API", "IPInfoDB", "freegeoip.net"]
+ip_urls = ["", "http://ip-api.com/json", "http://www.ipinfodb.com/my_ip_location.php", "http://freegeoip.net/json/"] 
 
 
 def getIPInfoFrom(source):
@@ -32,9 +32,7 @@ def getIPInfoFrom(source):
     # No info generated from call is "no info", "unknown", "unknown", "unknown", url response
     # Or general error is "error", "error", "error", reason, url response
     link = ""
-    try:
-        if not source in ip_sources: source = ip_sources[0]
-        
+    try:      
         # Determine the URL, make the call and read the response
         url = getIPSourceURL(source)
         if url == "": return "error", "error", "error", "unknown source", ""
@@ -98,4 +96,16 @@ def getIPSourceURL(source):
             return ip_urls[i]
         i = i + 1
     return ""        
-        
+
+
+def getNextSource(current_source):
+    next = ip_sources.index(current_source)
+    next = next + 1
+    if next == len(ip_sources): next = 1
+    return ip_sources[next]
+    
+    
+def getAutoSource():
+    return ip_sources[1]
+
+    

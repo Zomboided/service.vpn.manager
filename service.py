@@ -226,6 +226,9 @@ if __name__ == '__main__':
             # VyprVPN added encryption levels in 2.4.2 and fiddled with some of the names
             if addon.getSetting("vpn_provider_validated") == "VyprVPN" and last_version < 242:
                 addon.setSetting("1_vpn_validated", "reset")
+            # Forces the IP provider to be the default/best rather than a selected on
+            if last_version < 250:
+                addon.setSetting("ip_info_source", "Auto select")
                 
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

@@ -35,7 +35,7 @@ from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
 from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
-from libs.ipinfo import getIPInfoFrom, getIPSources
+from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource
 from libs.logbox import popupOpenVPNLog
 
 
@@ -106,7 +106,6 @@ def getFriendlyProfileName(ovpn_connection):
     
 
 def getIPInfo(addon):
-    # Based this code on a routine in the VPN for OPENELEC plugin
     # Generate request to find out where this IP is based
     # Return ip info source, ip, location, isp
     source = addon.getSetting("ip_info_source")
@@ -114,33 +113,48 @@ def getIPInfo(addon):
         addon.setSetting("ip_info_source", getIPSources()[0])
         source == getIPSources()[0]
 
+    if source == "Auto select":
+        source = getAutoSource()
+        
     debugTrace("Getting IP info from " + source)
     retry = 0
-    while retry < 5:
+    bad_response = False
+    while retry < 6:
         ip, country, region, city, isp = getIPInfoFrom(source)
 
         if ip == "no info":
-            debugTrace("No location information was returned for IP using " + source)
-            # Got a response but couldn't format it.  No point retrying
-            return source, "no info", "unknown", "unknown"
+            errorTrace("common.py", "No location information was returned for IP using " + source + ", using next service")
+            # Got a response but couldn't format it.  No point retrying, move to next service
+            source = getNextSource(source)
         elif ip == "error":
-            debugTrace("Didn't get a good response from "  + source + ", retrying.")
-            # Didn't get a valid response so want to retry three times in case service was busy
-            if retry == 2 :
-                errorTrace("common.py", "Given up trying to get a response from "  + source)
-                return source + " (not available)", "unknown", "unknown", "unknown"
-            xbmc.sleep(3000)            
+            if not bad_response:
+                # Didn't get a valid response so wait 3 seconds and retry
+                errorTrace("common.py", "Didn't get a good response from "  + source + ", retrying in 3 seconds")
+                xbmc.sleep(3000)
+                bad_response = True
+            else:
+                # If this is the second failure, move to a differnet service
+                errorTrace("common.py", "Didn't get a good response from "  + source + ", using next service")
+                source = getNextSource(source)
+                bad_response = False
         else:
             # Worked, exit loop
             break
         retry = retry + 1
-        
+
+    # Check to see if the call was good (after 5 retries)
+    if ip == "no_info" or ip == "error":
+        return source, "no info", "unknown", "unknown"
+
+    
     location = ""
     if not (region == "-" or region == "Not Available"): location = region
     if not (country == "-" or country == "Not Available"):
         if not location == "": location = location + ", "
         location = location + country
+    if location == "": location = "Unknown"
 
+    infoTrace("common.py", "Received connection info from "  + source + ", IP " + ip + " location " + location + ", ISP " + isp)
     return source, ip, location, isp
 
     

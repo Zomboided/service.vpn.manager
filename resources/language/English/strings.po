@@ -516,14 +516,18 @@ msgid "Change IP location provider"
 msgstr ""
 
 msgctxt "#32169"
-msgid "IP-API"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32170"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32171"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32172"
 msgid "freegeoip.net"
 msgstr ""
 

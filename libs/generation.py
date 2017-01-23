@@ -32,8 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateExpressVPN()
+    generateVPNUnlim()
     return
+    generateVyprVPN()
+    generateExpressVPN()
     generatePureVPN()
     generatePIA()
     generateNordVPN()
@@ -56,9 +58,8 @@ def generateAll():
     generateVPNht()
     generateTotalVPN()    
     generateSaferVPN()
-    generateVyprVPN()
     generateBTGuard()
-    generateVPNUnlim()
+    
     generateHideMe()
     generateHideIPVPN()
     generateVyprVPN()
@@ -760,18 +761,33 @@ def generateHideMe():
 def generateVPNUnlim():
     # Data is stored in ovpn files with location info in Servers.txt
     location_file = getLocations("VPNUnlimited", "")
+    profiles = getProfileList("VPNUnlimited")
     source_file = open(getUserDataPath("providers/VPNUnlimited/Servers.txt"), 'r')
     servers = source_file.readlines()
     source_file.close()
-    for entry in servers:
+    i = 0
+    for profile in profiles:
+        partial = profile[profile.index(".com_")+5:]
+        partial = partial[:partial.index("_")]
+        profiles[i] = partial
+        i += 1
+    for entry in servers:    
         geo = entry[:entry.index(",")].strip()
-        server = entry[entry.index(",")+1:].strip()      
+        server = entry[entry.index(",")+1:].strip()
+        i = 0
+        for profile in profiles:
+            if profile in server:
+                profiles[i] = ""
+            i += 1
         output_line_udp = geo + " (UDP)," + server + ",udp,443\n"
         output_line_tcp = geo + " (TCP)," + server + ",tcp,80\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp) 
     location_file.close()
-
+    for profile in profiles:
+        if not profile == "":
+            newPrint(profile + " is missing")
+        
 
     
 def generateAirVPN():
@@ -943,32 +959,32 @@ def generateIPVanish():
         location_file.write(output_line_tcp)
     location_file.close()
     
-    
+
 def generateVyprVPN():
-    # Data is stored in a flat text file
-    # There appear to be a regular set of servers, which are either goldenfrog or vyprvpn
-    # And an alternative set of servers that are available via some giganews hook up.
-    # Both use the same certificate.
-    location_file_vypr = getLocations("VyprVPN", "VyprVPN Account")
+    # VyprVPN is stored in a bunch of ovpn files.  They also have an alternative set of 
+    # files for Giganews customers which appear to be identical with different server names
+    profiles = getProfileList("VyprVPN")
+    location_file_strong = getLocations("VyprVPN", "VyprVPN Strong Encryption")
+    location_file_default = getLocations("VyprVPN", "VyprVPN Default Encryption")
     location_file_giga = getLocations("VyprVPN", "Giganews Account")
-    source_file = open(getUserDataPath("providers/VyprVPN/Servers.txt"), 'r')
-    source = source_file.readlines()
-    source_file.close()
-    for line in source:
-        tokens = line.split()        
-        for t in tokens:
-            if ".goldenfrog.com" in t:                
-                server = t.strip(' \t\n\r')
-                geo = line.replace(server, "")
-                geo = geo.strip(' \t\n\r')
-                server = server.replace("vpn.goldenfrog.com", "vyprvpn.com")
-                if "," in geo: geo = "USA - " + geo[:geo.index(",")]
-                output_line_vypr = geo + " (UDP)," + server + "," + "udp,1194" + "\n"
-                server = server.replace("vyprvpn.com", "vpn.giganews.com")
-                output_line_giga = geo + " (UDP)," + server + "," + "udp,1194" + "\n"
-                location_file_vypr.write(output_line_vypr)                
-                location_file_giga.write(output_line_giga)                
-    location_file_vypr.close()
+    for profile in profiles:        
+        geo = profile[profile.index("VyprVPN\\")+8:]
+        geo = geo.replace(".ovpn", "")
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split() 
+        output_line_strong = geo + " (UDP)," + server + "," + "udp," + port + "\n"
+        output_line_default = geo + " (UDP)," + server + "," + "udp," + port + ",#REMOVE=1\n"
+        server = server.replace("vyprvpn.com", "vpn.giganews.com")
+        output_line_giga = geo + " (UDP)," + server + "," + "udp," + port + ",#REMOVE=1\n"
+        location_file_strong.write(output_line_strong)
+        location_file_default.write(output_line_default)
+        location_file_giga.write(output_line_giga)
+    location_file_strong.close()
+    location_file_default.close()
     location_file_giga.close()
     
     

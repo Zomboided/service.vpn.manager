@@ -35,7 +35,7 @@ from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
 from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
-from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource
+from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from libs.logbox import popupOpenVPNLog
 
 
@@ -109,11 +109,12 @@ def getIPInfo(addon):
     # Generate request to find out where this IP is based
     # Return ip info source, ip, location, isp
     source = addon.getSetting("ip_info_source")
-    if not source in getIPSources():
+    if (not source in getIPSources()):
         addon.setSetting("ip_info_source", getIPSources()[0])
-        source == getIPSources()[0]
-
-    if source == "Auto select":
+        source = getIPSources()[0]    
+    original_source = source
+        
+    if isAutoSelect(source):
         source = getAutoSource()
         
     debugTrace("Getting IP info from " + source)
@@ -123,20 +124,26 @@ def getIPInfo(addon):
         ip, country, region, city, isp = getIPInfoFrom(source)
 
         if ip == "no info":
-            errorTrace("common.py", "No location information was returned for IP using " + source + ", using next service")
-            # Got a response but couldn't format it.  No point retrying, move to next service
-            source = getNextSource(source)
-        elif ip == "error":
-            if not bad_response:
-                # Didn't get a valid response so wait 3 seconds and retry
-                errorTrace("common.py", "Didn't get a good response from "  + source + ", retrying in 3 seconds")
-                xbmc.sleep(3000)
-                bad_response = True
-            else:
-                # If this is the second failure, move to a differnet service
-                errorTrace("common.py", "Didn't get a good response from "  + source + ", using next service")
+            # Got a response but couldn't format it.  No point retrying, move to next service or quit
+            if isAutoSelect(original_source):
+                errorTrace("common.py", "No location information was returned for IP using " + source + ", using next service")
                 source = getNextSource(source)
-                bad_response = False
+            else:
+                errorTrace("common.py", "No location information was returned for IP using " + source)
+                break
+        elif ip == "error":
+            errorTrace("common.py", "Didn't get a good response from "  + source)
+            if isAutoSelect(original_source):
+                # Only want to retry if this is the first time we've seen an error (recently) otherwise
+                # we assume it was broken before and it's still broken now and move to the next
+                if getErrorValue(getIndex(source)) > 1:
+                    source = getNextSource(source)
+                else:
+                    debugTrace("Retrying "  + source + ", in 3 seconds")
+                    xbmc.sleep(3000)
+            else:
+                # Only want to retry 2 times if it's not auto select as service is likely broken rather than busy
+                if retry == 2: break                    
         else:
             # Worked, exit loop
             break

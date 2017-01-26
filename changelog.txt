@@ -1,7 +1,9 @@
 v2.5.0
 - Keymap function
+- Auto select IP service
 - New cert for hideme (it might work now)
 - NordVPN update (yet again.....)
+- VPN Unlimited servers updated
 
 v2.4.3
 - Another ExpressVPN update to really fix the problem

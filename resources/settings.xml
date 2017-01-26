@@ -154,6 +154,9 @@
         <setting label=""      type="text" id="last_boot_reason" enable="false" visible="false" default="unscheduled"/>
         <setting label=""      type="bool" id="show_preboot_connect" enable="false" visible="false" default="false"/>
         <setting label=""      type="text" id="platform" enable="false" visible="false" default="0"/>
+        <setting label=""      type="text" id="ip_service_values" enable="false" visible="false" default=""/>
+        <setting label=""      type="text" id="ip_service_errors" enable="false" visible="false" default=""/>
+        <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>
         <setting label="Connect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Connect 1)"/>
     </category>

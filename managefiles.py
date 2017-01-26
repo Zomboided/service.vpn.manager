@@ -35,6 +35,7 @@ from libs.utility import debugTrace, errorTrace, infoTrace
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd
 from libs.common import resetVPNConnections, isVPNConnected
 from libs.generation import generateAll, generateVPNs
+from libs.ipinfo.py import resetIPServices
 
 addon = xbmcaddon.Addon("service.vpn.manager")
 addon_name = addon.getAddonInfo("name")
@@ -59,6 +60,8 @@ if action == "ovpn":
         removeGeneratedFiles()
         # Remove any user/password files
         cleanPassFiles()
+        # Reset the IP service error counts, etc
+        resetIPServices()
         xbmcgui.Dialog().ok(addon_name, "Deleted all .ovpn files.  Validate a connection to recreate them.\n")
 
         

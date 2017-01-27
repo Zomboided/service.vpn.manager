@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateVPNUnlim()
+    generateCyberGhost()
     return
+    generateVPNUnlim()
     generateVyprVPN()
     generateExpressVPN()
     generatePureVPN()
@@ -59,11 +60,9 @@ def generateAll():
     generateTotalVPN()    
     generateSaferVPN()
     generateBTGuard()
-    
     generateHideMe()
     generateHideIPVPN()
     generateVyprVPN()
-    generateCyberGhost()
     generateTorGuard()
     generateibVPN()
     generatePP()    
@@ -643,8 +642,8 @@ def generateCyberGhost():
                 ports = ports + port
             if line.startswith("proto "):
                 _, proto = line.split()
-        if "(TCP)" in geo : output_line = geo + "," + servers + "," + proto + "," + ports + ",#REMOVE=2\n"
-        if "(UDP)" in geo : output_line = geo + "," + servers + "," + proto + "," + ports + ",#REMOVE=1\n"
+        if "(TCP)" in geo : output_line = geo + "," + servers + "," + proto + "," + ports + ",#REMOVE=1 #PINGSPEED=15 #PINGEXIT=90\n"
+        if "(UDP)" in geo : output_line = geo + "," + servers + "," + proto + "," + ports + ",#PINGSPEED=5 #PINGEXIT=60\n"
         location_file.write(output_line)
     location_file.close()      
 

@@ -13,10 +13,7 @@ mssfix 1450
 persist-key
 persist-tun
 hand-window 180
-ping-restart 30
-ping 5
 auth-retry interact
-ping-timer-rem
 ns-cert-type server
 mute 10
 comp-lzo

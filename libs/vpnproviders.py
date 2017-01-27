@@ -414,6 +414,11 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
     if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
         template.append("block-outside-dns")
     
+    if addon.getSetting("force_ping") == "true":
+        template.append("ping #PINGSPEED")
+        template.append("ping-exit #PINGEXIT")
+        template.append("ping-timer-rem")
+    
     if addon.getSetting("up_down_script") == "true":
         template.append("script-security 2")
         template.append(getUpParam(vpn_provider))
@@ -459,6 +464,12 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
             user_key = getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, geo))
             user_cert = getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, geo))
             remove_flags = ""
+            if proto == "udp":
+                ping_speed = "5"
+                ping_exit = "30"
+            else:
+                ping_speed = "10"
+                ping_exit = "60"
             
             if len(location_values) > 4: 
                 # The final location value is a list of multiple x=y declarations.
@@ -476,6 +487,8 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                     if "#DH" in pair[0]: dh_parm = pair[1].strip()
                     if "#USER1" in pair[0]: user1 = pair[1].strip()
                     if "#USER2" in pair[0]: user2 = pair[1].strip()
+                    if "#PINGSPEED" in pair[0]: ping_speed = pair[1].strip()
+                    if "#PINGEXIT" in pair[0]: ping_exit = pair[1].strip()
             if proto == "udp" and not portUDP == "": port = portUDP
             if proto == "tcp" and not portTCP == "": port = portTCP
             if port == "" and len(ports) == 1: port = ports[0]
@@ -532,6 +545,8 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 output_line = output_line.replace("#PATH", getAddonPathWrapper(vpn_provider + "/"))
                 output_line = output_line.replace("#USER1", user1)
                 output_line = output_line.replace("#USER2", user2)
+                output_line = output_line.replace("#PINGSPEED", ping_speed)
+                output_line = output_line.replace("#PINGEXIT", ping_exit)
                 # Overwrite the verb value with the one in the settings
                 if output_line.startswith("verb "):
                     output_line = "verb " + verb_value
@@ -591,7 +606,9 @@ def updateVPNFiles(vpn_provider):
             found_down = False
             found_script_sec = False
             found_block_dns = False
-    
+            found_ping = False
+            proto = "udp"
+            
             # Update the necessary values in the ovpn file
             for line in lines:
                 
@@ -600,15 +617,19 @@ def updateVPNFiles(vpn_provider):
                 # Update path to pass.txt
                 if not isUserDefined(vpn_provider) or addon.getSetting("user_def_credentials") == "true":
                     if line.startswith("auth-user-pass"):
-                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")
-
+                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")        
+                        
                 # Update port numbers
                 if line.startswith("remote "):
                     port = ""
                     for newline in lines:
                         if "proto " in newline:
-                            if "tcp" in newline and not portTCP == "": port = portTCP
-                            if "udp" in newline and not portUDP == "": port = portUDP
+                            if "tcp" in newline:
+                                proto = "tcp"
+                                if not portTCP == "": port = portTCP
+                            if "udp" in newline:
+                                proto = "udp"
+                                if not portUDP == "": port = portUDP
                     if not port == "":
                         tokens = line.split()
                         line = "remote " + tokens[1] + " " + port + "\n"
@@ -636,7 +657,10 @@ def updateVPNFiles(vpn_provider):
                     found_script_sec = True
                 if line.startswith("block-outside-dns"):
                     found_block_dns = True
-    
+            
+                if line.startswith("ping"):
+                    found_ping = True
+                
                 f.write(line + "\n")
             
             if not found_block_dns and getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
@@ -646,6 +670,15 @@ def updateVPNFiles(vpn_provider):
                 if not found_script_sec: f.write("script-security 2\n")
                 if not found_up: f.write(getUpParam(vpn_provider)+"\n")
                 if not found_down: f.write(getDownParam(vpn_provider)+"\n")
+            
+            if not found_ping and addon.getSetting("force_ping") == "true":
+                if proto == "tcp":
+                    f.write("ping 10\n")
+                    f.write("ping-exit 60\n")
+                else:
+                    f.write("ping 5\n")
+                    f.write("ping-exit 30\n")
+                f.write("ping-timer-rem\n")
             
             f.close()
         except Exception as e:

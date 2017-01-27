@@ -2,7 +2,6 @@ client
 proto #PROTO
 remote #SERVER #PORT
 auth-user-pass #PASS
-ping 5
 dev tun
 resolv-retry 30
 nobind
@@ -11,7 +10,6 @@ persist-tun
 ns-cert-type server
 verb 1
 route-metric 1
-ping-exit 30
 cipher AES-256-CBC
 cert #USERCERT
 key #USERKEY

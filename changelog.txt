@@ -1,6 +1,7 @@
 v2.5.0
 - Keymap function
 - Auto select IP service
+- Use openvpn ping and ping-exit to kill connection if it goes bad
 - Improved wizard function, particularly for User Defined
 - New cert for hideme (it might work now)
 - NordVPN update (yet again.....)

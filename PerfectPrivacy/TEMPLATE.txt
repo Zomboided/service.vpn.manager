@@ -17,8 +17,6 @@ ns-cert-type server
 persist-key
 persist-remote-ip
 persist-tun
-ping 5
-ping-restart 120
 redirect-gateway def1
 remote-random
 reneg-sec 3600

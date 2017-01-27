@@ -496,38 +496,42 @@ msgid "Use default up/down scripts (reset .ovpn files after updating)"
 msgstr ""
 
 msgctxt "#32164"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "Check connection with ping (reset .ovpn files after updating)"
 msgstr ""
 
 msgctxt "#32165"
-msgid "Information Display"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32166"
-msgid "Enable enhanced information menu option"
+msgid "Information Display"
 msgstr ""
 
 msgctxt "#32167"
-msgid "View system information window"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32168"
-msgid "Change IP location provider"
+msgid "View system information window"
 msgstr ""
 
 msgctxt "#32169"
-msgid "Auto select"
+msgid "Change IP location provider"
 msgstr ""
 
 msgctxt "#32170"
-msgid "IP-API"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32171"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32172"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32173"
 msgid "freegeoip.net"
 msgstr ""
 

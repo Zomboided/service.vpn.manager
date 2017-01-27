@@ -11,5 +11,4 @@ persist-key
 persist-tun
 auth-user-pass #PASS
 explicit-exit-notify 2
-ping-exit 30
 ca #CERT

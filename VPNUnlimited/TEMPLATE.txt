@@ -5,8 +5,6 @@ remote #SERVER #PORT
 reneg-sec 0
 persist-tun
 persist-key
-ping 5
-ping-exit 30
 nobind
 verb 3
 comp-lzo adaptive

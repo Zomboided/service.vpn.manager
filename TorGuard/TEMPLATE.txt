@@ -14,7 +14,6 @@ mssfix 1450
 auth-user-pass #PASS
 comp-lzo
 fast-io
-ping-restart 0
 #REMOVE6route-delay 2
 
 #REMOVE6route-method exe

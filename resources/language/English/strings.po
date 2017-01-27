@@ -516,7 +516,7 @@ msgid "View system information window"
 msgstr ""
 
 msgctxt "#32169"
-msgid "Change IP location provider"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32170"

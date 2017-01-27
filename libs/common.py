@@ -37,6 +37,7 @@ from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, g
 from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
 from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from libs.logbox import popupOpenVPNLog
+from libs.userdefined import importWizard
 
 
 def getIconPath():
@@ -734,10 +735,6 @@ def writeCredentials(addon):
         credentials.truncate()
         credentials.close()
         credentials = open(credentials_path,'a')
-
-        # print "AUTH DEBUG: Writing creds user " + addon.getSetting("vpn_username")
-        # print "AUTH DEBUG: Writing creds user " + addon.getSetting("vpn_password")
-
         credentials.write(addon.getSetting("vpn_username")+"\n")
         credentials.write(addon.getSetting("vpn_password")+"\n")
         credentials.close()
@@ -766,30 +763,37 @@ def wizard():
         vpn = provider_display.index(provider_list[vpn])
         vpn_provider = provider_display[vpn]
         
+        success = True
+        # If User Defined VPN then offer to run the wizard
+        if isUserDefined(vpn_provider):
+            success = importWizard()        
         
-        # Get the username and password
-        vpn_username = ""
-        vpn_password = ""
-        vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " username.", type=xbmcgui.INPUT_ALPHANUM)
-        if not vpn_username == "":
-            vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password.", type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
-        
-        # Try and connect if we've gotten all the data
-        if not vpn_password == "":
-            addon.setSetting("vpn_provider", vpn_provider)
-            addon.setSetting("vpn_username", vpn_username)
-            addon.setSetting("vpn_password", vpn_password)
-            connectVPN("1", vpn_provider)
-            # Need to reinitialise addon here for some reason...
-            addon = xbmcaddon.Addon("service.vpn.manager")
-            if connectionValidated(addon):
-                xbmcgui.Dialog().ok(addon_name, "Successfully connected to " + vpn_provider + ".  Use the Settings dialog to add additional VPN connections.  You can also define add-on filters to dynamically change the VPN connection being used.")
-            else:
-                xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Use the Settings dialog to correct any issues and try connecting again.")
+        if success:
+            # Get the username and password
+            vpn_username = ""
+            vpn_password = ""
+            if usesPassAuth(vpn_provider):
+                vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " username.", type=xbmcgui.INPUT_ALPHANUM)
+                if not vpn_username == "":
+                    vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password.", type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
             
+            # Try and connect if we've gotten all the data
+            if (not usesPassAuth(vpn_provider)) or (not vpn_password == ""):
+                addon.setSetting("vpn_provider", vpn_provider)
+                addon.setSetting("vpn_username", vpn_username)
+                addon.setSetting("vpn_password", vpn_password)
+                connectVPN("1", vpn_provider)
+                # Need to reinitialise addon here for some reason...
+                addon = xbmcaddon.Addon("service.vpn.manager")
+                if connectionValidated(addon):
+                    xbmcgui.Dialog().ok(addon_name, "Successfully connected to " + vpn_provider + ".  Use the Settings dialog to add additional VPN connections.  You can also define add-on filters to dynamically change the VPN connection being used.")
+                else:
+                    xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Use the Settings dialog to correct any issues and try connecting again.")
+                
+            else:
+                xbmcgui.Dialog().ok(addon_name, "You need to enter both a VPN username and password to connect.")
         else:
-            xbmcgui.Dialog().ok(addon_name, "You need to enter both a VPN username and password to connect.")
-
+            xbmcgui.Dialog().ok(addon_name, "There was a problem setting up the User Defined provider.  Fix any issues and run the wizard again from the VPN Configuration tab.")
             
 def removeUsedConnections(addon, connection_order, connections):
     # Filter out any used connections from the list given

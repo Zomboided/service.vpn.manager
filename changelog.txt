@@ -1,6 +1,7 @@
 v2.5.0
 - Keymap function
 - Auto select IP service
+- Improved wizard function, particularly for User Defined
 - New cert for hideme (it might work now)
 - NordVPN update (yet again.....)
 - VPN Unlimited servers updated

@@ -35,7 +35,7 @@ from libs.utility import debugTrace, errorTrace, infoTrace
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd
 from libs.common import resetVPNConnections, isVPNConnected
 from libs.generation import generateAll, generateVPNs
-from libs.ipinfo.py import resetIPServices
+from libs.ipinfo import resetIPServices
 
 addon = xbmcaddon.Addon("service.vpn.manager")
 addon_name = addon.getAddonInfo("name")

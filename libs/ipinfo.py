@@ -27,7 +27,7 @@ from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 
 
 ip_sources = ["Auto select", "IP-API", "IPInfoDB", "freegeoip.net"]
-ip_urls = ["", "http://ip-api.com/fjson", "http://www.ipinfodb.com/my_ip_location.php", "http://freegeoip.net/json/"] 
+ip_urls = ["", "http://ip-api.com/json", "http://www.ipinfodb.com/my_ip_location.php", "http://freegeoip.net/json/"] 
 LIST_DEFAULT = "0,0,0"
 
 MAX_ERROR = 64

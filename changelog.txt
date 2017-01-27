@@ -3,9 +3,10 @@ v2.5.0
 - Auto select IP service
 - Use openvpn ping and ping-exit to kill connection if it goes bad
 - Improved wizard function, particularly for User Defined
+- Improved file change restart function when network connection goes bad
 - New cert for hideme (it might work now)
 - NordVPN update (yet again.....)
-- VPN Unlimited servers updated
+- VPN Unlimited servers added
 
 v2.4.3
 - Another ExpressVPN update to really fix the problem

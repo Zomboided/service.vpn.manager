@@ -448,23 +448,38 @@ if __name__ == '__main__':
                 # Assume the next check is in an hour
                 seconds_to_reboot_check = 3600
                 # Check reboot check file if there is one
-                reboot_file_name = addon.getSetting("reboot_file") 
-                if xbmcvfs.exists(reboot_file_name):
+                reboot_system = False
+                reboot_reason = ""
+                if addon.getSetting("reboot_file_enabled") == "true":
+                    reboot_file_name = addon.getSetting("reboot_file")
                     stats = xbmcvfs.Stat(reboot_file_name)
                     file_check_time = stats.st_mtime()
-                    if not file_check_time == last_file_check_time:
+                    if xbmcvfs.exists(reboot_file_name):
+                        if not file_check_time == last_file_check_time:
+                            if last_file_check_time == 0:
+                                # First check since reboot, just record the time
+                                last_file_check_time = file_check_time
+                            else:
+                                reboot_system = True
+                                reboot_reason = "server rebooted"
+                    elif not reboot_file_name == "":
                         if last_file_check_time == 0:
-                            # First check since reboot, just record the time
                             last_file_check_time = file_check_time
                         else:
-                            if addon.getSetting("reboot_file_enabled") == "true":
-                                if not xbmcgui.Dialog().yesno(addon_name, "System reboot about to happen because server rebooted.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
-                                    infoTrace("service.py", "Server rebooted, going down for a reboot")
-                                    addon.setSetting("boot_reason", "server rebooted")
-                                    xbmc.executebuiltin("Reboot")
-                                else:
-                                    infoTrace("service.py", "Server rebooted, system reboot aborted by user")
-                                    last_file_check_time = file_check_time
+                            # This means the file has gone away which could mean the file system has issues and needs a reboot
+                            if not addon.getSetting("last_boot_reason") == "server unreachable":
+                                reboot_system = True
+                                reboot_reason = "server unreachable"
+                            else:
+                                errorTrace("service.py", "Watching a file for a reboot but it's gone away even after a restart.  Not restarting again.")
+                    if reboot_system:
+                        if not xbmcgui.Dialog().yesno(addon_name, "System reboot about to happen because " + reboot_reason + ".\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                            infoTrace("service.py", "Rebooting because " + reboot_reason)
+                            addon.setSetting("boot_reason", reboot_reason)
+                            xbmc.executebuiltin("Reboot")
+                        else:
+                            infoTrace("service.py", "Server rebooted, system reboot aborted by user")
+                            last_file_check_time = file_check_time
                 # Refresh the reboot timer if it's changed in the seconds
                 new_reboot_day = addon.getSetting("reboot_day")
                 new_reboot_time = addon.getSetting("reboot_time")

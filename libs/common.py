@@ -1167,7 +1167,7 @@ def connectVPN(connection_order, vpn_profile):
         # Set the final message to indicate cancellation
         progress_message = "Cancelling connection attempt, VPN monitor restarted."
         # Restore the previous connection info 
-        dialog_message = "Cancelled connection attempt.\n"
+        dialog_message = "Cancelled connection attempt, VPN is disconnected.\n"
         if not connection_order == "0":
             if not isVPNConnected():
                 if cancel_clear:
@@ -1177,10 +1177,16 @@ def connectVPN(connection_order, vpn_profile):
                 resetVPNConfig(addon, int(connection_order))
         else:
             dialog_message = dialog_message + "Please reconnect."
-        
+            
         # Don't know how far we got, if we were trying to connect and then got cancelled,
         # there might still be an instance of openvpn running we need to kill
         stopVPN9()
+        # We should also stop the service from trying to do a reconnect, if it's confused
+        setVPNRequestedProfile("")
+        setVPNRequestedProfileFriendly("")
+        setVPNLastConnectedProfile("")
+        setVPNLastConnectedProfileFriendly("")
+        setVPNState("off")
     else:
         # An error occurred, The current connection is already invalidated.  The VPN credentials might 
         # be ok, but if they need re-entering, the user must update them which will force a reset.  
@@ -1188,7 +1194,7 @@ def connectVPN(connection_order, vpn_profile):
         progress.update(97, progress_title, progress_message)
         xbmc.sleep(500)
         # Set the final message to show an error occurred
-        progress_message = "Error connecting to VPN, VPN monitor restarted."
+        progress_message = "Error connecting, VPN is disconnected. VPN monitor restarted."
         # First set of errors happened prior to trying to connect
         if not provider_gen:
             dialog_message = "Error updating .ovpn files or creating user credentials file.\nCheck log to determine cause of failure."
@@ -1237,6 +1243,12 @@ def connectVPN(connection_order, vpn_profile):
 
         # The VPN might be having a spaz still so we want to ensure it's stopped
         stopVPN9()
+        # We should also stop the service from trying to do a reconnect, if it's confused
+        setVPNRequestedProfile("")
+        setVPNRequestedProfileFriendly("")
+        setVPNLastConnectedProfile("")
+        setVPNLastConnectedProfileFriendly("")
+        setVPNState("off")
 
     # Restart service
     if not startService():

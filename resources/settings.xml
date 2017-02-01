@@ -4,7 +4,7 @@
 		<setting label="32001" type="lsep"/>
         <setting label="32002" type="action" visible="!eq(1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/resetVPN.py, reset)"/>
         <setting label=""      type="text" id="1_vpn_validated_friendly" visible="false" enable="false" default=""/>
-		<setting label="32003" type="labelenum" id="vpn_provider" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232"/>
+		<setting label="32003" type="labelenum" id="vpn_provider" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232|32233"/>
         <setting label=""      type='lsep'/>
         <setting label=""      type="text" id="vpn_username_validated" visible="false" enable="false" default=""/>
 		<setting label="32004" type="text" id="vpn_username" enable="eq(-4,)" default=""/>
@@ -109,18 +109,19 @@
         <setting label=""      type="text" id="platform" enable="false" visible="false"/>       
         <setting label="32154" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
         <setting label="32155" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32156|32157|32158"/>
-        <setting label="32159" type="bool" id="openvpn_killall" visible="eq(-3,2)|eq(-3,3)" default="false"/>
-        <setting label="32160" type="bool" id="alt_pid_check" visible="eq(-4,1)" default="false"/>
-        <setting label="32161" type="text" visible="eq(-5,0)" enable="false"/>
-        <setting label="32162" type="bool" id="up_down_script" default="true"/>
-        <setting label="32163" type="bool" id="use_default_up_down" visible="eq(-7,2)|eq(-7,3)" enable="true" default="false"/>
-        <setting label="32164"   type="bool" id="force_ping" visible="true" default="true"/>
-        <setting label="32165" type="bool" id="openvpn_log_location" default="false"/>
+        <setting label="32159" type="bool" id="openvpn_no_path" visible="eq(-3,2)" default="false"/>
+        <setting label="32160" type="bool" id="openvpn_killall" visible="eq(-4,2)|eq(-4,3)" default="false"/>
+        <setting label="32161" type="bool" id="alt_pid_check" visible="eq(-5,2)" default="false"/>
+        <setting label="32162" type="text" visible="eq(-6,0)" enable="false"/>
+        <setting label="32163" type="bool" id="up_down_script" default="true"/>
+        <setting label="32164" type="bool" id="use_default_up_down" visible="eq(-8,2)|eq(-8,3)" enable="true" default="false"/>
+        <setting label="32165" type="bool" id="force_ping" visible="true" default="true"/>
+        <setting label="32166" type="bool" id="openvpn_log_location" default="false"/>
         <setting label=""      type="lsep"/>
-        <setting label="32166" type="lsep"/>
-        <setting label="32167" type="bool" id="vpn_system_menu_item" default="false"/>
-        <setting label="32168" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
-        <setting label="32169" type="labelenum" id="ip_info_source" lvalues="32170|32171|32172|32173"/>
+        <setting label="32167" type="lsep"/>
+        <setting label="32168" type="bool" id="vpn_system_menu_item" default="false"/>
+        <setting label="32169" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
+        <setting label="32170" type="labelenum" id="ip_info_source" lvalues="32171|32172|32173|32174"/>
         <setting label=""      type="text" id="vpn_provider_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_username_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" enable="false" visible="false" default=""/>
@@ -158,6 +159,7 @@
         <setting label=""      type="text" id="ip_service_values" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="ip_service_errors" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
+        <setting label=""      type="bool" id="location_ip_view" enable="false" visible="false" default="false"/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>
         <setting label="Connect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Connect 1)"/>
     </category>

@@ -1,3 +1,8 @@
+v2.6.0
+- Switch connection views
+- Added Linux only openvpn with no path option
+- Added support for VPN.ac
+
 v2.5.0
 - Keymap function
 - Auto select IP service

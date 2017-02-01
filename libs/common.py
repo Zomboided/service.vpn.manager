@@ -95,6 +95,30 @@ def getFriendlyProfileList(ovpn_connections):
     return connections
     
 
+def getTranslatedProfileList(ovpn_connections, vpn_provider):
+    connections = list(ovpn_connections)
+    try:
+        debugTrace("Opening translate file for " + vpn_provider)
+        translate_file = open(getAddonPath(True, vpn_provider + "/TRANSLATE.txt"), 'r')
+        debugTrace("Opened translate file for " + vpn_provider)
+        translate = translate_file.readlines()
+        translate_file.close()
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+        return ovpn_connections
+    
+    for entry in translate:
+        try:
+            server, dns = entry.split(",")
+            i = connections.index(server)
+            connections[i] = dns
+        except:
+            pass
+            
+    return connections
+
+    
 def getFriendlyProfileName(ovpn_connection):
     # Make the VPN profile names more readable to the user to select from
     regex_str = getRegexPattern()
@@ -1025,7 +1049,11 @@ def connectVPN(connection_order, vpn_profile):
         if not progress.iscanceled():
 
             if not connection_order == "0":
-                debugTrace("Displaying list of connections with filter " + vpn_protocol)
+                switch = True
+                if addon.getSetting("location_ip_view") == "true": ip_view = True
+                else: ip_view = False
+                
+                # Build ths list of connections and the server/IP alternative
                 all_connections = getAddonList(vpn_provider, "*.ovpn")
                 ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
                 none_filter = "UDP and TCP"
@@ -1036,15 +1064,24 @@ def connectVPN(connection_order, vpn_profile):
                     vpn_protocol = addon.getSetting("vpn_protocol")
                     ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
                 ovpn_connections.sort()
-                connections = getFriendlyProfileList(ovpn_connections)
+                location_connections = getFriendlyProfileList(ovpn_connections)
+                if existing_connection == "":
+                    cancel_text = "[I]Cancel connection attempt[/I]"
+                else:
+                    cancel_text = "[I]Cancel connection attempt and clear connection[/I]"
+                    cancel_clear = True
+                location_connections.append(cancel_text)
+                switch_text =  "[I]Switch between location and server views[/I]"
+                location_connections.insert(0, switch_text)
+                ip_connections = getTranslatedProfileList(location_connections, getVPNLocation(vpn_provider))
                 
-                if len(connections) > 0:
-                    if existing_connection == "":
-                        cancel_text = "[I]Cancel connection attempt[/I]"
+                while switch:
+                    debugTrace("Displaying list of connections with filter " + vpn_protocol)
+                    if ip_view:
+                        connections = ip_connections
                     else:
-                        cancel_text = "[I]Cancel connection attempt and clear connection[/I]"
-                        cancel_clear = True
-                    connections.append(cancel_text)
+                        connections = location_connections
+
                     selected_connection = xbmcgui.Dialog().select("Select " + connection_title + " VPN profile", connections)                  
                 
                     # Based on the value selected, get the path name to the ovpn file
@@ -1052,8 +1089,19 @@ def connectVPN(connection_order, vpn_profile):
                     if ovpn_name == cancel_text:
                         ovpn_name = ""
                         cancel_attempt = True
+                        break
+                    elif ovpn_name == switch_text:
+                        if ip_view: 
+                            ip_view = False
+                            addon.setSetting("location_ip_view", "false")
+                        else: 
+                            ip_view = True
+                            addon.setSetting("location_ip_view", "true")
                     else:
-                        ovpn_connection = ovpn_connections[selected_connection]
+                        # Have to get the right connection name and allow for the switch line in the array
+                        ovpn_connection = ovpn_connections[selected_connection - 1]
+                        ovpn_name = getFriendlyProfileName(ovpn_connection)
+                        break
             else:
                 ovpn_name = getFriendlyProfileName(vpn_profile)
                 ovpn_connection = vpn_profile

@@ -30,12 +30,12 @@ from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSepa
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
@@ -333,8 +333,10 @@ def removeGeneratedFiles():
             for file in files:
                 xbmcvfs.delete(file)
         filename = getAddonPath(True, provider + "/GENERATED.txt")
-        if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)             
-
+        if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)
+        filename = getAddonPath(True, provider + "/TRANSLATE.txt")
+        if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)
+        
         
 def ovpnFilesAvailable(vpn_provider):
     if xbmcvfs.exists(getAddonPath(True, vpn_provider + "/GENERATED.txt")): return True
@@ -410,7 +412,17 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         errorTrace("vpnproviders.py", "Couldn't open the template file for " + vpn_provider)
         errorTrace("vpnproviders.py", str(e))
         return False
-    
+
+    # Open a translate file
+    try:
+        debugTrace("Opening translate file for " + vpn_provider)
+        translate_file = open(getAddonPath(True, vpn_provider + "/TRANSLATE.txt"), 'w')
+        debugTrace("Opened translate file for " + vpn_provider)
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+        return False
+        
     if getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
         template.append("block-outside-dns")
     
@@ -442,6 +454,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
     except Exception as e:
         errorTrace("vpnproviders.py", "Couldn't open the locations file for " + vpn_provider + "\n" + locations_name)
         errorTrace("vpnproviders.py", str(e))
+        translate_file.close()
         return False
 
     # For each location, generate an OVPN file using the template
@@ -495,10 +508,12 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         except Exception as e:
             errorTrace("vpnproviders.py", "Location file for " + vpn_provider + " invalid on line\n" + location)
             errorTrace("vpnproviders.py", str(e))
+            translate_file.close()
             return False
             
         try:
             ovpn_file = open(getAddonPath(True, vpn_provider + "/" + geo + ".ovpn"), 'w')
+            translate_location = geo
             if proto == "tcp":
                 servprot = "tcp-client"
             else:
@@ -526,11 +541,13 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                     server_lines = ""
                     i = 0
                     for server in servers:
+                        if i == 0: translate_server = server
                         if not server_lines == "" : server_lines = server_lines + "\n"
                         server_lines = server_lines + server_template.replace("#SERVER", server)
                         if port == "":
                             server_lines = server_lines.replace("#PORT", ports[i])
                         i = i + 1
+                    if i > 1: translate_server = translate_server + " & " + str(i - 1) + " more"
                     output_line = server_lines
                 # There might be other places we use server and port, so still the do the replace
                 output_line = output_line.replace("#SERVER", servers[0])
@@ -556,10 +573,15 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 if not output_line == "" : ovpn_file.write(output_line + "\n")
             ovpn_file.close()
             debugTrace("Wrote location " + geo + " " + proto)
+            translate_file.write(translate_location + "," + translate_server + " (" + proto.upper() + ")\n")
         except Exception as e:
             errorTrace("vpnproviders.py", "Can't write a location file for " + vpn_provider + " failed on line\n" + location)
             errorTrace("vpnproviders.py", str(e))
+            translate_file.close()
             return False
+    
+    # Write the location to server translation file
+    translate_file.close()
     
     # Flag that the files have been generated
     writeGeneratedFile(vpn_provider)
@@ -591,6 +613,16 @@ def updateVPNFiles(vpn_provider):
     if verb_value == "":
         verb_value = "1"
         addon.setSetting("openvpn_verb", verb_value)
+
+    # Open a translate file
+    try:
+        debugTrace("Opening translate file for " + vpn_provider)
+        translate_file = open(getAddonPath(True, vpn_provider + "/TRANSLATE.txt"), 'w')
+        debugTrace("Opened translate file for " + vpn_provider)
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+        return False
         
     for connection in ovpn_connections:
         try:
@@ -601,6 +633,9 @@ def updateVPNFiles(vpn_provider):
             f.truncate()
             # Get the profile friendly name in case we need to generate key/cert names
             name = connection[connection.rfind(getSeparator())+1:connection.rfind(".ovpn")]
+            translate_location = name
+            translate_server = ""
+            server_count = 0
             
             found_up = False
             found_down = False
@@ -621,19 +656,26 @@ def updateVPNFiles(vpn_provider):
                         
                 # Update port numbers
                 if line.startswith("remote "):
+                    server_count += 1
+                    tokens = line.split()
                     port = ""
+                    newPrint("Found remote, looking for proto")
                     for newline in lines:
-                        if "proto " in newline:
+                        if newline.startswith("proto "):
                             if "tcp" in newline:
                                 proto = "tcp"
+                                newPrint("Found TCP")
                                 if not portTCP == "": port = portTCP
+                                break
                             if "udp" in newline:
                                 proto = "udp"
                                 if not portUDP == "": port = portUDP
+                                break
                     if not port == "":
-                        tokens = line.split()
                         line = "remote " + tokens[1] + " " + port + "\n"
+                    if translate_server == "": translate_server = tokens[1]
 
+                        
                 # Update user cert and key                
                 if usesUserKeys(vpn_provider):
                     if line.startswith("cert "):
@@ -681,10 +723,18 @@ def updateVPNFiles(vpn_provider):
                 f.write("ping-timer-rem\n")
             
             f.close()
+                                
+            if server_count > 1: translate_server = translate_server + " & " + str(server_count - 1) + " more"
+            translate_file.write(translate_location + "," + translate_server + " (" + proto.upper() + ")\n")
+            
         except Exception as e:
             errorTrace("vpnproviders.py", "Failed to update ovpn file")
             errorTrace("vpnproviders.py", str(e))
+            translate_file.close()
             return False
+
+    # Write the location to server translation file
+    translate_file.close()
 
     # Flag that the files have been generated            
     writeGeneratedFile(vpn_provider)

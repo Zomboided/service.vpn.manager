@@ -226,13 +226,13 @@ def startVPN(vpn_profile):
 def getOpenVPNPath():
     # Call the platform VPN to start the VPN
     if fakeConnection():
-        p = platforms.RPI
+        p = platforms.LINUX
     else:
-        p = getPlatform()
-        
+        p = getPlatform()   
     if p == platforms.RPI:
         return getAddonPath(False, "network.openvpn/bin/openvpn")
-    if p == platforms.LINUX:            
+    if p == platforms.LINUX:
+        if xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_no_path") == "true": return "openvpn"
         return "/usr/sbin/openvpn"
     if p == platforms.WINDOWS:
         # No path specified as install will update command path

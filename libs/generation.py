@@ -32,8 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateCyberGhost()
+    generateVPNac()
+    generateNordVPN()
     return
+    generateCyberGhost()
     generateVPNUnlim()
     generateVyprVPN()
     generateExpressVPN()
@@ -84,6 +86,49 @@ def getProfileList(vpn_provider):
     path = getUserDataPath("providers/" + vpn_provider + "/*.ovpn")
     return glob.glob(path)      
 
+    
+def generateVPNac():
+    # Data is stored as a bunch of ovpn files
+    # File name has location.  File has the servers
+    profiles = getProfileList("VPN.ac")
+    location_file = getLocations("VPN.ac", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        if "tcp" in geo:
+            proto = "tcp"
+        else:
+            proto = "udp"
+        geo = geo.replace("-aes128-tcp", "")
+        geo = geo.replace("-aes128-udp", "")
+        geo = geo.replace("_", " ")
+        geo = geo.title()
+        geo = geo.replace("Us-East ", "US-East ")
+        geo = geo.replace("Us-West ", "US-West ")
+        geo = geo.replace("Us-Central ", "US-Central ")
+        geo = geo.replace("Uk ", "UK ")
+        geo = geo.replace("-2", " 2")
+        geo = geo.replace("-3", " 3")
+        servers = ""
+        ports = ""
+        writeline = ""
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()
+                proto = proto.lower()
+                if not servers == "" : servers = servers + " "
+                servers = servers + server
+                if not ports == "" : ports = ports + " "
+                ports = ports + port
+        output_line = geo + " (" + proto.upper() + ")," + servers + "," + proto + "," + ports + "\n" 
+        location_file.write(output_line)
+    location_file.close()   
+    
+    
+    
+    
 
 def generateSmartDNSProxy():
     # Data is stored as a bunch of ovpn files
@@ -142,7 +187,6 @@ def generateWindscribe():
         line = line.strip(" \t\n\r")
         server = line
         geo = line.replace(".windscribe.com", "")
-        newPrint(geo)
         if "-" in geo:
             geo, rest = geo.split("-")
             rest = " " + string.capwords(rest)
@@ -556,7 +600,6 @@ def generateLimeVPN():
         output = ""
         i = 0
         write = True;
-        newPrint(destination_path + filename)
         for line in profile_contents:
             line = line.strip(' \t\n\r')
             if not (line == "" or line.startswith("#")) :
@@ -569,7 +612,6 @@ def generateLimeVPN():
                     line = ""
                 if write and not line == "" : 
                     output_file.write(line + "\n")
-                    newPrint(line)
             i = i + 1    
         output_file.close()   
     
@@ -1099,8 +1141,10 @@ def generateNordVPN():
             if "us-ca2" in shortname: shortname = "United States - Canada 2"
             if "nl1-ru1" in shortname: shortname = "Netherlands - Russia 1"
             if "ru-nl1" in shortname: shortname = "Russia - Netherlands 1"
-            if "lv-tor1" in shortname: shortname = "Latvia Tor 1"
-            if "se-tor1" in shortname: shortname = "Sweden Tor 1"
+            if "lv-tor1" in shortname: shortname = "Latvia TOR 1"
+            if "se-tor1" in shortname: shortname = "Sweden TOR 1"
+            if "nl-tor1" in shortname: shortname = "Netherlands TOR 1"
+            if "nl-uk1" in shortname: shortname = "Netherlands - United Kingdom 1"
         proto = ""
         if "tcp443" in profile: proto = "(TCP)"
         if "udp1194" in profile: proto = "(UDP)"

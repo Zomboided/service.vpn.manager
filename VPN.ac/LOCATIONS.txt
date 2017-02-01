@@ -1,0 +1,84 @@
+Australia Melbourne (TCP),au1.vpn.ac au1.vpn.ac au1.vpn.ac au1.vpn.ac,tcp,12200 26000 88 80
+Australia Melbourne (UDP),au1.vpn.ac au1.vpn.ac au1.vpn.ac au1.vpn.ac,udp,12200 26000 88 53
+Australia Sydney (TCP),au2.vpn.ac au2.vpn.ac au2.vpn.ac au2.vpn.ac,tcp,12200 26000 88 80
+Australia Sydney (UDP),au2.vpn.ac au2.vpn.ac au2.vpn.ac au2.vpn.ac,udp,12200 26000 88 53
+Canada Montreal (TCP),ca1.vpn.ac ca1.vpn.ac ca1.vpn.ac ca1.vpn.ac,tcp,12200 26000 88 80
+Canada Montreal (UDP),ca1.vpn.ac ca1.vpn.ac ca1.vpn.ac ca1.vpn.ac,udp,12200 26000 88 53
+Canada Toronto (TCP),ca2.vpn.ac ca2.vpn.ac ca2.vpn.ac ca2.vpn.ac,tcp,12200 26000 88 80
+Canada Toronto (UDP),ca2.vpn.ac ca2.vpn.ac ca2.vpn.ac ca2.vpn.ac,udp,12200 26000 88 53
+Finland Helsinki (TCP),fi1.vpn.ac fi1.vpn.ac fi1.vpn.ac fi1.vpn.ac,tcp,12200 26000 88 80
+Finland Helsinki (UDP),fi1.vpn.ac fi1.vpn.ac fi1.vpn.ac fi1.vpn.ac,udp,12200 26000 88 53
+France Paris (TCP),fr1.vpn.ac fr1.vpn.ac fr1.vpn.ac fr1.vpn.ac,tcp,12200 26000 88 80
+France Paris (UDP),fr1.vpn.ac fr1.vpn.ac fr1.vpn.ac fr1.vpn.ac,udp,12200 26000 88 53
+Germany Frankfurt (TCP),de1.vpn.ac de1.vpn.ac de1.vpn.ac de1.vpn.ac,tcp,12200 26000 88 80
+Germany Frankfurt (UDP),de1.vpn.ac de1.vpn.ac de1.vpn.ac de1.vpn.ac,udp,12200 26000 88 53
+Hong-Kong Kowloon (TCP),hk1.vpn.ac hk1.vpn.ac hk1.vpn.ac hk1.vpn.ac,tcp,12200 26000 88 80
+Hong-Kong Kowloon (UDP),hk1.vpn.ac hk1.vpn.ac hk1.vpn.ac hk1.vpn.ac,udp,12200 26000 88 53
+Hong-Kong Tseung-Kwan-O (TCP),hk2.vpn.ac hk2.vpn.ac hk2.vpn.ac hk2.vpn.ac,tcp,12200 26000 88 80
+Hong-Kong Tseung-Kwan-O (UDP),hk2.vpn.ac hk2.vpn.ac hk2.vpn.ac hk2.vpn.ac,udp,12200 26000 88 53
+Italy Milan (TCP),it1.vpn.ac it1.vpn.ac it1.vpn.ac it1.vpn.ac,tcp,12200 26000 88 80
+Italy Milan (UDP),it1.vpn.ac it1.vpn.ac it1.vpn.ac it1.vpn.ac,udp,12200 26000 88 53
+Japan Tokyo (TCP),jp1.vpn.ac jp1.vpn.ac jp1.vpn.ac jp1.vpn.ac,tcp,12200 26000 88 80
+Japan Tokyo (UDP),jp1.vpn.ac jp1.vpn.ac jp1.vpn.ac jp1.vpn.ac,udp,12200 26000 88 53
+Lithuania Siauliai (TCP),lt1.vpn.ac lt1.vpn.ac lt1.vpn.ac lt1.vpn.ac,tcp,12200 26000 88 80
+Lithuania Siauliai (UDP),lt1.vpn.ac lt1.vpn.ac lt1.vpn.ac lt1.vpn.ac,udp,12200 26000 88 53
+Luxembourg Steinsel (TCP),lu1.vpn.ac lu1.vpn.ac lu1.vpn.ac lu1.vpn.ac,tcp,12200 26000 88 80
+Luxembourg Steinsel (UDP),lu1.vpn.ac lu1.vpn.ac lu1.vpn.ac lu1.vpn.ac,udp,12200 26000 88 53
+Mexico Mexico-City (TCP),mx1.vpn.ac mx1.vpn.ac mx1.vpn.ac mx1.vpn.ac,tcp,12200 26000 88 80
+Mexico Mexico-City (UDP),mx1.vpn.ac mx1.vpn.ac mx1.vpn.ac mx1.vpn.ac,udp,12200 26000 88 53
+Netherlands Amsterdam 2 (TCP),nl2.vpn.ac nl2.vpn.ac nl2.vpn.ac nl2.vpn.ac,tcp,12200 26000 88 80
+Netherlands Amsterdam 2 (UDP),nl2.vpn.ac nl2.vpn.ac nl2.vpn.ac nl2.vpn.ac,udp,12200 26000 88 53
+Netherlands Amsterdam 3 (TCP),nl3.vpn.ac nl3.vpn.ac nl3.vpn.ac nl3.vpn.ac,tcp,12200 26000 88 80
+Netherlands Amsterdam 3 (UDP),nl3.vpn.ac nl3.vpn.ac nl3.vpn.ac nl3.vpn.ac,udp,12200 26000 88 53
+Netherlands Amsterdam (TCP),nl1.vpn.ac nl1.vpn.ac nl1.vpn.ac nl1.vpn.ac,tcp,12200 26000 88 80
+Netherlands Amsterdam (UDP),nl1.vpn.ac nl1.vpn.ac nl1.vpn.ac nl1.vpn.ac,udp,12200 26000 88 53
+Norway Oslo (TCP),no1.vpn.ac no1.vpn.ac no1.vpn.ac no1.vpn.ac,tcp,12200 26000 88 80
+Norway Oslo (UDP),no1.vpn.ac no1.vpn.ac no1.vpn.ac no1.vpn.ac,udp,12200 26000 88 53
+Poland Warsaw (TCP),pl1.vpn.ac pl1.vpn.ac pl1.vpn.ac pl1.vpn.ac,tcp,12200 26000 88 80
+Poland Warsaw (UDP),pl1.vpn.ac pl1.vpn.ac pl1.vpn.ac pl1.vpn.ac,udp,12200 26000 88 53
+Portugal Lisbon (TCP),pt1.vpn.ac pt1.vpn.ac pt1.vpn.ac pt1.vpn.ac,tcp,12200 26000 88 80
+Portugal Lisbon (UDP),pt1.vpn.ac pt1.vpn.ac pt1.vpn.ac pt1.vpn.ac,udp,12200 26000 88 53
+Romania Bucharest (TCP),ro1.vpn.ac ro1.vpn.ac ro1.vpn.ac ro1.vpn.ac,tcp,12200 26000 88 80
+Romania Bucharest (UDP),ro1.vpn.ac ro1.vpn.ac ro1.vpn.ac ro1.vpn.ac,udp,12200 26000 88 53
+Singapore Singapore (TCP),sg1.vpn.ac sg1.vpn.ac sg1.vpn.ac sg1.vpn.ac,tcp,12200 26000 88 80
+Singapore Singapore (UDP),sg1.vpn.ac sg1.vpn.ac sg1.vpn.ac sg1.vpn.ac,udp,12200 26000 88 53
+South-Korea Seoul (TCP),kr1.vpn.ac kr1.vpn.ac kr1.vpn.ac kr1.vpn.ac,tcp,12200 26000 88 80
+South-Korea Seoul (UDP),kr1.vpn.ac kr1.vpn.ac kr1.vpn.ac kr1.vpn.ac,udp,12200 26000 88 53
+Spain Valencia (TCP),es1.vpn.ac es1.vpn.ac es1.vpn.ac es1.vpn.ac,tcp,12200 26000 88 80
+Spain Valencia (UDP),es1.vpn.ac es1.vpn.ac es1.vpn.ac es1.vpn.ac,udp,12200 26000 88 53
+Sweden Stockholm (TCP),se1.vpn.ac se1.vpn.ac se1.vpn.ac se1.vpn.ac,tcp,12200 26000 88 80
+Sweden Stockholm (UDP),se1.vpn.ac se1.vpn.ac se1.vpn.ac se1.vpn.ac,udp,12200 26000 88 53
+Switzerland Zurich (TCP),ch1.vpn.ac ch1.vpn.ac ch1.vpn.ac ch1.vpn.ac,tcp,12200 26000 88 80
+Switzerland Zurich (UDP),ch1.vpn.ac ch1.vpn.ac ch1.vpn.ac ch1.vpn.ac,udp,12200 26000 88 53
+UK Coventry (TCP),uk2.vpn.ac uk2.vpn.ac uk2.vpn.ac uk2.vpn.ac,tcp,12200 26000 88 80
+UK Coventry (UDP),uk2.vpn.ac uk2.vpn.ac uk2.vpn.ac uk2.vpn.ac,udp,12200 26000 88 53
+UK London (TCP),uk1.vpn.ac uk1.vpn.ac uk1.vpn.ac uk1.vpn.ac,tcp,12200 26000 88 80
+UK London (UDP),uk1.vpn.ac uk1.vpn.ac uk1.vpn.ac uk1.vpn.ac,udp,12200 26000 88 53
+UK Portsmouth (TCP),uk3.vpn.ac uk3.vpn.ac uk3.vpn.ac uk3.vpn.ac,tcp,12200 26000 88 80
+UK Portsmouth (UDP),uk3.vpn.ac uk3.vpn.ac uk3.vpn.ac uk3.vpn.ac,udp,12200 26000 88 53
+US-Central Chicago (TCP),us2.vpn.ac us2.vpn.ac us2.vpn.ac us2.vpn.ac,tcp,12200 26000 88 80
+US-Central Chicago (UDP),us2.vpn.ac us2.vpn.ac us2.vpn.ac us2.vpn.ac,udp,12200 26000 88 53
+US-Central Dallas (TCP),us7.vpn.ac us7.vpn.ac us7.vpn.ac us7.vpn.ac,tcp,12200 26000 88 80
+US-Central Dallas (UDP),us7.vpn.ac us7.vpn.ac us7.vpn.ac us7.vpn.ac,udp,12200 26000 88 53
+US-Central Kansas (TCP),us6.vpn.ac us6.vpn.ac us6.vpn.ac us6.vpn.ac,tcp,12200 26000 88 80
+US-Central Kansas (UDP),us6.vpn.ac us6.vpn.ac us6.vpn.ac us6.vpn.ac,udp,12200 26000 88 53
+US-East Ashburn (TCP),us8.vpn.ac us8.vpn.ac us8.vpn.ac us8.vpn.ac,tcp,12200 26000 88 80
+US-East Ashburn (UDP),us8.vpn.ac us8.vpn.ac us8.vpn.ac us8.vpn.ac,udp,12200 26000 88 53
+US-East Atlanta (TCP),us1.vpn.ac us1.vpn.ac us1.vpn.ac us1.vpn.ac,tcp,12200 26000 88 80
+US-East Atlanta (UDP),us1.vpn.ac us1.vpn.ac us1.vpn.ac us1.vpn.ac,udp,12200 26000 88 53
+US-East Miami (TCP),us12.vpn.ac us12.vpn.ac us12.vpn.ac us12.vpn.ac,tcp,12200 26000 88 80
+US-East Miami (UDP),us12.vpn.ac us12.vpn.ac us12.vpn.ac us12.vpn.ac,udp,12200 26000 88 53
+US-East New-York (TCP),us4.vpn.ac us4.vpn.ac us4.vpn.ac us4.vpn.ac,tcp,12200 26000 88 80
+US-East New-York (UDP),us4.vpn.ac us4.vpn.ac us4.vpn.ac us4.vpn.ac,udp,12200 26000 88 53
+US-West Los-Angeles 2 (TCP),us10.vpn.ac us10.vpn.ac us10.vpn.ac us10.vpn.ac,tcp,12200 26000 88 80
+US-West Los-Angeles 2 (UDP),us10.vpn.ac us10.vpn.ac us10.vpn.ac us10.vpn.ac,udp,12200 26000 88 53
+US-West Los-Angeles 3 (TCP),us11.vpn.ac us11.vpn.ac us11.vpn.ac us11.vpn.ac,tcp,12200 26000 88 80
+US-West Los-Angeles 3 (UDP),us11.vpn.ac us11.vpn.ac us11.vpn.ac us11.vpn.ac,udp,12200 26000 88 53
+US-West Los-Angeles (TCP),us3.vpn.ac us3.vpn.ac us3.vpn.ac us3.vpn.ac,tcp,12200 26000 88 80
+US-West Los-Angeles (UDP),us3.vpn.ac us3.vpn.ac us3.vpn.ac us3.vpn.ac,udp,12200 26000 88 53
+US-West San-Francisco (TCP),us13.vpn.ac us13.vpn.ac us13.vpn.ac us13.vpn.ac,tcp,12200 26000 88 80
+US-West San-Francisco (UDP),us13.vpn.ac us13.vpn.ac us13.vpn.ac us13.vpn.ac,udp,12200 26000 88 53
+US-West San-Jose (TCP),us9.vpn.ac us9.vpn.ac us9.vpn.ac us9.vpn.ac,tcp,12200 26000 88 80
+US-West San-Jose (UDP),us9.vpn.ac us9.vpn.ac us9.vpn.ac us9.vpn.ac,udp,12200 26000 88 53
+US-West Seattle (TCP),us5.vpn.ac us5.vpn.ac us5.vpn.ac us5.vpn.ac,tcp,12200 26000 88 80
+US-West Seattle (UDP),us5.vpn.ac us5.vpn.ac us5.vpn.ac us5.vpn.ac,udp,12200 26000 88 53

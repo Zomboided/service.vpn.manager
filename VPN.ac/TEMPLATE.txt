@@ -1,0 +1,22 @@
+remote-random
+remote #SERVER #PORT
+proto #SERVPROT
+dev tun
+tls-client
+persist-key
+persist-tun
+nobind
+pull
+redirect-gateway def1
+route-delay 3
+verb 3
+remote-cert-tls server
+auth SHA256
+auth-user-pass #PASS
+cipher AES-128-CBC
+mute-replay-warnings
+key-direction 1
+explicit-exit-notify 2
+comp-lzo
+ca #CERT
+tls-auth #TLSKEY

@@ -659,12 +659,10 @@ def updateVPNFiles(vpn_provider):
                     server_count += 1
                     tokens = line.split()
                     port = ""
-                    newPrint("Found remote, looking for proto")
                     for newline in lines:
                         if newline.startswith("proto "):
                             if "tcp" in newline:
                                 proto = "tcp"
-                                newPrint("Found TCP")
                                 if not portTCP == "": port = portTCP
                                 break
                             if "udp" in newline:

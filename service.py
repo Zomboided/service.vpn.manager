@@ -275,7 +275,7 @@ if __name__ == '__main__':
     timer = 0
     cycle_timer = 0
     reboot_timer = 0
-    seconds_to_reboot_check = 0
+    seconds_to_reboot_check = 3600
     reboot_time = ""
     reboot_day = ""
     last_file_check_time = 0
@@ -292,6 +292,8 @@ if __name__ == '__main__':
     playing = False
     
     accepting_changes = True
+    
+    found_reboot_file = False
     
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
     infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
@@ -359,7 +361,6 @@ if __name__ == '__main__':
                 
                 # Force a reboot timer check
                 reboot_timer = 3600
-                seconds_to_reboot_check = 0
 
 				# Refresh filter lists
                 debugTrace("Update filter lists from settings")
@@ -444,6 +445,7 @@ if __name__ == '__main__':
 
             # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
             if (not playing) and reboot_timer >= seconds_to_reboot_check:
+                debugTrace("Checking if a timer or file reboot is required")
                 reboot_timer = 0
                 # Assume the next check is in an hour
                 seconds_to_reboot_check = 3600
@@ -452,26 +454,34 @@ if __name__ == '__main__':
                 reboot_reason = ""
                 if addon.getSetting("reboot_file_enabled") == "true":
                     reboot_file_name = addon.getSetting("reboot_file")
-                    stats = xbmcvfs.Stat(reboot_file_name)
-                    file_check_time = stats.st_mtime()
                     if xbmcvfs.exists(reboot_file_name):
+                        found_reboot_file = True
+                        stats = xbmcvfs.Stat(reboot_file_name)
+                        file_check_time = stats.st_mtime()
                         if not file_check_time == last_file_check_time:
                             if last_file_check_time == 0:
                                 # First check since reboot, just record the time
                                 last_file_check_time = file_check_time
                             else:
+                                debugTrace("Reboot file " + reboot_file_name + " modified, rebooting")
                                 reboot_system = True
                                 reboot_reason = "server rebooted"
                     elif not reboot_file_name == "":
-                        if last_file_check_time == 0:
-                            last_file_check_time = file_check_time
+                        if last_file_check_time == 0 or found_reboot_file:
+                            # Use system time as file (and file modify time) not available
+                            last_file_check_time = getSeconds(time.strftime('%H:%M'))
                         else:
-                            # This means the file has gone away which could mean the file system has issues and needs a reboot
-                            if not addon.getSetting("last_boot_reason") == "server unreachable":
-                                reboot_system = True
-                                reboot_reason = "server unreachable"
-                            else:
-                                errorTrace("service.py", "Watching a file for a reboot but it's gone away even after a restart.  Not restarting again.")
+                            # Pretend the time now is an hour earlier and compare it to last time checked
+                            time_now = getSeconds(time.strftime('%H:%M')) - 3600
+                            if last_file_check_time < time_now:
+                                # File still not available which could mean the file system has issues and needs a reboot
+                                if not addon.getSetting("last_boot_reason") == "file unavailable":
+                                    debugTrace("Reboot file " + reboot_file_name + " has not been available for an hour, rebooting")
+                                    reboot_system = True
+                                    reboot_reason = "file unavailable"
+                                else:
+                                    errorTrace("service.py", "Watching a file for a reboot but it's gone away even after a restart.  Not restarting again.")
+                        found_reboot_file = False
                     if reboot_system:
                         if not xbmcgui.Dialog().yesno(addon_name, "System reboot about to happen because " + reboot_reason + ".\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
                             infoTrace("service.py", "Rebooting because " + reboot_reason)

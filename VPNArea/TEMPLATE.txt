@@ -1,0 +1,25 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+auth-user-pass #PASS
+dev tun
+nobind
+#REMOVE1tls-exit
+#REMOVE2comp-lzo
+#REMOVE2persist-key
+#REMOVE2persist-tun
+#REMOVE2ns-cert-type server
+#REMOVE1remote-cert-tls server
+cipher AES-256-CBC
+auth SHA256
+verb 3
+resolv-retry infinite
+#REMOVE1redirect-gateway def1 bypass-dhcp
+#REMOVE1float
+#REMOVE2ca #CERT
+#REMOVE1ca #PATHcasd.crt
+#REMOVE1cert #USERCERT
+#REMOVE1key #USERKEY
+#REMOVE1tls-auth #TLSKEY
+#REMOVE1redirect-gateway def1 bypass-dhcp

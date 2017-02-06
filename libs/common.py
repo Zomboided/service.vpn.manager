@@ -1145,8 +1145,8 @@ def connectVPN(connection_order, vpn_profile):
                     else:
                         got_keys = False
 
-                if usesKeyPass(vpn_provider) and got_keys:
-                    key_pass_file = getUserDataPath(vpn_provider + "/" + getKeyPassName(getVPNLocation(vpn_provider), ovpn_name))
+                if usesKeyPass(getVPNLocation(vpn_provider)) and got_keys:
+                    key_pass_file = getUserDataPath(getVPNLocation(vpn_provider) + "/" + getKeyPassName(getVPNLocation(vpn_provider), ovpn_name))
                     key_password = getKeyPass(key_pass_file)
                     if key_password == "":
                         key_password = xbmcgui.Dialog().input("Enter the password for your user key", "", xbmcgui.INPUT_ALPHANUM)

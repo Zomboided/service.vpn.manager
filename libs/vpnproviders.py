@@ -137,10 +137,6 @@ def usesMultipleKeys(vpn_provider):
     if vpn_provider in providers_with_multiple_keys: return True
     return False
     
-
-def usesKeyPass(vpn_provider):
-    if vpn_provider in providers_with_key_pass: return True
-    
     
 def getUserKeys(vpn_provider):
     # Return the list of key and cert files for a given provider (aka directory name...)
@@ -268,7 +264,6 @@ def getKeyName(vpn_provider, ovpn_name):
 
     
 def usesKeyPass(vpn_provider):
-    newPrint(vpn_provider)
     if vpn_provider in providers_with_single_key_pass:
         return True
     else:

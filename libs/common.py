@@ -34,7 +34,7 @@ from libs.platform import getPlatformString, checkPlatform, useSudo, getKeyMapsP
 from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
-from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined
+from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass
 from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from libs.logbox import popupOpenVPNLog
 from libs.userdefined import importWizard
@@ -884,6 +884,7 @@ def connectVPN(connection_order, vpn_profile):
     
     state = ""
     got_keys = True
+    got_key_pass = True
     keys_copied = True
     cancel_attempt = False
     cancel_clear = False
@@ -1143,9 +1144,19 @@ def connectVPN(connection_order, vpn_profile):
                             got_keys = False
                     else:
                         got_keys = False
-                        
+
+                if usesKeyPass(vpn_provider) and got_keys:
+                    key_pass_file = getUserDataPath(vpn_provider + "/" + getKeyPassName(getVPNLocation(vpn_provider), ovpn_name))
+                    key_password = getKeyPass(key_pass_file)
+                    if key_password == "":
+                        key_password = xbmcgui.Dialog().input("Enter the password for your user key", "", xbmcgui.INPUT_ALPHANUM)
+                        if key_password == "": got_key_pass = False
+                        else: 
+                            if not writeKeyPass(key_pass_file, key_password):
+                                got_key_pass = False
+            
         # Try and connect to the VPN provider using the entered credentials        
-        if (not progress.iscanceled()) and (not ovpn_name == "") and got_keys:    
+        if (not progress.iscanceled()) and (not ovpn_name == "") and got_keys and got_key_pass:    
             progress_message = "Connecting using profile " + ovpn_name + "."
             debugTrace(progress_message)
             
@@ -1167,7 +1178,7 @@ def connectVPN(connection_order, vpn_profile):
                 percent = percent + 2
 
     # Mess with the state to make it look as if we've connected to a VPN
-    if fakeConnection() and not progress.iscanceled() and provider_gen and not ovpn_name == "" and got_keys: state = connection_status.CONNECTED
+    if fakeConnection() and not progress.iscanceled() and provider_gen and not ovpn_name == "" and got_keys and got_key_pass: state = connection_status.CONNECTED
     
     log_option = True
     # Determine what happened during the connection attempt        
@@ -1256,6 +1267,9 @@ def connectVPN(connection_order, vpn_profile):
                     dialog_message = "Failed to copy supplied user key and cert files.\nCheck log and retry."
             else:
                 dialog_message = "User key and certificate files are required, but were not provided.  Locate the files or an ovpn file that contains them and try again."
+        elif not got_key_pass:
+            log_option = False
+            dialog_message = "A password is needed for the user key, but was not entered.  Try and connect again using the user key password."
         elif ovpn_name == "":
             log_option = False
             dialog_message = "No VPN profiles were available for " + vpn_protocol + ". They've all been used or none exist for the selected protocol filter."

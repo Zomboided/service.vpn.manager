@@ -317,7 +317,7 @@ msgid "Reset all .ovpn files to default"
 msgstr ""
 
 msgctxt "#32103"
-msgid "Delete user key and cert files"
+msgid "Delete user key, password and cert files"
 msgstr ""
 
 msgctxt "#32104"

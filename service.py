@@ -467,9 +467,10 @@ if __name__ == '__main__':
                                 reboot_system = True
                                 reboot_reason = "server rebooted"
                     elif not reboot_file_name == "":
+                        file_check_time = getSeconds(time.strftime('%H:%M'))
                         if last_file_check_time == 0 or found_reboot_file:
                             # Use system time as file (and file modify time) not available
-                            last_file_check_time = getSeconds(time.strftime('%H:%M'))
+                            last_file_check_time = file_check_time
                         else:
                             # Pretend the time now is an hour earlier and compare it to last time checked
                             time_now = getSeconds(time.strftime('%H:%M')) - 3600

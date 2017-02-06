@@ -48,6 +48,13 @@ providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "ExpressVPN",
 # Names must match the directory names as used in providers, just above
 providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
 
+# **** ADD VPN PROVIDERS HERE IF THEY USE A KEY PASSWORD ****
+# List of providers which secure the user key with a password to be entered during connection
+# Names must match the directory names as used in providers, just above
+providers_with_single_key_pass = ["VPNSecure"]
+
+
+
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
 user_def_str = "UserDefined"
@@ -131,6 +138,10 @@ def usesMultipleKeys(vpn_provider):
     return False
     
 
+def usesKeyPass(vpn_provider):
+    if vpn_provider in providers_with_key_pass: return True
+    
+    
 def getUserKeys(vpn_provider):
     # Return the list of key and cert files for a given provider (aka directory name...)
     path = getUserDataPath(getVPNLocation(vpn_provider)+"/*.key")
@@ -224,8 +235,8 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
             else:
                 # Couldn't extract key and/or cert, delete any remains and return error
                 errorTrace("vpnproviders.py", "Failed to extract user key or cert file from ovpn.  Key size was " + str(key_count) + " and cert size was " + str(cert_count))
-                #if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
-                #if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
+                if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
+                if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
                 return False
         except Exception as e:
             errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
@@ -255,7 +266,54 @@ def getKeyName(vpn_provider, ovpn_name):
         return "user_" + ovpn_name.replace(" ", "_") + ".key"
     return ""
 
+    
+def usesKeyPass(vpn_provider):
+    newPrint(vpn_provider)
+    if vpn_provider in providers_with_single_key_pass:
+        return True
+    else:
+        return False
 
+
+def getKeyPassName(vpn_provider, ovpn_name):   
+    # Determines the key password file based on the provider
+    # For now only a single password is supported but this could be changed by using
+    # the same pattern as for the key/cert files
+    if vpn_provider in providers_with_single_key_pass:
+        return "user.txt"
+    #if vpn_provider in providers_with_multiple_key_pass:
+    #    return "user_" + ovpn_name.replace(" ", "_") + ".key"
+    return ""
+    
+    
+def getKeyPass(key_pass_name):   
+    # Return the password being used for a given key file
+    if xbmcvfs.exists(key_pass_name):
+        debugTrace("Opening key password file " + key_pass_name)
+        pass_file = open(key_pass_name, 'r')
+        password = pass_file.readlines()
+        pass_file.close()
+        return password[0]
+    else:
+        return ""
+
+        
+def writeKeyPass(key_pass_name, password):   
+    # Return the password being used for a given key file
+    try:
+        if xbmcvfs.exists(key_pass_name):
+            xbmcvfs.delete(key_pass_name)
+        debugTrace("Writing key password file " + key_pass_name)
+        pass_file = open(key_pass_name, 'w')
+        pass_file.write(password)
+        pass_file.close()
+        return True
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Failed to write key password file to userdata")
+        errorTrace("vpnproviders.py", str(e))
+        return False
+
+        
 def getCertName(vpn_provider, ovpn_name):
     # Determines the user cert name based on the provider
     if usesSingleKey(vpn_provider):
@@ -263,7 +321,7 @@ def getCertName(vpn_provider, ovpn_name):
     if usesMultipleKeys(vpn_provider):
         return "user_" + ovpn_name.replace(" ", "_") + ".crt"
     return ""
-        
+
 
 def usesPassAuth(vpn_provider):
     # Determine if we're using a user name and password or not
@@ -476,6 +534,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
             user2 = ""
             user_key = getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, geo))
             user_cert = getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, geo))
+            user_pass = getUserDataPathWrapper(vpn_provider + "/" + getKeyPassName(vpn_provider, geo))
             remove_flags = ""
             if proto == "udp":
                 ping_speed = "5"
@@ -496,6 +555,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                     if "#TLSKEY" in pair[0]: ta_key = pair[1].strip()
                     if "#USERKEY" in pair[0]: user_key = pair[1].strip()
                     if "#USERCERT" in pair[0]: user_cert = pair[1].strip()
+                    if "#USERPASS" in pair[0]: user_pass = pair[1].strip()
                     if "#CRLVERIFY" in pair[0]: crl_pem = pair[1].strip()
                     if "#DH" in pair[0]: dh_parm = pair[1].strip()
                     if "#USER1" in pair[0]: user1 = pair[1].strip()
@@ -559,6 +619,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 output_line = output_line.replace("#DH", getAddonPathWrapper(vpn_provider + "/" + dh_parm))
                 output_line = output_line.replace("#USERKEY", user_key)
                 output_line = output_line.replace("#USERCERT", user_cert)
+                output_line = output_line.replace("#USERPASS", user_pass)
                 output_line = output_line.replace("#PATH", getAddonPathWrapper(vpn_provider + "/"))
                 output_line = output_line.replace("#USER1", user1)
                 output_line = output_line.replace("#USER2", user2)
@@ -652,8 +713,8 @@ def updateVPNFiles(vpn_provider):
                 # Update path to pass.txt
                 if not isUserDefined(vpn_provider) or addon.getSetting("user_def_credentials") == "true":
                     if line.startswith("auth-user-pass"):
-                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")        
-                        
+                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")               
+
                 # Update port numbers
                 if line.startswith("remote "):
                     server_count += 1
@@ -675,11 +736,16 @@ def updateVPNFiles(vpn_provider):
 
                         
                 # Update user cert and key                
-                if usesUserKeys(vpn_provider):
+                if not isUserDefined(vpn_provider) and usesUserKeys(vpn_provider):
                     if line.startswith("cert "):
                         line = "cert " + getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, name))
                     if line.startswith("key "):
                         line = "key " + getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, name))
+                
+                # Update key password (if there is one)
+                if not isUserDefined(vpn_provider) or usesKeyPass(vpn_provider):
+                    if line.startswith("askpass"):
+                        line = "askpass " + getUserDataPathWrapper(vpn_provider + "/" + getKeyPass(vpn_provider, name))
                 
                 # For user defined profile we need to replace any path tags with the addon dir path
                 if isUserDefined(vpn_provider):

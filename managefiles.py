@@ -153,8 +153,10 @@ elif action == "user":
                                     if not item == all_item and not item == finished_item: 
                                         path = getUserDataPath(provider + "/" + item)
                                         try:
-                                            if xbmcvfs.exists(path+".key"):
+                                            if xbmcvfs.exists(path + ".key"):
                                                 xbmcvfs.delete(path + ".key")
+                                            if xbmcvfs.exists(path + ".txt"):
+                                                xbmcvfs.delete(path + ".txt")
                                             if xbmcvfs.exists(path + ".crt"):
                                                 xbmcvfs.delete(path + ".crt")
                                         except:
@@ -164,6 +166,8 @@ elif action == "user":
                             try:
                                 if xbmcvfs.exists(path+".key"):
                                     xbmcvfs.delete(path + ".key")
+                                if xbmcvfs.exists(path + ".txt"):
+                                    xbmcvfs.delete(path + ".txt")
                                 if xbmcvfs.exists(path + ".crt"):
                                     xbmcvfs.delete(path + ".crt")
                             except:

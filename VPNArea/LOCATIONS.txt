@@ -57,8 +57,8 @@ Germany - P2P2 (UDP),46.101.124.248,udp,111
 Germany - P2P (UDP),46.101.143.12,udp,111
 Greece (UDP),78.108.46.54,udp,53
 Honduras (UDP),167.250.212.74,udp,111
-HongKong - D1 (UDP),103.53.199.169,udp,111
-HongKong - D2 (UDP),103.192.177.98,udp,111
+HongKong3 (UDP),103.53.199.169,udp,111
+HongKong4 (UDP),103.192.177.98,udp,111
 HongKong2 (UDP),119.81.173.141,udp,53
 Hungary - Budapest2 (UDP),185.112.158.116,udp,443
 Iceland - Reykjavik (UDP),192.71.218.210,udp,111
@@ -72,13 +72,13 @@ Ireland - Dublin (UDP),217.78.5.34,udp,111
 IsleofMan (UDP),37.235.55.23,udp,443
 IsleofMan2 (UDP),37.235.55.169,udp,443
 Israel - TelAviv (UDP),193.182.144.18,udp,1194
-Italy - ASkyGo (UDP),217.64.198.17,udp,8292
+Italy - SkyGo (UDP),217.64.198.17,udp,8292
 Italy - Milano (UDP),151.236.18.20,udp,443
 Italy - SkyGo3 (UDP),89.46.73.126,udp,8292
-Italy - SkyGoToscanaDC2 (UDP),188.213.174.176,udp,111
-Italy - SkyGoToscana (UDP),89.46.75.88,udp,111
-Italy - Toscana4SkyGo (UDP),80.88.90.110,udp,8292
-Italy - Toscana5SkyGo (UDP),89.46.73.109,udp,53
+Italy - SkyGo2 (UDP),188.213.174.176,udp,111
+Italy - SkyGo6 (UDP),89.46.75.88,udp,111
+Italy - SkyGo5 (UDP),80.88.90.110,udp,8292
+Italy - SkyGo4 (UDP),89.46.73.109,udp,53
 Italy (UDP),149.154.157.128,udp,111
 Japan - Tokyo (UDP),108.61.201.106,udp,1194
 Japan - Tokyo2 (UDP),108.61.201.150,udp,1194
@@ -91,11 +91,11 @@ Malaysia (UDP),210.1.226.106,udp,8292
 Mexico - DC (UDP),169.57.28.228,udp,111
 Mexico - MexicoCity (UDP),138.204.169.5,udp,111
 Moldova (UDP),178.17.171.221,udp,111
-Netherlands - AMS10Gbps (UDP),93.158.203.137,udp,8292
-Netherlands - AMS210Gbps (UDP),93.158.215.157,udp,8292
-Netherlands - AMS310Gbps (UDP),93.158.215.163,udp,8292
-Netherlands - AMS410Gbps (UDP),93.158.203.187,udp,8292
-Netherlands - Amsterdam2 (UDP),185.14.28.100,udp,111
+Netherlands - Amsterdam1 (UDP),93.158.203.137,udp,8292
+Netherlands - Amsterdam2 (UDP),93.158.215.157,udp,8292
+Netherlands - Amsterdam3 (UDP),93.158.215.163,udp,8292
+Netherlands - Amsterdam4 (UDP),93.158.203.187,udp,8292
+Netherlands - Amsterdam5 (UDP),185.14.28.100,udp,111
 Netherlands - P2P2 (UDP),188.166.1.43,udp,111
 Netherlands - P2P (UDP),146.185.169.89,udp,8292
 NewZealand (UDP),49.50.251.58,udp,111
@@ -122,8 +122,8 @@ Singapore2 (UDP),139.59.250.223,udp,8292
 Slovakia (UDP),188.123.123.132,udp,8292
 Slovenia (UDP),192.71.244.30,udp,53
 SouthAfrica - CapeTown (UDP),197.85.185.188,udp,443
-SouthAfrica - Jhn (UDP),129.232.222.71,udp,8292
-SouthAfrica - Jhn2 (UDP),129.232.222.75,udp,53
+SouthAfrica - Johannesburg3 (UDP),129.232.222.71,udp,8292
+SouthAfrica - Johannesburg2 (UDP),129.232.222.75,udp,53
 SouthAfrica (UDP),154.127.60.109,udp,443
 SouthAfrica - Johannesburg (UDP),154.127.60.70,udp,111
 SouthKorea - Seoul (UDP), 211.33.122.253,udp,111
@@ -141,16 +141,16 @@ Switzerland - Zurich (UDP),178.209.46.180,udp,8292
 Switzerland (UDP),178.209.52.185,udp,443
 Turkey - Bursa (UDP),185.123.101.23,udp,8292
 Turkey (UDP),185.125.32.26,udp,111
-USA - LA (UDP),107.161.164.143,udp,53
-USA - LA2 (UDP),107.161.164.148,udp,53
+USA - LosAngeles (UDP),107.161.164.143,udp,53
+USA - LosAngeles2 (UDP),107.161.164.148,udp,53
 USA - LosAngeles4 (UDP),216.189.155.48,udp,111
 USA - LosAngeles5 (UDP),216.189.155.49,udp,111
 USA - LosAngelesDC (UDP),199.193.249.167,udp,111
-USA - SanFr2 (UDP),104.131.159.189,udp,111
-USA - SanFr3 (UDP),104.236.147.237,udp,111
-USA - SanFr4 (UDP),104.236.181.221,udp,111
-USA - SanFran (UDP),107.170.213.212,udp,111
-USA - SanFran5 (UDP),138.68.12.176,udp,8292
+USA - SanFrancisco2 (UDP),104.131.159.189,udp,111
+USA - SanFrancisco3 (UDP),104.236.147.237,udp,111
+USA - SanFrancisco4 (UDP),104.236.181.221,udp,111
+USA - SanFrancisco (UDP),107.170.213.212,udp,111
+USA - SanFrancisco5 (UDP),138.68.12.176,udp,8292
 USA - SilliconValley (UDP),45.32.128.30,udp,8292
 USA - Denver (UDP),104.219.169.133,udp,8292
 USA - Washington (UDP),216.189.157.23,udp,8292
@@ -171,10 +171,10 @@ USA - NewYorkDC (UDP),23.94.28.221,udp,111
 USA - NewYorkDC2 (UDP),23.94.28.224,udp,8292
 USA - NewYorkDC3 (UDP),23.94.28.225,udp,8292
 USA - NewYorkDC4 (UDP),23.94.28.227,udp,53
-USA - NYP2P (UDP),198.211.97.30,udp,8292
-USA - NY2P2P (UDP),107.170.130.86,udp,111
-USA - NY3P2P (UDP),104.236.40.58,udp,111
-USA - NY4P2P (UDP),104.236.123.99,udp,111
+USA - NewYorkP2P (UDP),198.211.97.30,udp,8292
+USA - NewYorkP2P2 (UDP),107.170.130.86,udp,111
+USA - NewYorkP2P3 (UDP),104.236.40.58,udp,111
+USA - NewYorkP2P4 (UDP),104.236.123.99,udp,111
 USA - Dallas5 (UDP),45.58.55.104,udp,111
 USA - SaltLake (UDP),185.72.156.73,udp,8292
 Ukraine - Kyev (UDP),217.12.210.115,udp,111

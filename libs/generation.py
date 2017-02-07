@@ -32,9 +32,10 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
+    generateLiquidVPN()
+    return
     generateVPNac()
     generateNordVPN()
-    return
     generateCyberGhost()
     generateVPNUnlim()
     generateVyprVPN()
@@ -70,7 +71,6 @@ def generateAll():
     generatePP()    
     generateAirVPN()
     generatePIA()
-    generateLiquidVPN()
     generatetigerVPN()   
     generateIPVanish()    
 
@@ -869,18 +869,16 @@ def generateLiquidVPN():
             profile_file.close()
             server = ""
             tls_auth_flag1 = False
-            keepalive_flag2 = False
-            key_method_flag3 = False
-            reneg_sec_flag4 = False
-            auth_SHA512_flag5 = False
-            remote_random_flag6 = False
+            key_method_flag2 = False
+            reneg_sec_flag3 = False
+            auth_SHA512_flag4 = False
+            remote_random_flag5 = False
             for line in lines:
                 if line.startswith("tls-auth") : tls_auth_flag1 = True
-                if line.startswith("keepalive") : keepalive_flag2 = True
-                if line.startswith("key-method") : key_method_flag3 = True
-                if line.startswith("reneg-sec") : reneg_sec_flag4 = True
-                if line.startswith("auth SHA512") : auth_SHA512_flag5 = True
-                if line.startswith("remote-random") : remote_random_flag6 = True
+                if line.startswith("key-method") : key_method_flag2 = True
+                if line.startswith("reneg-sec") : reneg_sec_flag3 = True
+                if line.startswith("auth SHA512") : auth_SHA512_flag4 = True
+                if line.startswith("remote-random") : remote_random_flag5 = True
                 tokens = line.split()
                 if len(tokens) > 2:
                     if tokens[0] == "remote" : 
@@ -895,11 +893,10 @@ def generateLiquidVPN():
             if directory == "Romania": extra = ",#CERT=ca_romania.crt "
             flags = ""
             if not tls_auth_flag1 : flags = flags + "1"
-            if not keepalive_flag2 : flags = flags + "2"
-            if not key_method_flag3 : flags = flags + "3"
-            if not reneg_sec_flag4 : flags = flags + "4"
-            if not auth_SHA512_flag5 : flags = flags + "5"
-            if not remote_random_flag6 : flags = flags + "6"
+            if not key_method_flag2 : flags = flags + "2"
+            if not reneg_sec_flag3 : flags = flags + "3"
+            if not auth_SHA512_flag4 : flags = flags + "4"
+            if not remote_random_flag5 : flags = flags + "5"
             if extra == "" and not flags == "": extra = ","
             if not flags == "":
                 extra = extra + "#REMOVE=" + flags

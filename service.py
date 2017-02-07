@@ -229,6 +229,11 @@ if __name__ == '__main__':
             # Forces the IP provider to be the default/best rather than a selected on
             if last_version < 250:
                 addon.setSetting("ip_info_source", "Auto select")
+            if addon.getSetting("vpn_provider_validated") == "VPNSecure" and last_version < 261:
+                addon.setSetting("1_vpn_validated", "reset")
+                addon.setSetting("user_def_keys", "None")
+                clearKeysAndCerts("VPNSecure")
+                
                 
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

@@ -1,6 +1,6 @@
 proto #PROTO
 remote #SERVER #PORT
-#REMOVE6remote-random
+#REMOVE5remote-random
 client
 dev tun
 resolv-retry 30
@@ -9,7 +9,7 @@ persist-key
 persist-tun
 cipher AES-256-CBC
 tls-cipher TLS-DHE-RSA-WITH-AES-256-CBC-SHA
-#REMOVE5auth SHA512
+#REMOVE4auth SHA512
 auth-user-pass #PASS
 remote-cert-tls server
 comp-lzo no
@@ -17,6 +17,5 @@ explicit-exit-notify 2
 script-security 2
 ca #CERT
 #REMOVE1tls-auth #TLSKEY 1
-#REMOVE2keepalive 5 30
-#REMOVE3key-method 2
-#REMOVE4reneg-sec 0
+#REMOVE2key-method 2
+#REMOVE3reneg-sec 0

@@ -1145,15 +1145,15 @@ def connectVPN(connection_order, vpn_profile):
                     else:
                         got_keys = False
 
-                if usesKeyPass(getVPNLocation(vpn_provider)) and got_keys:
-                    key_pass_file = getUserDataPath(getVPNLocation(vpn_provider) + "/" + getKeyPassName(getVPNLocation(vpn_provider), ovpn_name))
-                    key_password = getKeyPass(key_pass_file)
-                    if key_password == "":
-                        key_password = xbmcgui.Dialog().input("Enter the password for your user key", "", xbmcgui.INPUT_ALPHANUM)
-                        if key_password == "": got_key_pass = False
-                        else: 
-                            if not writeKeyPass(key_pass_file, key_password):
-                                got_key_pass = False
+            if usesKeyPass(getVPNLocation(vpn_provider)) and got_keys:
+                key_pass_file = getUserDataPath(getVPNLocation(vpn_provider) + "/" + getKeyPassName(getVPNLocation(vpn_provider), ovpn_name))
+                key_password = getKeyPass(key_pass_file)
+                if key_password == "":
+                    key_password = xbmcgui.Dialog().input("Enter the password for your user key", "", xbmcgui.INPUT_ALPHANUM)
+                    if key_password == "": got_key_pass = False
+                    else: 
+                        if not writeKeyPass(key_pass_file, key_password):
+                            got_key_pass = False
             
         # Try and connect to the VPN provider using the entered credentials        
         if (not progress.iscanceled()) and (not ovpn_name == "") and got_keys and got_key_pass:    

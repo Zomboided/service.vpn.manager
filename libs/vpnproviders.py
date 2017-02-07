@@ -30,12 +30,12 @@ from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSepa
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "NordVPN", "tigerVPN", "Hide My Ass", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "NordVPN", "tigerVPN", "HMA", "PureVPN", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac", "VPNArea"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
@@ -264,17 +264,18 @@ def getKeyName(vpn_provider, ovpn_name):
 
     
 def usesKeyPass(vpn_provider):
-    if vpn_provider in providers_with_single_key_pass:
-        return True
-    else:
-        return False
+    if isUserDefined(vpn_provider):
+        if not (xbmcaddon.Addon("service.vpn.manager").getSetting("user_def_key_password") == "true"): 
+            return False
+    elif not vpn_provider in providers_with_single_key_pass: return False
+    return True
 
 
 def getKeyPassName(vpn_provider, ovpn_name):   
     # Determines the key password file based on the provider
-    # For now only a single password is supported but this could be changed by using
-    # the same pattern as for the key/cert files
-    if vpn_provider in providers_with_single_key_pass:
+    # For now only a single password is supported but this could be changed by using the same
+    # pattern as for the key/cert files.  isUserDefined test would need to be expanded too
+    if vpn_provider in providers_with_single_key_pass or isUserDefined(vpn_provider):
         return "user.txt"
     #if vpn_provider in providers_with_multiple_key_pass:
     #    return "user_" + ovpn_name.replace(" ", "_") + ".key"
@@ -740,7 +741,7 @@ def updateVPNFiles(vpn_provider):
                 # Update key password (if there is one)
                 if not isUserDefined(vpn_provider) or usesKeyPass(vpn_provider):
                     if line.startswith("askpass"):
-                        line = "askpass " + getUserDataPathWrapper(vpn_provider + "/" + getKeyPass(vpn_provider, name))
+                        line = "askpass " + getUserDataPathWrapper(vpn_provider + "/" + getKeyPass(vpn_provider))
                 
                 # For user defined profile we need to replace any path tags with the addon dir path
                 if isUserDefined(vpn_provider):

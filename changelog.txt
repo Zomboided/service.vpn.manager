@@ -1,3 +1,6 @@
+v2.6.1
+- Support for VPNSecure, adding key passwords
+
 v2.6.0
 - Switch connection views
 - Added Linux only openvpn with no path option

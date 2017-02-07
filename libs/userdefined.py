@@ -176,6 +176,8 @@ def importWizard():
             ecert_count = 0
             key_count = 0
             key_found = 0
+            key_pass_found = 0
+            key_pass_count = 0
             multiple_keys = False
             last_key_found = ""
             ekey_count = 0
@@ -202,6 +204,7 @@ def importWizard():
                         # Read the copied file in and then overwrite it with any updates needed
                         # Was doing a read from source and write here but this failed on Linux over an smb mount (file not found)
                         auth = False
+                        keypass = False
                         infoTrace("import.py", "Updating " + dest_name)
                         detail.append("Updating " + dest_name + "\n")
                         source_file = open(dest_name, 'r')
@@ -236,12 +239,15 @@ def importWizard():
                                                 cert_found += 1
                                             if line.startswith("key "):
                                                 key_found += 1
+                                            if line.startswith("askpass "):
+                                                key_pass_found += 1
+                                                keypass = True
                                 i += 1
                             # Do some tag counting to determine authentication methods to use
                             if not line.startswith("#"):
                                 if line.startswith("auth-user-pass"):
                                     auth_count += 1
-                                    if not auth: line = "auth-user-pass #PATH" + getSeparatorOutput() + " pass.txt"
+                                    if not auth: line = "auth-user-pass #PATH" + getSeparatorOutput() + "pass.txt"
                                 if line.startswith("cert "):
                                     cert_count += 1
                                     if not last_cert_found == old_line:
@@ -254,6 +260,9 @@ def importWizard():
                                         if not last_key_found == "":
                                             multiple_keys = True
                                         last_key_found = old_line
+                                if line.startswith("askpass"):
+                                    key_pass_count += 1
+                                    if not keypass: line = "askpass #PATH" + getSeparatorOutput() + "key.txt"
                                 if line.startswith("proto "):
                                     if "tcp" in (line.lower()): proto = "TCP"
                                 if line.startswith("<cert>"):
@@ -346,6 +355,26 @@ def importWizard():
                             summary.append("  WARNING : Using embedded user keys and certificates, but found " + str(ekey_count) + " keys and " + str(ecert_count) + " certificates in " + str(len(ovpn_files)) + " .ovpn files. There should be one of each in all .ovpn files otherwise some connections may not work.\n")
                     else:
                         summary.append("No user key or cert tags were found so assuming this type of authentication is not used.\n")
+                
+                # Report on how key passwords will be handled
+                if key_pass_count > 0:
+                    if key_pass_found > 0:
+                        # Not using a password as resolved by file
+                        addon.setSetting("user_def_key_password", "false")
+                        summary.append("The askpass tag was found " + str(auth_count) + " times, but was resolved using a supplied file so the key password doesn't need to be entered.\n")
+                        if not key_pass_found == key_pass_count:
+                            summary.append("  WARNING : The askpass tag was found " + str(key_pass_count) + " times, but only resolved using a supplied file " + str(key_pass_found) + " times. Some connections may not work.\n")
+                    else:
+                        # Using a password as auth-user-pass tag was found
+                        addon.setSetting("user_def_key_password", "true")
+                        summary.append("The askpass tag was found " + str(key_pass_count) + " times so assuming key password authentication is used.\n")
+                    if key_pass_count < len(ovpn_files):
+                        summary.append("  WARNING : The askpass tag was only found in " + str(key_pass_count) + " .ovpn files, out of " + str(len(ovpn_files)) + ". Some connections may not work, or you may be asked to enter a password when it's not necessary.\n")
+                else:
+                    # Not using a password as no askpass tag was found
+                    addon.setSetting("user_def_key_password", "false")
+                    summary.append("No askpass tag was found, so assuming key password is not needed.\n")
+
                 
                 # Report how many times each of the non .ovpn files were used
                 i = 0

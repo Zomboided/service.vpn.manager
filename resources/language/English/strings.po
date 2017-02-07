@@ -118,6 +118,10 @@ msgctxt "#32023"
 msgid "Multiple"
 msgstr ""
 
+msgctxt "#32024"
+msgid "Manage key password"
+msgstr ""
+
 # VPN Connection Settings
 
 msgctxt "#32025"
@@ -659,17 +663,21 @@ msgid "VPN Unlimited"
 msgstr ""
 
 msgctxt "#32230"
-msgid "VPNSecure"
+msgid "VPNArea"
 msgstr ""
 
 msgctxt "#32231"
-msgid "VyprVPN"
+msgid "VPNSecure"
 msgstr ""
 
 msgctxt "#32232"
-msgid "WiTopia"
+msgid "VyprVPN"
 msgstr ""
 
 msgctxt "#32233"
+msgid "WiTopia"
+msgstr ""
+
+msgctxt "#32234"
 msgid "Windscribe"
 msgstr ""

@@ -1,0 +1,16 @@
+client
+dev tun
+proto #PROTO
+remote #SERVER #PORT
+auth-user-pass #PASS
+dev tun
+nobind
+comp-lzo
+persist-key
+persist-tun
+ns-cert-type server
+cipher AES-256-CBC
+auth SHA256
+verb 3
+resolv-retry infinite
+ca #CERT

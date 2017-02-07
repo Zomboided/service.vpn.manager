@@ -1,4 +1,4 @@
-Austria - 3 (UDP),151.236.6.106,udp,111
+Austria (UDP),151.236.6.106,udp,111
 Austria - Vienna (UDP),151.236.10.218,udp,53
 Austria - Graz (UDP),149.154.153.144,udp,111
 Australia - Adelaide (UDP),119.252.20.121,udp,1194
@@ -15,14 +15,14 @@ Australia - Sydney2 (UDP),103.25.58.248,udp,1195
 Australia - Sydney3 (UDP),103.25.58.118,udp,443
 Australia - Sydney4 (UDP),103.25.58.119,udp,443
 Belgium - Brussel (UDP),192.71.249.15,udp,111
-Brazil - ParaibaHiSpeed (UDP),187.45.180.27,udp,111
-Brazil - ParaibaHiSpeed2 (UDP),187.45.180.28,udp,111
+Brazil - Paraiba (UDP),187.45.180.27,udp,111
+Brazil - Paraiba2 (UDP),187.45.180.28,udp,111
 Brazil - SPFranca (UDP),177.67.81.141,udp,111
 Brazil - SPFranca2 (UDP),177.67.81.140,udp,111
 Brazil - Santiago2 (UDP),181.41.197.216,udp,443
-Brazil - SaoPauloNEW2 (UDP),181.41.197.12,udp,111
-Bulgaria - 2 (UDP),79.124.7.46,udp,443
-Bulgaria - 3 (UDP),79.124.7.210,udp,111
+Brazil - SaoPaulo2 (UDP),181.41.197.12,udp,111
+Bulgaria2 (UDP),79.124.7.46,udp,443
+Bulgaria3 (UDP),79.124.7.210,udp,111
 Bulgaria - SF (UDP),217.12.203.127,udp,443
 Bulgaria - Sofia (UDP),91.92.109.52,udp,443
 Canada - Montreal (UDP),192.99.216.167,udp,8292
@@ -31,16 +31,16 @@ Canada - Ottawa (UDP),199.167.130.21,udp,111
 Canada - P2P2 (UDP),159.203.32.118,udp,111
 Canada - P2P3 (UDP),159.203.36.11,udp,111
 Canada - P2P (UDP),159.203.27.33,udp,111
-Canada - TorontoNEW (UDP),170.75.162.25,udp,111
+Canada - Toronto (UDP),170.75.162.25,udp,111
 Canada - Vancouver (UDP),71.19.250.43,udp,8292
 Canada - Vancouver2 (UDP),71.19.251.103,udp,8292
 Chile (UDP),37.235.52.66,udp,443
-China - GuangdongNEW (UDP),103.205.8.250,udp,123
+China - Guangdong (UDP),103.205.8.250,udp,123
 China - Guangzhou (UDP),123.249.79.218,udp,8292
 Colombia - Bogota (UDP),179.50.62.237,udp,53
 Cyprus (UDP),194.30.136.108,udp,111
-Denmark - 2 (UDP),82.103.143.117,udp,111
-Denmark - 3 (UDP),82.103.128.160,udp,111
+Denmark2 (UDP),82.103.143.117,udp,111
+Denmark3 (UDP),82.103.128.160,udp,111
 Denmark - Copenhagen (UDP),83.221.132.139,udp,443
 Egypt (UDP),41.223.52.13,udp,111
 Estonia (UDP),95.153.31.52,udp,443
@@ -72,9 +72,9 @@ Ireland - Dublin (UDP),217.78.5.34,udp,111
 IsleofMan (UDP),37.235.55.23,udp,443
 IsleofMan2 (UDP),37.235.55.169,udp,443
 Israel - TelAviv (UDP),193.182.144.18,udp,1194
-Italy - ASkyGoNEW (UDP),217.64.198.17,udp,8292
+Italy - ASkyGo (UDP),217.64.198.17,udp,8292
 Italy - Milano (UDP),151.236.18.20,udp,443
-Italy - SkyGoNEW3 (UDP),89.46.73.126,udp,8292
+Italy - SkyGo3 (UDP),89.46.73.126,udp,8292
 Italy - SkyGoToscanaDC2 (UDP),188.213.174.176,udp,111
 Italy - SkyGoToscana (UDP),89.46.75.88,udp,111
 Italy - Toscana4SkyGo (UDP),80.88.90.110,udp,8292
@@ -98,7 +98,7 @@ Netherlands - AMS410Gbps (UDP),93.158.203.187,udp,8292
 Netherlands - Amsterdam2 (UDP),185.14.28.100,udp,111
 Netherlands - P2P2 (UDP),188.166.1.43,udp,111
 Netherlands - P2P (UDP),146.185.169.89,udp,8292
-NewZealand - 3 (UDP),49.50.251.58,udp,111
+NewZealand (UDP),49.50.251.58,udp,111
 NewZealand - Auckland2 (UDP),163.47.21.26,udp,1194
 NewZealand - Auckland3 (UDP),163.47.21.27,udp,1195
 Norway - Oslo (UDP),185.90.61.31,udp,53
@@ -137,7 +137,7 @@ Sweden - DC (UDP),46.246.28.133,udp,8292
 Sweden - Stockholm2 (UDP),31.220.5.27,udp,111
 Sweden - Stockholm3 (UDP),31.220.15.13,udp,111
 Switzerland2 (UDP),192.121.170.157,udp,111
-SwitzerlandZurich (UDP),178.209.46.180,udp,8292
+Switzerland - Zurich (UDP),178.209.46.180,udp,8292
 Switzerland (UDP),178.209.52.185,udp,443
 Turkey - Bursa (UDP),185.123.101.23,udp,8292
 Turkey (UDP),185.125.32.26,udp,111
@@ -156,9 +156,9 @@ USA - Denver (UDP),104.219.169.133,udp,8292
 USA - Washington (UDP),216.189.157.23,udp,8292
 USA - Washington2 (UDP),103.11.64.152,udp,111
 USA - Washington3 (UDP),103.11.64.151,udp,111
-USA - JacksonvilleNEW (UDP),107.155.188.11,udp,8292
+USA - Jacksonville (UDP),107.155.188.11,udp,8292
 USA - Miami (UDP),209.222.108.227,udp,8292
-USA - OrlandoNEW2 (UDP),104.245.38.77,udp,8292
+USA - Orlando (UDP),104.245.38.77,udp,8292
 USA - Atlanta (UDP),45.58.49.36,udp,8292
 USA - Chicago2 (UDP),208.79.213.135,udp,443
 USA - Chicago3 (UDP),192.157.241.90,udp,8292

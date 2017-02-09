@@ -1,5 +1,9 @@
+v2.6.2
+- Update Perfect Privacy servers
+
 v2.6.1
 - Support for VPNSecure, adding key passwords
+- Support for VPNArea
 
 v2.6.0
 - Switch connection views

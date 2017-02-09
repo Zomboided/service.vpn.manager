@@ -32,8 +32,9 @@ from libs.common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generateLiquidVPN()
+    generatePP()
     return
+    generateLiquidVPN()
     generateVPNac()
     generateNordVPN()
     generateCyberGhost()
@@ -68,7 +69,6 @@ def generateAll():
     generateVyprVPN()
     generateTorGuard()
     generateibVPN()
-    generatePP()    
     generateAirVPN()
     generatePIA()
     generatetigerVPN()   

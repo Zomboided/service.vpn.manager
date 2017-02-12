@@ -223,6 +223,22 @@ def startVPN(vpn_profile):
     return
 
 
+def updateSystemTime(newtime):
+    # Update the system time using a second since epoch value
+    if not fakeConnection():
+        p = getPlatform()
+        # Only doing this for Linux as it's the small Linux boxes that no clocks
+        if p == platforms.RPI or p == platforms.LINUX:
+            command = "date +%s -s @" + str(newtime)
+            if useSudo() : command = "sudo " + command            
+            debugTrace("(Linux) Changing system clock with " + command)
+            os.system(command)
+            
+        # **** ADD MORE PLATFORMS HERE ****
+        
+    return
+
+    
 def getOpenVPNPath():
     # Call the platform VPN to start the VPN
     if fakeConnection():

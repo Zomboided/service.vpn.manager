@@ -28,6 +28,7 @@ import xbmcgui
 import xbmc
 import glob
 import sys
+import time
 from libs.platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from libs.platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from libs.platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName
@@ -653,7 +654,48 @@ def setVPNMonitorState(state):
 def getVPNMonitorState():
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Monitor_State")
 
+    
+def setConnectTime(addon):
+    # Record the connection time
+    t = str(int(time.time()))
+    addon.setSetting("last_connect_time",t)
+    # Only write the time to a file if it's Linux and we might use it to fix the system
+    filename = getUserDataPath("TIME.txt")
+    if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
+        file = open(filename, 'w')
+        file.write(t)
+        file.close()
+    else:
+        if xbmcvfs.exists(filename):
+            xbmcvfs.delete(filename)
 
+
+def getConnectTime(addon):
+    # Get the connection time from the settings, otherwise the file (if it exists).
+    # Both should be the same but the file might be used during boot.
+    t = addon.getSetting("last_connect_time")
+    if not t.isdigit():
+        filename = getUserDataPath("TIME.txt")
+        try:
+            if xbmcvfs.exists(filename):
+                time_file = open(getUserDataPath("TIME.txt"), 'r')
+                lines = time_file.readlines()
+                time_file.close()
+                # Time is stored on the first/only line
+                t = lines[0]
+        except Exception as e:
+            errorTrace("common.py", "Couldn't read or parse time file " + filename)
+            errorTrace("common.py", str(e))
+        if t.isdigit():
+            return int(t)
+        else:
+            # Last resort, this number represents the start of 2017 and will be far far away from epoch
+            # if a clock has been reset but equally not too far in the past (as of Feb 2017...)
+            return 1483228800
+    else:
+        return int(t)
+
+        
 def resetVPNConnections(addon):
     # Reset all connection information so the user is forced to revalidate everything
     infoTrace("resetVPN.py", "Resetting all validated VPN settings and disconnected existing VPN connections")
@@ -1211,6 +1253,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNLastConnectedProfile("")
         setVPNLastConnectedProfileFriendly("")
         setConnectionErrorCount(0)
+        setConnectTime(addon)
         # Indicate to the service that it should update its settings
         updateService("connectVPN")        
     elif progress.iscanceled() or cancel_attempt:

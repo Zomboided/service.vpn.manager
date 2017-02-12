@@ -512,34 +512,38 @@ msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32167"
-msgid "Information Display"
+msgid "Evaluate and adjust system time"
 msgstr ""
 
 msgctxt "#32168"
-msgid "Enable enhanced information menu option"
+msgid "Information Display"
 msgstr ""
 
 msgctxt "#32169"
-msgid "View system information window"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32170"
-msgid "Change IP location service"
+msgid "View system information window"
 msgstr ""
 
 msgctxt "#32171"
-msgid "Auto select"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32172"
-msgid "IP-API"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32173"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32174"
+msgid "IPInfoDB"
+msgstr ""
+
+msgctxt "#32175"
 msgid "freegeoip.net"
 msgstr ""
 

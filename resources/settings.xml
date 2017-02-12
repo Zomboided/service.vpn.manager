@@ -118,11 +118,12 @@
         <setting label="32164" type="bool" id="use_default_up_down" visible="eq(-8,2)|eq(-8,3)" enable="true" default="false"/>
         <setting label="32165" type="bool" id="force_ping" visible="true" default="true"/>
         <setting label="32166" type="bool" id="openvpn_log_location" default="false"/>
+        <setting label="32167" type="bool" id="fix_system_time" visible="eq(-11,2)" default="true"/>
         <setting label=""      type="lsep"/>
-        <setting label="32167" type="lsep"/>
-        <setting label="32168" type="bool" id="vpn_system_menu_item" default="false"/>
-        <setting label="32169" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
-        <setting label="32170" type="labelenum" id="ip_info_source" lvalues="32171|32172|32173|32174"/>
+        <setting label="32168" type="lsep"/>
+        <setting label="32169" type="bool" id="vpn_system_menu_item" default="false"/>
+        <setting label="32170" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
+        <setting label="32171" type="labelenum" id="ip_info_source" lvalues="32172|32173|32174|32175"/>
         <setting label=""      type="text" id="vpn_provider_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_username_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" enable="false" visible="false" default=""/>
@@ -161,6 +162,7 @@
         <setting label=""      type="text" id="ip_service_errors" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
         <setting label=""      type="bool" id="location_ip_view" enable="false" visible="false" default="false"/>
+        <setting label=""      type="text" id="last_connect_time" enable="false" visible="false" default=""/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>
         <setting label="Connect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Connect 1)"/>
     </category>

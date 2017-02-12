@@ -24,6 +24,7 @@ import xbmcaddon
 import xbmcvfs
 import os
 import time
+import datetime
 import urllib2
 import re
 import string
@@ -33,9 +34,9 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.common import getAPICommand, clearAPICommand, fixKeymaps
-from libs.platform import getPlatform, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
-from libs.platform import isVPNTaskRunning
+from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime
+from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
+from libs.platform import isVPNTaskRunning, updateSystemTime
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
 
@@ -168,6 +169,9 @@ class KodiMonitor(xbmc.Monitor):
         
 if __name__ == '__main__':   
 
+    infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
+    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
+
     # Initialise some variables we'll be using repeatedly
     monitor = xbmc.Monitor()
     player = xbmc.Player() 
@@ -249,6 +253,14 @@ if __name__ == '__main__':
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
 
+    # This will adjust the system time on Linux platforms if it's too far adrift from reality
+    if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
+        curr_time = int(time.time())
+        last_conn_time = getConnectTime(addon)
+        if last_conn_time > curr_time:
+            infoTrace("service.py", "System time was in the past, updating it to " + datetime.datetime.fromtimestamp(last_conn_time).strftime('%Y-%m-%d %H:%M:%S'))
+            updateSystemTime(last_conn_time)
+            
     # Store the boot time and update the reboot reason
     addon.setSetting("boot_time", time.strftime('%Y-%m-%d %H:%M:%S'))
     addon.setSetting("last_boot_reason", addon.getSetting("boot_reason"))
@@ -299,9 +311,6 @@ if __name__ == '__main__':
     accepting_changes = True
     
     found_reboot_file = False
-    
-    infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
-    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
     
     while not monitor.abortRequested():
 
@@ -403,9 +412,11 @@ if __name__ == '__main__':
                                         xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, "/resources/connected.png"), 20000, False)
                                     else:
                                         xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, "/resources/connected.png"), 5000, False)
+                                    # Record when the connection happened
+                                    setConnectTime(addon)
                                 else:
                                     # No connect on boot (or it didn't work), so force a connect
-                                    debugTrace("Connecting to primary VPN at Kodi start up")
+                                    debugTrace("Failed to connect to primary VPN at Kodi start up")
                                     setVPNRequestedProfile(primary_vpns[0])
                                     setVPNRequestedProfileFriendly(primary_vpns_friendly[0])
                                     setVPNLastConnectedProfile("")

@@ -34,7 +34,7 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime
+from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
@@ -705,13 +705,21 @@ if __name__ == '__main__':
             api_command = getAPICommand()
             if vpn_setup and not api_command == "":
                 infoTrace("service.py", "API command found, " + api_command)
-                setVPNRequestedProfile(api_command)
                 if api_command == "Disconnect":
-                    setVPNRequestedProfileFriendly("Disconnect")
+                    setVPNRequestedProfile(api_command)
+                    setVPNRequestedProfileFriendly(api_command)
+                    reconnect_vpn = True
+                elif api_command == "Cycle":
+                    requestVPNCycle(True)
+                    # Preload some cycle variables to force cycle to activate next time through
+                    last_cycle = getVPNCycle()
+                    cycle_timer = 9
                 else:
+                    setVPNRequestedProfile(api_command)
                     setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
+                    reconnect_vpn = True
                 clearAPICommand()
-                reconnect_vpn = True
+                
                 
 			# Somewhere above we've requested we mess with the connection...
             if vpn_setup and reconnect_vpn:
@@ -803,6 +811,9 @@ if __name__ == '__main__':
                     clearVPNCycle()
                     connection_retry_time = connection_retry_time_min
 				
+                # Clear any outstanding API that may have come in during the connection
+                clearAPICommand()
+                
                 # Let the cycle code run again
                 freeCycleLock()
                 

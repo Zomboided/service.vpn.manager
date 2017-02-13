@@ -25,5 +25,5 @@ from libs.utility import debugTrace, errorTrace, infoTrace
 
 # Call the common cycle routine
 debugTrace("-- Entered cycle.py --")
-requestVPNCycle()
+requestVPNCycle(False)
 debugTrace("-- Exit cycle.py --")

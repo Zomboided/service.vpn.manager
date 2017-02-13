@@ -182,7 +182,7 @@ def changeConnection():
 def cycleConnection():
     # Cycle through the connections
     debugTrace("Cycling through available connections")
-    requestVPNCycle()
+    requestVPNCycle(False)
     return
     
 

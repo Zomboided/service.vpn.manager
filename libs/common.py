@@ -538,7 +538,7 @@ def updateServiceRequested():
     return (xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Update") == "update")
 
     
-def requestVPNCycle():
+def requestVPNCycle(immediate):
     # Don't know where this was called from so using plugin name to get addon handle
     addon = xbmcaddon.Addon("service.vpn.manager")
     addon_name = addon.getAddonInfo("name")
@@ -555,14 +555,18 @@ def requestVPNCycle():
                 allow_disconnect = True
             else:
                 allow_disconnect = False
-
+            
             # Preload the cycle variable if this is the first time through
             if getVPNCycle() == "":
                 if getVPNProfile() == "":
                     setVPNCycle("Disconnect")
                 else:
                     setVPNCycle(getVPNProfile())
+                next_cycle = immediate
             else:
+                next_cycle = True
+            
+            if next_cycle:
                 # Build the list of profiles to cycle through
                 profiles=[]
                 found_current = False

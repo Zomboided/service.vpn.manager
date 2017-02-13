@@ -36,6 +36,8 @@ debugTrace("Entered api.py with parameter " + command)
 
 if lcommand == "disconnect": 
     setAPICommand("Disconnect")
+elif lcommand == "cycle":
+    setAPICommand("Cycle")
 elif lcommand.startswith("connect"): 
     connection = command[8:].strip(' \t\n\r')
     if connection.isdigit():

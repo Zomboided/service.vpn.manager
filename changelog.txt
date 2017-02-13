@@ -1,3 +1,6 @@
+v2.6.3
+- Added protection for poorly set system clocks
+
 v2.6.2
 - Update Perfect Privacy servers
 

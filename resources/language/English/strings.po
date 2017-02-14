@@ -192,30 +192,34 @@ msgid "Connect VPN before Kodi starts"
 msgstr ""
 
 msgctxt "#32044"
-msgid "Reconnect if connection unexpectedly lost"
+msgid "Delay all connections starting (seconds)"
 msgstr ""
 
 msgctxt "#32045"
-msgid "Reconnect if connection lost during playback"
+msgid "Reconnect if connection unexpectedly lost"
 msgstr ""
 
 msgctxt "#32046"
-msgid "Connection validation frequency (seconds)"
+msgid "Reconnect if connection lost during playback"
 msgstr ""
 
 msgctxt "#32047"
-msgid "Ask to reboot if reconnect fails 10 times"
+msgid "Connection validation frequency (seconds)"
 msgstr ""
 
 msgctxt "#32048"
-msgid "Revert to previous VPN state for non-filtered add-ons"
+msgid "Ask to reboot if reconnect fails 10 times"
 msgstr ""
 
 msgctxt "#32049"
-msgid "Include disconnect option in VPN cycle"
+msgid "Revert to previous VPN state for non-filtered add-ons"
 msgstr ""
 
 msgctxt "#32050"
+msgid "Include disconnect option in VPN cycle"
+msgstr ""
+
+msgctxt "#32051"
 msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 

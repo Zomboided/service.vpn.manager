@@ -55,13 +55,14 @@
 		<setting label="32042" type="bool" id="vpn_connect_at_boot" default="true"/>
         <setting label=""      type="bool" id="show_preboot_connect" visible="false" enable="false" default="false"/>
         <setting label="32043" type="bool" id="vpn_connect_before_boot" visible="eq(-1,true)+eq(-2,true)" default="false"/>
-		<setting label="32044" type="bool" id="vpn_reconnect" default="true"/>
-        <setting label="32045" type="bool" id="vpn_reconnect_while_playing" default="true"/>
-        <setting label="32046" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
-        <setting label="32047" type="bool" id="vpn_reconnect_reboot" default="true"/>
-		<setting label="32048" type="bool" id="vpn_reconnect_filtering" default="true"/>
-        <setting label="32049" type="bool" id="allow_cycle_disconnect" default="false"/>
-        <setting label="32050" type="bool" id="display_location_on_connect" default="false"/>
+        <setting label="32044" type="slider" id="vpn_connect_delay" visible="!eq(-1,true)" default="0" range="0,10,600" option="int" />
+		<setting label="32045" type="bool" id="vpn_reconnect" default="true"/>
+        <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="true"/>
+        <setting label="32047" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
+        <setting label="32048" type="bool" id="vpn_reconnect_reboot" default="true"/>
+		<setting label="32049" type="bool" id="vpn_reconnect_filtering" default="true"/>
+        <setting label="32050" type="bool" id="allow_cycle_disconnect" default="false"/>
+        <setting label="32051" type="bool" id="display_location_on_connect" default="false"/>
     </category>
     <category label="32060">	
         <setting label="32061" type="lsep"/>
@@ -165,5 +166,6 @@
         <setting label=""      type="text" id="last_connect_time" enable="false" visible="false" default=""/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>
         <setting label="Connect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Connect 1)"/>
+        <setting label="Cycle" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Cycle)"/>
     </category>
 </settings>

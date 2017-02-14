@@ -241,10 +241,10 @@ def updateSystemTime(newtime):
     
 def getOpenVPNPath():
     # Call the platform VPN to start the VPN
-    if fakeConnection():
-        p = platforms.LINUX
-    else:
-        p = getPlatform()   
+    #if fakeConnection():
+    #    p = platforms.LINUX
+    #else:
+    p = getPlatform()   
     if p == platforms.RPI:
         return getAddonPath(False, "network.openvpn/bin/openvpn")
     if p == platforms.LINUX:

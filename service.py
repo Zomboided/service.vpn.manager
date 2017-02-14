@@ -285,7 +285,16 @@ if __name__ == '__main__':
     
     connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
     connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
-        
+
+    # Delay start up if required
+    connect_delay = addon.getSetting("vpn_connect_delay")
+    if connect_delay.isdigit(): connect_delay = int(connect_delay)
+    else: connect_delay = 0
+    if connect_delay > 0 and not connect_on_boot_setting == "true":
+        infoTrace("service.py", "Delaying all VPN connections for " + str(connect_delay) + " seconds")
+        xbmcgui.Dialog().notification(addon_name, "Delaying start for " + str(connect_delay) + " seconds.", getAddonPath(True, "/resources/paused.png"), 5000, False)
+        xbmc.sleep(connect_delay*1000)
+    
     # Timer values in seconds
     connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
     connection_retry_time = connection_retry_time_min
@@ -660,7 +669,28 @@ if __name__ == '__main__':
                     if not warned_monitor:
                         warned_monitor = True
                         xbmcgui.Dialog().notification(addon_name, "Add-on filtering paused", getAddonPath(True, "/resources/warning.png"), 10000, False)
-                    
+
+
+            # Connect or disconnect in response to an API call
+            api_command = getAPICommand()
+            if vpn_setup and not api_command == "":
+                infoTrace("service.py", "API command found, " + api_command)
+                if api_command == "Disconnect":
+                    setVPNRequestedProfile(api_command)
+                    setVPNRequestedProfileFriendly(api_command)
+                    reconnect_vpn = True
+                elif api_command == "Cycle":
+                    requestVPNCycle(True)
+                    # Preload some cycle variables to force cycle to activate immediately
+                    last_cycle = getVPNCycle()
+                    cycle_timer = 9
+                else:
+                    setVPNRequestedProfile(api_command)
+                    setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
+                    reconnect_vpn = True
+                clearAPICommand()
+
+                        
             # See if the addon is requesting to cycle through the VPNs
             cycle_requested = getVPNCycle()
             if vpn_setup and not cycle_requested == "":
@@ -700,25 +730,6 @@ if __name__ == '__main__':
                     cycle_timer = 0
                 
                 freeCycleLock()
-
-            # Connect or disconnect in response to an API call
-            api_command = getAPICommand()
-            if vpn_setup and not api_command == "":
-                infoTrace("service.py", "API command found, " + api_command)
-                if api_command == "Disconnect":
-                    setVPNRequestedProfile(api_command)
-                    setVPNRequestedProfileFriendly(api_command)
-                    reconnect_vpn = True
-                elif api_command == "Cycle":
-                    requestVPNCycle(True)
-                    # Preload some cycle variables to force cycle to activate next time through
-                    last_cycle = getVPNCycle()
-                    cycle_timer = 9
-                else:
-                    setVPNRequestedProfile(api_command)
-                    setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
-                    reconnect_vpn = True
-                clearAPICommand()
                 
                 
 			# Somewhere above we've requested we mess with the connection...

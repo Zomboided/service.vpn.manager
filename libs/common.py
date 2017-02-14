@@ -608,7 +608,10 @@ def requestVPNCycle(immediate):
             else:
                 if getVPNProfile() == getVPNCycle():
                     dialog_message = "Connected to " + getFriendlyProfileName(getVPNCycle())
-                    icon = getIconPath()+"connected.png"
+                    if fakeConnection():
+                        icon = getIconPath()+"fakeconnected.png"
+                    else:
+                        icon = getIconPath()+"connected.png"
                 else:
                     dialog_message = "Connect to " + getFriendlyProfileName(getVPNCycle()) + "?"
             
@@ -1239,7 +1242,10 @@ def connectVPN(connection_order, vpn_profile):
         xbmc.sleep(500)
         # Set up final message
         progress_message = "Connected, VPN monitor restarted."
-        dialog_message = "Connected to a VPN in " + country + ".\nUsing profile " + ovpn_name + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp + "."
+        if fakeConnection():
+            dialog_message = "Faked connection to a VPN in " + country + ".\nUsing profile " + ovpn_name + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp + "."
+        else:
+            dialog_message = "Connected to a VPN in " + country + ".\nUsing profile " + ovpn_name + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp + "."
         infoTrace("common.py", dialog_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used

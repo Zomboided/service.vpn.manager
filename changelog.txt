@@ -1,5 +1,7 @@
-v2.6.3
-- Added protection for poorly set system clocks
+v2.7.0
+- Protection for poorly set system clocks
+- Add API cycle function
+- Delay start option
 
 v2.6.2
 - Update Perfect Privacy servers

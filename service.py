@@ -36,7 +36,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
-from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection
+from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
 
@@ -170,8 +170,8 @@ class KodiMonitor(xbmc.Monitor):
 if __name__ == '__main__':   
 
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
-    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
-
+    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))    
+    
     # Initialise some variables we'll be using repeatedly
     monitor = xbmc.Monitor()
     player = xbmc.Player() 
@@ -251,8 +251,8 @@ if __name__ == '__main__':
             xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.") 
             cleanPassFiles()
             removeGeneratedFiles()
-            resetVPNConfig(addon, 1)
-
+            resetVPNConfig(addon, 1)        
+            
     # This will adjust the system time on Linux platforms if it's too far adrift from reality
     if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
         curr_time = int(time.time())
@@ -417,7 +417,7 @@ if __name__ == '__main__':
                                     setVPNLastConnectedProfileFriendly("")
                                     setConnectionErrorCount(0)
                                     if fakeConnection():
-                                        icon = "/resources/fakeconnected.png"
+                                        icon = "/resources/faked.png"
                                     else:
                                         icon = "/resources/connected.png"
                                     if addon.getSetting("display_location_on_connect") == "true":
@@ -678,6 +678,7 @@ if __name__ == '__main__':
             # Connect or disconnect in response to an API call
             api_command = getAPICommand()
             if vpn_setup and not api_command == "":
+                addon = xbmcaddon.Addon()
                 infoTrace("service.py", "API command found, " + api_command)
                 if api_command == "Disconnect":
                     setVPNRequestedProfile(api_command)
@@ -688,10 +689,22 @@ if __name__ == '__main__':
                     # Preload some cycle variables to force cycle to activate immediately
                     last_cycle = getVPNCycle()
                     cycle_timer = 9
-                else:
+                elif api_command == "Connect":
                     setVPNRequestedProfile(api_command)
                     setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
                     reconnect_vpn = True
+                elif api_command == "Fake":
+                    fakeItTillYouMakeIt(True)
+                elif api_command == "Real":
+                    fakeItTillYouMakeIt(False)
+                elif api_command == "Pause":
+                    setVPNMonitorState("Stopped")
+                    addon.setSetting("monitor_paused", "true")
+                elif api_command == "Restart":
+                    setVPNMonitorState("Started")
+                    addon.setSetting("monitor_paused", "false")
+                else:
+                    errorTrace("api.py", "Unrecognised command: " + api_command)
                 clearAPICommand()
 
                         
@@ -728,7 +741,7 @@ if __name__ == '__main__':
                     else:
                         # Display the full details for those with this option switched on otherwise just let the notification box disappear
                         if fakeConnection():
-                            icon = "/resources/fakeconnected.png"
+                            icon = "/resources/faked.png"
                         else:
                             icon = "/resources/connected.png"
                         if addon.getSetting("display_location_on_connect") == "true":
@@ -812,7 +825,7 @@ if __name__ == '__main__':
                             else:
                                 if ifDebug(): writeVPNLog()
                                 if fakeConnection():
-                                    icon = "/resources/fakeconnected.png"
+                                    icon = "/resources/faked.png"
                                 else:
                                     icon = "/resources/connected.png"
                                 if addon.getSetting("display_location_on_connect") == "true":

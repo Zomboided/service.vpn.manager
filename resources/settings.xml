@@ -119,7 +119,7 @@
         <setting label="32164" type="bool" id="use_default_up_down" visible="eq(-8,2)|eq(-8,3)" enable="true" default="false"/>
         <setting label="32165" type="bool" id="force_ping" visible="true" default="true"/>
         <setting label="32166" type="bool" id="openvpn_log_location" default="false"/>
-        <setting label="32167" type="bool" id="fix_system_time" visible="eq(-11,2)" default="true"/>
+        <setting label="32167" type="bool" id="fix_system_time" visible="eq(-11,1)" default="true"/>
         <setting label=""      type="lsep"/>
         <setting label="32168" type="lsep"/>
         <setting label="32169" type="bool" id="vpn_system_menu_item" default="false"/>
@@ -167,5 +167,9 @@
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>
         <setting label="Connect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Connect 1)"/>
         <setting label="Cycle" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Cycle)"/>
+        <setting label="Fake" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Fake)"/>
+        <setting label="Real" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Real)"/>
+        <setting label="Pause" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Pause)"/>
+        <setting label="Restart" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Restart)"/>
     </category>
 </settings>

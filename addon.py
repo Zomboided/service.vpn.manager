@@ -148,7 +148,7 @@ def listConnections():
             if getVPNProfileFriendly() == connections[inc] and isVPNConnected(): 
                 conn_text = "[COLOR ff00ff00]" + connections[inc] + conn_primary + " (Connected)[/COLOR]"
                 if fakeConnection():
-                    icon = getIconPath()+"fakeconnected.png"
+                    icon = getIconPath()+"faked.png"
                 else:
                     icon = getIconPath()+"connected.png"
             else:

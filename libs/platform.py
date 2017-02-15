@@ -33,13 +33,28 @@ from sys import platform
 # **** ADD MORE PLATFORMS HERE ****
 platforms = enum(UNKNOWN=0, WINDOWS=1, LINUX=2, RPI=3, ANDROID=4, MAC=5)  
 platforms_str = ("Unknown", "Windows", "Linux, openvpn installed", "Linux, openvpn plugin", "Android", "Apple")
+fake_name = "FAKECONNECTION.txt"
 
 
 def fakeConnection():
     # Return True to fake out any calls to openVPN to change the network.
     # This is governed by the existance of 'FAKECONNECTION.txt' in the userdata directory.
-    return xbmcvfs.exists(getUserDataPath("FAKECONNECTION.txt"))
+    return xbmcvfs.exists(getUserDataPath(fake_name))
 
+    
+def fakeItTillYouMakeIt(fake):
+    try:
+        if fake:
+            if not fakeConnection():
+                f = open(getUserDataPath(fake_name),'w')
+                f.close()
+        else:
+            if fakeConnection():
+                xbmcvfs.delete(getUserDataPath(fake_name))
+    except Exception as e:
+        errorTrace("platform.py", "fakeItTillYouMakeIt " + str(fake) + " failed")
+        errorTrace("platform.py", str(e))
+                
     
 def fakeSystemd():
     # Return True to pretend that systemd exists, but not make OS calls to use it

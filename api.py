@@ -38,6 +38,14 @@ if lcommand == "disconnect":
     setAPICommand("Disconnect")
 elif lcommand == "cycle":
     setAPICommand("Cycle")
+elif lcommand == "fake":
+    setAPICommand("Fake")
+elif lcommand == "real":
+    setAPICommand("Real")
+elif lcommand == "pause":
+    setAPICommand("Pause")
+elif lcommand == "restart":
+    setAPICommand("Restart")
 elif lcommand.startswith("connect"): 
     connection = command[8:].strip(' \t\n\r')
     if connection.isdigit():

@@ -609,7 +609,7 @@ def requestVPNCycle(immediate):
                 if getVPNProfile() == getVPNCycle():
                     dialog_message = "Connected to " + getFriendlyProfileName(getVPNCycle())
                     if fakeConnection():
-                        icon = getIconPath()+"fakeconnected.png"
+                        icon = getIconPath()+"faked.png"
                     else:
                         icon = getIconPath()+"connected.png"
                 else:
@@ -666,39 +666,26 @@ def setConnectTime(addon):
     # Record the connection time
     t = str(int(time.time()))
     addon.setSetting("last_connect_time",t)
-    # Only write the time to a file if it's Linux and we might use it to fix the system
-    filename = getUserDataPath("TIME.txt")
-    if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
-        file = open(filename, 'w')
-        file.write(t)
-        file.close()
-    else:
-        if xbmcvfs.exists(filename):
-            xbmcvfs.delete(filename)
 
 
 def getConnectTime(addon):
-    # Get the connection time from the settings, otherwise the file (if it exists).
-    # Both should be the same but the file might be used during boot.
+    # Get the connection time from the settings or use a default
     t = addon.getSetting("last_connect_time")
     if not t.isdigit():
-        filename = getUserDataPath("TIME.txt")
+        # Return the Kodi build time or the time I just wrote this in Feb '17, whichever is more recent
+        # Expecting a %m %d %Y format date here but will just grab the year and not do time 
+        # formatting because I don't know what Kodi will do to the month in different locales
+        seconds = 0
         try:
-            if xbmcvfs.exists(filename):
-                time_file = open(getUserDataPath("TIME.txt"), 'r')
-                lines = time_file.readlines()
-                time_file.close()
-                # Time is stored on the first/only line
-                t = lines[0]
-        except Exception as e:
-            errorTrace("common.py", "Couldn't read or parse time file " + filename)
-            errorTrace("common.py", str(e))
-        if t.isdigit():
-            return int(t)
-        else:
-            # Last resort, this number represents the start of 2017 and will be far far away from epoch
-            # if a clock has been reset but equally not too far in the past (as of Feb 2017...)
-            return 1483228800
+            build_date = xbmc.getInfoLabel("System.BuildDate")
+            seconds = (int(build_date[-4:]) - 1970) * 31557600
+        except:
+            # In case the formatting of the build date changess
+            pass
+        vpn_mgr_time = 1487116800
+        if seconds < vpn_mgr_time:
+            seconds = vpn_mgr_time
+        return seconds
     else:
         return int(t)
 

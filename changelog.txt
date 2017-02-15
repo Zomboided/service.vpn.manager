@@ -1,6 +1,6 @@
 v2.7.0
 - Protection for poorly set system clocks
-- Add API cycle function
+- Add API support for pause, restart and cycle
 - Delay start option
 
 v2.6.2

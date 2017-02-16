@@ -689,10 +689,6 @@ if __name__ == '__main__':
                     # Preload some cycle variables to force cycle to activate immediately
                     last_cycle = getVPNCycle()
                     cycle_timer = 9
-                elif api_command == "Connect":
-                    setVPNRequestedProfile(api_command)
-                    setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
-                    reconnect_vpn = True
                 elif api_command == "Fake":
                     fakeItTillYouMakeIt(True)
                 elif api_command == "Real":
@@ -704,7 +700,11 @@ if __name__ == '__main__':
                     setVPNMonitorState("Started")
                     addon.setSetting("monitor_paused", "false")
                 else:
-                    errorTrace("api.py", "Unrecognised command: " + api_command)
+                    # Connect command is basically the profile name...any errors will 
+                    # be filtered in the api.py code before the command is passed to here
+                    setVPNRequestedProfile(api_command)
+                    setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
+                    reconnect_vpn = True
                 clearAPICommand()
 
                         

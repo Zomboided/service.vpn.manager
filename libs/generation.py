@@ -1416,10 +1416,5 @@ def resolveCountry(code):
     for c in Countries:
         if Countries[c] == code: return c        
     return code + " is unknown"
-
-
-def generateVPNs():
-    # Return True if the set of location files for the VPNs should be generated
-    # This is governed by the existance of 'GENERATEVPNS.txt' in the userdata directory.
-    return xbmcvfs.exists(getUserDataPath("GENERATEVPNS.txt"))  
+ 
    

@@ -61,6 +61,12 @@ def fakeSystemd():
     # This is governed by the existance of 'FAKESYSTEMD.txt' in the userdata directory.
     return xbmcvfs.exists(getUserDataPath("FAKESYSTEMD.txt"))
 
+
+def generateVPNs():
+    # Return True if the set of location files for the VPNs should be generated
+    # This is governed by the existance of 'GENERATEVPNS.txt' in the userdata directory.
+    return xbmcvfs.exists(getUserDataPath("GENERATEVPNS.txt"))     
+    
     
 def getPlatform():
     # Work out which platform is being used.

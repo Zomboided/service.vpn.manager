@@ -79,6 +79,33 @@
         <setting label="32072" type="addon" id="9_vpn_addons" addontype="xbmc.python.pluginsource" multiselect="true" default=""/>
         <setting label="32073" type="addon" id="10_vpn_addons" addontype="xbmc.python.pluginsource" multiselect="true" default=""/>
     </category>
+    <category label="32080">
+        <setting label="32081" type="bool" id="display_window_id" default="false"/>
+        <setting label="32082" type="lsep"/>
+		<setting label="32083" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windows.py, 0)"/>
+        <setting label=""      type="text" id="vpn_excluded_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32084" type="lsep"/>
+		<setting label="32085" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 1)"/>
+        <setting label=""      type="text" id="1_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32086" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 2)"/>
+        <setting label=""      type="text" id="2_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32087" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 3)"/>
+        <setting label=""      type="text" id="3_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32088" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 4)"/>
+        <setting label=""      type="text" id="4_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32089" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 5)"/>
+        <setting label=""      type="text" id="5_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32090" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 6)"/>
+        <setting label=""      type="text" id="6_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32091" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 7)"/>
+        <setting label=""      type="text" id="7_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32092" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 8)"/>
+        <setting label=""      type="text" id="8_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32093" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 9)"/>
+        <setting label=""      type="text" id="9_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+        <setting label="32094" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 10)"/>
+        <setting label=""      type="text" id="10_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
+    </category>
     <category label="32100">		
         <setting label="32101" type="lsep"/>        
         <setting label="32102" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, ovpn)"/>

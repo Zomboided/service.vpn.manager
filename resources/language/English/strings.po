@@ -231,7 +231,7 @@ msgid "Add-on Filter"
 msgstr ""
 
 msgctxt "#32061"
-msgid "Select add-ons for which a VPN won't be used"
+msgid "Select add-ons that don't use a VPN"
 msgstr ""
 
 msgctxt "#32062"
@@ -239,7 +239,7 @@ msgid "Excluded"
 msgstr ""
 
 msgctxt "#32063"
-msgid "Select which VPN connection to use with which add-on"
+msgid "Select add-ons that use a specific VPN connection"
 msgstr ""
 
 msgctxt "#32064"
@@ -283,32 +283,67 @@ msgid "Tenth"
 msgstr ""
 
 
-# Main Category Filter
+# Window Filter
 
 msgctxt "#32080"
-msgid "Category Filter"
+msgid "Window Filter"
 msgstr ""
 
 msgctxt "#32081"
-msgid "Use existing connection"
+msgid "Display window IDs as a notification"
 msgstr ""
 
 msgctxt "#32082"
-msgid "No VPN"
+msgid "Select window IDs that won't use a VPN"
 msgstr ""
 
 msgctxt "#32083"
-msgid "Select the VPN to be used for each of the main categories"
+msgid "Excluded"
 msgstr ""
 
 msgctxt "#32084"
-msgid "TV"
+msgid "Select window IDs that use a specific VPN connection."
 msgstr ""
 
 msgctxt "#32085"
-msgid "Radio"
+msgid "First"
 msgstr ""
 
+msgctxt "#32086"
+msgid "Second"
+msgstr ""
+
+msgctxt "#32087"
+msgid "Third"
+msgstr ""
+
+msgctxt "#32088"
+msgid "Fourth"
+msgstr ""
+
+msgctxt "#32089"
+msgid "Fifth"
+msgstr ""
+
+msgctxt "#32090"
+msgid "Sixth"
+msgstr ""
+
+msgctxt "#32091"
+msgid "Seventh"
+msgstr ""
+
+msgctxt "#32092"
+msgid "Eighth"
+msgstr ""
+
+msgctxt "#32093"
+msgid "Ninth"
+msgstr ""
+
+msgctxt "#32094"
+msgid "Tenth"
+msgstr ""
 
 # Utilities Settings
 

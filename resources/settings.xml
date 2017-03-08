@@ -82,7 +82,7 @@
     <category label="32080">
         <setting label="32081" type="bool" id="display_window_id" default="false"/>
         <setting label="32082" type="lsep"/>
-		<setting label="32083" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windows.py, 0)"/>
+		<setting label="32083" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 0)"/>
         <setting label=""      type="text" id="vpn_excluded_windows" visible="!eq(0,)" enable="false" default=""/>
         <setting label="32084" type="lsep"/>
 		<setting label="32085" type="action" enable="true" option="close" action="RunScript(special://home/addons/service.vpn.manager/windowfilter.py, 1)"/>

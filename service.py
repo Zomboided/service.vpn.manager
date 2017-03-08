@@ -639,7 +639,7 @@ if __name__ == '__main__':
                     if filter == 0:
                         # Don't need a VPN, so disconnect if a VPN is running
                         if getVPNState() == "started":
-                            infoTrace("service.py", "Disconnect filter found for addon " + current_name)
+                            infoTrace("service.py", "Disconnect filter found for window " + str(current_window_id) + " or addon " + current_name)
                             setVPNRequestedProfile("Disconnect")
                             setVPNRequestedProfileFriendly("Disconnect")
                             # Store the current profile for reconnection if we've not done previously
@@ -655,7 +655,7 @@ if __name__ == '__main__':
                     elif filter > 0:
                         # Connect to a specific VPN providing we're not connected already
                         if (not primary_vpns[(filter-1)] == getVPNProfile()) or not isVPNConnected():                        
-                            infoTrace("service.py", "VPN filter " + primary_vpns[(filter-1)] + " found for addon " + current_name)
+                            infoTrace("service.py", "VPN filter " + primary_vpns[(filter-1)] + " found for window " + str(current_window_id) + " or addon " + current_name)
                             debugTrace("Switching from " + getVPNProfile() + " to " + primary_vpns[(filter-1)] + " primary found is " + str(primary_found))
                             setVPNRequestedProfile(primary_vpns[(filter-1)])
                             setVPNRequestedProfileFriendly(primary_vpns_friendly[(filter-1)])
@@ -682,7 +682,7 @@ if __name__ == '__main__':
                                 if not getVPNState() == "started":
                                     # if we're not connected, reconnect to last known
                                     if not getVPNLastConnectedProfile() == "":
-                                        infoTrace("service.py", "Attempting reconnect to previous VPN " + getVPNLastConnectedProfile())
+                                        infoTrace("service.py", "Reconnecting to previous VPN " + getVPNLastConnectedProfile())
                                         debugTrace("Not connected, reconnecting to " + getVPNLastConnectedProfile())
                                         setVPNRequestedProfile(getVPNLastConnectedProfile())
                                         setVPNRequestedProfileFriendly(getVPNLastConnectedProfileFriendly())

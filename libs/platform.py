@@ -26,7 +26,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum
+from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum
 from sys import platform
 
 

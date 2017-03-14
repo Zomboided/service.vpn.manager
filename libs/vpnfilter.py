@@ -1,0 +1,143 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+#    Copyright (C) 2016 Zomboided
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#    All the code to create an VPN Manager filter table and compare add-on
+#    and window IDs against it.  Had no depedencies on other VPN Manager
+#    modules so can be included in other add-ons to drive VPN switching
+
+
+import xbmc
+import xbmcaddon
+import xbmcgui
+import time
+
+
+class FilterList:
+
+    def __init__(self):
+        self.filtered_addons = []
+        self.filtered_windows = []
+        self.primary_vpns = []
+        self.last_updated = 0
+
+        
+    def isFiltered(self, path, windowid):
+        # Given the path to an addon, and/or a window ID, determine if it's associated with a particular VPN.
+        # Return 0 if given addon is excluded (ie no VPN), 1 to 10 if it needs a particular VPN or -1 if not found
+        # If we're already connected to a primary VPN and the add-on appears multiple times then return the 
+        # current connected VPN if it matches, otherwise return the first.  If there are duplicate entries, 
+        #disconnect will always win.
+
+        # Get the timestamp from the home window as to when the vpn & filter lists were last changed
+        try:
+            changed = int(xbmcgui.Window(10000).getProperty("VPN_Manager_Lists_Last_Refreshed"))
+        except:
+            # If there's no refreshed time stamp, there are no filters to check against
+            return -1
+            
+        if self.last_updated < changed:
+            self.refreshLists()
+        
+        current = self.getCurrent()
+        
+        # Assume we're not gonna find anything
+        found = -1
+
+        # Try and filter on the path name.
+        # Ignore local sources (that don't start with a ://)
+        if ("://" in path):
+            # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
+            filtered_addon_path = path[path.index("://")+3:]
+            if "/" in filtered_addon_path:
+                filtered_addon_path = filtered_addon_path[:filtered_addon_path.index("/")]
+            # Can't filter if there's nothing to filter...
+            if not filtered_addon_path == "":
+                # Adjust 11 below if changing number of conn_max
+                for i in range (0, 11):
+                    if not self.filtered_addons[i] == None:
+                        for filtered_string in self.filtered_addons[i]: 
+                            if filtered_addon_path == filtered_string:
+                                if found == -1 : found = i
+                                if i > 0 and i == current : found = i
+                # If we get a match return it
+                if not found == -1: return found
+                
+        # Now try filtering on the window ID
+        for i in range (0, 11):
+            if not self.filtered_windows[i] == None:
+                for filtered_string in self.filtered_windows[i]:
+                    if "-" in filtered_string:
+                        low, high = filtered_string.split("-")
+                        if windowid > int(low) and windowid < int(high):
+                            if found == -1 : found = i
+                            if i > 0 and i == current : found = i
+                    else:
+                        if str(windowid) == filtered_string:
+                            if found == -1 : found = i
+                            if i > 0 and i == current : found = i
+
+        return found
+        
+
+    def getCurrent(self):
+        # Compare the current connected VPN to the list of primary VPNs to see if one of the possible
+        # filtered connections is in use.  Used by isFiltered, shouldn't be called directly
+        found = 0
+        current = xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Name")
+        if current == "": return found
+        # Adjust 10 below if changing number of conn_max
+        for i in range (0, 10):                    
+            if not self.primary_vpns[i] == "" and current == self.primary_vpns[i]:
+                found = i+1
+        return found
+    
+        
+    def refreshLists(self):
+        # This function will refresh the list of filters and VPNs being used.  It doesn't need to be called 
+        # directly as it will be called before an add-on/window is checked if the data has changed
+    
+        # Get a handle to the VPN Mgr add-on to read the settings data
+        addon = xbmcaddon.Addon("service.vpn.manager")
+        
+        del self.filtered_addons[:]
+        del self.filtered_windows[:]
+        del self.primary_vpns[:]
+        
+        # Adjust 11 below if changing number of conn_max
+        for i in range (0, 11):
+        
+            # Load up the list of primary VPNs
+            if i>0: self.primary_vpns.append(addon.getSetting(str(i)+"_vpn_validated"))
+        
+            # Load up the addon filter list
+            addon_string = ""
+            if i == 0 : addon_string = addon.getSetting("vpn_excluded_addons")
+            else : addon_string = addon.getSetting(str(i)+"_vpn_addons")
+            if not addon_string == "" : self.filtered_addons.append(addon_string.split(","))
+            else : self.filtered_addons.append(None)   
+
+            # Load up the window filter list
+            window_string = ""
+            if i == 0 : window_string = addon.getSetting("vpn_excluded_windows")
+            else : window_string = addon.getSetting(str(i)+"_vpn_windows")
+            if not window_string == "" : self.filtered_windows.append(window_string.split(","))
+            else : self.filtered_windows.append(None)
+
+        # Store the time the filters were last updated
+        self.last_updated = int(time.time())
+        

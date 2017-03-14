@@ -26,9 +26,9 @@ import xbmcgui
 import xbmcvfs
 import glob
 import string
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-from libs.platform import getAddonPath, getUserDataPath, fakeConnection
-from libs.common import getFriendlyProfileName
+from utility import debugTrace, errorTrace, infoTrace, newPrint
+from platform import getAddonPath, getUserDataPath, fakeConnection
+from common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")

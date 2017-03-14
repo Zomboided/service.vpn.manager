@@ -24,8 +24,8 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 import glob
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-from libs.platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
+from utility import debugTrace, errorTrace, infoTrace, newPrint
+from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****

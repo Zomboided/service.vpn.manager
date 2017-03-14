@@ -39,15 +39,13 @@ from libs.platform import getPlatform, platforms, connection_status, getAddonPat
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
+from libs.vpnfilter import FilterList
 
 debugTrace("-- Entered service.py --")
 
 # Window property constants
 last_addon = 'VPN_Manager_Last_Addon'
 
-# Filters
-filtered_addons = []
-filtered_windows = []
 
 # Lists of primary VPNs and their friendly names (so we don't have to keep pattern matching it)
 primary_vpns = []
@@ -59,74 +57,6 @@ addon_name = addon.getAddonInfo('name')
 
 accepting_changes = False
 
-
-def refreshFilterLists():
-    # Fetch the list of excluded or filtered addons
-    del filtered_addons[:]
-    del filtered_windows[:]
-    # # Adjust 11 below if changing number of conn_max
-    for i in range (0, 11):
-        # Load up the addon filter list
-        addon_string = ""
-        if i == 0 : addon_string = addon.getSetting("vpn_excluded_addons")
-        else : addon_string = addon.getSetting(str(i)+"_vpn_addons")
-        if not addon_string == "" : filtered_addons.append(addon_string.split(","))
-        else : filtered_addons.append(None)   
-
-        # Load up the window filter list
-        window_string = ""
-        if i == 0 : window_string = addon.getSetting("vpn_excluded_windows")
-        else : window_string = addon.getSetting(str(i)+"_vpn_windows")
-        if not window_string == "" : filtered_windows.append(window_string.split(","))
-        else : filtered_windows.append(None)   
-
-    return
-
-        
-def isAddonFiltered(path, windowid, current):
-    # Return 0 if given addon is excluded, 1 to 10 if it needs a particular VPN or -1 if not found
-    # If we're already connected to a primary VPN and the add-on appears multiple times then 
-    # return the current connected VPN if it matches, otherwise return the first.  If there
-    # are duplicate entries, disconnect will always win.
-
-    # Assume we're not gonna find anything
-    found = -1
-
-    # Try and filter on the path name.
-    # Ignore local sources (that don't start with a ://)
-    if ("://" in path):
-        # Strip out the leading 'plugin://' or 'addons://' string, and anything trailing the plugin name
-        filtered_addon_path = path[path.index("://")+3:]
-        if "/" in filtered_addon_path:
-            filtered_addon_path = filtered_addon_path[:filtered_addon_path.index("/")]
-        # Can't filter if there's nothing to filter...
-        if not filtered_addon_path == "":
-            # Adjust 11 below if changing number of conn_max
-            for i in range (0, 11):
-                if not filtered_addons[i] == None:
-                    for filtered_string in filtered_addons[i]: 
-                        if filtered_addon_path == filtered_string:
-                            if found == -1 : found = i
-                            if i > 0 and i == current : found = i
-            # If we get a match return it
-            if not found == -1: return found
-            
-    # Now try filtering on the window ID
-    for i in range (0, 11):
-        if not filtered_windows[i] == None:
-            for filtered_string in filtered_windows[i]:
-                if "-" in filtered_string:
-                    low, high = filtered_string.split("-")
-                    if windowid > int(low) and windowid < int(high):
-                        if found == -1 : found = i
-                        if i > 0 and i == current : found = i
-                else:
-                    if str(windowid) == filtered_string:
-                        if found == -1 : found = i
-                        if i > 0 and i == current : found = i
-
-    return found
-    
     
 def refreshPrimaryVPNs():
     # Fetch the list of excluded or filtered addons
@@ -208,6 +138,7 @@ if __name__ == '__main__':
     monitor = xbmc.Monitor()
     player = xbmc.Player() 
     addon = xbmcaddon.Addon()
+    filters = FilterList()
     
     # Create a monitor to look out for settings changes
     settingsMonitor = KodiMonitor()
@@ -419,10 +350,10 @@ if __name__ == '__main__':
                 # Force a reboot timer check
                 reboot_timer = 3600
 
-				# Refresh filter lists
-                debugTrace("Update filter lists from settings")
-                refreshFilterLists()
-
+				# Flag that filter and VPN lists have changed
+                debugTrace("Flag lists have changed")
+                xbmcgui.Window(10000).setProperty("VPN_Manager_Lists_Last_Refreshed", str(int(time.time())))
+                
 				# If the VPN is not deliberately disconnected, then connect it
                 if vpn_setup and not getVPNState() == "off":
                     if getVPNState() == "started":
@@ -623,19 +554,10 @@ if __name__ == '__main__':
             if vpn_setup and try_to_filter:
                 if isVPNMonitorRunning():
                     # If the monitor is paused, we want to warn
-                    warned_monitor = False
-
-                    # Work out if we're using a primary VPN so if we have multiple filters
-                    # and one of them is current we don't switch unncessarily
-                    primary_found = 0
-                    # # Adjust 10 below if changing number of conn_max
-                    for i in range (0, 10):                    
-                        if not primary_vpns[i] == "" and getVPNProfile() == primary_vpns[i]:
-                            primary_found = i+1
-                            
+                    warned_monitor = False            
                     # See if we should be filtering this addon
                     # -1 is no, 0 is disconnect, >0 is specific VPN
-                    filter = isAddonFiltered(current_path, current_window_id, primary_found)                
+                    filter = filters.isFiltered(current_path, current_window_id)                
                     if filter == 0:
                         # Don't need a VPN, so disconnect if a VPN is running
                         if getVPNState() == "started":
@@ -656,7 +578,7 @@ if __name__ == '__main__':
                         # Connect to a specific VPN providing we're not connected already
                         if (not primary_vpns[(filter-1)] == getVPNProfile()) or not isVPNConnected():                        
                             infoTrace("service.py", "VPN filter " + primary_vpns[(filter-1)] + " found for window " + str(current_window_id) + " or addon " + current_name)
-                            debugTrace("Switching from " + getVPNProfile() + " to " + primary_vpns[(filter-1)] + " primary found is " + str(primary_found))
+                            debugTrace("Switching from " + getVPNProfile() + " to " + primary_vpns[(filter-1)])
                             setVPNRequestedProfile(primary_vpns[(filter-1)])
                             setVPNRequestedProfileFriendly(primary_vpns_friendly[(filter-1)])
                             # Store the current profile for reconnection if we've not done previously

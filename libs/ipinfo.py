@@ -22,7 +22,7 @@ import re
 import urllib2
 import xbmcaddon
 import xbmcgui
-from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
+from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 
 
 

@@ -21,8 +21,8 @@
 import xbmcaddon
 import xbmcgui
 import xbmcvfs
-from libs.utility import debugTrace, errorTrace, infoTrace
-from libs.platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
+from utility import debugTrace, errorTrace, infoTrace
+from platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
 
 
 ACTION_PREVIOUS_MENU = 10

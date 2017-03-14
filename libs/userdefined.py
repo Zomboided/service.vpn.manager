@@ -29,10 +29,10 @@ import xbmcvfs
 import os
 import time
 import glob
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-from libs.vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles
-from libs.platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
-from libs.logbox import popupImportLog
+from utility import debugTrace, errorTrace, infoTrace, newPrint
+from vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles
+from platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
+from logbox import popupImportLog
 
 # Delete any existing files
 def clearUserData():

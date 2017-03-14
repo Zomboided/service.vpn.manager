@@ -34,6 +34,33 @@ class FilterList:
         self.filtered_windows = []
         self.primary_vpns = []
         self.last_updated = 0
+        self.timeout = 10
+
+        
+    def filterAndSwitch(self, path, windowid):
+        # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN.
+        # and switch to that VPN.  Return True when the switch has happened, or False if there's a problem
+        # switching.  If the connected VPN is the VPN that's been identified as being required, or no filter
+        # is found, just return True without messing with the connection.
+        connection = self.isFiltered(path, windowid)
+        if connection == 0:
+            if self.getConnected() == "": return True
+            xbmc.log(msg="VPN Mgr : Disconnecting due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
+            self.setAPICommand("Disconnect")
+            return self.waitForConnection("")
+        if connection > 0:
+            if self.getConnected() == self.primary_vpns[connection]: return True
+            xbmc.log(msg="VPN Mgr : Connecting to " + self.primary_vpns[connection] + " due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
+            self.setAPICommand(self.primary_vpns[connection])
+            return self.waitForConnection(self.primary_vpns[connection])
+        return True
+
+            
+    def setTimeOut(self, seconds):
+        # Set filterAndSwitch timeout in seconds
+        # Standard is 30 seconds (recommended)
+        # timeout is measured in half seconds
+        self.timeout = seconds * 2
 
         
     def isFiltered(self, path, windowid):
@@ -41,7 +68,7 @@ class FilterList:
         # Return 0 if given addon is excluded (ie no VPN), 1 to 10 if it needs a particular VPN or -1 if not found
         # If we're already connected to a primary VPN and the add-on appears multiple times then return the 
         # current connected VPN if it matches, otherwise return the first.  If there are duplicate entries, 
-        #disconnect will always win.
+        # disconnect will always win.
 
         # Get the timestamp from the home window as to when the vpn & filter lists were last changed
         try:
@@ -78,22 +105,43 @@ class FilterList:
                 if not found == -1: return found
                 
         # Now try filtering on the window ID
-        for i in range (0, 11):
-            if not self.filtered_windows[i] == None:
-                for filtered_string in self.filtered_windows[i]:
-                    if "-" in filtered_string:
-                        low, high = filtered_string.split("-")
-                        if windowid > int(low) and windowid < int(high):
-                            if found == -1 : found = i
-                            if i > 0 and i == current : found = i
-                    else:
-                        if str(windowid) == filtered_string:
-                            if found == -1 : found = i
-                            if i > 0 and i == current : found = i
-
+        if windowid > 0:
+            for i in range (0, 11):
+                if not self.filtered_windows[i] == None:
+                    for filtered_string in self.filtered_windows[i]:
+                        if "-" in filtered_string:
+                            low, high = filtered_string.split("-")
+                            if windowid > int(low) and windowid < int(high):
+                                if found == -1 : found = i
+                                if i > 0 and i == current : found = i
+                        else:
+                            if str(windowid) == filtered_string:
+                                if found == -1 : found = i
+                                if i > 0 and i == current : found = i
         return found
-        
 
+        
+    def waitForConnection(self, connection_name):
+        # Wait for the connection to change to the connection requested
+        # Shouldn't need to call this directly
+        for i in range(0, self.timeout):
+            xbmc.sleep(500)
+            if connection_name == self.getConnected():
+                return True
+        # Connection timed out
+        return False
+
+    
+    def getConnected(self):
+        return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Name")
+    
+    
+    def setAPICommand(self, profile):
+        # Set up the API command for the main service to act upon
+        # Shouldn't need to call this directly
+        xbmcgui.Window(10000).setProperty("VPN_Manager_API_Command", profile)
+
+        
     def getCurrent(self):
         # Compare the current connected VPN to the list of primary VPNs to see if one of the possible
         # filtered connections is in use.  Used by isFiltered, shouldn't be called directly
@@ -140,4 +188,4 @@ class FilterList:
 
         # Store the time the filters were last updated
         self.last_updated = int(time.time())
-        
+    

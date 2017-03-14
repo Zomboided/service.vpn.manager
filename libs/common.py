@@ -208,8 +208,6 @@ def connectionValidated(addon):
 
 def stopVPNConnection():
     # Kill the running VPN task and reset the current VPN window properties
-    setVPNProfile("")
-    setVPNProfileFriendly("")
     debugTrace("Stopping VPN")
 
     # End any existing openvpn process
@@ -229,8 +227,13 @@ def stopVPNConnection():
         xbmc.sleep(500)
 
         # See if the openvpn process is still alive
-        waiting = isVPNConnected()
+        if fakeConnection():
+            waiting = False
+        else:
+            waiting = isVPNConnected()
         
+    setVPNProfile("")
+    setVPNProfileFriendly("")        
     setVPNState("stopped")
     return
 

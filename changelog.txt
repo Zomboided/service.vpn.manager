@@ -1,3 +1,6 @@
+v2.9.0
+- Separate filtering into a separate class to enable third party usage
+
 v2.8.0
 - Added window ID filtering as an alternative to add-on filtering
 

@@ -1,5 +1,5 @@
-v2.9.0
-- Separate filtering into a separate class to enable third party usage
+v3.0.0
+- Introduce an internal Python API for third party use of filtering, etc
 
 v2.8.0
 - Added window ID filtering as an alternative to add-on filtering

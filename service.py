@@ -39,7 +39,7 @@ from libs.platform import getPlatform, platforms, connection_status, getAddonPat
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
-from libs.vpnfilter import FilterList
+from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
 
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     monitor = xbmc.Monitor()
     player = xbmc.Player() 
     addon = xbmcaddon.Addon()
-    filters = FilterList()
+    filters = VPNAPI()
     
     # Create a monitor to look out for settings changes
     settingsMonitor = KodiMonitor()
@@ -200,7 +200,6 @@ if __name__ == '__main__':
                 addon.setSetting("1_vpn_validated", "reset")
                 addon.setSetting("user_def_keys", "None")
                 clearKeysAndCerts("VPNSecure")
-                
                 
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
@@ -271,7 +270,7 @@ if __name__ == '__main__':
     
     last_cycle = ""
     delay_min = 2
-    delay_max = 2
+    delay_max = 4
     delay = delay_max
     connection_errors = 0
     stop = False
@@ -702,8 +701,8 @@ if __name__ == '__main__':
                 # Increment cycle counter so that user has the chance to cycle multiple times before connection
                 cycle_timer = cycle_timer + delay
 
-                # Let's connect!
-                if cycle_timer > 9:
+                # Let's connect!  cycle_timer of > 7 assumes at least 2 cycles of 4 seconds so a 10 second-ish de-bounce
+                if cycle_timer > 7:
                     debugTrace("Running VPN cycle request " + cycle_requested + ", current VPN is " + getVPNProfile())
                     if not (cycle_requested == "Disconnect" and getVPNProfile() == "") and (not cycle_requested == getVPNProfile()):
                         infoTrace("service.py", "Cycle requested connection to " + cycle_requested)
@@ -831,14 +830,19 @@ if __name__ == '__main__':
                 freeCycleLock()
                 
                 reconnect_vpn = False          
-
-			                    
-        # Sleep/wait for abort
-        if monitor.waitForAbort(delay):
-            # Abort was requested while waiting. We should exit
-            infoTrace("service.py", "Abort received, shutting down service")
-            break
-            
+	                    
+        # Take multiple naps, checking to see if there are any outstanding CLI commands
+        shutdown = False
+        for i in range(0, delay):
+            if monitor.waitForAbort(1):
+                # Abort was requested while waiting. We should exit
+                infoTrace("service.py", "Abort received, shutting down service")
+                shutdown = True
+                break
+            if not getAPICommand() == "": 
+                break
+        if shutdown: break
+        
         timer = timer + delay
         reboot_timer = reboot_timer + delay
         

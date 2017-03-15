@@ -26,39 +26,46 @@ import xbmcaddon
 import xbmcgui
 import time
 
-
 class FilterList:
 
     def __init__(self):
+        # Class initialisation.  Fails with a RuntimeError exception if VPN Manager add-on is not available
         self.filtered_addons = []
         self.filtered_windows = []
         self.primary_vpns = []
         self.last_updated = 0
         self.timeout = 10
+        if not xbmc.getCondVisibility("System.HasAddon(service.vpn.manager)"):
+            xbmc.log("VPN Mgr : VPN Manager is not installed, cannot use filtering", level=xbmc.LOGERROR)
+            raise RuntimeError("VPN Manager is not installed")
 
         
-    def filterAndSwitch(self, path, windowid):
-        # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN.
-        # and switch to that VPN.  Return True when the switch has happened, or False if there's a problem
-        # switching.  If the connected VPN is the VPN that's been identified as being required, or no filter
-        # is found, just return True without messing with the connection.
+    def filterAndSwitch(self, path, windowid, wait):
+        # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN and
+        # switch to that VPN.  Return True when the switch has happened or False if there's a problem switching 
+        # (or there's no VPN that's been set up).  If the connected VPN is the VPN that's been identifed as being 
+        # required, or no filter is found, just return True without messing with the connection.  The wait parameter
+        # will determine if the function returns once the connection has been made, or if it's fire and forget.
+        # If a stream is starting up after the VPN has been switched then wait should be set to True.
+        if not self.isVPNSetUp():
+            return False
         connection = self.isFiltered(path, windowid)
         if connection == 0:
             if self.getConnected() == "": return True
             xbmc.log(msg="VPN Mgr : Disconnecting due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
             self.setAPICommand("Disconnect")
-            return self.waitForConnection("")
+            if wait: return self.waitForConnection("")
         if connection > 0:
             if self.getConnected() == self.primary_vpns[connection]: return True
             xbmc.log(msg="VPN Mgr : Connecting to " + self.primary_vpns[connection] + " due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
             self.setAPICommand(self.primary_vpns[connection])
-            return self.waitForConnection(self.primary_vpns[connection])
+            if wait: return self.waitForConnection(self.primary_vpns[connection])
         return True
 
             
     def setTimeOut(self, seconds):
         # Set filterAndSwitch timeout in seconds
-        # Standard is 30 seconds (recommended)
+        # Default is 30 seconds (recommended)
         # timeout is measured in half seconds
         self.timeout = seconds * 2
 
@@ -121,6 +128,14 @@ class FilterList:
         return found
 
         
+    def isVPNSetUp(self):
+        # Indicates if the VPN has been set up.  Can be called directly, but is used in filterAndSwitch
+        # prior to messing withe the connection to ensure the VPN is running.
+        addon = xbmcaddon.Addon("service.vpn.manager")
+        if not addon.getSetting("1_vpn_validated") == "": return True
+        return False
+
+
     def waitForConnection(self, connection_name):
         # Wait for the connection to change to the connection requested
         # Shouldn't need to call this directly
@@ -188,4 +203,4 @@ class FilterList:
 
         # Store the time the filters were last updated
         self.last_updated = int(time.time())
-    
+        

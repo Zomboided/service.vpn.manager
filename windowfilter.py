@@ -19,10 +19,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    This module will update the VPN profiles to point to the directory
-#    in which the VPN Manager for OpenVPN plugin is installed.  It's only
-#    called from the settings menu but shouldn't be needed as it's all
-#    done during the connection change logic
+#    This module deals with the setting, editing and removal of window filters
 
 import xbmc
 import xbmcaddon

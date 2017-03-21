@@ -1,3 +1,7 @@
+v3.1.0
+- Close VPN connection on Kodi exit
+- Modify internal Python API
+
 v3.0.0
 - Introduce an internal Python API for third party use of filtering, etc
 

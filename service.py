@@ -845,4 +845,6 @@ if __name__ == '__main__':
         
         timer = timer + delay
         reboot_timer = reboot_timer + delay
-        
+    
+    # Stop the VPN connection before exiting as it could be running on a 'normal' PC, not a dedicated box
+    stopVPNConnection()

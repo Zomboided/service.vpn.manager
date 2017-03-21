@@ -35,6 +35,9 @@ class VPNAPI:
         self.filtered_windows = []
         self.primary_vpns = []
         self.last_updated = 0
+        self.refreshLists()
+        self.default = self.getConnected()
+        xbmc.log("VPN Mgr API : Default is " + self.default, level=xbmc.LOGDEBUG)
         self.timeout = 30
         if not xbmc.getCondVisibility("System.HasAddon(service.vpn.manager)"):
             xbmc.log("VPN Mgr API : VPN Manager is not installed, cannot use filtering", level=xbmc.LOGERROR)
@@ -70,7 +73,22 @@ class VPNAPI:
         if wait: return self.waitForConnection(self.primary_vpns[connection])
         return True
                 
-        
+
+    def connectTo(self, connection_name, wait):
+        # Given the ovpn filename of a connection, connect to it.  Return True when the connection has happened 
+        # or False if there's a problem connecting (or there's not a VPN connection available for this connection 
+        # number).  Return True without messing with the connection if the current VPN is the same as the VPN being
+        # requested.  The wait parameter will determine if the function returns once the connection has been made, 
+        # or if it's fire and forget (in which case True will be returned regardless)
+        if not self.isVPNSetUp(): return False
+        if connection_name == "": return False
+        if self.getConnected() == connection_name: return True
+        xbmc.log(msg="VPN Mgr API : Connecting to " + connection_name, level=xbmc.LOGDEBUG)
+        self.setAPICommand(connection_name)
+        if wait: return self.waitForConnection(connection_name)
+        return True
+
+                
     def disconnect(self, wait):
         # Disconnect any active VPN connection.  Return True when the connection has disconnected.  If there's
         # not an active connection, return True anyway.  The wait parameter will determine if the function returns 
@@ -81,18 +99,32 @@ class VPNAPI:
         self.setAPICommand("Disconnect")
         if wait: return self.waitForConnection("")
         return True
-    
 
-    def filterAndSwitch(self, path, windowid, wait):
+        
+    def defaultVPN(self, wait):
+        # Return to the default VPN state.  This is a wrapper function to disconnect() and connectTo() with
+        # the behaviour and return values matching those functions.
+        if self.default == "":
+            return self.disconnect(wait)
+        else:
+            return self.connectTo(self.default, wait)
+        
+        
+    def filterAndSwitch(self, path, windowid, wait, default):
         # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN and
         # switch to that VPN.  Return True when the switch has happened or False if there's a problem switching 
         # (or there's no VPN that's been set up).  If the connected VPN is the VPN that's been identifed as being 
         # required, or no filter is found, just return True without messing with the connection.  The wait parameter
         # will determine if the function returns once the connection has been made, or if it's fire and forget (in
-        # which case True will be returned regardless).
+        # which case True will be returned regardless).  Finally the default parameter is a boolean indicating if
+        # the default VPN should be connected to if no filter is found
         if not self.isVPNSetUp():
             return False
         connection = self.isFiltered(path, windowid)
+        # Switch to the default connection if there's no filter
+        if connection == -1 and default : 
+            xbmc.log(msg="VPN Mgr API : Reconnecting to the default", level=xbmc.LOGDEBUG)
+            return self.defaultVPN(wait)
         if connection == 0:
             if self.getConnected() == "": return True
             xbmc.log(msg="VPN Mgr API : Disconnecting due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
@@ -100,6 +132,7 @@ class VPNAPI:
             if wait: return self.waitForConnection("")
         if connection > 0:
             connection = connection - 1
+            if self.primary_vpns[connection] == "": return False
             if self.getConnected() == self.primary_vpns[connection]: return True
             xbmc.log(msg="VPN Mgr API : Connecting to " + self.primary_vpns[connection] + " due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
             self.setAPICommand(self.primary_vpns[connection])
@@ -160,6 +193,14 @@ class VPNAPI:
         self.timeout = seconds * 2        
         
         
+    def setDefault(self, default):
+        # Override the default connection.  Expects to be passed the name of the connection as an 
+        # ovpn file name.  This is probably only needed when the API object is old and crusty and
+        # there's potential that the .ovpn has changed.  Might be better just to create a new
+        # API object in this case though...
+        if not default == "": 
+            self.default = default
+        
         
     # Functions below this line shouldn't need to be called directly
 
@@ -189,7 +230,7 @@ class VPNAPI:
     def getCurrent(self):
         # Compare the current connected VPN to the list of primary VPNs to see if one of the possible
         # filtered connections is in use.  Used by isFiltered, shouldn't be called directly
-        found = 0
+        found = -1
         current = xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Name")
         if current == "": return found
         # Adjust 10 below if changing number of conn_max

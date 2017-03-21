@@ -214,7 +214,7 @@ def stopVPNConnection():
     waiting = True
     i = 0
     while waiting:
-        i = i + 10
+        i = i + 1
         
         # Send the kill command to end the openvpn process.
         # After 10 seconds hit it with the -9 hammer

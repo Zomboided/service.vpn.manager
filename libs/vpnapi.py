@@ -44,8 +44,8 @@ class VPNAPI:
             raise RuntimeError("VPN Manager is not installed")
         else:
             v = int((xbmcaddon.Addon("service.vpn.manager").getAddonInfo("version").strip()).replace(".",""))
-            if v < 300:
-                raise RuntimeError("VPN Manager " + str(v) + " installed, but needs to be v3.0.0 or later")
+            if v < 310:
+                raise RuntimeError("VPN Manager " + str(v) + " installed, but needs to be v3.1.0 or later")
 
                 
     def isVPNSetUp(self):
@@ -110,14 +110,14 @@ class VPNAPI:
             return self.connectTo(self.default, wait)
         
         
-    def filterAndSwitch(self, path, windowid, wait, default):
+    def filterAndSwitch(self, path, windowid, default, wait):
         # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN and
         # switch to that VPN.  Return True when the switch has happened or False if there's a problem switching 
         # (or there's no VPN that's been set up).  If the connected VPN is the VPN that's been identifed as being 
-        # required, or no filter is found, just return True without messing with the connection.  The wait parameter
-        # will determine if the function returns once the connection has been made, or if it's fire and forget (in
-        # which case True will be returned regardless).  Finally the default parameter is a boolean indicating if
-        # the default VPN should be connected to if no filter is found
+        # required, or no filter is found, just return True without messing with the connection.  The default 
+        # parameter is a boolean indicating if the default VPN should be connected to if no filter is found.
+        # The wait parameter will determine if the function returns once the connection has been made, or if it's 
+        # fire and forget (in which case True will be returned regardless).  
         if not self.isVPNSetUp():
             return False
         connection = self.isFiltered(path, windowid)
@@ -198,8 +198,7 @@ class VPNAPI:
         # ovpn file name.  This is probably only needed when the API object is old and crusty and
         # there's potential that the .ovpn has changed.  Might be better just to create a new
         # API object in this case though...
-        if not default == "": 
-            self.default = default
+        self.default = default
         
         
     # Functions below this line shouldn't need to be called directly

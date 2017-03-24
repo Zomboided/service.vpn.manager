@@ -66,7 +66,7 @@ def getBestPathWrapper(name):
     
     # This is just about resetting the ovpn documents if neccesary
     if generateVPNs():
-        return "/storage/.kodi/addons/service.vpn.manager/" + path        
+        return "/storage/.kodi/addons/service.vpn.manager/" + name      
     else:
         filename = getUserDataPath(name)
         if not xbmcvfs.exists(filename):

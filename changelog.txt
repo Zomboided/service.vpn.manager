@@ -1,3 +1,6 @@
+v3.1.1
+- ovpn generation bug fix
+
 v3.1.0
 - Close VPN connection on Kodi exit
 - Modify internal Python API

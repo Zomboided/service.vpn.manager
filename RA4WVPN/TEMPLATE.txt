@@ -4,12 +4,13 @@ proto #PROTO
 remote #SERVER #PORT
 resolv-retry 30
 nobind
-tun-mtu 1500
-tun-mtu-extra 32
-mssfix 1450
-persist-key
-persist-tun
-auth-user-pass #PASS
+auth SHA1
+cipher AES-128-CBC
 comp-lzo
+auth-user-pass #PASS
+persist-tun
+reneg-sec 0
+key-direction 1
 verb 3
 ca #CERT
+tls-auth #TLSKEY

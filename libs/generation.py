@@ -26,24 +26,25 @@ import xbmcgui
 import xbmcvfs
 import glob
 import string
+import os.path
+import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint
 from platform import getAddonPath, getUserDataPath, fakeConnection
 from common import getFriendlyProfileName
 
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
-    generatePP()
+    generateNordVPN()
     return
     generateLiquidVPN()
     generateVPNac()
-    generateNordVPN()
+    generatePP()
     generateCyberGhost()
     generateVPNUnlim()
     generateVyprVPN()
     generateExpressVPN()
     generatePureVPN()
     generatePIA()
-    generateNordVPN()
     generateSmartDNSProxy()
     generateIVPN()
     generateCelo()
@@ -56,7 +57,6 @@ def generateAll():
     generateSecureVPN()
     generateLimeVPN()
     generateSecureVPN()
-    generateNordVPN()
     generateproXPN()
     generateWindscribe()
     generateWiTopia()
@@ -86,6 +86,16 @@ def getProfileList(vpn_provider):
     path = getUserDataPath("providers/" + vpn_provider + "/*.ovpn")
     return glob.glob(path)      
 
+    
+def generateMetaData(vpn_provider):
+    filelist = glob.glob(getAddonPath(True, vpn_provider + "/*.*"))
+    output_file = open(getAddonPath(True, vpn_provider + "/METADATA.txt"), 'w')
+    output_file.write(str(int(time.time())) + "\n")
+    for file in filelist:
+        if not file.endswith("METADATA.txt"):
+            output_file.write(os.path.basename(file)+"\n")
+    output_file.close()
+    
     
 def generateVPNac():
     # Data is stored as a bunch of ovpn files
@@ -125,10 +135,7 @@ def generateVPNac():
         output_line = geo + " (" + proto.upper() + ")," + servers + "," + proto + "," + ports + "\n" 
         location_file.write(output_line)
     location_file.close()   
-    
-    
-    
-    
+
 
 def generateSmartDNSProxy():
     # Data is stored as a bunch of ovpn files
@@ -222,9 +229,11 @@ def generateRA4W():
             if line.startswith("remote "):
                 _, server, port = line.split()
         if "-tcp" in profile:
+            geo = geo.replace("-tcp-443", "")
             geo = geo + " (TCP)"
             output_line = geo + "," + server + "," + "tcp," + port + "\n"
         else:
+            geo = geo.replace("-udp-1194", "")
             geo = geo + " (UDP)"
             output_line = geo + "," + server + "," + "udp," + port + "\n"
         location_file.write(output_line)
@@ -1140,6 +1149,7 @@ def generateNordVPN():
             if "ru-nl1" in shortname: shortname = "Russia - Netherlands 1"
             if "lv-tor1" in shortname: shortname = "Latvia TOR 1"
             if "se-tor1" in shortname: shortname = "Sweden TOR 1"
+            if "se-tor2" in shortname: shortname = "Sweden TOR 2"
             if "nl-tor1" in shortname: shortname = "Netherlands TOR 1"
             if "nl-uk1" in shortname: shortname = "Netherlands - United Kingdom 1"
         proto = ""
@@ -1157,8 +1167,9 @@ def generateNordVPN():
             if not line == "" and not line.startswith("#mute") and not (i < 15 and line.startswith("#")):
                 output_file.write(line + "\n")
             i = i + 1
+    generateMetaData("NordVPN")
    
-   
+
 def resolveCountry(code):   
     Countries = {'Afghanistan': 'AF',
         'Albania': 'AL',

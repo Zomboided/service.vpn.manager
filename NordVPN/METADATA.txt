@@ -1,4 +1,5 @@
-1490520788
+1490613934
+320 1727
 Albania 1 (TCP).ovpn
 Albania 1 (UDP).ovpn
 Argentina 1 (TCP).ovpn
@@ -219,7 +220,6 @@ Egypt 1 (TCP).ovpn
 Egypt 1 (UDP).ovpn
 Estonia 1 (TCP).ovpn
 Estonia 1 (UDP).ovpn
-FILELIST.txt
 Finland 1 (TCP).ovpn
 Finland 1 (UDP).ovpn
 Finland 2 (TCP).ovpn
@@ -248,6 +248,7 @@ France 8 (TCP).ovpn
 France 8 (UDP).ovpn
 France 9 (TCP).ovpn
 France 9 (UDP).ovpn
+GENERATED.txt
 Germany 1 (TCP).ovpn
 Germany 1 (UDP).ovpn
 Germany 100 (TCP).ovpn
@@ -593,6 +594,7 @@ Norway 4 (TCP).ovpn
 Norway 4 (UDP).ovpn
 Norway 5 (TCP).ovpn
 Norway 5 (UDP).ovpn
+pass.txt
 Poland 10 (TCP).ovpn
 Poland 10 (UDP).ovpn
 Poland 11 (TCP).ovpn
@@ -739,6 +741,7 @@ Taiwan 3 (TCP).ovpn
 Taiwan 3 (UDP).ovpn
 Thailand 1 (TCP).ovpn
 Thailand 1 (UDP).ovpn
+TRANSLATE.txt
 Turkey 1 (TCP).ovpn
 Turkey 1 (UDP).ovpn
 Turkey 2 (TCP).ovpn

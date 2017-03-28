@@ -36,7 +36,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
-from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt
+from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
 from libs.vpnapi import VPNAPI
@@ -156,7 +156,6 @@ if __name__ == '__main__':
         stored_version = addon.getSetting("version_number").strip()
         if stored_version == "":
             infoTrace("service.py", "New install, resetting the world " + addon.getSetting("version_number"))
-            cleanPassFiles()
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
             xbmcgui.Dialog().ok(addon_name, "VPN Manager installed.\nPlease set up a VPN provider and then validate a connection")
@@ -210,8 +209,7 @@ if __name__ == '__main__':
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         infoTrace("service.py", "New install, but was using good VPN previously.  Regenerate OVPNs")
         if not fixOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not checkConnections():
-            xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.") 
-            cleanPassFiles()
+            xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)        
             
@@ -234,6 +232,12 @@ if __name__ == '__main__':
     if fixKeymaps():
         xbmcgui.Dialog().ok(addon_name, "The VPN Manager keymap had been renamed.  This has been reverted to the correct name, but you must restart for the keymap to take effect.") 
 
+    # Determine whether generation of VPNs is supported
+    if generateVPNs():
+        addon.setSetting("allow_vpn_generation", "true")
+    else:
+        addon.setSetting("allow_vpn_generation", "false")
+        
     # Need to go and request the main loop fetches the settings
     updateService("service initalisation")
     

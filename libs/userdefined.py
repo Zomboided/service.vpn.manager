@@ -73,7 +73,6 @@ def importWizard():
 
     # Warn the user that files will be deleted and kittens will be harmed
     if xbmcgui.Dialog().yesno(addon_name, "Any existing User Defined settings and files will be deleted. Do you want to continue?", "", ""):
-        cleanPassFiles()
         removeGeneratedFiles()
         success = clearUserData()
         addon.setSetting("vpn_provider", "User Defined")

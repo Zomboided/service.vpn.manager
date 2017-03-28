@@ -168,7 +168,7 @@ def disconnect():
     # Disconnect or display status if already disconnected
     debugTrace("Disconnect selected from connections menu")
     if isVPNConnected():
-        disconnectVPN()
+        disconnectVPN(True)
         setVPNState("off")
     else:
         displayStatus()

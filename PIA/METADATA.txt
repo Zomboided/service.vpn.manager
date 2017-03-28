@@ -1,9 +1,0 @@
-1490648324
-320 7
-LOCATIONS Default Encryption.txt
-LOCATIONS Strong Encryption.txt
-TEMPLATE.txt
-ca.rsa.2048.crt
-ca.rsa.4096.crt
-crl.rsa.2048.pem
-crl.rsa.4096.pem

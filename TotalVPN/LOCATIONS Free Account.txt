@@ -1,6 +1,0 @@
-Amsterdam - NL (UDP),amsterdam.unifiedvpn.com,udp,1194
-Amsterdam - NL (TCP),amsterdam.unifiedvpn.com,tcp,443
-Keflavik - IS (UDP),iceland.unifiedvpn.com,udp,1194
-Keflavik - IS (TCP),iceland.unifiedvpn.com,tcp,443
-Singapore - SG (UDP),singapore.unifiedvpn.com,udp,1194
-Singapore - SG (TCP),singapore.unifiedvpn.com,tcp,443

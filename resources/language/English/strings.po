@@ -360,82 +360,90 @@ msgid "Reset all .ovpn files to default"
 msgstr ""
 
 msgctxt "#32103"
-msgid "Delete user key, password and cert files"
+msgid "Remove all downloaded VPN provider files"
 msgstr ""
 
 msgctxt "#32104"
-msgid "Key mappings"
+msgid "Regenerate VPN provider files"
 msgstr ""
 
 msgctxt "#32105"
-msgid "Map VPN connection cycle button"
+msgid "Delete user key, password and cert files"
 msgstr ""
 
 msgctxt "#32106"
-msgid "Map information display button"
+msgid "Key mappings"
 msgstr ""
 
 msgctxt "#32107"
-msgid "System reboot"
+msgid "Map VPN connection cycle button"
 msgstr ""
 
 msgctxt "#32108"
-msgid "Weekly reboot day"
+msgid "Map information display button"
 msgstr ""
 
 msgctxt "#32109"
-msgid "Off"
+msgid "System reboot"
 msgstr ""
 
 msgctxt "#32110"
-msgid "Monday"
+msgid "Weekly reboot day"
 msgstr ""
 
 msgctxt "#32111"
-msgid "Tuesday"
+msgid "Off"
 msgstr ""
 
 msgctxt "#32112"
-msgid "Wednesday"
+msgid "Monday"
 msgstr ""
 
 msgctxt "#32113"
-msgid "Thursday"
+msgid "Tuesday"
 msgstr ""
 
 msgctxt "#32114"
-msgid "Friday"
+msgid "Wednesday"
 msgstr ""
 
 msgctxt "#32115"
-msgid "Saturday"
+msgid "Thursday"
 msgstr ""
 
 msgctxt "#32116"
-msgid "Sunday"
+msgid "Friday"
 msgstr ""
 
 msgctxt "#32117"
-msgid "Weekly reboot time (24h)"
+msgid "Saturday"
 msgstr ""
 
 msgctxt "#32118"
-msgid "Reboot if a remote server file changes"
+msgid "Sunday"
 msgstr ""
 
 msgctxt "#32119"
-msgid "Remote server file"
+msgid "Weekly reboot time (24h)"
 msgstr ""
 
 msgctxt "#32120"
-msgid "Local file read speed test"
+msgid "Reboot if a remote server file changes"
 msgstr ""
 
 msgctxt "#32121"
-msgid "Source file (>50MB)"
+msgid "Remote server file"
 msgstr ""
 
 msgctxt "#32122"
+msgid "Local file read speed test"
+msgstr ""
+
+msgctxt "#32123"
+msgid "Source file (>50MB)"
+msgstr ""
+
+msgctxt "#32124"
 msgid "Run speed test"
 msgstr ""
 

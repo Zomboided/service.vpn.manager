@@ -28,10 +28,10 @@ import xbmcvfs
 import datetime
 import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
-from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
-from libs.common import resetVPNConnections, isVPNConnected
+from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN
 from libs.generation import generateAll
 from libs.ipinfo import resetIPServices
 
@@ -44,23 +44,29 @@ debugTrace("-- Entered managefiles.py with parameter " + action + " --")
 
 # Reset the ovpn files
 if action == "ovpn":
-    if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the .ovpn files will reset all VPN connections.  Connections must be re-validated before use.\nContinue?"):
-    
-        # Only used during development to create location files
-        if generateVPNs():
-            generateAll()
-            xbmcgui.Dialog().ok(addon_name, "Regenerated some or all of the VPN location files.\n")
-
-        # Reset the connection before we do anything else
-        resetVPNConnections(addon)            
+    if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the .ovpn files will disconnect and reset all VPN connections. Connections must be re-validated before use. Continue?"):
+        # Disconnect so that live files are not being modified
+        if isVPNConnected(): resetVPNConnections(addon)            
         debugTrace("Deleting all generated ovpn files")
         # Delete the ovpn files and the generated flag file.
         removeGeneratedFiles()
-        # Remove any user/password files
-        cleanPassFiles()
         # Reset the IP service error counts, etc
         resetIPServices()
-        xbmcgui.Dialog().ok(addon_name, "Deleted all .ovpn files.  Validate a connection to recreate them.\n")
+        xbmcgui.Dialog().ok(addon_name, "Deleted all .ovpn files. Validate a connection to recreate them.\n")
+
+        
+# Generate the VPN provider files
+if action == "generate":
+    # Only used during development to create location files
+    generateAll()
+    xbmcgui.Dialog().ok(addon_name, "Regenerated some or all of the VPN location files.\n")        
+       
+
+# Delete all of the downloaded VPN files
+if action == "downloads":
+    debugTrace("Deleting all downloaded VPN files")
+    removeDownloadedFiles()
+    xbmcgui.Dialog().ok(addon_name, "Deleted all of the downloaded VPN files. They'll be downloaded again if required.\n")
 
         
 # Copy the log file        
@@ -92,9 +98,9 @@ elif action == "log":
 
 # Delete the user key and cert files        
 elif action == "user":
-    if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Deleting key and certificate files will reset all VPN connections.  Connections must be re-validated before use.\nContinue?"):
+    if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Deleting key and certificate files will disconnect and reset all VPN connections. Connections must be re-validated before use. Continue?"):
 
-        # Reset the connection before we do anything else
+        # Disconnect so that live files are not being modified
         if isVPNConnected(): resetVPNConnections(addon)
     
         # Select the provider

@@ -34,8 +34,8 @@ from platform import getVPNConnectionStatus, connection_status, getPlatform, pla
 from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
-from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert
-from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass
+from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
+from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -269,7 +269,7 @@ def isVPNConnected():
     # Return False if the VPN task is no longer running and the connection is not active
     
     # If there's no profile, then we're not connected (or should reconnect...)
-    if getVPNProfile() == "" : return False
+    if getVPNProfile() == "": return False
     
     # Make a call to the platform routine to detect if the VPN task is running
     return isVPNTaskRunning()
@@ -720,7 +720,7 @@ def resetVPNConnections(addon):
     xbmcgui.Dialog().notification(addon.getAddonInfo("name"), "Disconnected", getIconPath()+"disconnected.png", 5000, False)
     
     
-def disconnectVPN():
+def disconnectVPN(display_result):
     # Don't know where this was called from so using plugin name to get addon handle
     addon = xbmcaddon.Addon("service.vpn.manager")
     addon_name = addon.getAddonInfo("name")
@@ -774,14 +774,16 @@ def disconnectVPN():
     
         # Update screen and display result in an ok dialog
         xbmc.executebuiltin('Container.Refresh')
-        _, ip, country, isp = getIPInfo(addon)       
-        dialog_message = "Disconnected from VPN.\nNetwork location is " + country + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp
+        if display_result:
+            _, ip, country, isp = getIPInfo(addon)       
+            dialog_message = "Disconnected from VPN.\nNetwork location is " + country + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp
         
         infoTrace("common.py", "Disconnected from the VPN")
 
     freeCycleLock()
     
-    xbmcgui.Dialog().ok(addon_name, dialog_message)
+    if display_result:
+        xbmcgui.Dialog().ok(addon_name, dialog_message)
 
     
 def getCredentialsPath(addon):
@@ -952,26 +954,35 @@ def connectVPN(connection_order, vpn_profile):
     if not progress.iscanceled():
         progress_message = "VPN monitor paused."
         debugTrace(progress_message)
-        progress.update(5, progress_title, progress_message)
+        progress.update(3, progress_title, progress_message)
         xbmc.sleep(500)
         
     # Stop any active VPN connection
     if not progress.iscanceled():
         progress_message = "Stopping any active VPN connection."    
-        progress.update(6, progress_title, progress_message)
+        progress.update(5, progress_title, progress_message)
         stopVPNConnection()
 
     if not progress.iscanceled():
         progress_message = "Disconnected from VPN."
-        progress.update(10, progress_title, progress_message)
+        progress.update(6, progress_title, progress_message)
         xbmc.sleep(500)
+
+    vpn_provider = addon.getSetting("vpn_provider")
         
+    # Check to see if there are new ovpn files
+    provider_download = True
+    if not progress.iscanceled():
+        if connection_order == "1":
+            # Is this provider able to update via the interweb?
+            progress_message = "Checking for latest provider files."
+            progress.update(7, progress_title, progress_message)
+            xbmc.sleep(500)
+            provider_download = refreshFromGit(getVPNLocation(vpn_provider), progress)
+                
     # Install the VPN provider    
     existing_connection = ""
-    if not progress.iscanceled():
-    
-        vpn_provider = addon.getSetting("vpn_provider")
-    
+    if not progress.iscanceled() and provider_download:
         # This is some code to copy the user name from a default file rather than use the user entered values.
         # It exists to help development where swapping between providers constantly is tedious.
         default_path = getUserDataPath(getVPNLocation(vpn_provider) + "/DEFAULT.txt")
@@ -986,8 +997,7 @@ def connectVPN(connection_order, vpn_profile):
                 addon.setSetting("vpn_password", default_value)  
             else:
                 errorTrace("common.py", "DEFAULT.txt found in VPN directory for " + vpn_provider + ", but file appears to be invalid.")
-                
-                
+
         # Reset the username/password if it's not being used
         if not usesPassAuth(getVPNLocation(vpn_provider)):
             addon.setSetting("vpn_username", "")
@@ -1012,53 +1022,62 @@ def connectVPN(connection_order, vpn_profile):
         if not last_credentials == vpn_credentials:
             debugTrace("Credentials have changed since last time through so need to revalidate")
             resetVPNConfig(addon, 1)   
-    
+       
     # Generate or fix the OVPN files if we've not done this previously
-    provider_gen = True
-    if not progress.iscanceled():
+    provider_gen = False
+    if not progress.iscanceled() and provider_download:
+        provider_gen = True
         if not ovpnFilesAvailable(getVPNLocation(vpn_provider)):
             # Generate the location files if this is a provider which uses generated files
             
-            # Fetch the list of locations available.  If there are multiple, the user can select
-            locations = getLocationFiles(getVPNLocation(vpn_provider))            
-            default_label = "Default"
-            i = 0            
-            for location in locations:
-                locations[i] = location[location.index("LOCATIONS")+10:location.index(".txt")]
-                if locations[i] == "" : locations[i] = default_label
-                i = i + 1
+            # Clear out the cobwebs
+            removeGeneratedFiles()
+            
+            # Copy non-ovpn files (ovpn files will be copied as they're fixed)
+            if populateSupportingFromGit(getVPNLocation(vpn_provider)):
                 
-            cancel_text = "[I]Cancel connection attempt[/I]"
-            selected_profile = ""
-            
-            if len(locations) == 0 and not isUserDefined(vpn_provider) and ovpnGenerated(getVPNLocation(vpn_provider)):
-                errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
-            if len(locations) > 1:
-                # Add the cancel option to the dialog box list
-                locations.append(cancel_text)
-                selected_location = xbmcgui.Dialog().select("Select connections profile", locations)
-                selected_profile = locations[selected_location]
-                if selected_profile == default_label : selected_profile = ""
-            
-            if not selected_profile == cancel_text:
-                addon.setSetting("vpn_locations_list", selected_profile)
-                progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)."
-                progress.update(11, progress_title, progress_message)
-                # Delete any old files in other directories
-                debugTrace("Deleting all generated ovpn files")
-                removeGeneratedFiles()
-                # Generate new ones
-                try:
-                    provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
-                except Exception as e:
-                    errorTrace("common.py", "Couldn't generate new .ovpn files")
-                    errorTrace("common.py", str(e))
-                    provider_gen = False
-                xbmc.sleep(500)
+                # Fetch the list of locations available.  If there are multiple, the user can select
+                locations = getLocationFiles(getVPNLocation(vpn_provider))            
+                default_label = "Default"
+                i = 0            
+                for location in locations:
+                    locations[i] = location[location.index("LOCATIONS")+10:location.index(".txt")]
+                    if locations[i] == "" : locations[i] = default_label
+                    i = i + 1
             else:
-                # User selected cancel on dialog box
                 provider_gen = False
-                cancel_attempt = True
+
+            if provider_gen:
+                cancel_text = "[I]Cancel connection attempt[/I]"
+                selected_profile = ""
+                
+                if len(locations) == 0 and not isUserDefined(vpn_provider) and ovpnGenerated(getVPNLocation(vpn_provider)):
+                    errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
+                if len(locations) > 1:
+                    # Add the cancel option to the dialog box list
+                    locations.append(cancel_text)
+                    selected_location = xbmcgui.Dialog().select("Select connections profile", locations)
+                    selected_profile = locations[selected_location]
+                    if selected_profile == default_label : selected_profile = ""
+                
+                if not selected_profile == cancel_text:
+                    addon.setSetting("vpn_locations_list", selected_profile)
+                    progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)."
+                    progress.update(11, progress_title, progress_message)
+                    # Delete any old files in other directories
+                    debugTrace("Deleting all generated ovpn files")
+                    # Generate new ones
+                    try:
+                        provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
+                    except Exception as e:
+                        errorTrace("common.py", "Couldn't generate new .ovpn files")
+                        errorTrace("common.py", str(e))
+                        provider_gen = False
+                    xbmc.sleep(500)
+                else:
+                    # User selected cancel on dialog box
+                    provider_gen = False
+                    cancel_attempt = True
 
     if provider_gen:
         if not progress.iscanceled():
@@ -1298,42 +1317,45 @@ def connectVPN(connection_order, vpn_profile):
         # Set the final message to show an error occurred
         progress_message = "Error connecting, VPN is disconnected. VPN monitor restarted."
         # First set of errors happened prior to trying to connect
-        if not provider_gen:
-            dialog_message = "Error updating .ovpn files or creating user credentials file.\nCheck log to determine cause of failure."
+        if not provider_download:
+            dialog_message = "Unable to download the VPN provider files. Check log and try again."
+            log_option = False
+        elif not provider_gen:
+            dialog_message = "Error updating .ovpn files or creating user credentials file. Check log to determine cause of failure."
             log_option = False
         elif not got_keys:
             log_option = False
             if not keys_copied:
                 if key_file == crt_file:
-                    dialog_message = "Failed to extract user key or cert from ovpn file.\nCheck log and opvn file and retry."
+                    dialog_message = "Failed to extract user key or cert from ovpn file. Check log and opvn file and retry."
                 else:
-                    dialog_message = "Failed to copy supplied user key and cert files.\nCheck log and retry."
+                    dialog_message = "Failed to copy supplied user key and cert files. Check log and retry."
             else:
                 dialog_message = "User key and certificate files are required, but were not provided.  Locate the files or an ovpn file that contains them and try again."
         elif not got_key_pass:
             log_option = False
-            dialog_message = "A password is needed for the user key, but was not entered.  Try and connect again using the user key password."
+            dialog_message = "A password is needed for the user key, but was not entered. Try and connect again using the user key password."
         elif ovpn_name == "":
             log_option = False
             dialog_message = "No VPN profiles were available for " + vpn_protocol + ". They've all been used or none exist for the selected protocol filter."
         else:
             # This second set of errors happened because we tried to connect and failed
             if state == connection_status.AUTH_FAILED: 
-                dialog_message = "Error connecting to VPN, authentication failed.\nCheck your username and password (or cert and key files)."
+                dialog_message = "Error connecting to VPN, authentication failed. Check your username and password (or cert and key files)."
                 credentials_path = getCredentialsPath(addon)
                 if not connection_order == "0":
                     addon.setSetting("vpn_username_validated", "")
                     addon.setSetting("vpn_password_validated", "")
             elif state == connection_status.NETWORK_FAILED: 
-                dialog_message = "Error connecting to VPN, could not estabilish connection.\nCheck your username, password and network connectivity and retry."
+                dialog_message = "Error connecting to VPN, could not estabilish connection. Check your username, password and network connectivity and retry."
             elif state == connection_status.TIMEOUT:
-                dialog_message = "Error connecting to VPN, connection has timed out.\nTry using a different VPN profile or retry."
+                dialog_message = "Error connecting to VPN, connection has timed out. Try using a different VPN profile or retry."
             elif state == connection_status.ROUTE_FAILED:
-                dialog_message = "Error connecting to VPN, could not update routing table.\nRetry and then check log."
+                dialog_message = "Error connecting to VPN, could not update routing table. Retry and then check log."
             elif state == connection_status.ACCESS_DENIED:
-                dialog_message = "Error connecting to VPN, could not update routing table.\nOn Windows, Kodi must be run as administrator."
+                dialog_message = "Error connecting to VPN, could not update routing table. On Windows, Kodi must be run as administrator."
             elif state == connection_status.OPTIONS_ERROR:
-                dialog_message = "Error connecting to VPN, unrecognised option.\nDisable block-outside-dns in debug menu, reset ovpn files and retry. Or check log and review ovpn file in use."
+                dialog_message = "Error connecting to VPN, unrecognised option. Disable block-outside-dns in debug menu, reset ovpn files and retry. Or check log and review ovpn file in use."
             else:
                 dialog_message = "Error connecting to VPN, something unexpected happened.\nRetry to check openvpn operation and then check log."
                 addon.setSetting("ran_openvpn", "false")

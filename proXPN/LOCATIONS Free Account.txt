@@ -1,1 +1,0 @@
-Free Chicago - IL (UDP),196.52.21.65,udp,443

@@ -24,6 +24,7 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 import glob
+import urllib2
 from utility import debugTrace, errorTrace, infoTrace, newPrint
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 
@@ -130,6 +131,13 @@ def getAddonList(vpn_provider, filter):
 def getUserDataList(vpn_provider, filter):    
     # Return all user files for a provider (aka directory name...)
     path = getUserDataPath(getVPNLocation(vpn_provider) + "/" + filter)
+    debugTrace("Getting list of files in " + path)
+    return sorted(glob.glob(path))  
+
+
+def getDownloadList(vpn_provider, filter):    
+    # Return all user files for a provider (aka directory name...)
+    path = getUserDataPath("Downloads" + "/" + getVPNLocation(vpn_provider) + "/" + filter)
     debugTrace("Getting list of files in " + path)
     return sorted(glob.glob(path))  
     
@@ -393,19 +401,23 @@ def cleanGeneratedFiles():
 
 def removeGeneratedFiles():
     for provider in providers:
-        if ovpnGenerated(provider):
-            if isUserDefined(provider):
-                # If this is the user defined provider, delete everything
-                files = getAddonList(provider, "*")
-            else:
-                # If this is a regular provider, delete just the ovpn files
-                files = getAddonList(provider, "*.ovpn")    
+        try:
+            files = getAddonList(provider, "*")    
             for file in files:
                 xbmcvfs.delete(file)
-        filename = getAddonPath(True, provider + "/GENERATED.txt")
-        if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)
-        filename = getAddonPath(True, provider + "/TRANSLATE.txt")
-        if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)
+        except:
+            pass
+
+            
+def removeDownloadedFiles():
+    if xbmcvfs.exists(getUserDataPath("Downloads/")):
+        for provider in providers:
+            try:
+                files = getDownloadList(provider, "*")
+                for file in files:
+                    xbmcvfs.delete(file)
+            except:
+                pass
         
         
 def ovpnFilesAvailable(vpn_provider):
@@ -679,8 +691,11 @@ def updateVPNFiles(vpn_provider):
     # If the OVPN files aren't generated then they need to be updated with location info    
     
     infoTrace("vpnproviders.py", "Updating VPN profiles for " + vpn_provider)
-    # Get the list of VPN profile files        
-    ovpn_connections = getAddonList(vpn_provider, "*.ovpn")
+    # Get the list of VPN profile files
+    if isUserDefined(vpn_provider):
+        ovpn_connections = getAddonList(vpn_provider, "*.ovpn")
+    else:
+        ovpn_connections = getDownloadList(vpn_provider, "*.ovpn")
 
     # See if there's a port override going on
     addon = xbmcaddon.Addon("service.vpn.manager")
@@ -712,11 +727,14 @@ def updateVPNFiles(vpn_provider):
         
     for connection in ovpn_connections:
         try:
-            f = open(connection, 'r+')
+            f = open(connection, 'r')
             debugTrace("Processing file " + connection)
             lines = f.readlines()
-            f.seek(0)
-            f.truncate()
+            f.close()
+            if isUserDefined(vpn_provider):
+                f = open(connection, 'w')
+            else:
+                f = open(getAddonPath(True, vpn_provider + "/" + os.path.basename(connection)), 'w')
             # Get the profile friendly name in case we need to generate key/cert names
             name = connection[connection.rfind(getSeparator())+1:connection.rfind(".ovpn")]
             translate_location = name
@@ -873,3 +891,136 @@ def writeDefaultUpFile():
         if useSudo(): command = "sudo " + command
         infoTrace("vpnproviders.py", "Fixing default up.sh " + command)
         os.system(command)
+
+
+def refreshFromGit(vpn_provider, progress):
+    infoTrace("vpnproviders.py", "Checking downloaded ovpn files for " + vpn_provider + " with GitHub files")
+    progress_title = "Updating files for " + vpn_provider
+    try:
+        # Create the download directories if required
+        path = getUserDataPath("Downloads/")
+        if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
+        path = getUserDataPath("Downloads/" + vpn_provider + "/")
+        if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
+    except Exception as e:
+        # Can't create the download directory
+        errorTrace("vpnproviders.py", "Can't create the download directory " + path)
+        errorTrace("vpnproviders.py", str(e))
+        return False
+        
+    try:
+        # Download the update time stamp and list of files available
+        download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/METADATA.txt"
+        download_url = download_url.replace(" ", "%20")
+        file_list = urllib2.urlopen(download_url)
+    except Exception as e:
+        # Can't get the list, so null the list of files for checking later.
+        errorTrace("vpnproviders.py", "Can't get the list of files from Github for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+        file_list = ""
+    timestamp = ""
+    
+    try:
+        # Get the timestamp from the previous update
+        last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
+        last = last_file.readlines()
+        last_file.close()
+        # If there's a metadata file in the user directory but we had a problem with Github, just
+        # return True as there's a likelihood that there's something interesting to work with
+        if file_list == "": 
+            if progress is not None:
+                progress_message = "Unable to download files, using existing files."
+                progress.update(10, progress_title, progress_message)
+                infoTrace("vpnproviders.py", "Couldn't download files so using existing files for " + vpn_provider)
+                xbmc.sleep(1000)
+            return True
+        timestamp = last[0]
+    except Exception as e:
+        # If the metadata can't be read and there's nothing we can get from Github, return
+        # badness, otherwise we can read from Github and should just carry on.
+        if file_list == "": return False
+                
+    # Parse the GitHub metadata file
+    error_count = 0
+    file_count = 0
+    progress_count = float(1)
+    progress_inc = float(0)
+    for file in file_list:
+        if file_count == 0:
+            # Check the timestamp and if it's not the same clear out the directory for new files
+            if timestamp == file:                
+                debugTrace("VPN provider " + vpn_provider + " up to date, timestamp is " + file)
+                if progress is not None:
+                    progress_message = "VPN provider files don't need updating"
+                    progress.update(10, progress_title, progress_message)
+                    xbmc.sleep(500)
+                return True
+            else: timestamp = file
+            debugTrace("VPN provider " + vpn_provider + " needs updating, deleting existing files")
+            existing = glob.glob(getUserDataPath("Downloads" + "/" + vpn_provider + "/*.*"))
+            for file in existing:
+                try: xbmcvfs.delete(file)
+                except: pass
+        elif file_count == 1:
+            version, total_files = file.split(" ")
+            progress_inc = 99 / float(total_files)
+            addon_version = int(xbmcaddon.Addon("service.vpn.manager").getSetting("version_number").replace(".",""))
+            if addon_version < int(version):
+                errorTrace("vpnproviders.py", "VPN Manager version is " + str(addon_version) + " and version " + version + " is needed for this VPN.")
+                return False
+        else:
+            # Download and store the updated files
+            try:
+                #debugTrace("Downloading " + file)
+                if progress is not None:
+                    progress_count += progress_inc
+                    if progress.iscanceled(): return False
+                    progress_message = "Downloading " + file
+                    progress.update(int(progress_count), progress_title, progress_message)
+                download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
+                download_url = download_url.replace(" ", "%20")
+                git_file = urllib2.urlopen(download_url)
+                file = file.strip(' \n')
+                output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')
+                for line in git_file:
+                    output.write(line)
+                output.close()
+            except Exception as e:
+                errorTrace("vpnproviders.py", "Can't download " + file)
+                errorTrace("vpnproviders.py", str(e))
+                error_count += 1
+                # Bail after 5 failures as it's likely something bad is happening
+                if error_count > 5: return False
+        file_count += 1
+                
+    # Write the update timestamp
+    debugTrace("Updated VPN provider " + vpn_provider + " new timestamp is " + timestamp)
+    output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'w')
+    output.write(timestamp + "\n")
+    output.close()
+    if progress is not None:
+        progress_message = "VPN provider files have been updated"
+        progress.update(10, progress_title, progress_message)
+        xbmc.sleep(500)
+    return True
+    
+
+def populateSupportingFromGit(vpn_provider):
+    # Copy all files from download to the directory that are not .ovpn, ignoring the metadata
+    try:
+        filelist = getDownloadList(vpn_provider, "*")
+        debugTrace("Copying supporting files into addon directory for " + vpn_provider)
+        for file in filelist:
+            if not file.endswith(".ovpn") and not file.endswith("METADATA.txt"):
+                name = os.path.basename(file)
+                fullname = getAddonPath(True, vpn_provider + "/" + name)
+                newPrint("trying to copy to " + file + " to " + fullname)
+
+                xbmcvfs.copy(file, fullname)
+        return True
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Can't copy " + file + " for VPN " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+        return False
+    
+    

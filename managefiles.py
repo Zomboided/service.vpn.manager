@@ -85,6 +85,7 @@ elif action == "log":
         addon = xbmcaddon.Addon("service.vpn.manager")
         infoTrace("managefiles.py", "Copying log file to " + dest_path + ".  Using version " + addon.getSetting("version_number"))
         xbmcvfs.copy(log_path, dest_path)
+        if not xbmcvfs.exists(dest_path): raise IOError('Failed to copy log ' + log_path + " to " + dest_path)
         dialog_message = "Copied log file to:\n" + dest_path
     except:
         errorTrace("Failed to copy log from " + log_path + " to " + dest_path)

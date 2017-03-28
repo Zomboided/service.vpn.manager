@@ -110,6 +110,7 @@ def copySystemdFiles():
     if not fakeSystemd():
         if xbmcvfs.exists(service_dest): xbmcvfs.delete(service_dest)
         xbmcvfs.copy(service_source, service_dest)
+        if not xbmcvfs.exists(service_dest): raise IOError('Failed to copy service ' + service_source + " to " + service_dest)
     
     # Delete any existing openvpn.config and copy first VPN to openvpn.config
     config_source = sudo_setting = xbmcaddon.Addon("service.vpn.manager").getSetting("1_vpn_validated")
@@ -119,6 +120,7 @@ def copySystemdFiles():
     if not fakeSystemd():
         if xbmcvfs.exists(config_dest): xbmcvfs.delete(config_dest)
         xbmcvfs.copy(config_source, config_dest)
+        if not xbmcvfs.exists(config_dest): raise IOError('Failed to copy service ovpn ' + config_source + " to " + config_dest)
     
 
 def addSystemd():

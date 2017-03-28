@@ -66,40 +66,31 @@ def getBestPathWrapper(name):
     # if it exists, otherwise it'll return the path the default add-on version
     
     # This is just about resetting the ovpn documents if neccesary
-    if generateVPNs():
-        return "/storage/.kodi/addons/service.vpn.manager/" + name      
+    filename = getUserDataPath(name)
+    if not xbmcvfs.exists(filename):
+        filename = getAddonPath(True, name)
     else:
-        filename = getUserDataPath(name)
-        if not xbmcvfs.exists(filename):
-            filename = getAddonPath(True, name)
-        else:
-            infoTrace("vpnprovider.py", "Using userdata override " + filename)
-        if getPlatform() == platforms.WINDOWS:
-            return filename.replace("\\", "\\\\")
-        else:
-            return filename
+        infoTrace("vpnprovider.py", "Using userdata override " + filename)
+    if getPlatform() == platforms.WINDOWS:
+        return filename.replace("\\", "\\\\")
+    else:
+        return filename
     
                 
 def getAddonPathWrapper(name):
     # Return the fully qualified add-on path and file name
-    if generateVPNs():
-        return "/storage/.kodi/addons/service.vpn.manager/" + name
+    if getPlatform() == platforms.WINDOWS:
+        return getAddonPath(True, name).replace("\\", "\\\\")
     else:
-        if getPlatform() == platforms.WINDOWS:
-            return getAddonPath(True, name).replace("\\", "\\\\")
-        else:
-            return getAddonPath(True, name)
+        return getAddonPath(True, name)
 
 
 def getUserDataPathWrapper(name):
     # Return the fully qualified user path and file name
-    if generateVPNs():
-        return "/storage/.kodi/userdata/addon_data/service.vpn.manager/" + name
+    if getPlatform() == platforms.WINDOWS:
+        return getUserDataPath(name).replace("\\", "\\\\")
     else:
-        if getPlatform() == platforms.WINDOWS:
-            return getUserDataPath(name).replace("\\", "\\\\")
-        else:
-            return getUserDataPath(name)
+        return getUserDataPath(name)
         
                 
 def getVPNLocation(vpn_provider):
@@ -268,9 +259,11 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
             debugTrace("Copying key " + key_source + " to " + key_dest)
             if xbmcvfs.exists(key_dest): xbmcvfs.delete(key_dest)
             xbmcvfs.copy(key_source, key_dest)
+            if not xbmcvfs.exists(key_dest): raise IOError('Failed to copy key ' + key_source + " to " + key_dest)
             debugTrace("Copying cert " + cert_source + " to " + cert_dest)
             if xbmcvfs.exists(cert_dest): xbmcvfs.delete(cert_dest)
             xbmcvfs.copy(cert_source, cert_dest)
+            if not xbmcvfs.exists(cert_dest): raise IOError('Failed to copy cert ' + cert_source + " to " + cert_dest)
             return True
         except Exception as e:
             errorTrace("vpnproviders.py", "Failed to copy user key or cert file to userdata")
@@ -864,6 +857,7 @@ def copyUserDefinedFiles():
             name = file[file.rfind(getSeparator())+1:]
             dest_file = dest_path + getSeparator() + name
             xbmcvfs.copy(file, dest_file)
+            if not xbmcvfs.exists(dest_file): raise IOError('Failed to copy user def file ' + file + " to " + dest_file)
         return True
     except Exception as e:
         errorTrace("vpnproviders.py", "Error copying files from " + source_path + " to " + dest_path)
@@ -957,6 +951,7 @@ def refreshFromGit(vpn_provider, progress):
                 return True
             else: timestamp = file
             debugTrace("VPN provider " + vpn_provider + " needs updating, deleting existing files")
+            # Clear download files for this VPN
             existing = glob.glob(getUserDataPath("Downloads" + "/" + vpn_provider + "/*.*"))
             for file in existing:
                 try: xbmcvfs.delete(file)
@@ -991,6 +986,8 @@ def refreshFromGit(vpn_provider, progress):
                 error_count += 1
                 # Bail after 5 failures as it's likely something bad is happening
                 if error_count > 5: return False
+        # Uncomment the next line to make testing NordVPN download easier....
+        # if file_count == 20: break
         file_count += 1
                 
     # Write the update timestamp
@@ -1014,9 +1011,8 @@ def populateSupportingFromGit(vpn_provider):
             if not file.endswith(".ovpn") and not file.endswith("METADATA.txt"):
                 name = os.path.basename(file)
                 fullname = getAddonPath(True, vpn_provider + "/" + name)
-                newPrint("trying to copy to " + file + " to " + fullname)
-
                 xbmcvfs.copy(file, fullname)
+                if not xbmcvfs.exists(fullname): raise IOError('Failed to copy supporting file ' + file + " to " + fullname)
         return True
     except Exception as e:
         errorTrace("vpnproviders.py", "Can't copy " + file + " for VPN " + vpn_provider)

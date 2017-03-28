@@ -162,6 +162,7 @@ def importWizard():
                 infoTrace("import.py", "Copying " + fname + " to " + dest_name)
                 detail.append("Copying " + fname + " to " + dest_name + "\n")
                 xbmcvfs.copy(fname, dest_name)
+                if not xbmcvfs.exists(dest_name): raise IOError('Failed to copy user def file ' + fname + " to " + dest_name)
                 other_files_count.append(0)
                 if progress.iscanceled():
                     cancel = True
@@ -198,6 +199,7 @@ def importWizard():
                     infoTrace("import.py", "Copying " + oname + " to " + dest_name)
                     detail.append("Copying " + oname + " to " + dest_name + "\n")
                     xbmcvfs.copy(oname, dest_name)
+                    if not xbmcvfs.exists(dest_name): raise IOError('Failed to copy user def ovpn ' + oname + " to " + dest_name)
                     
                     if update:
                         # Read the copied file in and then overwrite it with any updates needed

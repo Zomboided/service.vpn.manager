@@ -199,6 +199,11 @@ if __name__ == '__main__':
                 addon.setSetting("1_vpn_validated", "reset")
                 addon.setSetting("user_def_keys", "None")
                 clearKeysAndCerts("VPNSecure")
+            if last_version < 400:
+                removeGeneratedFiles()
+                resetVPNConfig(addon, 1)
+                xbmcgui.Dialog().ok(addon_name, "Thanks for using VPN Manager! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
+             
                 
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

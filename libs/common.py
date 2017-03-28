@@ -973,7 +973,7 @@ def connectVPN(connection_order, vpn_profile):
     # Check to see if there are new ovpn files
     provider_download = True
     if not progress.iscanceled():
-        if connection_order == "1":
+        if connection_order == "1" and not isUserDefined(vpn_provider):
             # Is this provider able to update via the interweb?
             progress_message = "Checking for latest provider files."
             progress.update(7, progress_title, progress_message)
@@ -1028,9 +1028,9 @@ def connectVPN(connection_order, vpn_profile):
     if not progress.iscanceled() and provider_download:
         provider_gen = True
         if not ovpnFilesAvailable(getVPNLocation(vpn_provider)):
-            # Generate the location files if this is a provider which uses generated files
+            # Generate the location files if this is a provider which uses generated file
             
-            # Clear out the cobwebs
+            # Clear generated files
             removeGeneratedFiles()
             
             # Copy non-ovpn files (ovpn files will be copied as they're fixed)

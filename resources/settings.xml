@@ -109,9 +109,9 @@
     <category label="32100">		
         <setting label="32101" type="lsep"/>        
         <setting label="32102" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, ovpn)"/>
+        <setting label="32103" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, downloads)"/>
         <setting label=""      type="bool" id="allow_vpn_generation" visible="false" enable="false" default="false"/>
-        <setting label="32103" type="action" visible="eq(-1,true)" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, downloads)"/>
-        <setting label="32104" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, generate)"/>
+        <setting label="32104" type="action" visible="eq(-1,true)" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, generate)"/>
         <setting label="32105" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, user)"/>
         <setting label=""      type="lsep"/>
         <setting label="32106" type="lsep"/>        

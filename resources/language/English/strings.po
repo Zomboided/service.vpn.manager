@@ -352,11 +352,11 @@ msgid "Utilities"
 msgstr ""
 
 msgctxt "#32101"
-msgid "Manage OpenVPN files"
+msgid "Manage VPN provider files"
 msgstr ""
 
 msgctxt "#32102"
-msgid "Reset all .ovpn files to default"
+msgid "Reset all VPN provider files to default"
 msgstr ""
 
 msgctxt "#32103"

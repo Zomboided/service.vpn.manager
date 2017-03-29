@@ -210,32 +210,40 @@ def stopVPNConnection():
     # Kill the running VPN task and reset the current VPN window properties
     debugTrace("Stopping VPN")
 
-    # End any existing openvpn process
-    waiting = True
-    i = 0
-    while waiting:
-        i = i + 1
+    try:
+        # End any existing openvpn process
+        waiting = True
+        i = 0
+        while waiting:
+            i = i + 1
+            
+            # Send the kill command to end the openvpn process.
+            # After 10 seconds hit it with the -9 hammer
+            if i < 20:
+                stopVPN()
+            else:
+                stopVPN9()
         
-        # Send the kill command to end the openvpn process.
-        # After 10 seconds hit it with the -9 hammer
-        if i < 20:
-            stopVPN()
-        else:
-            stopVPN9()
-    
-        # Wait half a second just to make sure the process has time to die
-        xbmc.sleep(500)
+            # Wait half a second just to make sure the process has time to die
+            xbmc.sleep(500)
 
-        # See if the openvpn process is still alive
-        if fakeConnection():
-            waiting = False
-        else:
-            waiting = isVPNConnected()
-        
-    setVPNProfile("")
-    setVPNProfileFriendly("")        
-    setVPNState("stopped")
-    return
+            # See if the openvpn process is still alive
+            if fakeConnection():
+                waiting = False
+            else:
+                waiting = isVPNConnected()
+            
+            # After 20 seconds something is very wrong (like killall isn't installed...)
+            if i > 40: raise RuntimeError("Cannot stop the VPN task after 20 seconds of trying.")
+            
+        setVPNProfile("")
+        setVPNProfileFriendly("")        
+        setVPNState("stopped")
+        return True
+    except Exception as e:
+        errorTrace("common.py", "Cannot stop VPN task. Check command to terminate a running task is working.")
+        errorTrace("common.py", str(e))
+        return False
 
     
 def startVPNConnection(vpn_profile):  

@@ -38,7 +38,7 @@ from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTi
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
-from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts
+from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -237,7 +237,7 @@ if __name__ == '__main__':
     if fixKeymaps():
         xbmcgui.Dialog().ok(addon_name, "The VPN Manager keymap had been renamed.  This has been reverted to the correct name, but you must restart for the keymap to take effect.") 
 
-    # Determine whether generation of VPNs is supported
+    # Determine whether generation of VPN files is enabled
     if generateVPNs():
         addon.setSetting("allow_vpn_generation", "true")
     else:
@@ -248,12 +248,12 @@ if __name__ == '__main__':
     
     reconnect_vpn = False
     warned_monitor = False
-    if addon.getSetting("monitor_paused") == "false":
+    if addon.getSetting("monitor_paused") == "true":
+        setVPNMonitorState("Stopped")
+    else:
         warned_monitor = True
         setVPNMonitorState("Started")
-    else:
-        setVPNMonitorState("Stopped")
-    
+        
     connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
     connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
 

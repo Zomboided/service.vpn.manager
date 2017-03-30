@@ -33,7 +33,7 @@ from platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVP
 from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
-from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys
+from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
@@ -715,6 +715,8 @@ def resetVPNConnections(addon):
     setVPNLastConnectedProfile("")
     setVPNLastConnectedProfileFriendly("")
         
+    addon.setSetting("vpn_provider_validated","")    
+    
     # Removal any password files that were created (they'll get recreated if needed)
     debugTrace("Deleting all pass.txt files")
     cleanPassFiles()
@@ -976,18 +978,27 @@ def connectVPN(connection_order, vpn_profile):
         progress.update(6, progress_title, progress_message)
         xbmc.sleep(500)
 
-    vpn_provider = addon.getSetting("vpn_provider")
+    vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
         
     # Check to see if there are new ovpn files
     provider_download = True
-    if not progress.iscanceled():
-        if connection_order == "1" and not isUserDefined(vpn_provider):
-            # Is this provider able to update via the interweb?
-            progress_message = "Checking for latest provider files."
-            progress.update(7, progress_title, progress_message)
-            xbmc.sleep(500)
-            provider_download = refreshFromGit(getVPNLocation(vpn_provider), progress)
-                
+    if not progress.iscanceled() and not isUserDefined(vpn_provider):
+        if connection_order == "1" and addon.getSetting("vpn_provider_validated") == "":
+                # Is this provider able to update via the interweb?
+                progress_message = "Checking for latest provider files."
+                progress.update(7, progress_title, progress_message)
+                xbmc.sleep(500)
+                provider_download = refreshFromGit(vpn_provider, progress)        
+        else:
+            if checkForGitUpdates(vpn_provider):
+                progress_message = "[I]VPN provider update is available, revalidate to use.[/I]"
+                progress.update(7, progress_title, progress_message)
+                xbmc.sleep(2000)
+            else:
+                progress_message = "Using latest VPN provider files."
+                progress.update(7, progress_title, progress_message)
+                xbmc.sleep(500)
+            
     # Install the VPN provider    
     existing_connection = ""
     if not progress.iscanceled() and provider_download:

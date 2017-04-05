@@ -150,7 +150,6 @@ def getIPInfo(addon):
         debugTrace("Getting IP info from " + source)
         start_time = int(time.time())
         ip, country, region, city, isp = getIPInfoFrom(source)
-        xbmc.sleep(65000)
         end_time = int(time.time())
         response_time = end_time - start_time
         debugTrace("Got response, IP is " + ip + " response time in seconds is " + str(response_time))

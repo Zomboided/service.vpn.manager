@@ -147,8 +147,16 @@ def getIPInfo(addon):
     retry = 0
     bad_response = False
     while retry < 6:
+        debugTrace("Getting IP info from " + source)
+        start_time = int(time.time())
         ip, country, region, city, isp = getIPInfoFrom(source)
-
+        xbmc.sleep(65000)
+        end_time = int(time.time())
+        response_time = end_time - start_time
+        debugTrace("Got response, IP is " + ip + " response time in seconds is " + str(response_time))
+        if response_time > 60:
+            errorTrace("common.py", "Response time from IP info was in excess of a minute (" + str(response_time) + " seconds), check connectivity.")
+        
         if ip == "no info":
             # Got a response but couldn't format it.  No point retrying, move to next service or quit
             if isAutoSelect(original_source):

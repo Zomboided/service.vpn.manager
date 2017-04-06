@@ -1,3 +1,6 @@
+v4.0.1
+- Minor fixes and improvements in downloading from Github
+
 v4.0.0
 - Remove VPN files from addon (improving install speed massively)
 - Allow VPN files to be updated and downloaded independently

@@ -39,6 +39,7 @@ from libs.platform import getPlatform, platforms, connection_status, getAddonPat
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
+from libs.vpnproviders import populateSupportingFromGit
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -212,8 +213,10 @@ if __name__ == '__main__':
     primary_path = addon.getSetting("1_vpn_validated")
 
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
-        infoTrace("service.py", "New install, but was using good VPN previously.  Regenerate OVPNs")
-        if not fixOVPNFiles(getVPNLocation(addon.getSetting("vpn_provider_validated")), addon.getSetting("vpn_locations_list")) or not checkConnections():
+        vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
+        infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ").  Regenerate OVPNs")
+        populateSupportingFromGit(vpn_provider)
+        if not fixOVPNFiles(vpn_provider, addon.getSetting("vpn_locations_list")) or not checkConnections():
             xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)        
@@ -236,7 +239,7 @@ if __name__ == '__main__':
     # Check the keymaps for this add-on are intact
     if fixKeymaps():
         xbmcgui.Dialog().ok(addon_name, "The VPN Manager keymap had been renamed.  This has been reverted to the correct name, but you must restart for the keymap to take effect.") 
-
+        
     # Determine whether generation of VPN files is enabled
     if generateVPNs():
         addon.setSetting("allow_vpn_generation", "true")

@@ -708,6 +708,26 @@ def getConnectTime(addon):
         return int(t)
 
         
+def failoverConnection(addon, current_profile):
+    # Given a connection, find it in the list of validated connections and return the next 
+    # one in the list, or the first connection if it's the last valid one in the list
+    i=1
+    found = False
+    # Adjust the 11 below to change conn_max
+    while i<11:
+        next_profile = addon.getSetting(str(i)+"_vpn_validated")
+        if not next_profile == "":
+            if found: return i
+            if next_profile == current_profile: found = True
+        else:
+            break
+        i=i+1
+    if found and i>2:
+        return 1
+    else:
+        return -1
+        
+        
 def resetVPNConnections(addon):
     # Reset all connection information so the user is forced to revalidate everything
     infoTrace("resetVPN.py", "Resetting all validated VPN settings and disconnected existing VPN connections")

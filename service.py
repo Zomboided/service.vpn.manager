@@ -34,7 +34,7 @@ from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startR
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
-from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle
+from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
@@ -785,25 +785,39 @@ if __name__ == '__main__':
                                     # If authentication fails we don't want to try and reconnect
                                     # Everything will get reset below if timer is 0 but we'll make
                                     # like the VPN state is off deliberately to avoid reconnect
-                                    xbmcgui.Dialog().notification(addon_name, "Error authenticating with VPN, retry or update credentials.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
+                                    xbmcgui.Dialog().notification(addon_name, "Error authenticating with VPN, retry or update credentials.", getAddonPath(True, "/resources/warning.png"), 10000, True)
                                     setVPNState("off")
                                 else:
                                     connection_errors = getConnectionErrorCount() + 1
-                                    if connection_errors > 9:
-                                        if addon.getSetting("vpn_reconnect_reboot") == "true" and connection_errors == 10:
-                                            if not xbmcgui.Dialog().yesno(addon_name, "Cannot connect to VPN, rebooting system.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
-                                                infoTrace("service.py", "Reboot because of VPN connection errors.")
-                                                addon.setSetting("boot_reason", "VPN errors")
-                                                xbmc.executebuiltin("Reboot")
-                                            else:
-                                                infoTrace("service.py", "VPN connection reboot aborted by user")
-                                        # Too many errors, limit retry to once every hour
-                                        connection_retry_time = 3600
+                                    failover_connection = -1
+                                    if connection_errors == 1 and addon.getSetting("vpn_reconnect_next") == "true":
+                                        # See if there's a legitimate next connection to failover to
+                                        failover_connection = failoverConnection(addon, getVPNRequestedProfile())
+                                    if not failover_connection == -1:
+                                        # Failover to next connection if the first connection attempt fails
+                                        setVPNRequestedProfile(primary_vpns[failover_connection-1])
+                                        setVPNRequestedProfileFriendly(primary_vpns_friendly[failover_connection-1])
+                                        infoTrace("service.py", "Trying to failover to another connection, using " + getVPNRequestedProfile())
+                                        xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, failing over to next connection.", getAddonPath(True, "/resources/warning.png"), 10000, True)
+                                        connection_retry_time = 5
                                     else:
-                                        # Try to reconnect increasing frequency (a minute longer each time)
-                                        connection_retry_time = 60 * connection_errors
+                                        # No failover
+                                        if connection_retry_time == 5: connection_errors = 1
+                                        if connection_errors > 9:
+                                            if addon.getSetting("vpn_reconnect_reboot") == "true" and connection_errors == 10:
+                                                if not xbmcgui.Dialog().yesno(addon_name, "Cannot connect to VPN, rebooting system.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                                                    infoTrace("service.py", "Reboot because of VPN connection errors.")
+                                                    addon.setSetting("boot_reason", "VPN errors")
+                                                    xbmc.executebuiltin("Reboot")
+                                                else:
+                                                    infoTrace("service.py", "VPN connection reboot aborted by user")
+                                            # Too many errors, limit retry to once every hour
+                                            connection_retry_time = 3600
+                                        else:
+                                            # Try to reconnect increasing frequency (a minute longer each time)
+                                            connection_retry_time = 60 * connection_errors                                    
+                                        xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, retrying in " + str((connection_retry_time/60)) + " minutes.", getAddonPath(True, "/resources/warning.png"), 10000, True)
                                     setConnectionErrorCount(connection_errors)
-                                    xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, check network. Retrying in " + str((connection_retry_time/60)) + " minutes.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
                                     timer = 1
                                 # Want to kill any running process if it's not completed successfully
                                 stopVPNConnection()

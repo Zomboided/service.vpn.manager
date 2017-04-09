@@ -59,10 +59,11 @@
 		<setting label="32045" type="bool" id="vpn_reconnect" default="true"/>
         <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="true"/>
         <setting label="32047" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
-        <setting label="32048" type="bool" id="vpn_reconnect_reboot" default="true"/>
-		<setting label="32049" type="bool" id="vpn_reconnect_filtering" default="true"/>
-        <setting label="32050" type="bool" id="allow_cycle_disconnect" default="false"/>
-        <setting label="32051" type="bool" id="display_location_on_connect" default="false"/>
+        <setting label="32048" type="bool" id="vpn_reconnect_next" default="false"/>
+        <setting label="32049" type="bool" id="vpn_reconnect_reboot" default="true"/>
+		<setting label="32050" type="bool" id="vpn_reconnect_filtering" default="true"/>
+        <setting label="32051" type="bool" id="allow_cycle_disconnect" default="false"/>
+        <setting label="32052" type="bool" id="display_location_on_connect" default="false"/>
     </category>
     <category label="32060">	
         <setting label="32061" type="lsep"/>
@@ -179,7 +180,7 @@
         <setting label=""      type="text" id="10_vpn_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="10_vpn_validated_friendly" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_locations_list" enable="false" visible="false" default=""/>
-        <setting label=""      type="text" id="version_number" enable="false" visible="false" default=" "/>
+        <setting label=""      type="text" id="version_number" enable="false" visible="false" default=""/>
         <setting label=""      type="bool" id="vpn_wizard_run" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="checked_openvpn" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="ran_openvpn" enable="false" visible="false" default="false"/>

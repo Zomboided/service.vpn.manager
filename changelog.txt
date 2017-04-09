@@ -1,3 +1,7 @@
+v4.0.3
+- Download percentage bar fix
+- Try and avoid empty connection lists
+
 v4.0.2
 - Upgrade fix to stop connections needing to be revalidated following an update
 - Fail over to next connection on first failure

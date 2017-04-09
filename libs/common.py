@@ -940,7 +940,8 @@ def connectVPN(connection_order, vpn_profile):
     # This is needed because after a default it can end up as a null value rather than one of 
     # the three selections.  If it's null, just force it to the best setting anyway.
     vpn_protocol = addon.getSetting("vpn_protocol")
-    if vpn_protocol == "":
+    if not ("UDP" in vpn_protocol or "TCP" in vpn_protocol):
+        errorTrace("common.py", "VPN protocol is dodgy (" + vpn_protocol + ") resetting it to UDP")
         addon.setSetting("vpn_protocol", "UDP")
         vpn_protocol = "UDP"
     
@@ -1157,14 +1158,14 @@ def connectVPN(connection_order, vpn_profile):
                 switch = True
                 if addon.getSetting("location_ip_view") == "true": ip_view = True
                 else: ip_view = False
-                
                 # Build ths list of connections and the server/IP alternative
                 all_connections = getAddonList(vpn_provider, "*.ovpn")
                 ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
+                if len(ovpn_connections) == 0: errorTrace("common.py", "No .ovpn files found for filter " + vpn_protocol + ".")
                 none_filter = "UDP and TCP"
                 # If there are no connections, reset the filter to show everything and try again
                 if len(ovpn_connections) == 0 and isUserDefined(vpn_provider):
-                    infoTrace("common.py", "No .ovpn files found for " + vpn_protocol + ", removing protocol filter and retrying.")
+                    infoTrace("common.py", "Removing protocol filter and retrying.")
                     addon.setSetting("vpn_protocol", none_filter)
                     vpn_protocol = addon.getSetting("vpn_protocol")
                     ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)

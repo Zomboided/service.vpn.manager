@@ -955,7 +955,7 @@ def refreshFromGit(vpn_provider, progress):
     if metadata == None: return False
     git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
     timestamp = ""
-    
+
     try:
         addon_version = int(addon.getSetting("version_number").replace(".",""))
     except:
@@ -1006,7 +1006,7 @@ def refreshFromGit(vpn_provider, progress):
     error_count = 0
     file_count = 0
     progress_count = float(1)
-    progress_inc = float(99/int(total_files))
+    progress_inc = float(99/float(total_files))
     for file in file_list:
         try:
             #debugTrace("Downloading " + file)

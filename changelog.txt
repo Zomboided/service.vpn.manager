@@ -1,3 +1,6 @@
+v4.0.4
+- Tracing and platform detection changes
+
 v4.0.3
 - Download percentage bar fix
 - Try and avoid empty connection lists

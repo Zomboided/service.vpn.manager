@@ -133,7 +133,8 @@ class KodiMonitor(xbmc.Monitor):
 if __name__ == '__main__':   
 
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
-    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))    
+    infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
+    infoTrace("service.py", "Addon path is " + getAddonPath(True, ""))
     
     # Initialise some variables we'll be using repeatedly
     monitor = xbmc.Monitor()

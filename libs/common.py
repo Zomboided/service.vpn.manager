@@ -920,16 +920,16 @@ def connectVPN(connection_order, vpn_profile):
     addon = xbmcaddon.Addon("service.vpn.manager")
     addon_name = addon.getAddonInfo("name")
 
+    # Check openvpn installed and runs
+    if not (addon.getSetting("checked_openvpn") == "true"):
+        debugTrace("Checking platform is valid and openvpn is installed")
+        if checkPlatform(addon) and checkVPNInstall(addon): addon.setSetting("checked_openvpn", "true")
+        else: return
+    
     # If we've not arrived here though the addon (because we've used the add-on setting
     # on the option menu), we want to surpress running the wizard as there's no need.
     if not addon.getSetting("vpn_wizard_run") == "true":
         addon.setSetting("vpn_wizard_run", "true")
-
-    # Check openvpn installed and runs
-    if not addon.getSetting("checked_openvpn") == "true":
-        debugTrace("Checking platform is valid and openvpn is installed")
-        if checkPlatform(addon) and checkVPNInstall(addon): addon.setSetting("checked_openvpn", "true")
-        else: return
 
     if not addon.getSetting("ran_openvpn") == "true":
         debugTrace("Checking openvpn can be run")

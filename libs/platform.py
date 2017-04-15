@@ -287,7 +287,7 @@ def checkPlatform(addon):
         p = getPlatform()
         infoTrace("platform.py", "Checking platform, found " + str(p) + ", " + sys.platform)
         dialog_msg = ""
-        if p == platforms.UNKNOWN or getAddonPath(True, "").contains("Android"):
+        if p == platforms.UNKNOWN or "Android" in getAddonPath(True, ""):
             dialog_msg = addon.getAddonInfo("name") + " is not currently supported on this hardware platform."
             xbmcgui.Dialog().ok(addon.getAddonInfo("name"), dialog_msg)
             return False

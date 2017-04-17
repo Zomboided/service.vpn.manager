@@ -1,3 +1,6 @@
+v4.0.6
+- Fix upgrade/non-display of locations bug
+
 v4.0.5
 - Fix initial platform checking broken in 4.0.4
 

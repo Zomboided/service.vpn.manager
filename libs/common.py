@@ -1011,12 +1011,12 @@ def connectVPN(connection_order, vpn_profile):
     # Check to see if there are new ovpn files
     provider_download = True
     if not progress.iscanceled() and not isUserDefined(vpn_provider):
-        if connection_order == "1" and addon.getSetting("vpn_provider_validated") == "":
-                # Is this provider able to update via the interweb?
-                progress_message = "Checking for latest provider files."
-                progress.update(7, progress_title, progress_message)
-                xbmc.sleep(500)
-                provider_download = refreshFromGit(vpn_provider, progress)        
+        if connection_order == "1":
+            # Is this provider able to update via the interweb?
+            progress_message = "Checking for latest provider files."
+            progress.update(7, progress_title, progress_message)
+            xbmc.sleep(500)
+            provider_download = refreshFromGit(vpn_provider, progress)        
         else:
             if checkForGitUpdates(vpn_provider):
                 progress_message = "[I]VPN provider update is available, revalidate to use.[/I]"

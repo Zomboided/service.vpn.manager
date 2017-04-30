@@ -699,15 +699,20 @@ def generatePureVPN():
             geo = geo.replace("(V)", "")
         geo = geo.replace("-", " - ")
         if virtual_found: geo = geo + " Virtual"
-        if udp_found: geo = geo + " (UDP)"
-        if tcp_found: geo = geo + " (TCP)"
+        tags = ""
+        if udp_found: 
+            geo = geo + " (UDP)"
+            tags = "#REMOVE=1"
+        if tcp_found: 
+            geo = geo + " (TCP)"
+            tags = "#REMOVE=2"
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
         for line in lines:
             if line.startswith("remote "):
-                _, server, port = line.split()             
-        output_line = geo + "," + server + "," + proto + "," + port + "\n"
+                _, server, port = line.split()
+        output_line = geo + "," + server + "," + proto + "," + port + "," + tags + "\n"
         location_file.write(output_line)
     location_file.close()
     generateMetaData("PureVPN", MINIMUM_LEVEL)

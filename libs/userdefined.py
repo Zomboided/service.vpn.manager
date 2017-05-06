@@ -85,10 +85,10 @@ def importWizard():
     if success:
         if xbmcgui.Dialog().yesno(addon_name, "Select ALL files needed to connect to the VPN provider, including .ovpn, .key and .crt files.  Select a directory (sub directories are ignored) or select multiple files within a directory?.", "", "", "Directory", "Files"):
             directory_input = False
-            files = xbmcgui.Dialog().browse(1, "Select all VPN provider files", "files", "", False, False, "c:\\", True)
+            files = xbmcgui.Dialog().browse(1, "Select all VPN provider files", "files", "", False, False, "", True)
         else:
             directory_input = True
-            dname = xbmcgui.Dialog().browse(0, "Select a directory containing VPN provider files", "files", "", False, False, "c:\\", False)
+            dname = xbmcgui.Dialog().browse(0, "Select a directory containing VPN provider files", "files", "", False, False, "", False)
             debugTrace("Import from directory " + dname)
             dirs, files = xbmcvfs.listdir(dname)
             

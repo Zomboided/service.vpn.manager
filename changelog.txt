@@ -1,3 +1,6 @@
+v4.0.7
+- Allow import function to see root on Linux
+
 v4.0.6
 - Fix upgrade/non-display of locations bug
 

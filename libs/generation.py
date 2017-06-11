@@ -42,7 +42,7 @@ def generateAll():
     #generateCyberGhost()
     #generateExpressVPN()
     #generateHideMe()
-    #generateHMA()
+    generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
     #generateIPVanish()
@@ -266,33 +266,40 @@ def generateHideMe():
         location_file.write(output_line)
     location_file.close()    
     generateMetaData("HideMe", MINIMUM_LEVEL)    
-    
-    
-def generateHMA():
-    # Data is stored in a flat text file
-    # <Continent> - <Country>  xx.yy.rocks  random.xx.yy.rocks
-    # https://www.hidemyass.com/vpn-config/ has the latest set
-    location_file = getLocations("HMA", "")
-    source_file = open(getUserDataPath("providers/HMA/Servers.txt"), 'r')
-    source = source_file.readlines()
-    source_file.close()
-    for line in source:
-        tokens = line.split()        
-        for t in tokens:
-            if ".rocks" in t and not "random." in t:
-                server = t.strip(' \t\n\r')
-                geo = line.replace(server, "")
-                geo = geo.replace("random.", "")
-                geo = geo.strip(' \t\n\r')
-                geo = geo.replace("USA,", "USA -")
-                geo = geo.replace("UK,", "UK -")
-                output_line_udp = geo + " (UDP)," + server + "," + "udp,53" + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
-                output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443"  + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
-                location_file.write(output_line_udp)
-                location_file.write(output_line_tcp) 
-    location_file.close()    
-    generateMetaData("HMA", MINIMUM_LEVEL)
 
+
+def generateHMA():
+    # Data is stored as a bunch of OVPN files
+    # File name has location, file has server and port
+    profiles = getProfileList("HMA")
+    location_file = getLocations("HMA", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace(".", " - ", 1)
+        geo = geo.replace(".", " ")
+        geo = geo.replace(" TCP", "")
+        geo = geo.replace(" UDP", "")
+        geo = spaceOut(geo)
+        geo = geo.replace("U K", "UK")
+        geo = geo.replace("U S A", "USA")
+        geo = geo.replace("Republicofthe", "Republic of the")
+        geo = geo.replace("Republicof", "Republic of")
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()
+        if profile.endswith("TCP.ovpn"):
+            geo = geo + " (TCP)"
+            output_line = geo + "," + server + "," + "tcp," + port + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
+        else:
+            geo = geo + " (UDP)"
+            output_line = geo + "," + server + "," + "udp," + port + ",#USERCERT=#PATHuser.crt #USERKEY=#PATHuser.key\n"
+        location_file.write(output_line)
+    location_file.close()
+    generateMetaData("HMA", MINIMUM_LEVEL)    
+    
     
 def generateHideIPVPN():
     # Data is stored as a bunch of ovpn files
@@ -1225,6 +1232,21 @@ def generateMetaData(vpn_provider, min_level):
 def getProviderPath(path):
     # Return the location of the provider output directory
     return xbmc.translatePath("special://userdata/addon_data/service.vpn.manager.providers/" + path)
+
+
+def spaceOut(geo):
+    new_geo = ""
+    prev_space = True
+    for c in geo:
+        if c.isupper() and not prev_space:
+            new_geo = new_geo + " "
+        else:
+            if c == " ":
+                prev_space = True
+            else:
+                prev_space = False
+        new_geo = new_geo + c
+    return new_geo
         
     
 def resolveCountry(code):   

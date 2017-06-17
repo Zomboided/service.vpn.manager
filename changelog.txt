@@ -1,3 +1,6 @@
+v4.0.8
+- Add VanishedVPN and PrivateVPN
+
 v4.0.7
 - Allow import function to see root on Linux
 

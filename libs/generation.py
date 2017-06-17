@@ -42,16 +42,17 @@ def generateAll():
     #generateCyberGhost()
     #generateExpressVPN()
     #generateHideMe()
-    generateHMA()
+    #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
     #generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
-    #generateNordVPN()
+    generateNordVPN()
     #generatePerfectPrivacy()
     #generatePIA()
+    #generatePrivateVPN()
     #generateproXPN()
     #generatePureVPN()
     #generateRA4WVPN()
@@ -60,7 +61,8 @@ def generateAll():
     #generateSmartDNSProxy()
     #generatetigerVPN() 
     #generateTorGuard()
-    #generateTotalVPN() 
+    #generateTotalVPN()
+    #generateVanishedVPN()
     #generateVPNac()
     #generateVPNht()
     #generateVPNArea()
@@ -566,6 +568,8 @@ def generateNordVPN():
             if "se-tor2" in shortname: shortname = "Sweden TOR 2"
             if "nl-tor1" in shortname: shortname = "Netherlands TOR 1"
             if "nl-uk1" in shortname: shortname = "Netherlands - United Kingdom 1"
+            if "us-ca3" in shortname: shortname = "United States - Canada 3"
+            if "ca-us1" in shortname: shortname = "Canada - United States 1"
         proto = ""
         if "tcp443" in profile: proto = "(TCP)"
         if "udp1194" in profile: proto = "(UDP)"
@@ -641,6 +645,31 @@ def generatePIA():
     location_file_def.close()
     location_file_strong.close()
     generateMetaData("PIA", MINIMUM_LEVEL)
+    
+
+def generatePrivateVPN():
+    # Data is stored as a bunch of ovpn files
+    # File name has location.  File has the server
+    profiles = getProfileList("PrivateVPN")
+    location_file = getLocations("PrivateVPN", "")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace("PrivatVPN-", "")
+        geo = geo.replace("-TUN", "")
+        geo = geo.replace("-", "- ")
+        geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote "):
+                _, server, port = line.split()  
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,53" + ",#REMOVE=1\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2\n"
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
+    location_file.close()
+    generateMetaData("PrivateVPN", MINIMUM_LEVEL)
     
     
 def generateproXPN():
@@ -970,7 +999,15 @@ def generateTotalVPN():
     location_file_free.close()
     generateMetaData("TotalVPN", MINIMUM_LEVEL)
 
-
+    
+def generateVanishedVPN():
+    files = getProfileList("VanishedVPN")
+    destination_path = getProviderPath("VanishedVPN" + "/")
+    for file in files:
+        xbmcvfs.copy(file, destination_path + os.path.basename(file))
+    generateMetaData("VanishedVPN", MINIMUM_LEVEL)
+    
+    
 def generateVPNac():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the servers

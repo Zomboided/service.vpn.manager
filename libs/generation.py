@@ -37,6 +37,7 @@ MINIMUM_LEVEL = "400"
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
     #generateAirVPN()
+    generateBlackbox
     #generateBTGuard()
     #generateCelo()
     #generateCyberGhost()
@@ -49,7 +50,7 @@ def generateAll():
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
-    generateNordVPN()
+    #generateNordVPN()
     #generatePerfectPrivacy()
     #generatePIA()
     #generatePrivateVPN()
@@ -105,6 +106,14 @@ def generateAirVPN():
     generateMetaData("AirVPN", MINIMUM_LEVEL)    
     
 
+def generateBlackbox():
+    files = getProfileList("blackbox")
+    destination_path = getProviderPath("blackbox" + "/")
+    for file in files:
+        xbmcvfs.copy(file, destination_path + os.path.basename(file))
+    generateMetaData("blackbox", MINIMUM_LEVEL)
+    
+    
 def generateBTGuard():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the server

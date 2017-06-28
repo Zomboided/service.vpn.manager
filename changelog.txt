@@ -1,3 +1,7 @@
+v4.1.0
+- Add black.box
+- Fix issue with verb setting being ignored in some UserDefined ovpns
+
 v4.0.9
 - Fix XML
 

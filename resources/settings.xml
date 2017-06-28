@@ -4,7 +4,7 @@
 		<setting label="32001" type="lsep"/>
         <setting label="32002" type="action" visible="!eq(1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/resetVPN.py, reset)"/>
         <setting label=""      type="text" id="1_vpn_validated_friendly" visible="false" enable="false" default=""/>
-		<setting label="32003" type="labelenum" id="vpn_provider" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232|32233|32234|32235|32236"/>
+		<setting label="32003" type="labelenum" id="vpn_provider" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232|32233|32234|32235|32236|32237"/>
         <setting label=""      type='lsep'/>
         <setting label=""      type="text" id="vpn_username_validated" visible="false" enable="false" default=""/>
 		<setting label="32004" type="text" id="vpn_username" enable="eq(-4,)" default=""/>

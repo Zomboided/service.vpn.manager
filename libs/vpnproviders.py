@@ -740,6 +740,7 @@ def updateVPNFiles(vpn_provider):
             found_script_sec = False
             found_block_dns = False
             found_ping = False
+            found_verb = False
             proto = "udp"
             
             # Update the necessary values in the ovpn file
@@ -791,6 +792,7 @@ def updateVPNFiles(vpn_provider):
                 # Set the logging level
                 if line.startswith("verb "):
                     line = "verb " + verb_value
+                    found_verb = True
     
                 if line.startswith("up "):
                     found_up = True
@@ -822,6 +824,9 @@ def updateVPNFiles(vpn_provider):
                     f.write("ping 5\n")
                     f.write("ping-exit 30\n")
                 f.write("ping-timer-rem\n")
+            
+            if not found_verb:
+                f.write("verb " + verb_value + "\n")
             
             f.close()
                                 

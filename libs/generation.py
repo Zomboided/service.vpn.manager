@@ -37,7 +37,7 @@ MINIMUM_LEVEL = "400"
 def generateAll():
     infoTrace("generation.py", "Generating Location files")
     #generateAirVPN()
-    generateBlackbox
+    #generateBlackbox
     #generateBTGuard()
     #generateCelo()
     #generateCyberGhost()
@@ -46,14 +46,14 @@ def generateAll():
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
-    #generateIPVanish()
+    generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
     #generateNordVPN()
     #generatePerfectPrivacy()
     #generatePIA()
-    #generatePrivateVPN()
+    generatePrivateVPN()
     #generateproXPN()
     #generatePureVPN()
     #generateRA4WVPN()
@@ -412,7 +412,8 @@ def generateIPVanish():
         profile = profile.replace("Kuala-Lumpur", "Kuala Lumpur")
         profile = profile.replace("New-Delhi", "New Delhi")
         profile = profile.replace("Sao-Paulo", "Sao Paulo")
-        profile = profile.replace("Buenos-Aires", "Buenos Aires")        
+        profile = profile.replace("Buenos-Aires", "Buenos Aires")
+        profile = profile.replace("Tel-Aviv", "Tel Aviv")
         tokens = profile.split("-")
         server = tokens[3] + "-" + tokens[4].replace(".ovpn", "") + ".ipvanish.com"
         server_num = tokens[4][1:3]
@@ -664,7 +665,8 @@ def generatePrivateVPN():
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         geo = geo.replace("PrivatVPN-", "")
-        geo = geo.replace("-TUN", "")
+        geo = geo.replace("-TUN-443", "")
+        geo = geo.replace("-TUN-1194", "")
         geo = geo.replace("-", "- ")
         geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
         profile_file = open(profile, 'r')
@@ -672,11 +674,11 @@ def generatePrivateVPN():
         profile_file.close()
         for line in lines:
             if line.startswith("remote "):
-                _, server, port = line.split()  
-        output_line_udp = geo + " (UDP)," + server + "," + "udp,53" + ",#REMOVE=1\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2\n"
-        location_file.write(output_line_udp)
-        location_file.write(output_line_tcp)
+                _, server, port, proto = line.split()
+        proto_title = proto
+        if "tcp" in proto_title: proto_title = "TCP"
+        output_line = geo + " (" + proto_title.upper() + ")," + server + "," + proto + "," + port + "\n"
+        location_file.write(output_line)
     location_file.close()
     generateMetaData("PrivateVPN", MINIMUM_LEVEL)
     

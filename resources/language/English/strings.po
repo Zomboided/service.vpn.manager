@@ -587,11 +587,11 @@ msgid "Auto select"
 msgstr ""
 
 msgctxt "#32173"
-msgid "IP-API"
+msgid "ipinfo.io"
 msgstr ""
 
 msgctxt "#32174"
-msgid "IPInfoDB"
+msgid "IP-API"
 msgstr ""
 
 msgctxt "#32175"

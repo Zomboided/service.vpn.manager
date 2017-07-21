@@ -26,8 +26,8 @@ from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 
 
 
-ip_sources = ["Auto select", "IP-API", "IPInfoDB", "freegeoip.net"]
-ip_urls = ["", "http://ip-api.com/json", "http://www.ipinfodb.com/my_ip_location.php", "http://freegeoip.net/json/"] 
+ip_sources = ["Auto select", "ipinfo.io", "IP-API", "freegeoip.net"]
+ip_urls = ["", "http://ipinfo.io/json", "http://ip-api.com/json", "http://freegeoip.net/json/"] 
 LIST_DEFAULT = "0,0,0"
 
 MAX_ERROR = 64
@@ -38,7 +38,7 @@ def getIPInfoFrom(source):
     # No info generated from call is "no info", "unknown", "unknown", "unknown", url response
     # Or general error is "error", "error", "error", reason, url response
     link = ""
-    try:      
+    try:
         # Determine the URL, make the call and read the response
         url = getIPSourceURL(source)
         if url == "": return "error", "error", "error", "unknown source", ""
@@ -47,23 +47,45 @@ def getIPInfoFrom(source):
         response = urllib2.urlopen(req)
         link = response.read()
         response.close()
-
-        # Call the right routine to parse the reply using regex.
-        # If the website changes, this parsing can fail...sigh
-        if source == "IPInfoDB": match = getIPInfoDB(link)
+    except Exception as e:
+        errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
+        errorTrace("ipinfo.py", str(e))
+        recordError(source)
+        return "error", "error", "error", "call failed", link
+        
+    try:
+        # This makes stupid regex easier
+        link = link.replace("\n","")
+        debugTrace("IP provider " + source + " returned " + link)
+        # Call the right routine to parse the reply using regex
+        # These all return JSON so probably a JSON parser should really be used
+        if source == "ipinfo.io": match = getipinfo(link)
         if source == "IP-API": match = getIPAPI(link)
         if source == "freegeoip.net": match = getFreeGeoIP(link)
-        if len(match) > 0:
+        
+        if not match == None:
             recordWorking(source)
             for ip, country, region, city, isp in match:
                 return ip, country, region, city, isp
         else:
+            errorTrace("ipinfo.py", "No matches found for IP provider " + "source" + " " + link)
             recordError(source)
             return "no info", "unknown location", "unknown location", "no matches", link
-    except:
+    except Exception as e:
+        errorTrace("ipinfo.py", "Couldn't parse response from IP provider " + source + " " + link)
+        errorTrace("ipinfo.py", str(e))
         recordError(source)
-        return "error", "error", "error", "call failed", link
+        return "error", "error", "error", "parse failed", link
 
+        
+def getipinfo(link):
+    match = re.compile(ur'"ip": "(.*?)".*"city": "(.*?)".*"region": "(.*?)".*"country": "(.*?)".*"org": "(.*?)"').findall(link)
+    if len(match) > 0:
+        for ip, city, region, country, isp in match:
+            return [(ip, country, region, city, isp)]
+    else:
+        return None               
+        
 
 def getIPAPI(link):
     match = re.compile(ur'"city":"(.*?)".*"country":"(.*?)".*"isp":"(.*?)".*"query":"(.*?)".*"regionName":"(.*?)"').findall(link)
@@ -73,15 +95,6 @@ def getIPAPI(link):
     else:
         return None           
         
-        
-def getIPInfoDB(link):
-    match = re.compile(ur'<h5>Your IP address.*</h5>.*\s*.*<br>.*IP2Location.*\s*.*\s*<li>IP address.*<strong>(.+?)</strong>.*\s*\s*<li>Country : (.+?) <img.*\s*<li>State.*: (.+?)</li>.*\s*<li>City : (.+?)</li>').findall(link)    
-    if len(match) > 0:
-        for ip, country, region, city in match:
-            return [(ip, country, region, city, "Unknown")]
-    else:
-        return None
-
         
 def getFreeGeoIP(link):
     match = re.compile(ur'"ip":"(.*?)".*"country_name":"(.*?)".*"region_name":"(.*?).*"city":"(.*?)".*').findall(link)

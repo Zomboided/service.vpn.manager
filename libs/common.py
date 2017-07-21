@@ -142,8 +142,7 @@ def getIPInfo(addon):
         
     if isAutoSelect(source):
         source = getAutoSource()
-        
-    debugTrace("Getting IP info from " + source)
+
     retry = 0
     bad_response = False
     while retry < 6:
@@ -181,12 +180,11 @@ def getIPInfo(addon):
             # Worked, exit loop
             break
         retry = retry + 1
-
+        
     # Check to see if the call was good (after 5 retries)
-    if ip == "no_info" or ip == "error":
+    if ip == "no info" or ip == "error":
         return source, "no info", "unknown", "unknown"
 
-    
     location = ""
     if not (region == "-" or region == "Not Available"): location = region
     if not (country == "-" or country == "Not Available"):

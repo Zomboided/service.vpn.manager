@@ -91,6 +91,7 @@ def checkConnections():
     for i in range (1, 11):        
         next_conn = (addon.getSetting(str(i)+"_vpn_validated"))
         if not next_conn == "" and not xbmcvfs.exists(next_conn):
+            errorTrace("service.py", "Checking connections and couldn't find connection " + str(i) + ", " + next_conn)
             return False
     return True
     
@@ -215,9 +216,10 @@ if __name__ == '__main__':
 
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
-        infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ").  Regenerate OVPNs")
+        infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
         populateSupportingFromGit(vpn_provider)
         if not fixOVPNFiles(vpn_provider, addon.getSetting("vpn_locations_list")) or not checkConnections():
+            errorTrace("service.py", "VPN connection is not available for " + vpn_provider + " with list " + addon.getSetting("vpn_locations_list") + ", need to revalidate")
             xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)        

@@ -214,6 +214,9 @@ if __name__ == '__main__':
     # then regenerate the OVPNs for the validated provider.
     primary_path = addon.getSetting("1_vpn_validated")
 
+    # During an upgrade, the VPN state stored on the window will be wrong so reset it as if it were a restart
+    setVPNState("")
+    
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
         infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")

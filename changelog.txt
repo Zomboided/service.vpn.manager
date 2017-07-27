@@ -1,3 +1,6 @@
+v4.1.1
+- Add BulletVPN
+
 v4.1.0
 - Add black.box
 - Fix issue with verb setting being ignored in some UserDefined ovpns

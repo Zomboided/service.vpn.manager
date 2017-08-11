@@ -1046,8 +1046,9 @@ def refreshFromGit(vpn_provider, progress):
     output.write(timestamp + "\n")
     output.close()
     if progress is not None:
-        progress_message = "VPN provider files have been updated"
+        progress_message = "VPN provider files updated, removing old ones"
         progress.update(10, progress_title, progress_message)
+        removeGeneratedFiles()
         xbmc.sleep(500)
     return True
     

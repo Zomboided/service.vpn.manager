@@ -1048,7 +1048,14 @@ def refreshFromGit(vpn_provider, progress):
     if progress is not None:
         progress_message = "VPN provider files updated, removing old ones"
         progress.update(10, progress_title, progress_message)
+        # Delete any generated files and reset the connection
         removeGeneratedFiles()
+        # Adjust 11 below if changing number of conn_max
+        i = 1
+        while i < 11:
+            addon.setSetting(str(i) + "_vpn_validated", "")
+            addon.setSetting(str(i) + "_vpn_validated_friendly", "")
+            i = i + 1
         xbmc.sleep(500)
     return True
     

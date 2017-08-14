@@ -49,7 +49,7 @@ def generateAll():
     #generateibVPN()
     #generateIPVanish()
     #generateIVPN()
-    #generateLimeVPN()
+    generateLimeVPN()
     #generateLiquidVPN()
     #generateNordVPN()
     #generatePerfectPrivacy()
@@ -65,9 +65,9 @@ def generateAll():
     #generateTorGuard()
     #generateTotalVPN()
     #generateVanishedVPN()
-    generateVPNac()
+    #generateVPNac()
     #generateVPNht()
-    generateVPNArea()
+    #generateVPNArea()
     #generateVPNSecure()
     #generateVPNUnlimited()
     #generateVyprVPN()
@@ -131,7 +131,7 @@ def generateBTGuard():
             profile_file.close()
             for line in lines:
                 if line.startswith("remote "):
-                    _, server, port = line.split()  
+                    _, server, port, _ = line.split()  
             output_line_udp = geo + " (UDP)," + server + "," + "udp,1194" + "\n"
             output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
             location_file.write(output_line_udp)
@@ -481,52 +481,36 @@ def generateIVPN():
 
 
 def generateLimeVPN():
-    # Can't use a template as LimeVPN use server certs. 
-    # Copy the file to the target directory and strip it of user keys
-    existing_profiles = glob.glob(getProviderPath("LimeVPN" + "/*.ovpn"))
-    for connection in existing_profiles:
-        xbmcvfs.delete(connection)
-    # Get the list from the provider data directory
+    # Data is stored as a bunch of ovpn files
+    # http://www.limevpn.com/downloads/OpenVPN-Config.zip
     profiles = getProfileList("LimeVPN")
-    destination_path = getProviderPath("LimeVPN" + "/")   
+    location_file = getLocations("LimeVPN", "")
     for profile in profiles:
-        shortname = profile[profile.index("LimeVPN")+8:]
-        shortname = shortname.replace("_openvpn_remote_access_l3", "")
-        shortname = shortname[:shortname.index(".")]
-        shortname = shortname.replace("aus", "au")
-        shortname = shortname.replace("sw", "se")
-        shortname = shortname.replace("sk", "kr")
-        countryname = resolveCountry(shortname[0:2].upper())
-        if len(shortname) == 3:
-            shortname = " " + shortname[2:3]
-        else:
-            shortname = ""
-        proto = " (UDP)"
-        filename = countryname + shortname + proto + ".ovpn"
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace("limevpn","")
+        geo = geo.replace(".com", "")
+        geo = geo.replace(".", "")
+        if geo.startswith("ny"): geo = "New York"
+        elif geo.startswith("eu"): geo = "Europe " + geo[2:]
+        elif geo.startswith("london"): geo = "London"
+        elif geo.startswith("sw"): geo = "Sweden " + geo[2:]
+        else: geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
         profile_file = open(profile, 'r')
-        output_file = open(destination_path + filename, 'w')
-        profile_contents = profile_file.readlines()
+        lines = profile_file.readlines()
         profile_file.close()
-        output = ""
-        i = 0
-        write = True;
-        for line in profile_contents:
-            line = line.strip(' \t\n\r')
-            if not (line == "" or line.startswith("#")) :
-                if "<key>" in line or "<cert>" in line: write = False
-                if "</key>" in line: 
-                    write = True
-                    line = ""
-                if "</cert>" in line:
-                    write = True
-                    line = ""
-                if write and not line == "" : 
-                    output_file.write(line + "\n")
-            i = i + 1    
-        output_file.close()   
+        for line in lines:
+            if line.startswith("remote "):
+                tokens = line.split(" ")
+                server = tokens[1]
+                port = tokens[2]
+        output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + "\n"
+        #output_line_tcp = geo + " (TCP)," + server + "," + "tcp,80" + "\n"
+        location_file.write(output_line_udp)
+        #location_file.write(output_line_tcp)
+    location_file.close()
     generateMetaData("LimeVPN", MINIMUM_LEVEL)
 
-
+    
 def generateLiquidVPN():
     directories = ["Canada", "Netherlands", "Romania", "Singapore", "Sweden", "Switzerland", "United Kingdom", "USA"]
     location_file = getLocations("LiquidVPN", "Connections recommended use with Kodi")

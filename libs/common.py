@@ -1009,21 +1009,22 @@ def connectVPN(connection_order, vpn_profile):
     # Check to see if there are new ovpn files
     provider_download = True
     if not progress.iscanceled() and not isUserDefined(vpn_provider):
-        if connection_order == "1":
-            # Is this provider able to update via the interweb?
-            progress_message = "Checking for latest provider files."
-            progress.update(7, progress_title, progress_message)
-            xbmc.sleep(500)
-            provider_download = refreshFromGit(vpn_provider, progress)        
-        else:
-            if checkForGitUpdates(vpn_provider):
+        progress_message = "Checking for latest provider files."
+        progress.update(7, progress_title, progress_message)
+        xbmc.sleep(500)
+        if checkForGitUpdates(vpn_provider):
+            if connection_order == "1" and addon.getSetting("2_vpn_validated") == "":
+                # Is this provider able to update via the interweb?
+                provider_download = refreshFromGit(vpn_provider, progress)  
+                addon = xbmcaddon.Addon("service.vpn.manager")
+            else:
                 progress_message = "[I]VPN provider update is available, revalidate to use.[/I]"
                 progress.update(7, progress_title, progress_message)
                 xbmc.sleep(2000)
-            else:
-                progress_message = "Using latest VPN provider files."
-                progress.update(7, progress_title, progress_message)
-                xbmc.sleep(500)
+        else:
+            progress_message = "Using latest VPN provider files."
+            progress.update(7, progress_title, progress_message)
+            xbmc.sleep(500)
             
     # Install the VPN provider    
     existing_connection = ""

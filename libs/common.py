@@ -1008,19 +1008,31 @@ def connectVPN(connection_order, vpn_profile):
         
     # Check to see if there are new ovpn files
     provider_download = True
+    reset_connections = False
     if not progress.iscanceled() and not isUserDefined(vpn_provider):
         progress_message = "Checking for latest provider files."
         progress.update(7, progress_title, progress_message)
         xbmc.sleep(500)
         if checkForGitUpdates(vpn_provider):
-            if connection_order == "1" and addon.getSetting("2_vpn_validated") == "":
+            if (connection_order == "1" and addon.getSetting("2_vpn_validated") == ""):
                 # Is this provider able to update via the interweb?
-                provider_download = refreshFromGit(vpn_provider, progress)  
+                provider_download = refreshFromGit(vpn_provider, progress)
                 addon = xbmcaddon.Addon("service.vpn.manager")
             else:
-                progress_message = "[I]VPN provider update is available, revalidate to use.[/I]"
-                progress.update(7, progress_title, progress_message)
-                xbmc.sleep(2000)
+                progress_message = "New VPN provider files found! Click OK to download and reset existing settings. [I]If you use existing settings they may not continue to work.[/I]"
+                if not xbmcgui.Dialog().yesno(progress_title, progress_message, "", "", "OK", "Use Existing"):
+                    provider_download = refreshFromGit(vpn_provider, progress)
+                    # This is horrible code to avoid adding more booleans.  It'll pretend that the files
+                    # didn't download and skip to the end, but it'll indicate that connections need resetting
+                    if provider_download == True:
+                        progress_title = "Downloaded new VPN provider files"
+                        reset_connections = True
+                        provider_download = False
+                    addon = xbmcaddon.Addon("service.vpn.manager")
+                else:
+                    progress_message = "[I]VPN provider updates are available, but using existing settings.[/I]"
+                    progress.update(7, progress_title, progress_message)
+                    xbmc.sleep(2000)
         else:
             progress_message = "Using latest VPN provider files."
             progress.update(7, progress_title, progress_message)
@@ -1356,15 +1368,24 @@ def connectVPN(connection_order, vpn_profile):
         setVPNState("off")
     else:
         # An error occurred, The current connection is already invalidated.  The VPN credentials might 
-        # be ok, but if they need re-entering, the user must update them which will force a reset.  
-        progress_message = "Error connecting to VPN, restarting VPN monitor."
+        # be ok, but if they need re-entering, the user must update them which will force a reset.
+        if not reset_connections:
+            progress_message = "Error connecting to VPN, restarting VPN monitor."
+        else:
+            progress_message = "Restarting VPN monitor."
         progress.update(97, progress_title, progress_message)
         xbmc.sleep(500)
         # Set the final message to show an error occurred
-        progress_message = "Error connecting, VPN is disconnected. VPN monitor restarted."
+        if not reset_connections:
+            progress_message = "Error connecting, VPN is disconnected. VPN monitor restarted."
+        else:
+            progress_message = "VPN monitor restarted"
         # First set of errors happened prior to trying to connect
         if not provider_download:
-            dialog_message = "Unable to download the VPN provider files. Check log and try again."
+            if reset_connections:
+                dialog_message = "Please revalidate all connections."
+            else:
+                dialog_message = "Unable to download the VPN provider files. Check log and try again."
             log_option = False
         elif not provider_gen:
             dialog_message = "Error updating .ovpn files or creating user credentials file. Check log to determine cause of failure."

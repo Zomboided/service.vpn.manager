@@ -614,6 +614,7 @@ def requestVPNCycle(immediate):
               
             # Display a notification message
             icon = getIconPath()+"locked.png"
+            notification_title = addon_name
             if getVPNCycle() == "Disconnect":
                 if getVPNProfile() == "":
                     dialog_message = "Disconnected"
@@ -628,11 +629,14 @@ def requestVPNCycle(immediate):
                         icon = getIconPath()+"faked.png"
                     else:
                         icon = getIconPath()+"connected.png"
+                    if checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                        notification_title = "VPN Manager, update available"
+                        icon = getIconPath()+"update.png"
                 else:
                     dialog_message = "Connect to " + getFriendlyProfileName(getVPNCycle()) + "?"
             
             debugTrace("Cycle request is " + dialog_message)
-            xbmcgui.Dialog().notification(addon_name, dialog_message , icon, 3000, False)
+            xbmcgui.Dialog().notification(notification_title, dialog_message , icon, 3000, False)
         else:
             xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
 
@@ -1013,11 +1017,11 @@ def connectVPN(connection_order, vpn_profile):
         progress_message = "Checking for latest provider files."
         progress.update(7, progress_title, progress_message)
         xbmc.sleep(500)
-        if checkForGitUpdates(vpn_provider):
+        if checkForGitUpdates(vpn_provider, False):
+            addon = xbmcaddon.Addon("service.vpn.manager")
             if (connection_order == "1" and addon.getSetting("2_vpn_validated") == ""):
                 # Is this provider able to update via the interweb?
-                provider_download = refreshFromGit(vpn_provider, progress)
-                addon = xbmcaddon.Addon("service.vpn.manager")
+                provider_download = refreshFromGit(vpn_provider, progress)    
             else:
                 progress_message = "New VPN provider files found! Click OK to download and reset existing settings. [I]If you use existing settings they may not continue to work.[/I]"
                 if not xbmcgui.Dialog().yesno(progress_title, progress_message, "", "", "OK", "Use Existing"):
@@ -1028,7 +1032,6 @@ def connectVPN(connection_order, vpn_profile):
                         progress_title = "Downloaded new VPN provider files"
                         reset_connections = True
                         provider_download = False
-                    addon = xbmcaddon.Addon("service.vpn.manager")
                 else:
                     progress_message = "[I]VPN provider updates are available, but using existing settings.[/I]"
                     progress.update(7, progress_title, progress_message)
@@ -1037,7 +1040,8 @@ def connectVPN(connection_order, vpn_profile):
             progress_message = "Using latest VPN provider files."
             progress.update(7, progress_title, progress_message)
             xbmc.sleep(500)
-            
+        addon = xbmcaddon.Addon("service.vpn.manager") 
+        
     # Install the VPN provider    
     existing_connection = ""
     if not progress.iscanceled() and provider_download:
@@ -1332,7 +1336,7 @@ def connectVPN(connection_order, vpn_profile):
         setConnectionErrorCount(0)
         setConnectTime(addon)
         # Indicate to the service that it should update its settings
-        updateService("connectVPN")        
+        updateService("connectVPN")
     elif progress.iscanceled() or cancel_attempt:
         # User pressed cancel.  Don't change any of the settings as we've no idea how far we got
         # down the path of installing the VPN, configuring the credentials or selecting the connection

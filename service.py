@@ -398,15 +398,23 @@ if __name__ == '__main__':
                                     setVPNLastConnectedProfile("")
                                     setVPNLastConnectedProfileFriendly("")
                                     setConnectionErrorCount(0)
+                                    notification_time = 5000
                                     if fakeConnection():
                                         icon = "/resources/faked.png"
                                     else:
                                         icon = "/resources/connected.png"
+                                    if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                                        notification_title = addon_name
+                                    else:
+                                        notification_title = "VPN Manager, update available"
+                                        icon = "/resources/update.png"
+                                        notification_time = 8000
+                                    addon = xbmcaddon.Addon()
                                     if addon.getSetting("display_location_on_connect") == "true":
                                         _, ip, country, isp = getIPInfo(addon)
-                                        xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
+                                        xbmcgui.Dialog().notification(notification_title, "Connected during boot to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                                     else:
-                                        xbmcgui.Dialog().notification(addon_name, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, icon), 5000, False)
+                                        xbmcgui.Dialog().notification(notification_title, "Connected during boot to "+ getVPNProfileFriendly(), getAddonPath(True, icon), notification_time, False)
                                     # Record when the connection happened
                                     setConnectTime(addon)
                                 else:
@@ -738,9 +746,15 @@ if __name__ == '__main__':
                             icon = "/resources/faked.png"
                         else:
                             icon = "/resources/connected.png"
+                        if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                            notification_title = addon_name
+                        else:
+                            notification_title = "VPN Manager, update available"
+                            icon = "/resources/update.png"
+                        addon = xbmcaddon.Addon()
                         if addon.getSetting("display_location_on_connect") == "true":
                             _, ip, country, isp = getIPInfo(addon)
-                            xbmcgui.Dialog().notification(addon_name, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
+                            xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                     clearVPNCycle()
                     cycle_timer = 0
                 
@@ -784,7 +798,7 @@ if __name__ == '__main__':
                     if not getVPNRequestedProfile() == "Disconnect":
                         if not getVPNRequestedProfile() == "":
                             infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
-                            xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 5000, False)
+                            xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
                             state = startVPNConnection(getVPNRequestedProfile())
                             if not state == connection_status.CONNECTED:
                                 if state == connection_status.AUTH_FAILED:
@@ -831,16 +845,24 @@ if __name__ == '__main__':
                                 writeVPNLog()
                                 debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
                             else:
+                                notification_time = 5000
                                 if ifDebug(): writeVPNLog()
                                 if fakeConnection():
                                     icon = "/resources/faked.png"
                                 else:
                                     icon = "/resources/connected.png"
+                                if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                                    notification_title = addon_name
+                                else:
+                                    notification_title = "VPN Manager, update available"
+                                    icon = "/resources/update.png"
+                                    notification_time = 8000
+                                addon = xbmcaddon.Addon()
                                 if addon.getSetting("display_location_on_connect") == "true":
                                     _, ip, country, isp = getIPInfo(addon)
-                                    xbmcgui.Dialog().notification(addon_name, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
+                                    xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                                 else:
-                                    xbmcgui.Dialog().notification(addon_name, "Connected to "+ getVPNProfileFriendly(), getAddonPath(True, icon), 5000, False)
+                                    xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly(), getAddonPath(True, icon), notification_time, False)
                         else:
                             xbmcgui.Dialog().notification(addon_name, "Filtering " + current_name + " but no validated connection available.", getAddonPath(True, "/resources/warning.png"), 10000, False)
                     else:                                               

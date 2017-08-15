@@ -25,6 +25,7 @@ import xbmcvfs
 import xbmcaddon
 import glob
 import urllib2
+import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 
@@ -449,6 +450,8 @@ def getTemplateFile(vpn_provider):
 
 def fixOVPNFiles(vpn_provider, alternative_locations_name):
     debugTrace("Fixing OVPN files for " + vpn_provider + " using list " + alternative_locations_name)
+    # Resetting the VPN update time will force the VPN update check to happen
+    setVPNProviderUpdateTime(0)
     writeDefaultUpFile()
     # Generate or update the VPN files
     if ovpnGenerated(vpn_provider):
@@ -896,6 +899,7 @@ def writeDefaultUpFile():
 def getGitMetaData(vpn_provider):
     try:
         # Download the update time stamp and list of files available
+        debugTrace("Getting git metadata for " + vpn_provider)
         download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/METADATA.txt"
         download_url = download_url.replace(" ", "%20")
         return urllib2.urlopen(download_url)
@@ -920,11 +924,22 @@ def parseGitMetaData(metadata):
             file_list.append(line)
         i += 1
     if len(file_list) == 0: file_list = None
+    debugTrace("Metadata: timestamp " + timestamp + " version " + version + " file count " + total_files)
     return timestamp, version, total_files, file_list
 
     
-def checkForGitUpdates(vpn_provider):
+def checkForGitUpdates(vpn_provider, cached):
     # Download the metadata file, compare it to the existing timestamp and return True if there's an update
+    t = int(time.time())
+    if getVPNProviderUpdateTime() == 0:
+        setVPNProviderUpdate("false")
+        setVPNProviderUpdateTime(t)
+    else:
+        # Return the value from cache if it's less than a day old
+        if cached and t - getVPNProviderUpdateTime() < 86400:
+            if getVPNProviderUpdate() == "true": return True
+            else: return False
+    setVPNProviderUpdate("false")
     if vpn_provider == "" or isUserDefined(vpn_provider): return False
     metadata = getGitMetaData(vpn_provider)
     if metadata is None: return False
@@ -934,10 +949,37 @@ def checkForGitUpdates(vpn_provider):
         last = last_file.readlines()
         last_file.close()
         if last[0] == git_timestamp: return False
+        setVPNProviderUpdate("true")
+        setVPNProviderUpdateTime(t)
         return True
     except:
         return False
 
+
+def getVPNProviderUpdate():
+    # Return indication of whether a provider has an updated set of files
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_VPN_Provider_Update")
+
+    
+def setVPNProviderUpdate(update):
+    # Store indication of whether a provider has an updated set of files
+    xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Update", update)
+    xbmcaddon.Addon("service.vpn.manager").setSetting("vpn_provider_update", update)
+    return     
+
+    
+def getVPNProviderUpdateTime():
+    # Return time of when a provider was last checked to see if there was an update
+    t = xbmcgui.Window(10000).getProperty("VPN_Manager_VPN_Provider_Update_Time")
+    if t == "": return 0
+    else: return int(t)
+
+    
+def setVPNProviderUpdateTime(t):
+    # Storei time of when a provider was last checked to see if there was an update
+    xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Update_Time", str(t))
+    return     
+    
 
 def refreshFromGit(vpn_provider, progress):
     addon = xbmcaddon.Addon("service.vpn.manager")
@@ -956,7 +998,7 @@ def refreshFromGit(vpn_provider, progress):
         return False
     
     # Download the metadata file
-    metadata = getGitMetaData(vpn_provider) 
+    metadata = getGitMetaData(vpn_provider)
     if metadata == None: return False
     git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
     timestamp = ""

@@ -219,7 +219,7 @@ def importWizard():
                         source_file.close()
                         dest_file = open(dest_name, 'w')
                         proto = "UDP"
-                        flags = [False, False, False, False]
+                        flags = [False, False, False, False, False]
                         for line in source:
                             line = line.strip(' \t\n\r')
                             old_line = line
@@ -256,8 +256,11 @@ def importWizard():
                                 for mod in mods:
                                     flag, verb, parms = mod.split(",")
                                     if flag == "1" and line.startswith(verb) and parms in line: flags[0] = True
-                                    if flag == "3" and line.startswith(verb): flags[1] = True
+                                    if flag == "3" and line.startswith(verb): flags[2] = True
                                     if flag == "4" and line.startswith(verb): line = verb + " " + parms
+                                    if flag == "5" and not flags[4] and verb in line: 
+                                        detail.append("  WARNING, " + parms + "\n")
+                                        flags[4] = True
                                 if line.startswith("auth-user-pass"):
                                     auth_count += 1
                                     if not auth: line = "auth-user-pass #PATH" + getSeparatorOutput() + "pass.txt"
@@ -282,17 +285,18 @@ def importWizard():
                                     ecert_count += 1
                                 if line.startswith("<key>"):
                                     ekey_count += 1
-                            if not flags[1]: dest_file.write(line+"\n")
-                            flags[1] = False
+                            if not flags[2]: dest_file.write(line+"\n")
+                            flags[2] = False
                         for mod in mods:
                             flag, verb, parms = mod.split(",")
                             if flag == "2":
                                 dest_file.write(verb+"\n")
                         dest_file.close()
+                        flags[4] = False
                         if flags[0]:
                             if xbmcvfs.exists(dest_name):
                                 xbmcvfs.delete(dest_name)
-                            detail.append("  WARNING, couldn't update file as it contains errors or is unsupported\n")
+                            detail.append("  wARNING, couldn't import file as it contains errors or is unsupported\n")
                         elif rename:
                             proto = " (" + proto + ").ovpn"
                             new_name = dest_name.replace(".ovpn", proto)   

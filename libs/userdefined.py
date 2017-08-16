@@ -30,7 +30,7 @@ import os
 import time
 import glob
 from utility import debugTrace, errorTrace, infoTrace, newPrint
-from vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles
+from vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles, getGitMetaData
 from platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
 from logbox import popupImportLog
 
@@ -182,6 +182,12 @@ def importWizard():
             last_key_found = ""
             ekey_count = 0
             if not cancel:
+                metadata = getGitMetaData("UserDefined")
+                mods = []
+                if not metadata == None:
+                    for line in metadata:
+                        line = line.strip(' \t\n\r')
+                        mods.append(line)
                 for oname in ovpn_files:
                     path, dest_name = os.path.split(oname)
                     dest_name = getUserDataPath("UserDefined/" + dest_name)
@@ -213,6 +219,7 @@ def importWizard():
                         source_file.close()
                         dest_file = open(dest_name, 'w')
                         proto = "UDP"
+                        flags = [False, False, False, False]
                         for line in source:
                             line = line.strip(' \t\n\r')
                             old_line = line
@@ -246,6 +253,11 @@ def importWizard():
                                 i += 1
                             # Do some tag counting to determine authentication methods to use
                             if not line.startswith("#"):
+                                for mod in mods:
+                                    flag, verb, parms = mod.split(",")
+                                    if flag == "1" and line.startswith(verb) and parms in line: flags[0] = True
+                                    if flag == "3" and line.startswith(verb): flags[1] = True
+                                    if flag == "4" and line.startswith(verb): line = verb + " " + parms
                                 if line.startswith("auth-user-pass"):
                                     auth_count += 1
                                     if not auth: line = "auth-user-pass #PATH" + getSeparatorOutput() + "pass.txt"
@@ -270,10 +282,18 @@ def importWizard():
                                     ecert_count += 1
                                 if line.startswith("<key>"):
                                     ekey_count += 1
-                            dest_file.write(line+"\n")
+                            if not flags[1]: dest_file.write(line+"\n")
+                            flags[1] = False
+                        for mod in mods:
+                            flag, verb, parms = mod.split(",")
+                            if flag == "2":
+                                dest_file.write(verb+"\n")
                         dest_file.close()
-                        
-                        if rename:
+                        if flags[0]:
+                            if xbmcvfs.exists(dest_name):
+                                xbmcvfs.delete(dest_name)
+                            detail.append("  WARNING, couldn't update file as it contains errors or is unsupported\n")
+                        elif rename:
                             proto = " (" + proto + ").ovpn"
                             new_name = dest_name.replace(".ovpn", proto)   
                             if not xbmcvfs.exists(new_name):

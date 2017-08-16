@@ -36,6 +36,7 @@ from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
+from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -746,6 +747,10 @@ def resetVPNConnections(addon):
         
     addon.setSetting("vpn_provider_validated","")    
     
+    # Assume no update and force a check when it's connected
+    setVPNProviderUpdate("false")
+    setVPNProviderUpdateTime(0)
+    
     # Removal any password files that were created (they'll get recreated if needed)
     debugTrace("Deleting all pass.txt files")
     cleanPassFiles()
@@ -1140,7 +1145,9 @@ def connectVPN(connection_order, vpn_profile):
                     # User selected cancel on dialog box
                     provider_gen = False
                     cancel_attempt = True
-
+        addon = xbmcaddon.Addon("service.vpn.manager")
+ 
+                    
     if provider_gen:
         if not progress.iscanceled():
             progress_message = "Using VPN provider " + vpn_provider + "."

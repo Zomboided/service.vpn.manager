@@ -451,6 +451,7 @@ def getTemplateFile(vpn_provider):
 def fixOVPNFiles(vpn_provider, alternative_locations_name):
     debugTrace("Fixing OVPN files for " + vpn_provider + " using list " + alternative_locations_name)
     # Resetting the VPN update time will force the VPN update check to happen
+    setVPNProviderUpdate("false")
     setVPNProviderUpdateTime(0)
     writeDefaultUpFile()
     # Generate or update the VPN files

@@ -943,7 +943,10 @@ def checkForGitUpdates(vpn_provider, cached):
     setVPNProviderUpdate("false")
     if vpn_provider == "" or isUserDefined(vpn_provider): return False
     metadata = getGitMetaData(vpn_provider)
-    if metadata is None: return False
+    if metadata is None:
+        # Can't get to github, trace it but pretend there's no update
+        errorTrace("vpnproviders.py", "No metadata was returned for " + vpn_provider)
+        return False
     git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
     try:
         last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
@@ -954,7 +957,9 @@ def checkForGitUpdates(vpn_provider, cached):
         setVPNProviderUpdateTime(t)
         return True
     except:
-        return False
+        # Tried to read the existing file and it likely didn't exist
+        # Return true as this means nothing has been downloaded
+        return True
 
 
 def getVPNProviderUpdate():

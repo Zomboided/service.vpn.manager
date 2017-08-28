@@ -44,7 +44,7 @@ def getIPInfoFrom(source):
         if url == "": return "error", "error", "error", "unknown source", ""
         req = urllib2.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
-        response = urllib2.urlopen(req)
+        response = urllib2.urlopen(req, timeout = 10)
         link = response.read()
         response.close()
     except Exception as e:

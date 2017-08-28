@@ -931,6 +931,7 @@ def generatetigerVPN():
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         geo = geo.replace(" @tigervpn.com", "")
         geo_city = geo[5:]
+        geo = geo.replace("GB ", "UK ")
         geo_country = resolveCountry(geo[0:2].upper())
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
@@ -1576,7 +1577,6 @@ def resolveCountry(code):
         'Uganda': 'UG',
         'Ukraine': 'UA',
         'United Arab Emirates': 'AE',
-        'United Kingdom': 'GB',
         'United Kingdom': 'UK',
         'United States': 'US',
         'United States Minor Outlying Islands': 'UM',
@@ -1595,6 +1595,7 @@ def resolveCountry(code):
         'Åland Islands': 'AX',
         'Kosovo': 'XK'}   
     for c in Countries:
+        newPrint(c + " >" + Countries[c] + "<")
         if Countries[c] == code: return c        
     return code + " is unknown"
  

@@ -49,7 +49,7 @@ def generateAll():
     #generateibVPN()
     #generateIPVanish()
     #generateIVPN()
-    generateLimeVPN()
+    #generateLimeVPN()
     #generateLiquidVPN()
     #generateNordVPN()
     #generatePerfectPrivacy()
@@ -61,7 +61,7 @@ def generateAll():
     #generateSaferVPN()
     #generateSecureVPN()
     #generateSmartDNSProxy()
-    #generatetigerVPN() 
+    generatetigerVPN() 
     #generateTorGuard()
     #generateTotalVPN()
     #generateVanishedVPN()
@@ -920,22 +920,33 @@ def generateSmartDNSProxy():
 
 
 def generatetigerVPN():
-    # Data is stored in a flat text file, each line representing a connection
-    # valid for UDP and TCP using the standard ports
+    # Data in ovpn files, but also using a csv to determine which connections are Lite
     location_file_full = getLocations("tigerVPN", "tigerVPN Full Account")
     location_file_lite = getLocations("tigerVPN", "tigerVPN Lite Account")
     source_file = open(getUserDataPath("providers/tigerVPN/tigerVPN.csv"), 'r')
     source = source_file.readlines()
     source_file.close()
-    for line in source:
-        server = line.split(',')
-        output_line_udp = server[1] + " " + server[0] + " (UDP)," + server[2] + "," + "udp,1194" + "\n"
-        output_line_tcp = server[1] + " " + server[0] + " (TCP)," + server[2] + "," + "tcp,443"  + "\n"
+    profiles = getProfileList("tigerVPN")
+    for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace(" @tigervpn.com", "")
+        geo_city = geo[5:]
+        geo_country = resolveCountry(geo[0:2].upper())
+        profile_file = open(profile, 'r')
+        lines = profile_file.readlines()
+        profile_file.close()
+        for line in lines:
+            if line.startswith("remote ") and "udp" in line:
+                _, server, port, _ = line.split()
+        output_line_udp = geo_country + " - " + geo_city + " (UDP)," + server + ",udp,1194\n"
+        output_line_tcp = geo_country + " - " + geo_city + " (TCP)," + server + ",tcp-client,443\n"
+        for line in source:
+            if "Lite" in line and geo[5:] in line:
+                location_file_lite.write(output_line_udp)
+                location_file_lite.write(output_line_tcp)
+                break
         location_file_full.write(output_line_udp)
         location_file_full.write(output_line_tcp)        
-        if server[4].startswith("Lite"):
-            location_file_lite.write(output_line_udp)
-            location_file_lite.write(output_line_tcp)
     location_file_full.close()
     location_file_lite.close()
     generateMetaData("tigerVPN", MINIMUM_LEVEL)
@@ -1186,7 +1197,7 @@ def generateVPNUnlimited():
             if profile in server:
                 profiles[i] = ""
             i += 1
-        output_line_udp = geo + " (UDP)," + server + ",udp,443\n"
+        output_line_udp = geo + " (UDP)," + server + ",udp,1194\n"
         output_line_tcp = geo + " (TCP)," + server + ",tcp,80\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp) 

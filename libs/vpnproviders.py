@@ -664,7 +664,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 if output_line.startswith("verb "):
                     output_line = "verb " + verb_value
                 # This is a little hack to remove a tag that doesn't work with TCP but is needed for UDP
-                # Could do this with a #REMOVE, but doing it here is less error prone.
+                # This was fixed in the templates so it should just be a no-op now
                 if "explicit-exit-notify" in line and proto == "tcp": output_line = ""
                 if not output_line == "" : ovpn_file.write(output_line + "\n")
             ovpn_file.close()

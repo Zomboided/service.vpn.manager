@@ -61,7 +61,7 @@ def generateAll():
     #generateSaferVPN()
     #generateSecureVPN()
     #generateSmartDNSProxy()
-    generatetigerVPN() 
+    #generatetigerVPN() 
     #generateTorGuard()
     #generateTotalVPN()
     #generateVanishedVPN()
@@ -98,8 +98,10 @@ def generateAirVPN():
                 if line.startswith("remote "):
                     _, server, port = line.split()
                 if line.startswith("proto "):
-                    _, proto = line.split()                
-            output_line = geo + " (" + proto.upper() + ")," + server + "," + proto + "," + port + "\n"
+                    _, proto = line.split()
+            if proto == "tcp": tags = ",#REMOVE=1"
+            else: tags = ""
+            output_line = geo + " (" + proto.upper() + ")," + server + "," + proto + "," + port + tags + "\n"
             if directory == "Resolved" : location_file_ip.write(output_line)
             if directory == "Hostnames" : location_file_hosts.write(output_line)
     location_file_hosts.close()
@@ -551,6 +553,7 @@ def generateLiquidVPN():
             if not reneg_sec_flag3 : flags = flags + "3"
             if not auth_SHA512_flag4 : flags = flags + "4"
             if not remote_random_flag5 : flags = flags + "5"
+            if tokens[3] == "tcp": flags = flags + "6"
             if extra == "" and not flags == "": extra = ","
             if not flags == "":
                 extra = extra + "#REMOVE=" + flags
@@ -940,7 +943,7 @@ def generatetigerVPN():
             if line.startswith("remote ") and "udp" in line:
                 _, server, port, _ = line.split()
         output_line_udp = geo_country + " - " + geo_city + " (UDP)," + server + ",udp,1194\n"
-        output_line_tcp = geo_country + " - " + geo_city + " (TCP)," + server + ",tcp-client,443\n"
+        output_line_tcp = geo_country + " - " + geo_city + " (TCP)," + server + ",tcp-client,443,#REMOVE=1\n"
         for line in source:
             if "Lite" in line and geo[5:] in line:
                 location_file_lite.write(output_line_udp)
@@ -1025,7 +1028,7 @@ def generateTotalVPN():
         geo = geo.strip(" *\t\n\r")
         geo = geo.replace(",", " -")
         output_line_udp = geo + " (UDP)," + server + "," + "udp,1194"  + "\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + "\n"
+        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=1\n"
         location_file_full.write(output_line_udp)
         location_file_full.write(output_line_tcp)
         if "*" in line:
@@ -1094,7 +1097,9 @@ def generateVPNac():
                 servers = servers + server
                 if not ports == "" : ports = ports + " "
                 ports = ports + port
-        output_line = geo + " (" + proto.upper() + ")," + servers + "," + proto + "," + ports + "\n"
+        if proto == "tcp": tags = ",#REMOVE=1"
+        else: tags = ""
+        output_line = geo + " (" + proto.upper() + ")," + servers + "," + proto + "," + ports + tags + "\n"
         if china:
             location_file_china.write(output_line)
         else:
@@ -1595,7 +1600,6 @@ def resolveCountry(code):
         'Åland Islands': 'AX',
         'Kosovo': 'XK'}   
     for c in Countries:
-        newPrint(c + " >" + Countries[c] + "<")
         if Countries[c] == code: return c        
     return code + " is unknown"
  

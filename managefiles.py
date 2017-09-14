@@ -88,7 +88,7 @@ elif action == "log":
         if not xbmcvfs.exists(dest_path): raise IOError('Failed to copy log ' + log_path + " to " + dest_path)
         dialog_message = "Copied log file to:\n" + dest_path
     except:
-        errorTrace("Failed to copy log from " + log_path + " to " + dest_path)
+        errorTrace("managefiles.py", "Failed to copy log from " + log_path + " to " + dest_path)
         if xbmcvfs.exists(log_path):
             dialog_message = "Error copying log, try copying it to a different location."
         else:

@@ -758,8 +758,7 @@ if __name__ == '__main__':
                     clearVPNCycle()
                     cycle_timer = 0
                 
-                freeCycleLock()
-                
+                freeCycleLock()    
                 
 			# Somewhere above we've requested we mess with the connection...
             if vpn_setup and reconnect_vpn:
@@ -775,7 +774,9 @@ if __name__ == '__main__':
                 if (not getVPNRequestedProfile() == getVPNProfile()) or (getVPNRequestedProfile() == getVPNProfile() and not isVPNConnected()):                    
 
                     # Stop any media playing before switching VPNs around   
-                    if player.isPlaying(): player.stop()
+                    if player.isPlaying(): 
+                        debugTrace("Changing VPN. Current playing " + player.getPlayingFile())
+                        player.stop()
                     
                     # Stop any existing VPN
                     debugTrace("Stopping VPN before any new connection attempt")

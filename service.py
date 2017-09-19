@@ -779,13 +779,15 @@ if __name__ == '__main__':
                 if (not getVPNRequestedProfile() == getVPNProfile()) or (getVPNRequestedProfile() == getVPNProfile() and not isVPNConnected()):                    
                 
                     # Stop any streams playing
-                    if player.isPlaying() and addon.getSetting("vpn_stop_media") == "true":
+                    if player.isPlaying(): 
                         filename = player.getPlayingFile()
-                        for stop_id in stop_ids:
-                            if filename.startswith(stop_id):
-                                infoTrace("service.py", "Stopping " + filename + " to change the VPN connection state")                        
-                                player.stop()
-                                break
+                        debugTrace("File " + filename + " is playing")                        
+                        if addon.getSetting("vpn_stop_media") == "true":
+                            for stop_id in stop_ids:
+                                if filename.startswith(stop_id):
+                                    infoTrace("service.py", "Stopping " + filename + " to change the VPN connection state")                        
+                                    player.stop()
+                                    break
                                 
                     # Stop any existing VPN
                     debugTrace("Stopping VPN before any new connection attempt")

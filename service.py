@@ -58,6 +58,7 @@ addon_name = addon.getAddonInfo('name')
 
 accepting_changes = False
 
+stop_ids = []
     
 def refreshPrimaryVPNs():
     # Fetch the list of excluded or filtered addons
@@ -363,6 +364,10 @@ if __name__ == '__main__':
                     # It can get deleted sometimes, like when reinstalling the addon
                     if usesPassAuth(getVPNLocation(vpn_provider)) and not xbmcvfs.exists(getCredentialsPath(addon)):
                         writeCredentials(addon)
+                
+                # Get the kill stream identifiers
+                stop_string = addon.getSetting("vpn_stop_ids")
+                stop_ids = stop_string.split()
                 
                 # Force a reboot timer check
                 reboot_timer = 3600
@@ -772,12 +777,16 @@ if __name__ == '__main__':
 				# Stop the VPN and reset the connection timer
                 # Surpress a reconnection to the same unless it's become disconnected
                 if (not getVPNRequestedProfile() == getVPNProfile()) or (getVPNRequestedProfile() == getVPNProfile() and not isVPNConnected()):                    
-
-                    # Stop any media playing before switching VPNs around   
-                    if player.isPlaying(): 
-                        debugTrace("Changing VPN. Current playing " + player.getPlayingFile())
-                        player.stop()
-                    
+                
+                    # Stop any streams playing
+                    if player.isPlaying() and addon.getSetting("vpn_stop_media") == "true":
+                        filename = player.getPlayingFile()
+                        for stop_id in stop_ids:
+                            if filename.startswith(stop_id):
+                                infoTrace("service.py", "Stopping " + filename + " to change the VPN connection state")                        
+                                player.stop()
+                                break
+                                
                     # Stop any existing VPN
                     debugTrace("Stopping VPN before any new connection attempt")
                     if getVPNState() == "started":

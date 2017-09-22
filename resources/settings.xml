@@ -128,7 +128,7 @@
         <setting label="32108" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/mapkey.py, info)"/>
         <setting label=""      type="lsep"/>
         <setting label="32109" type="lsep"/>
-        <setting label="32110" type="labelenum" id="reboot_day" lvalues="32111|32112|32113|32114|32115|32116|32117|32118"/>/>
+        <setting label="32110" type="labelenum" id="reboot_day" lvalues="32111|32112|32113|32114|32115|32116|32117|32118"/>
         <setting label="32119" type="time" id="reboot_time" default="02:00"/>
         <setting label="32120" type="bool" id="reboot_file_enabled" default="false"/>
         <setting label="32121" type="file" visible="!eq(-1,false)" id="reboot_file" default=""/>

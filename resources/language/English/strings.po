@@ -208,7 +208,7 @@ msgid "Reconnect if connection lost during playback"
 msgstr ""
 
 msgctxt "#32047"
-msgid "Force reconnection on wake"
+msgid "Force reconnect on wake"
 msgstr ""
 
 msgctxt "#32048"

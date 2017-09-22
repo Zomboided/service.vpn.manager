@@ -46,6 +46,8 @@ elif lcommand == "pause":
     setAPICommand("Pause")
 elif lcommand == "restart":
     setAPICommand("Restart")
+elif lcommand == "reconnect":
+    setAPICommand("Reconnect")
 elif lcommand.startswith("connect"): 
     connection = command[8:].strip(' \t\n\r')
     if connection.isdigit():

@@ -695,6 +695,8 @@ if __name__ == '__main__':
                 elif api_command == "Restart":
                     setVPNMonitorState("Started")
                     addon.setSetting("monitor_paused", "false")
+                elif api_command == "Reconnect":
+                    forceReconnect("True")
                 else:
                     # Connect command is basically the profile name...any errors will 
                     # be filtered in the api.py code before the command is passed to here

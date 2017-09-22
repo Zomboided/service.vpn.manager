@@ -667,12 +667,19 @@ def setAPICommand(profile):
 def clearAPICommand():
     setAPICommand("")
     
+
+def forceReconnect(state):
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Force_Reconnect", state)
+
+    
+def isForceReconnect():
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Force_Reconnect") == "True": return True
+    return False      
+    
     
 def isVPNMonitorRunning():
-    if xbmcgui.Window(10000).getProperty("VPN_Manager_Monitor_State") == "Started":
-        return True
-    else:
-        return False
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Monitor_State") == "Started": return True
+    else: return False
     
     
 def setVPNMonitorState(state):

@@ -35,6 +35,7 @@ from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, 
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
+from libs.common import forceReconnect, isForceReconnect
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
@@ -57,6 +58,8 @@ addon = xbmcaddon.Addon()
 addon_name = addon.getAddonInfo('name')
 
 accepting_changes = False
+
+abort = False
 
 stop_ids = []
     
@@ -107,7 +110,14 @@ def getReboot():
 # Given hh:mm, return the number of seconds into a day this represents
 def getSeconds(hour_min):
     return int(hour_min[0:2])*3600 + int(hour_min[3:5])*60
-    
+
+
+# Quit event is being intercepted so this replaces the monitor.waitForAbort
+# Time is measured in 1000s of a second, not whole seconds
+def waitForAbort( time ):
+    if not abort: xbmc.sleep(time)
+    return abort
+  
 
 # Monitor class which will get called when the settings change    
 class KodiMonitor(xbmc.Monitor):
@@ -120,17 +130,19 @@ class KodiMonitor(xbmc.Monitor):
         if accepting_changes:
             debugTrace("Requested update to service process via settings monitor")
             updateService("KodiMonitor")
-
-
-# Player class which will be called when the playback state changes           
-#class KodiPlayer(xbmc.Player):
-#    def __init__ (self):
-#        xbmc.Player.__init__(self)
-#        self.logger = None
-#
-#    def onPlayBackStarted(self, *arg):
-#        newPrint("Playback started " + self.getPlayingFile())
-
+    
+    # Intercept all notifications and deal with a couple of them
+    def onNotification( self, sender, method, data):
+        global abort
+        if method == "System.OnWake":
+            addon = xbmcaddon.Addon()
+            if addon.getSetting("vpn_force_reconnect_after_wake") == "true":
+                debugTrace("Forcing a reconnect on wake")
+                forceReconnect("True")
+        if method == "System.OnQuit":
+            debugTrace("Received a quit notification")
+            abort = True
+            
         
 if __name__ == '__main__':   
 
@@ -146,7 +158,6 @@ if __name__ == '__main__':
     
     # Create a monitor to look out for settings changes
     settingsMonitor = KodiMonitor()
-    #playerMonitor = KodiPlayer()
     
     if not xbmcvfs.exists(getAddonPath(True, "connect.py")):
         xbmcgui.Dialog().ok(addon_name, "You've installed VPN Manager incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
@@ -169,45 +180,13 @@ if __name__ == '__main__':
             last_version = int(stored_version.replace(".", ""))
             # This fixes a problem with the 2.2 version that causes the profiles to be regenerated
             if last_version == 22: last_version = 220
-            # VPN Unlimited and PureVPN template files were fixed in 1.6.0 so force a reconnect
-            if addon.getSetting("vpn_provider_validated") == "VPN Unlimited" and last_version < 160:
-                addon.setSetting("1_vpn_validated", "reset")
-            if addon.getSetting("vpn_provider_validated") == "PureVPN" and last_version < 160:
-                addon.setSetting("1_vpn_validated", "reset")
-            # PIA changed in 1.5.0 to offer different connection options so need the user to decide which one to use and reconnect
-            if addon.getSetting("vpn_provider_validated") == "Private Internet Access" and last_version < 150:
-                addon.setSetting("1_vpn_validated", "reset")
-            # Lime changed in 1.9.0 to go from template to separate ovpn files
-            if addon.getSetting("vpn_provider_validated") == "LimeVPN" and last_version < 190:
-                addon.setSetting("1_vpn_validated", "reset")
-            if addon.getSetting("vpn_provider_validated") == "HideIPVPN" and last_version < 191:
-                addon.setSetting("1_vpn_validated", "reset")
-            # HMA got a cert change in 2.0.2
-            if addon.getSetting("vpn_provider_validated") == "HMA" and last_version < 203:
-                addon.setSetting("1_vpn_validated", "reset")                
-                clearKeysAndCerts("HMA")
-            if addon.getSetting("vpn_provider_validated") == "IVPN" and last_version < 210:
-                addon.setSetting("1_vpn_validated", "reset")
-            # VPN Unlim went from being single key to multiple keys in 2.3.1
-            if addon.getSetting("vpn_provider_validated") == "VPNUnlimited" and last_version < 240:
-                addon.setSetting("1_vpn_validated", "reset")
-                addon.setSetting("user_def_keys", "None")
-                clearKeysAndCerts("VPNUnlimited")
-            # VyprVPN added encryption levels in 2.4.2 and fiddled with some of the names
-            if addon.getSetting("vpn_provider_validated") == "VyprVPN" and last_version < 242:
-                addon.setSetting("1_vpn_validated", "reset")
             # Forces the IP provider to be the default/best rather than a selected on
             if last_version < 250:
                 addon.setSetting("ip_info_source", "Auto select")
-            if addon.getSetting("vpn_provider_validated") == "VPNSecure" and last_version < 261:
-                addon.setSetting("1_vpn_validated", "reset")
-                addon.setSetting("user_def_keys", "None")
-                clearKeysAndCerts("VPNSecure")
             if last_version < 400:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
                 xbmcgui.Dialog().ok(addon_name, "Thanks for using VPN Manager! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
-             
                 
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
@@ -465,8 +444,18 @@ if __name__ == '__main__':
                             reconnect_vpn = True
                     connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
                     timer = 0
-                    
-
+            
+            # This will force a reconnect to happen, unless the VPN state is off
+            if isForceReconnect() and not (getVPNState() == "off"):
+                forceReconnect("")
+                infoTrace("service.py", "Forcing a reconnection")
+                writeVPNLog()
+                setVPNRequestedProfile(getVPNProfile())
+                setVPNRequestedProfileFriendly(getVPNProfileFriendly())
+                setVPNProfile("")
+                setVPNProfileFriendly("")
+                reconnect_vpn = True
+                
             # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
             if (not playing) and reboot_timer >= seconds_to_reboot_check:
                 debugTrace("Checking if a timer or file reboot is required")
@@ -897,10 +886,10 @@ if __name__ == '__main__':
                 
                 reconnect_vpn = False          
 	                    
-        # Take multiple naps, checking to see if there are any outstanding CLI commands
+        # Take multiple second long naps, checking to see if there are any outstanding CLI commands
         shutdown = False
         for i in range(0, delay):
-            if monitor.waitForAbort(1):
+            if waitForAbort(1000):
                 # Abort was requested while waiting. We should exit
                 infoTrace("service.py", "Abort received, shutting down service")
                 shutdown = True

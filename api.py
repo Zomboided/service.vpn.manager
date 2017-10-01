@@ -48,6 +48,8 @@ elif lcommand == "restart":
     setAPICommand("Restart")
 elif lcommand == "reconnect":
     setAPICommand("Reconnect")
+elif lcommand == "getip":
+    setAPICommand("GetIP")
 elif lcommand.startswith("connect"): 
     connection = command[8:].strip(' \t\n\r')
     if connection.isdigit():

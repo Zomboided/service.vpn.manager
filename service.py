@@ -35,7 +35,7 @@ from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, 
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
-from libs.common import forceReconnect, isForceReconnect
+from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
@@ -117,8 +117,12 @@ def getSeconds(hour_min):
 def waitForAbort( time ):
     if not abort: xbmc.sleep(time)
     return abort
-  
 
+    
+def abortRequested():
+    return abort
+
+    
 # Monitor class which will get called when the settings change    
 class KodiMonitor(xbmc.Monitor):
 
@@ -283,7 +287,7 @@ if __name__ == '__main__':
     
     found_reboot_file = False
     
-    while not monitor.abortRequested():
+    while not abortRequested():
 
         if stopRequested() or stop:
             if not stop:
@@ -697,12 +701,15 @@ if __name__ == '__main__':
                     addon.setSetting("monitor_paused", "false")
                 elif api_command == "Reconnect":
                     forceReconnect("True")
+                elif api_command == "GetIP":
+                    updateIPInfo(addon)
                 else:
                     # Connect command is basically the profile name...any errors will 
                     # be filtered in the api.py code before the command is passed to here
                     setVPNRequestedProfile(api_command)
                     setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
                     reconnect_vpn = True
+                updateAPITimer()
                 clearAPICommand()
 
                         
@@ -802,7 +809,7 @@ if __name__ == '__main__':
                         if not getVPNRequestedProfile() == "":
                             infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
-                            state = startVPNConnection(getVPNRequestedProfile())
+                            state = startVPNConnection(getVPNRequestedProfile(), addon)
                             if not state == connection_status.CONNECTED:
                                 if state == connection_status.AUTH_FAILED:
                                     # If authentication fails we don't want to try and reconnect

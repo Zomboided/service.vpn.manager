@@ -210,5 +210,6 @@
         <setting label="Real" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Real)"/>
         <setting label="Pause" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Pause)"/>
         <setting label="Restart" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Restart)"/>
+        <setting label="GetIP" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, GetIP)"/>
     </category>
 </settings>

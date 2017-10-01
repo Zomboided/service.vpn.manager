@@ -245,6 +245,7 @@ def stopVPNConnection():
         setVPNProfile("")
         setVPNProfileFriendly("")        
         setVPNState("stopped")
+        setConnectChange()
         return True
     except Exception as e:
         errorTrace("common.py", "Cannot stop VPN task. Check command to terminate a running task is working.")
@@ -252,7 +253,7 @@ def stopVPNConnection():
         return False
 
     
-def startVPNConnection(vpn_profile):  
+def startVPNConnection(vpn_profile, addon):  
     # Start the VPN, wait for connection, return the result
 
     startVPN(vpn_profile)
@@ -271,8 +272,10 @@ def startVPNConnection(vpn_profile):
     
     if state == connection_status.CONNECTED:
         setVPNProfile(getVPNRequestedProfile())
-        setVPNProfileFriendly(getVPNRequestedProfileFriendly())
+        setVPNProfileFriendly(getVPNRequestedProfileFriendly())        
         setVPNState("started")
+        setConnectTime(addon)
+        setConnectChange()
         debugTrace("VPN connection to " + getVPNProfile() + " successful")
 
     return state
@@ -668,6 +671,20 @@ def clearAPICommand():
     setAPICommand("")
     
 
+def updateAPITimer():
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_Last_Command_Time", str(int(time.time())))
+    
+
+def updateIPInfo(addon):
+    source, ip, location, isp = getIPInfo(addon)
+    connected = "False"
+    if isVPNConnected(): connected = "True"
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_State", connected)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_IP", ip)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_Location", location)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_API_Provider", isp)
+
+    
 def forceReconnect(state):
     xbmcgui.Window(10000).setProperty("VPN_Manager_Force_Reconnect", state)
 
@@ -696,6 +713,10 @@ def setConnectTime(addon):
     addon.setSetting("last_connect_time",t)
 
 
+def setConnectChange():
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Last_Connection_Change", str(int(time.time())))
+    
+    
 def getConnectTime(addon):
     # Get the connection time from the settings or use a default
     t = addon.getSetting("last_connect_time")
@@ -1383,6 +1404,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNRequestedProfileFriendly("")
         setVPNLastConnectedProfile("")
         setVPNLastConnectedProfileFriendly("")
+        setConnectChange()
         setVPNState("off")
     else:
         # An error occurred, The current connection is already invalidated.  The VPN credentials might 
@@ -1460,6 +1482,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNRequestedProfileFriendly("")
         setVPNLastConnectedProfile("")
         setVPNLastConnectedProfileFriendly("")
+        setConnectChange()
         setVPNState("off")
 
     # Restart service

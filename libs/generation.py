@@ -51,7 +51,7 @@ def generateAll():
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
-    #generateNordVPN()
+    generateNordVPN()
     #generatePerfectPrivacy()
     #generatePIA()
     #generatePrivateVPN()
@@ -496,7 +496,9 @@ def generateLimeVPN():
         elif geo.startswith("eu"): geo = "Europe " + geo[2:]
         elif geo.startswith("london"): geo = "London"
         elif geo.startswith("sw"): geo = "Sweden " + geo[2:]
+        elif geo.startswith("aus"): geo = "Australia " + geo[3:]
         else: geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
+        geo = geo.strip()
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
@@ -596,6 +598,11 @@ def generateNordVPN():
             if "nl-uk1" in shortname: shortname = "Netherlands - United Kingdom 1"
             if "us-ca3" in shortname: shortname = "United States - Canada 3"
             if "ca-us1" in shortname: shortname = "Canada - United States 1"
+            if "ch-se1" in shortname: shortname = "Switzerland - Sweden 1"
+            if "ch-nl1" in shortname: shortname = "Switzerland - Netherlands 1"
+            if "ca-us2" in shortname: shortname = "Canada - United States 2"
+            if "se-nl1" in shortname: shortname = "Sweden - Netherlands 1"
+            if "se-ch1" in shortname: shortname = "Sweden - Switzerland 1"
         proto = ""
         if "tcp443" in profile: proto = "(TCP)"
         if "udp1194" in profile: proto = "(UDP)"
@@ -608,6 +615,7 @@ def generateNordVPN():
         i = 0
         for line in profile_contents:
             line = line.strip(' \t\n\r')
+            if line.startswith("resolv-retry"): line = "resolv-retry 30"
             if not line == "" and not line.startswith("#mute") and not (i < 15 and line.startswith("#")):
                 output_file.write(line + "\n")
             i = i + 1

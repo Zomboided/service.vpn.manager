@@ -1,3 +1,6 @@
+v4.1.8
+- Long press of cycle button brings up list of connections
+
 v4.1.7
 - Optionally force a reconnection on wake
 - Add API to output current IP to home window

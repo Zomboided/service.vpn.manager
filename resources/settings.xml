@@ -71,7 +71,8 @@
         <setting label="32052" type="bool" id="vpn_reconnect_reboot" default="true"/>
 		<setting label="32053" type="bool" id="vpn_reconnect_filtering" default="true"/>
         <setting label="32054" type="bool" id="allow_cycle_disconnect" default="false"/>
-        <setting label="32055" type="bool" id="display_location_on_connect" default="false"/>
+        <setting label="32055" type="labelenum" id="table_display_type" lvalues="32056|32057"/>
+        <setting label="32058" type="bool" id="display_location_on_connect" default="false"/>
     </category>
     <category label="32060">	
         <setting label="32061" type="lsep"/>

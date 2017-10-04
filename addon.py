@@ -131,7 +131,7 @@ def listConnections():
         # Get the list of connections and add them to the directory
         all_connections = getAddonList(vpn_provider, "*.ovpn")
         ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
-        connections = getFriendlyProfileList(ovpn_connections)
+        connections = getFriendlyProfileList(ovpn_connections, "", "")
         inc = 0
         for connection in ovpn_connections:
             url = base_url + "?change?" + ovpn_connections[inc]

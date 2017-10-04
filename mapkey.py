@@ -74,13 +74,16 @@ action = sys.argv[1]
 debugTrace("-- Entered mapkey.py with parameter " + action + " --")
 
 cycle_key = ""
+table_key = ""
 info_key = ""
 
 map_name = getKeyMapsFileName()
 xml_start = '<keymap><global><keyboard>\n'
 xml_key = '<key id="#KEY">runscript(#PATH#COMMAND)</key>\n'
+xml_long = '<key id="#KEY" mod="longpress">runscript(#PATH#COMMAND)</key>\n'
 xml_end = '</keyboard></global></keymap>\n'
 cycle_command = "cycle.py"
+table_command = "table.py"
 info_command = "infopopup.py"
 
 # Fix the keymap if it's been renamed by the Keymap addon
@@ -100,6 +103,11 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
                 i2 = line.index("\"", i1)
                 cycle_key = line[i1:i2]
                 debugTrace("Found cycle key " + cycle_key)
+            if table_command in line:
+                i1 = line.index("key id=\"") + 8
+                i2 = line.index("\"", i1)
+                cycle_key = line[i1:i2]
+                debugTrace("Found table key " + table_key)
             if info_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
@@ -113,23 +121,46 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
 # Do some mapping based on the input that was requested        
 updated = False
 if action == "cycle":
-    if cycle_key == "": msg = "Map a key or remote button to the VPN cycle function?"
-    else: msg = "Key ID " + cycle_key + " is mapped to the VPN cycle function.  Remap or clear current mapping?"
-    if xbmcgui.Dialog().yesno(addon_name, msg):
+    if cycle_key == "": 
+        msg = "Do you want to map a key or remote button to the VPN cycle and list connections functions?"
+        y = "No"
+        n = "Yes"
+    else: 
+        msg = "Key ID " + cycle_key + " is mapped to the VPN cycle and list connections functions.  Remap or clear current mapping?"
+        y = "Clear"
+        n = "Remap"
+    if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
         updated = True
         cycle_key = KeyListener().record_key()
         if cycle_key == "": 
-            dialog = "VPN cycle is not mapped to a key."
+            dialog = "VPN cycle and list connections are not mapped to a key."
             icon = "/resources/unmapped.png"
         else: 
             dialog = "VPN cycle is mapped to key ID " + cycle_key + "."
             icon = "/resources/mapped.png"
         xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
+        if not xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of this key to bring up a list of connections?", "", "", "Yes", "No"):
+            table_key = cycle_key
+        if xbmcgui.Dialog().yesno(addon_name, "Do you want display a list all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
+            addon.setSetting("table_display_type", "All Connections")
+        else:
+            addon.setSetting("table_display_type", "Validated Connections")
+    else:
+        if not cycle_key == "": 
+            cycle_key = ""
+            table_key = ""
+            updated = True
 
 if action == "info":
-    if info_key == "": msg = "Map a key or remote button to the information display function?"
-    else: msg = "Key ID " + info_key + " is mapped to the information display function.  Remap or clear current mapping?"
-    if xbmcgui.Dialog().yesno(addon_name, msg):
+    if info_key == "": 
+        msg = "Map a key or remote button to the information display function?"
+        y = "No"
+        n = "Yes"
+    else: 
+        msg = "Key ID " + info_key + " is mapped to the information display function.  Remap or clear current mapping?"
+        y = "Clear"
+        n = "Remap"
+    if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
         updated = True
         info_key = KeyListener().record_key()
         if info_key == "": 
@@ -139,6 +170,10 @@ if action == "info":
             dialog = "Info display is mapped to key ID " + info_key + "."
             icon = "/resources/mapped.png"
         xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
+    else:
+        if not info_key == "":
+            info_key = ""
+            updated = True
        
 
 # Write the updated keymap
@@ -157,6 +192,11 @@ try:
                 out = xml_key.replace("#KEY", cycle_key)
                 out = out.replace("#PATH", getAddonPath(True, ""))
                 out = out.replace("#COMMAND", cycle_command)
+                map_file.write(out)            
+            if not table_key == "":
+                out = xml_long.replace("#KEY", table_key)
+                out = out.replace("#PATH", getAddonPath(True, ""))
+                out = out.replace("#COMMAND", table_command)
                 map_file.write(out)
             if not info_key == "":
                 out = xml_key.replace("#KEY", info_key)

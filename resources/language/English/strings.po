@@ -240,6 +240,18 @@ msgid "Include disconnect option in VPN cycle"
 msgstr ""
 
 msgctxt "#32055"
+msgid "Popup connection table display"
+msgstr ""
+
+msgctxt "#32056"
+msgid "All Connections"
+msgstr ""
+
+msgctxt "#32057"
+msgid "Validated Connections"
+msgstr ""
+
+msgctxt "#32058"
 msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 
@@ -396,7 +408,7 @@ msgid "Key mappings"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Map VPN connection cycle button"
+msgid "Map VPN connection cycle and list connections button"
 msgstr ""
 
 msgctxt "#32108"

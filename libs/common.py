@@ -83,7 +83,7 @@ def getFilteredProfileList(ovpn_connections, filter, addon):
     return connections
 
     
-def getFriendlyProfileList(ovpn_connections):
+def getFriendlyProfileList(ovpn_connections, highlight, colour):
     # Munge a ovpn full path name is something more friendly
     connections = []
     regex_str = getRegexPattern()
@@ -93,7 +93,10 @@ def getFriendlyProfileList(ovpn_connections):
     # Produce a compiled pattern and interate around the list of connections
     pattern = re.compile(regex_str)
     for connection in ovpn_connections:
-        connections.append(pattern.search(connection).group(1))        
+        if highlight == connection and not colour == "":
+            connections.append("[COLOR " + colour + "]" + pattern.search(connection).group(1) + "[/COLOR]")
+        else:
+            connections.append(pattern.search(connection).group(1))        
     return connections
     
 
@@ -120,6 +123,19 @@ def getTranslatedProfileList(ovpn_connections, vpn_provider):
             
     return connections
 
+
+def getValidatedList(addon, exclude):
+    # Return all of the validated conncetions
+    connections = []
+    # Adjust 11 below if changing number of conn_max
+    i = 1
+    while i < 11:
+        connection = addon.getSetting(str(i) + "_vpn_validated")
+        if not connection == "" and not connection == exclude:
+            connections.append(connection)
+        i = i + 1
+    return connections
+    
     
 def getFriendlyProfileName(ovpn_connection):
     # Make the VPN profile names more readable to the user to select from
@@ -931,6 +947,7 @@ def wizard():
                 xbmcgui.Dialog().ok(addon_name, "You need to enter both a VPN username and password to connect.")
         else:
             xbmcgui.Dialog().ok(addon_name, "There was a problem setting up the User Defined provider.  Fix any issues and run the wizard again from the VPN Configuration tab.")
+
             
 def removeUsedConnections(addon, connection_order, connections):
     # Filter out any used connections from the list given
@@ -1220,7 +1237,7 @@ def connectVPN(connection_order, vpn_profile):
                     vpn_protocol = addon.getSetting("vpn_protocol")
                     ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
                 ovpn_connections.sort()
-                location_connections = getFriendlyProfileList(ovpn_connections)
+                location_connections = getFriendlyProfileList(ovpn_connections, "", "")
                 if existing_connection == "":
                     cancel_text = "[I]Cancel connection attempt[/I]"
                 else:

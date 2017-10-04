@@ -32,8 +32,8 @@ addon = xbmcaddon.Addon("service.vpn.manager")
 addon_name = addon.getAddonInfo("name")
 
 cancel_text = "[I][COLOR grey]Cancel[/COLOR][/I]"
-disconnect_text = "[COLOR red]Disconnect[/COLOR]"
-disconnect_text = "[COLOR red]Disconnected[/COLOR]"
+disconnect_text = "[COLOR ffff0000]Disconnect[/COLOR]"
+disconnected_text = "[COLOR ffff0000](Disconnected)[/COLOR]"
 
 # Don't display the table if there's nothing been set up
 if connectionValidated(addon):
@@ -49,7 +49,7 @@ if connectionValidated(addon):
             # Build a list of all validated connections
             ovpn_connections = getValidatedList(addon, "")
         # Build the friendly list, displaying any active connection in blue
-        location_connections = getFriendlyProfileList(ovpn_connections, getVPNProfile(), "ff0099ff")
+        location_connections = getFriendlyProfileList(ovpn_connections, getVPNProfile(), "ff00ff00")
         if getVPNState() == "started":
             title = "Connected - " + getVPNProfileFriendly()
             location_connections.insert(0, disconnect_text)
@@ -60,7 +60,7 @@ if connectionValidated(addon):
         location_connections.append(cancel_text)
 
         i = xbmcgui.Dialog().select(title, location_connections)
-        if location_connections[i] == disconnect_text or disconnected_text:
+        if location_connections[i] == disconnect_text or location_connections[i] == disconnected_text:
             setAPICommand("Disconnect")
         elif not location_connections[i] == cancel_text:
             setAPICommand(ovpn_connections[i-1])

@@ -75,6 +75,7 @@ debugTrace("-- Entered mapkey.py with parameter " + action + " --")
 
 cycle_key = ""
 table_key = ""
+table_long = False
 info_key = ""
 
 map_name = getKeyMapsFileName()
@@ -106,8 +107,9 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
             if table_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
-                cycle_key = line[i1:i2]
+                table_key = line[i1:i2]
                 debugTrace("Found table key " + table_key)
+                if 'mod="longpress"' in line: table_long = True
             if info_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
@@ -120,6 +122,7 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
 
 # Do some mapping based on the input that was requested        
 updated = False
+
 if action == "cycle":
     if cycle_key == "": 
         msg = "Do you want to map a key or remote button to the VPN cycle function?"
@@ -138,19 +141,43 @@ if action == "cycle":
         else: 
             dialog = "VPN cycle is mapped to key ID " + cycle_key + "."
             icon = "/resources/mapped.png"
-        #xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
-        #if not xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of this key to bring up a list of connections?", "", "", "Yes", "No"):
-        #    table_key = cycle_key
-        #if xbmcgui.Dialog().yesno(addon_name, "Do you want display a list all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
-        #    addon.setSetting("table_display_type", "All Connections")
-        #else:
-        #    addon.setSetting("table_display_type", "Validated Connections")
+        xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
     else:
         if not cycle_key == "": 
             cycle_key = ""
-            table_key = ""
             updated = True
 
+if action == "table":
+    if table_key == "": 
+        msg = "Do you want to map a key or remote button to the VPN connection table function?"
+        y = "No"
+        n = "Yes"
+    else: 
+        msg = "Key ID " + table_key + " is mapped to the VPN connection table function.  Remap or clear current mapping?"
+        y = "Clear"
+        n = "Remap"
+    if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
+        updated = True
+        if not cycle_key == "" and xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of the current cycle key to bring up a list of connections?. [I]This is only recommended for keyboard usage, not remote controls.[/I]", "", "", "No", "Yes"):
+            table_key = cycle_key
+        else:
+            table_key = KeyListener().record_key()
+            if table_key == "": 
+                dialog = "VPN connection table is not mapped to a key."
+                icon = "/resources/unmapped.png"
+            else: 
+                dialog = "VPN connection table is mapped to key ID " + cycle_key + "."
+                icon = "/resources/mapped.png"
+            xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
+        if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
+            addon.setSetting("table_display_type", "All Connections")
+        else:
+            addon.setSetting("table_display_type", "Validated Connections")
+    else:
+        if not table_key == "": 
+            table_key = ""
+            updated = True            
+               
 if action == "info":
     if info_key == "": 
         msg = "Map a key or remote button to the information display function?"
@@ -180,7 +207,7 @@ if action == "info":
 path = getKeyMapsPath(map_name)
 try:
     if updated:
-        if cycle_key == "" and info_key == "":
+        if cycle_key == "" and info_key == "" and table_key == "":
             debugTrace("No key mappings so deleting the map file " + path)
             xbmcvfs.delete(path)
             xbmcgui.Dialog().ok(addon_name, "Keymap has been removed as no keys have been mapped.  You must restart for these changes to take effect.")
@@ -194,7 +221,10 @@ try:
                 out = out.replace("#COMMAND", cycle_command)
                 map_file.write(out)            
             if not table_key == "":
-                out = xml_long.replace("#KEY", table_key)
+                if cycle_key == table_key or table_long:
+                    out = xml_long.replace("#KEY", table_key)
+                else:
+                    out = xml_key.replace("#KEY", table_key)
                 out = out.replace("#PATH", getAddonPath(True, ""))
                 out = out.replace("#COMMAND", table_command)
                 map_file.write(out)

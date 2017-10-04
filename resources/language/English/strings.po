@@ -408,7 +408,7 @@ msgid "Key mappings"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Map VPN connection cycle and list connections button"
+msgid "Map VPN connection cycle button"
 msgstr ""
 
 msgctxt "#32108"

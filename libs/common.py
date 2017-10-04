@@ -145,7 +145,13 @@ def getFriendlyProfileName(ovpn_connection):
         regex_str = regex_str.replace(r"/", r"\\")
     # Return friendly version of string
     match = re.search(regex_str, ovpn_connection)
-    return match.group(1)
+    try:
+        return match.group(1)
+    except Exception as e:
+        errorTrace("common.py", "Failed to find a friendly name for " + ovpn_connection)
+        errorTrace("common.py", str(e))
+        raise
+    
     
 
 def getIPInfo(addon):

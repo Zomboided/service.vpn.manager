@@ -122,29 +122,29 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
 updated = False
 if action == "cycle":
     if cycle_key == "": 
-        msg = "Do you want to map a key or remote button to the VPN cycle and list connections functions?"
+        msg = "Do you want to map a key or remote button to the VPN cycle function?"
         y = "No"
         n = "Yes"
     else: 
-        msg = "Key ID " + cycle_key + " is mapped to the VPN cycle and list connections functions.  Remap or clear current mapping?"
+        msg = "Key ID " + cycle_key + " is mapped to the VPN cycle function.  Remap or clear current mapping?"
         y = "Clear"
         n = "Remap"
     if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
         updated = True
         cycle_key = KeyListener().record_key()
         if cycle_key == "": 
-            dialog = "VPN cycle and list connections are not mapped to a key."
+            dialog = "VPN cycle is not mapped to a key."
             icon = "/resources/unmapped.png"
         else: 
             dialog = "VPN cycle is mapped to key ID " + cycle_key + "."
             icon = "/resources/mapped.png"
-        xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
-        if not xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of this key to bring up a list of connections?", "", "", "Yes", "No"):
-            table_key = cycle_key
-        if xbmcgui.Dialog().yesno(addon_name, "Do you want display a list all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
-            addon.setSetting("table_display_type", "All Connections")
-        else:
-            addon.setSetting("table_display_type", "Validated Connections")
+        #xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
+        #if not xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of this key to bring up a list of connections?", "", "", "Yes", "No"):
+        #    table_key = cycle_key
+        #if xbmcgui.Dialog().yesno(addon_name, "Do you want display a list all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
+        #    addon.setSetting("table_display_type", "All Connections")
+        #else:
+        #    addon.setSetting("table_display_type", "Validated Connections")
     else:
         if not cycle_key == "": 
             cycle_key = ""

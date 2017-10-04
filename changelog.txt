@@ -1,5 +1,5 @@
 v4.1.8
-- Long press of cycle button brings up list of connections
+- Add pop up connection window
 
 v4.1.7
 - Optionally force a reconnection on wake

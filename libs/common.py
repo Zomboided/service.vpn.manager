@@ -641,6 +641,7 @@ def requestVPNCycle(immediate):
             # Display a notification message
             icon = getIconPath()+"locked.png"
             notification_title = addon_name
+            dialog_message = ""
             if getVPNCycle() == "Disconnect":
                 if getVPNProfile() == "":
                     dialog_message = "Disconnected"
@@ -649,8 +650,9 @@ def requestVPNCycle(immediate):
                     dialog_message = "Disconnect?"
                     icon = getIconPath()+"unlocked.png"
             else:
+                cycle_name = getVPNCycle()
                 if getVPNProfile() == getVPNCycle():
-                    dialog_message = "Connected to " + getFriendlyProfileName(getVPNCycle())
+                    if not cycle_name == "": dialog_message = "Connected to " + getFriendlyProfileName(getVPNCycle())
                     if fakeConnection():
                         icon = getIconPath()+"faked.png"
                     else:
@@ -659,10 +661,10 @@ def requestVPNCycle(immediate):
                         notification_title = "VPN Manager, update available"
                         icon = getIconPath()+"update.png"
                 else:
-                    dialog_message = "Connect to " + getFriendlyProfileName(getVPNCycle()) + "?"
-            
-            debugTrace("Cycle request is " + dialog_message)
-            xbmcgui.Dialog().notification(notification_title, dialog_message , icon, 3000, False)
+                    if not cycle_name == "": dialog_message = "Connect to " + getFriendlyProfileName(getVPNCycle()) + "?"
+            if not dialog_message == "": 
+                debugTrace("Cycle request is " + dialog_message)
+                xbmcgui.Dialog().notification(notification_title, dialog_message , icon, 3000, False)
         else:
             xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
 

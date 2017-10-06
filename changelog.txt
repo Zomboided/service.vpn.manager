@@ -1,3 +1,6 @@
+v4.1.9
+- Fix cycle bug
+
 v4.1.8
 - Add pop up connection window
 

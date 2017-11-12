@@ -9,4 +9,4 @@ A number of VPN providers are directly supported, or the user can add their own 
 
 Control of the VPN is also possible via a remote control button or hot key, allowing the user to manually cycle between connections.
 
-Full instructions can be found on the GitHub wiki for this project at https://github.com/Zomboided/service.vpn.manager
+Full instructions can be found on the [GitHub wiki for this project](https://github.com/Zomboided/service.vpn.manager/wiki)

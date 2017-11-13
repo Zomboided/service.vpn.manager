@@ -193,7 +193,18 @@ if __name__ == '__main__':
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
                 xbmcgui.Dialog().ok(addon_name, "Thanks for using VPN Manager! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
-                
+            if addon.getSetting("vpn_provider_validated") == "NordVPN" or addon.getSetting("vpn_provider") == "NordVPN":
+                removeGeneratedFiles()
+                resetVPNConfig(addon, 1)
+                addon.setSetting("vpn_username", "")
+                addon.setSetting("vpn_username_validated", "")
+                addon.setSetting("vpn_password", "")
+                addon.setSetting("vpn_password_validated", "")
+                addon.setSetting("vpn_locations_list", "")
+                addon.setSetting("vpn_provider", "")
+                addon.setSetting("vpn_provider_validated", "")
+                removeSystemd()
+                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)

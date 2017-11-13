@@ -51,7 +51,6 @@ def generateAll():
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
-    generateNordVPN()
     #generatePerfectPrivacy()
     #generatePIA()
     #generatePrivateVPN()
@@ -563,63 +562,7 @@ def generateLiquidVPN():
             if not tokens[2] == "Modulating" : location_file.write(output_line)
             location_file_all.write(output_line)
     location_file.close()
-    generateMetaData("LiquidVPN", MINIMUM_LEVEL)
-
-    
-def generateNordVPN():
-    # No point using a template here as NordVPN use multiple certificate and keys. 
-    # Copy the file to the target directory and rename it to something more tidy
-    # Latest can be found at https://nordvpn.com/api/files/zip
-    # Remove what's there to start with
-    existing_profiles = glob.glob(getProviderPath("NordVPN" + "/*.ovpn"))
-    for connection in existing_profiles:
-        try:
-            xbmcvfs.delete(connection)
-        except:
-            pass
-    # Get the list from the provider data directory
-    profiles = getProfileList("NordVPN")
-    destination_path = getProviderPath("NordVPN" + "/")   
-    for profile in profiles:
-        shortname = profile[profile.index("NordVPN")+8:]
-        shortname = shortname[:shortname.index(".")]
-        if not "-" in shortname:
-            shortname = resolveCountry((shortname[0:2]).upper()) + " " + shortname[2:]
-        else:
-            if "lt-lv1" in shortname: shortname = "Lithuania - Latvia 1"
-            if "tw-hk1" in shortname: shortname = "Taiwan - Hong Kong 1"
-            if "us-ca2" in shortname: shortname = "United States - Canada 2"
-            if "nl1-ru1" in shortname: shortname = "Netherlands - Russia 1"
-            if "ru-nl1" in shortname: shortname = "Russia - Netherlands 1"
-            if "lv-tor1" in shortname: shortname = "Latvia TOR 1"
-            if "se-tor1" in shortname: shortname = "Sweden TOR 1"
-            if "se-tor2" in shortname: shortname = "Sweden TOR 2"
-            if "nl-tor1" in shortname: shortname = "Netherlands TOR 1"
-            if "nl-uk1" in shortname: shortname = "Netherlands - United Kingdom 1"
-            if "us-ca3" in shortname: shortname = "United States - Canada 3"
-            if "ca-us1" in shortname: shortname = "Canada - United States 1"
-            if "ch-se1" in shortname: shortname = "Switzerland - Sweden 1"
-            if "ch-nl1" in shortname: shortname = "Switzerland - Netherlands 1"
-            if "ca-us2" in shortname: shortname = "Canada - United States 2"
-            if "se-nl1" in shortname: shortname = "Sweden - Netherlands 1"
-            if "se-ch1" in shortname: shortname = "Sweden - Switzerland 1"
-        proto = ""
-        if "tcp443" in profile: proto = "(TCP)"
-        if "udp1194" in profile: proto = "(UDP)"
-        filename = shortname + " " + proto + ".ovpn"
-        profile_file = open(profile, 'r')
-        output_file = open(destination_path + filename, 'w')
-        profile_contents = profile_file.readlines()
-        profile_file.close()
-        output = ""
-        i = 0
-        for line in profile_contents:
-            line = line.strip(' \t\n\r')
-            if line.startswith("resolv-retry"): line = "resolv-retry 30"
-            if not line == "" and not line.startswith("#mute") and not (i < 15 and line.startswith("#")):
-                output_file.write(line + "\n")
-            i = i + 1
-    generateMetaData("NordVPN", MINIMUM_LEVEL) 
+    generateMetaData("LiquidVPN", MINIMUM_LEVEL) 
 
     
 def generatePerfectPrivacy():
@@ -972,52 +915,31 @@ def generateTorGuard():
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         geo = geo.replace("TorGuard.","")
-        geo = geo.replace(".Stealth.TCP", " Stealth")
-        geo = geo.replace(".Stealth.UDP", " Stealth")
-        geo = geo.replace("-", " - ")
+        geo = geo.replace("Australia.", "Australia - ")
+        geo = geo.replace("Canada.", "Canada - ")
+        geo = geo.replace("Germany.", "Germany - ")
+        geo = geo.replace("Russia.", "Russia - ")
+        geo = geo.replace("Sweden.", "Sweden - ")
+        geo = geo.replace("UK.", "UK - ")
+        geo = geo.replace(".", " ")
+        geo = geo.replace("NEW-", "NEW ")
+        geo = geo.replace("LAS-", "LAS ")
+        if geo.startswith("USA-"):
+           cont, city = geo.split("-", 1)
+           geo = cont + " - " + string.capwords(city)
+        if geo.endswith(" La"): geo = geo.replace("- La", "- LA")
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
-        servers = ""
-        ports = ""
-        proto = ""
-        rem_flags = ""
-        cipher = False
-        remote_server = False
-        float = False
-        route = False
-        remote_random = False
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()
-                if not servers == "" : servers = servers + " "
-                servers = servers + server
-                if not ports == "" : ports = ports + " "
-                ports = ports + port
             if line.startswith("proto "):
                 _, proto = line.split() 
-            if line.startswith("dev tun"): 
-                if line.startswith("dev tun1"):
-                    rem_flags = rem_flags + "2"
-                else:
-                    rem_flags = rem_flags + "1"
-            if line.startswith("cipher AES-256-CBC"):
-                cipher = True
-            if line.startswith("remote-cert-tls server"):
-                remote_server = True
-            if line.startswith("float"):
-                float = True
-            if line.startswith("route-delay"):
-                route = True
-            if line.startswith("remote-random"):
-                remote_random = True
-        if not cipher: rem_flags = rem_flags + "3"
-        if not remote_server: rem_flags = rem_flags + "4"
-        if not float: rem_flags = rem_flags + "5"
-        if not route: rem_flags = rem_flags + "6"
-        if not remote_random: rem_flags = rem_flags + "7"
-        output_line = geo + " (" + proto.upper() + ")," + servers + "," + proto + "," + ports + ",#REMOVE=" + rem_flags + "\n"
-        location_file.write(output_line)
+        output_line_udp = geo + " (UDP)," + server + ",udp" + "," + port + "\n"
+        output_line_tcp = geo + " (TCP)," + server + ",tcp" + "," + port + ",#REMOVE=1\n"
+        location_file.write(output_line_udp)
+        location_file.write(output_line_tcp)
     location_file.close()      
     generateMetaData("TorGuard", MINIMUM_LEVEL)
     

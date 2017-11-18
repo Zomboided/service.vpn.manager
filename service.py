@@ -204,7 +204,9 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_provider", "")
                 addon.setSetting("vpn_provider_validated", "")
                 removeSystemd()
-                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")
+                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")    
+            if last_version < 420:
+                fixKeymaps()
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)

@@ -510,8 +510,12 @@ def getKeyMapsPath(path):
     
 
 def getKeyMapsFileName():
-    return "vpn.manager.xml"
+    return "zomboided.xml"
 
+    
+def getOldKeyMapsFileName():
+    return "vpn.manager.xml"
+    
     
 def getLogPath():    
     return xbmc.translatePath("special://logpath/kodi.log")

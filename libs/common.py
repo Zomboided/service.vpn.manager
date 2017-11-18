@@ -31,7 +31,7 @@ import sys
 import time
 from platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
-from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName
+from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
@@ -451,25 +451,25 @@ def getSystemData(addon, vpn, network, vpnm, system):
 
 
 def fixKeymaps():
-    # Fix the keymap file name if it's been changed
+    # Fix the keymap file name if it's been changed or the old name was being used
     name = getKeyMapsFileName()
-    dir = getKeyMapsPath(name + "*")
+    old = getOldKeyMapsFileName()
+    dir = getKeyMapsPath("*")
     full_name = getKeyMapsPath(name)
     try:
         debugTrace("Getting contents of keymaps directory " + dir)
         files = (glob.glob(dir))
-        files.sort(key=os.path.getmtime)
         if not full_name in files and len(files) > 0:
-            # Last file in the list, sorted by modified date gets renamed to the keymap file
-            file = files[len(files)-1]
-            infoTrace("common.py", "Renaming " + file + " to " + full_name + " as something else has messed with the keymap")
-            xbmcvfs.rename(file, full_name)
-            xbmc.sleep(100)
-            # Wait 10 seconds for rename to happen otherwise quit and let it fail in the future
-            for i in range(0, 9):
-                if xbmcvfs.exists(full_name): break
-                xbmc.sleep(1000)
-            return True
+            for file in files:
+                if (name in file) or (old in file):
+                    infoTrace("common.py", "Renaming " + file + " to " + full_name)
+                    xbmcvfs.rename(file, full_name)
+                    xbmc.sleep(100)
+                    # Wait 10 seconds for rename to happen otherwise quit and let it fail in the future
+                    for i in range(0, 9):
+                        if xbmcvfs.exists(full_name): break
+                        xbmc.sleep(1000)
+                    return True
     except Exception as e:
         errorTrace("common.py", "Problem fixing the keymap filename.")
         errorTrace("common.py", str(e))

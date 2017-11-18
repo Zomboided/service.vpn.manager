@@ -1,5 +1,6 @@
 v4.2.0
 - Remove NordVPN support
+- Rename keymap file
 
 v4.1.9
 - Fix cycle bug

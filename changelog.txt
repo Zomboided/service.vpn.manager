@@ -1,3 +1,6 @@
+v4.3.0
+- Rewrite keymap to allow other add-ons to use the same zomboided.xml keymap
+
 v4.2.0
 - Remove NordVPN support
 - Rename keymap file

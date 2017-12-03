@@ -90,7 +90,9 @@ info_command = "infopopup.py"
 # Fix the keymap if it's been renamed by the Keymap addon
 fixKeymaps()
 
-# Determine if there's an existing map that needs to be updated
+lines = []
+
+# Read any existing keymap and the keys we're interested in
 if xbmcvfs.exists(getKeyMapsPath(map_name)):
     path = getKeyMapsPath(map_name)    
     try:
@@ -98,35 +100,44 @@ if xbmcvfs.exists(getKeyMapsPath(map_name)):
         map_file = open(path, 'r')
         lines = map_file.readlines()
         map_file.close()
+        i = 0
         for line in lines:
             if cycle_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
                 cycle_key = line[i1:i2]
                 debugTrace("Found cycle key " + cycle_key)
+                lines[i] = ""
             if table_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
                 table_key = line[i1:i2]
                 debugTrace("Found table key " + table_key)
                 if 'mod="longpress"' in line: table_long = True
+                lines[i] = ""
             if info_command in line:
                 i1 = line.index("key id=\"") + 8
                 i2 = line.index("\"", i1)
                 info_key = line[i1:i2]
                 debugTrace("Found infopopup key " + info_key)
+                lines[i] = ""
+            i = i + 1
     except Exception as e:
         errorTrace("mapkey.py", map_name + " is malformed")
         errorTrace("mapkey.py", str(e))
+        lines = []
 
 
-# Do some mapping based on the input that was requested        
-updated = False
+# If there is no keymap, create a blank one with start and end tags
+if len(lines) == 0:
+    lines.append(xml_start)
+    lines.append(xml_end)
 
 if getCycleLock():
 
     clearVPNCycle()
 
+    # Get the updated keys
     if action == "cycle":
         if cycle_key == "": 
             msg = "Do you want to map a key or remote button to the VPN cycle function?"
@@ -137,7 +148,6 @@ if getCycleLock():
             y = "Clear"
             n = "Remap"
         if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
-            updated = True
             cycle_key = KeyListener().record_key()
             if cycle_key == "": 
                 dialog = "VPN cycle is not mapped to a key."
@@ -149,7 +159,6 @@ if getCycleLock():
         else:
             if not cycle_key == "": 
                 cycle_key = ""
-                updated = True
 
     if action == "table":
         if table_key == "": 
@@ -161,7 +170,6 @@ if getCycleLock():
             y = "Clear"
             n = "Remap"
         if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
-            updated = True
             if not cycle_key == "" and xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of the current cycle key to bring up a list of connections?. [I]This is only recommended for keyboard usage, not remote controls.[/I]", "", "", "No", "Yes"):
                 table_key = cycle_key
             else:
@@ -173,15 +181,14 @@ if getCycleLock():
                 else: 
                     dialog = "VPN connection table is mapped to key ID " + cycle_key + "."
                     icon = "/resources/mapped.png"
+                    if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
+                        addon.setSetting("table_display_type", "All Connections")
+                    else:
+                        addon.setSetting("table_display_type", "Validated Connections")
                 xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
-            if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
-                addon.setSetting("table_display_type", "All Connections")
-            else:
-                addon.setSetting("table_display_type", "Validated Connections")
         else:
             if not table_key == "": 
-                table_key = ""
-                updated = True            
+                table_key = ""           
                    
     if action == "info":
         if info_key == "": 
@@ -193,7 +200,6 @@ if getCycleLock():
             y = "Clear"
             n = "Remap"
         if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
-            updated = True
             info_key = KeyListener().record_key()
             if info_key == "": 
                 dialog = "Info display is not mapped to a key."
@@ -205,47 +211,56 @@ if getCycleLock():
         else:
             if not info_key == "":
                 info_key = ""
-                updated = True
-           
+    
+    
+    # Add the keys to the start of the keymap file
+    if not cycle_key == "":
+        out = xml_key.replace("#KEY", cycle_key)
+        out = out.replace("#PATH", getAddonPath(True, ""))
+        out = out.replace("#COMMAND", cycle_command)
+        lines.insert(1, out)
+    if not table_key == "":
+        if cycle_key == table_key or table_long:
+            out = xml_long.replace("#KEY", table_key)
+        else:
+            out = xml_key.replace("#KEY", table_key)
+            out = out.replace("#PATH", getAddonPath(True, ""))
+            out = out.replace("#COMMAND", table_command)
+        lines.insert(1, out)
+    if not info_key == "":
+        out = xml_key.replace("#KEY", info_key)
+        out = out.replace("#PATH", getAddonPath(True, ""))
+        out = out.replace("#COMMAND", info_command)
+        lines.insert(1, out)
+    
 
-    # Write the updated keymap
-    path = getKeyMapsPath(map_name)
-    try:
-        if updated:
-            if cycle_key == "" and info_key == "" and table_key == "":
-                debugTrace("No key mappings so deleting the map file " + path)
+    # Count the number of valid lines to write out
+    i = 0
+    for line in lines:
+        if not line == "": i += 1
+    
+    try:    
+        path = getKeyMapsPath(map_name)
+        if i == 2:
+            # Delete keymap file, it's empty apart from the start and end tags
+            if xbmcvfs.exists(path):
+                debugTrace("No key mappings so deleting the map file " + path)            
                 xbmcvfs.delete(path)
                 xbmcgui.Dialog().ok(addon_name, "Keymap has been removed as no keys have been mapped.  You must restart for these changes to take effect.")
             else:
-                debugTrace("Writing the map file to " + path)
-                map_file = open(path, 'w')
-                map_file.write(xml_start)
-                if not cycle_key == "":
-                    out = xml_key.replace("#KEY", cycle_key)
-                    out = out.replace("#PATH", getAddonPath(True, ""))
-                    out = out.replace("#COMMAND", cycle_command)
-                    map_file.write(out)            
-                if not table_key == "":
-                    if cycle_key == table_key or table_long:
-                        out = xml_long.replace("#KEY", table_key)
-                    else:
-                        out = xml_key.replace("#KEY", table_key)
-                    out = out.replace("#PATH", getAddonPath(True, ""))
-                    out = out.replace("#COMMAND", table_command)
-                    map_file.write(out)
-                if not info_key == "":
-                    out = xml_key.replace("#KEY", info_key)
-                    out = out.replace("#PATH", getAddonPath(True, ""))
-                    out = out.replace("#COMMAND", info_command)
-                    map_file.write(out)
-                map_file.write(xml_end)
-                map_file.close()
-                xbmcgui.Dialog().ok(addon_name, "Keymap has been updated.  You must restart for these changes to take effect.")
+                debugTrace("No key mappings so not creating a map file")
+        else:
+            # Write the updated keymap
+            path = getKeyMapsPath(map_name)
+            map_file = open(path, 'w')
+            for line in lines:
+                if not line == "": map_file.write(line)    
+            map_file.close()
+            xbmcgui.Dialog().ok(addon_name, "Keymap has been updated.  You must restart for these changes to take effect.")
     except Exception as e:
-        errorTrace("mapkey.py", "Couldn't write keymap file " + path)
+        errorTrace("mapkey.py", "Couldn't update keymap file " + path)
         errorTrace("mapkey.py", str(e))
-        xbmcgui.Dialog().ok(addon_name, "Couldn't update VPN Manager.xml keymap file, check error log.")
-
+        xbmcgui.Dialog().ok(addon_name, "Problem updating the keymap file, check error log.")
         
     # Warn the user if maps could clash
     path = getKeyMapsPath("*.xml")
@@ -264,4 +279,3 @@ freeCycleLock()
 xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
 
 debugTrace("-- Exit mapkey.py --")
-

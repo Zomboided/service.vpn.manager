@@ -98,6 +98,13 @@ def checkConnections():
             errorTrace("service.py", "Checking connections and couldn't find connection " + str(i) + ", " + next_conn)
             return False
     return True
+    
+def setReboot(property):
+    xbmcgui.Window(10000).setProperty("vpn_mgr_reboot", property)
+
+    
+def getReboot():
+    return xbmcgui.Window(10000).getProperty("vpn_mgr_reboot")
 
 
 # Given hh:mm, return the number of seconds into a day this represents
@@ -200,10 +207,6 @@ if __name__ == '__main__':
                 xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")    
             if last_version < 420:
                 fixKeymaps()
-            if last_version < 430:
-                if not addon.getSetting("reboot_day") == "Off" or not addon.getSetting("reboot_file_enabled") == "false":
-                    xbmcgui.Dialog().ok(addon_name, "The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
-                
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
@@ -276,6 +279,10 @@ if __name__ == '__main__':
     connection_retry_time = connection_retry_time_min
     timer = 0
     cycle_timer = 0
+    reboot_timer = 0
+    seconds_to_reboot_check = 3600
+    reboot_time = ""
+    reboot_day = ""
     last_file_check_time = 0
     
     last_cycle = ""
@@ -292,6 +299,8 @@ if __name__ == '__main__':
     playing = False
     
     accepting_changes = True
+    
+    found_reboot_file = False
     
     while not abortRequested():
 
@@ -357,6 +366,9 @@ if __name__ == '__main__':
                 # Get the kill stream identifiers
                 stop_string = addon.getSetting("vpn_stop_ids")
                 stop_ids = stop_string.split()
+                
+                # Force a reboot timer check
+                reboot_timer = 3600
 
 				# Flag that filter and VPN lists have changed
                 debugTrace("Flag lists have changed")
@@ -462,6 +474,94 @@ if __name__ == '__main__':
                 setVPNProfile("")
                 setVPNProfileFriendly("")
                 reconnect_vpn = True
+                
+            # Check to see if it's time for a reboot (providing we need to, and nothing is playing)
+            if (not playing) and reboot_timer >= seconds_to_reboot_check:
+                debugTrace("Checking if a timer or file reboot is required")
+                reboot_timer = 0
+                # Assume the next check is in an hour
+                seconds_to_reboot_check = 3600
+                # Check reboot check file if there is one
+                reboot_system = False
+                reboot_reason = ""
+                if addon.getSetting("reboot_file_enabled") == "true":
+                    reboot_file_name = addon.getSetting("reboot_file")
+                    if xbmcvfs.exists(reboot_file_name):
+                        found_reboot_file = True
+                        stats = xbmcvfs.Stat(reboot_file_name)
+                        file_check_time = stats.st_mtime()
+                        if not file_check_time == last_file_check_time:
+                            if last_file_check_time == 0:
+                                # First check since reboot, just record the time
+                                last_file_check_time = file_check_time
+                            else:
+                                debugTrace("Reboot file " + reboot_file_name + " modified, rebooting")
+                                reboot_system = True
+                                reboot_reason = "server rebooted"
+                    elif not reboot_file_name == "":
+                        file_check_time = getSeconds(time.strftime('%H:%M'))
+                        if last_file_check_time == 0 or found_reboot_file:
+                            # Use system time as file (and file modify time) not available
+                            last_file_check_time = file_check_time
+                        else:
+                            # Pretend the time now is an hour earlier and compare it to last time checked
+                            time_now = getSeconds(time.strftime('%H:%M')) - 3600
+                            if last_file_check_time < time_now:
+                                # File still not available which could mean the file system has issues and needs a reboot
+                                if not addon.getSetting("last_boot_reason") == "file unavailable":
+                                    debugTrace("Reboot file " + reboot_file_name + " has not been available for an hour, rebooting")
+                                    reboot_system = True
+                                    reboot_reason = "file unavailable"
+                                else:
+                                    errorTrace("service.py", "Watching a file for a reboot but it's gone away even after a restart.  Not restarting again.")
+                        found_reboot_file = False
+                    if reboot_system:
+                        if not xbmcgui.Dialog().yesno(addon_name, "System reboot about to happen because " + reboot_reason + ".\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                            infoTrace("service.py", "Rebooting because " + reboot_reason)
+                            addon.setSetting("boot_reason", reboot_reason)
+                            xbmc.executebuiltin("Reboot")
+                        else:
+                            infoTrace("service.py", "Server rebooted, system reboot aborted by user")
+                            last_file_check_time = file_check_time
+                # Refresh the reboot timer if it's changed in the seconds
+                new_reboot_day = addon.getSetting("reboot_day")
+                new_reboot_time = addon.getSetting("reboot_time")
+                if not (new_reboot_day == reboot_day and new_reboot_time == reboot_time):
+                    # Time has changed
+                    reboot_day = new_reboot_day
+                    reboot_time = new_reboot_time
+                    setReboot("waiting")
+                    if not reboot_day == "Off":
+                        if xbmc.getInfoLabel("System.Date(DDD)") == reboot_day:
+                            time_now_secs = getSeconds(time.strftime('%H:%M'))             
+                            reboot_time_secs = getSeconds(reboot_time)
+                            if time_now_secs > reboot_time_secs:
+                                # Reboot is today but it's happened already already
+                                setReboot("rebooted")
+                    debugTrace("Reboot timer is " + reboot_day + " at " + reboot_time + ", " + getReboot())                
+                if reboot_day == xbmc.getInfoLabel("System.Date(DDD)"):
+                    if not getReboot() == "rebooted":
+                        time_now_secs = getSeconds(time.strftime('%H:%M'))
+                        reboot_time_secs = getSeconds(reboot_time)
+                        if time_now_secs >= reboot_time_secs:
+                            # Put up dialog warning of reboot and give user a chance to abort
+                            if not xbmcgui.Dialog().yesno(addon_name, "Weekly system reboot about to happen.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                                infoTrace("service.py", "Weekly reboot timer triggered (for " + reboot_day + " " + reboot_time + "), going down for a reboot.")
+                                addon.setSetting("boot_reason", "weekly timer")
+                                xbmc.executebuiltin("Reboot")
+                            else:
+                                infoTrace("service.py", "Weekly reboot timer aborted by user")
+                            setReboot("rebooted")                           
+                        else:
+                            # Not time to reboot yet, so work out when to check again
+                            seconds_to_reboot_check = reboot_time_secs - time_now_secs
+                            # If it's more than an hour then restrict it to an hour to avoid the unreliability of
+                            # the timer in the loop (which seems to drift/take longer depending on what's going on)
+                            if seconds_to_reboot_check > 3600: seconds_to_reboot_check = 3600
+                            debugTrace("Same day reboot, check again in " + str(seconds_to_reboot_check))
+                else:
+                    # Reboot on a different day, check status again in an hour.
+                    setReboot("waiting")      
     
 			# Fetch the path and name of the current addon and the current active window
             current_path = xbmc.getInfoLabel("Container.FolderPath")
@@ -823,6 +923,7 @@ if __name__ == '__main__':
         if shutdown: break
         
         timer = timer + delay
+        reboot_timer = reboot_timer + delay
     
     # Stop the VPN connection before exiting as it could be running on a 'normal' PC, not a dedicated box
     stopVPNConnection()

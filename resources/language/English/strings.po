@@ -419,6 +419,70 @@ msgctxt "#32109"
 msgid "Map information display button"
 msgstr ""
 
+msgctxt "#32110"
+msgid "System reboot"
+msgstr ""
+
+msgctxt "#32111"
+msgid "Weekly reboot day"
+msgstr ""
+
+msgctxt "#32112"
+msgid "Off"
+msgstr ""
+
+msgctxt "#32113"
+msgid "Monday"
+msgstr ""
+
+msgctxt "#32114"
+msgid "Tuesday"
+msgstr ""
+
+msgctxt "#32115"
+msgid "Wednesday"
+msgstr ""
+
+msgctxt "#32116"
+msgid "Thursday"
+msgstr ""
+
+msgctxt "#32117"
+msgid "Friday"
+msgstr ""
+
+msgctxt "#32118"
+msgid "Saturday"
+msgstr ""
+
+msgctxt "#32119"
+msgid "Sunday"
+msgstr ""
+
+msgctxt "#32120"
+msgid "Weekly reboot time (24h)"
+msgstr ""
+
+msgctxt "#32121"
+msgid "Reboot if a remote server file changes"
+msgstr ""
+
+msgctxt "#32122"
+msgid "Remote server file"
+msgstr ""
+
+msgctxt "#32123"
+msgid "Local file read speed test"
+msgstr ""
+
+msgctxt "#32124"
+msgid "Source file (>50MB)"
+msgstr ""
+
+msgctxt "#32125"
+msgid "Run speed test"
+msgstr ""
+
 
 # Debug Settings
 

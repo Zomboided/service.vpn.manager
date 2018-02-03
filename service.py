@@ -162,7 +162,7 @@ if __name__ == '__main__':
     
     # See if this is a new install...we might want to do things here
     if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")):
-        #xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
+        xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
         # Stopping the connection so if this is an upgrade we don't assume things about connect on boot
         stopVPNConnection()
         # This is just wiping out the old way of using pre-generated ovpn files before

@@ -162,7 +162,7 @@ if __name__ == '__main__':
     
     # See if this is a new install...we might want to do things here
     if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")):
-        xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
+        #xbmcvfs.delete(getAddonPath(True, "INSTALL.txt"))
         # Stopping the connection so if this is an upgrade we don't assume things about connect on boot
         stopVPNConnection()
         # This is just wiping out the old way of using pre-generated ovpn files before
@@ -200,6 +200,9 @@ if __name__ == '__main__':
                 xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")    
             if last_version < 420:
                 fixKeymaps()
+            if last_version < 430:
+                if not addon.getSetting("reboot_day") == "Off" or addon.getSetting("reboot_file_enabled") == "true":
+                    xbmcgui.Dialog().ok(addon_name, "Thanks for install v4.3.0! The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
               
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

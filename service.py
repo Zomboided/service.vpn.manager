@@ -202,7 +202,7 @@ if __name__ == '__main__':
                 fixKeymaps()
             if last_version < 430:
                 if not addon.getSetting("reboot_day") == "Off" or addon.getSetting("reboot_file_enabled") == "true":
-                    xbmcgui.Dialog().ok(addon_name, "Thanks for install v4.3.0! The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
+                    xbmcgui.Dialog().ok(addon_name, "Thanks for installing v4.3.0! The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
               
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    

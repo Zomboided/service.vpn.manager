@@ -100,6 +100,18 @@ class VPNAPI:
         if wait: return self.waitForConnection("")
         return True
 
+
+    def reconnect(self, wait):
+        # Reconnect the active VPN connection.  Return True when the connection has cycled.  If there's
+        # not an active connection, return True anyway.  The wait parameter will determine if the function returns 
+        # once the connection has been made, or if it's fire and forget (in which case True will be returned regardless)
+        if not self.isVPNSetUp(): return False
+        if self.getConnected() == "": return True
+        xbmc.log(msg="VPN Mgr API : Reconnecting", level=xbmc.LOGDEBUG)
+        self.setAPICommand("Reconnect")
+        if wait: return self.waitForConnection("")
+        return True
+
         
     def defaultVPN(self, wait):
         # Return to the default VPN state.  This is a wrapper function to disconnect() and connectTo() with

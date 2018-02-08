@@ -101,11 +101,10 @@ class VPNAPI:
         return True
 
 
-    def reconnect(self):
-        # Recycle the active VPN connection.  Return False is there's not an active connection, otherwise return true.
-        # This call does not wait for the connection to cycle before returning.
+    def reconnect(self, default):
+        # Recycle the active VPN connection.  Return False if VPN hasn't been setup, otherwise return true.  This call
+        # does not wait for the connection to cycle before returning.  If the VPN is not connected no action will be taken
         if not self.isVPNSetUp(): return False
-        if self.getConnected() == "": return True
         xbmc.log(msg="VPN Mgr API : Reconnecting", level=xbmc.LOGDEBUG)
         self.setAPICommand("Reconnect")
         return True

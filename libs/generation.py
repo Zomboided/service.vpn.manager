@@ -446,6 +446,7 @@ def generateIPVanish():
         profile = profile.replace("Tel-Aviv", "Tel Aviv")
         profile = profile.replace("Dallas-Fort-Worth", "Dallas Fort Worth")
         profile = profile.replace("St-Louis", "St Louis")
+        profile = profile.replace("Salt-Lake-City", "Salt Lake City")
         tokens = profile.split("-")
         server = tokens[3] + "-" + tokens[4].replace(".ovpn", "") + ".ipvanish.com"
         server_num = tokens[4][1:3]

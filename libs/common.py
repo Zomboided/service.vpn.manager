@@ -109,8 +109,8 @@ def getTranslatedProfileList(ovpn_connections, vpn_provider):
         translate = translate_file.readlines()
         translate_file.close()
     except Exception as e:
-        errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
-        errorTrace("vpnproviders.py", str(e))
+        errorTrace("common.py", "Couldn't open the translate file for " + vpn_provider)
+        errorTrace("common.py", str(e))
         return ovpn_connections
     
     for entry in translate:
@@ -1125,6 +1125,16 @@ def connectVPN(connection_order, vpn_profile):
                 
         vpn_username = addon.getSetting("vpn_username")
         vpn_password = addon.getSetting("vpn_password")
+        # Check for formatting characters first time through
+        if connection_order == "1":
+            vpn_username_stripped = vpn_username.strip(' \t\n\r')
+            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your username starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
+                vpn_username = vpn_username_stripped
+                addon.setSetting("vpn_username", vpn_username)
+            vpn_password_stripped = vpn_password.strip(' \t\n\r')
+            if (not vpn_password == vpn_password_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your password starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
+                vpn_password = vpn_password_stripped
+                addon.setSetting("vpn_password", vpn_password)
         
         # Reset the setting indicating we've a good configuration for just this connection
         if not connection_order == "0":

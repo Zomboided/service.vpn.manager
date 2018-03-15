@@ -1,9 +1,10 @@
-v4.3.1
+v4.4.0
 - Username and password checking for bad formatting
+- Removed PureVPN support, use their add-on
 
 v4.3.0
 - Rewrite keymap to allow other add-ons to use the same zomboided.xml keymap
-- Removed speed test function (moved to a different add-on)
+- Rem.0oved speed test function (moved to a different add-on)
 - Removed timed reboot and file change reboot (moved to a different add-on)
 
 v4.2.0

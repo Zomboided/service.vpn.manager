@@ -186,7 +186,14 @@ if __name__ == '__main__':
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
                 xbmcgui.Dialog().ok(addon_name, "Thanks for using VPN Manager! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
+            reset_everything = False
             if addon.getSetting("vpn_provider_validated") == "NordVPN" or addon.getSetting("vpn_provider") == "NordVPN":
+                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")
+                reset_everything = True
+            if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
+                xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
+                reset_everything = True
+            if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
                 addon.setSetting("vpn_username", "")
@@ -197,7 +204,6 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_provider", "")
                 addon.setSetting("vpn_provider_validated", "")
                 removeSystemd()
-                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")    
             if last_version < 420:
                 fixKeymaps()
             if last_version < 430:

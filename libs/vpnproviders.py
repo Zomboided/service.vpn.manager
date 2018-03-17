@@ -614,6 +614,19 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
             for line in template:
                 output_line = line.strip(' \t\n\r')
                 # Must check to see if there's a remove tag on the line before looking for other tags
+                if "#REMOVEWINDOWS" in output_line:
+                    if getPlatform() == platforms.WINDOWS:
+                        # Remove the line it's a Windows platform
+                        output_line = ""
+                    else:
+                        # Delete the tag if this location doesn't want this line removed
+                        output_line = output_line.replace("#REMOVEWINDOWS", "")
+                if "#REMOVELINUX" in output_line:
+                    if getPlatform() == platforms.LINUX or getPlatform() == platforms.RPI:
+                        # Remove the line if it's a Linux platform
+                        output_line = ""
+                    else:
+                        output_line = output_line.replace("#REMOVELINUX", "")
                 if "#REMOVE" in output_line:
                     if output_line[output_line.index("#REMOVE")+7] in remove_flags:
                         # Remove the line if it's a flag this location doesn't care about
@@ -621,6 +634,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                     else:
                         # Delete the tag if this location doesn't want this line removed
                         output_line = output_line.replace("#REMOVE" + output_line[output_line.index("#REMOVE")+7], "")
+                      
                 output_line = output_line.replace("#PROTO", proto)
                 output_line = output_line.replace("#SERVPROT", servprot)
                 # If there are multiple servers then we'll need to duplicate the server

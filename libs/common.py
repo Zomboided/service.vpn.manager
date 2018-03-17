@@ -1483,7 +1483,7 @@ def connectVPN(connection_order, vpn_profile):
         else:
             # This second set of errors happened because we tried to connect and failed
             if state == connection_status.AUTH_FAILED: 
-                dialog_message = "Error connecting to VPN, authentication failed. Check your username and password (or cert and key files)."
+                dialog_message = "Error connecting to VPN, authentication failed. Check your username and password (or cert and key files), and that your VPN plan allows this location."
                 credentials_path = getCredentialsPath(addon)
                 if not connection_order == "0":
                     addon.setSetting("vpn_username_validated", "")

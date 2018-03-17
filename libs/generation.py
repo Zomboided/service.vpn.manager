@@ -46,8 +46,8 @@ def generateAll():
     #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
-    #generateibVPN()
-    generateIPVanish()
+    generateibVPN()
+    #generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
@@ -391,17 +391,21 @@ def generateibVPN():
     # Data is stored as a bunch of ovpn files
     # File name has location.  File has the server
     profiles = getProfileList("ibVPN")
-    location_file = getLocations("ibVPN", "All Locations")
-    location_file_usa = getLocations("ibVPN", "USA and Canada")
-    location_file_uk = getLocations("ibVPN", "UK and Ireland")
-    location_file_eu = getLocations("ibVPN", "EU")
-    usa = ["US", "CA"]
-    uk = ["UK", "IE"]
-    eu = ["DE", "NL", "FR", "CH", "LU", "RO", "SE", "ES", "IT", "FI", "PL", "AT", "CZ", "HU", "IS", "NO", "BG", "BE", "PT"]
+    location_file = getLocations("ibVPN", "")
     for profile in profiles:
-        geo = profile[profile.index("ibVPN ")+6:]
+        geo = profile[profile.index("ibVPN_")+6:]
         geo = geo.replace(".ovpn", "")
-        geo = geo.replace("-", " - ")
+        geo = geo.replace("_-_", " ")
+        geo = geo.replace("_", " ")
+        geo = geo.replace("Hong Kong", "Hong_Kong")
+        geo = geo.replace("South Africa", "South_Africa")
+        geo = geo.replace("South Korea", "South_Korea")
+        geo = geo.replace("New Zealand", "New_Zealand")
+        geo = geo.replace("DoubleVPN", "Double_VPN")
+        geo = geo.replace("CN2NL", "China to Netherlands")
+        geo = geo.replace("CN2US", "China to USA")
+        geo = geo[:geo.index(" ")] + " -" + geo[geo.index(" "):]
+        geo = geo.replace("_", " ")
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
@@ -415,14 +419,8 @@ def generateibVPN():
                 if not ports == "" : ports = ports + " "
                 ports = ports + port
         output_line = geo + " (UDP)," + servers + "," + "udp," + ports + "\n"
-        if geo[0:2] in usa: location_file_usa.write(output_line)
-        if geo[0:2] in uk: location_file_uk.write(output_line)
-        if geo[0:2] in eu: location_file_eu.write(output_line)
         location_file.write(output_line)
     location_file.close()
-    location_file_usa.close()
-    location_file_uk.close()
-    location_file_eu.close()
     generateMetaData("ibVPN", MINIMUM_LEVEL)
     
     

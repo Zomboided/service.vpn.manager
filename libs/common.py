@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    Shared code fragments used by the VPN Manager for OpenVPN add-on.
+#    Shared code fragments used by the add-on.
 
 import xbmcaddon
 import xbmcvfs
@@ -32,7 +32,7 @@ import time
 from platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName
-from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
+from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
@@ -425,18 +425,18 @@ def getSystemData(addon, vpn, network, vpnm, system):
         lines.append("Primary DNS is " + xbmc.getInfoLabel("Network.DNS1Address"))
         lines.append("Secondary DNS is " + xbmc.getInfoLabel("Network.DNS2Address"))
     if vpnm:
-        lines.append("[B][COLOR ff0099ff]VPN Manager[/COLOR][/B]")
-        lines.append("VPN Manager verison is " + addon.getAddonInfo("version"))
-        lines.append("VPN Manager behaviour is " + getPlatformString())
+        lines.append("[B][COLOR ff0099ff]" + getShort() + "[/COLOR][/B]")
+        lines.append(getShort() + " verison is " + addon.getAddonInfo("version"))
+        lines.append(getShort() + " behaviour is " + getPlatformString())
         if getPlatform() == platforms.LINUX:
             if useSudo():
-                lines.append("VPN Manager is prefixing commands with sudo")
+                lines.append(getShort() + " is prefixing commands with sudo")
             else:
-                lines.append("VPN Manager is not using sudo")
+                lines.append(getShort() + " is not using sudo")
         if isVPNMonitorRunning():
-            lines.append("VPN Manager add-on filtering is running")
+            lines.append(getShort() + " add-on filtering is running")
         else:
-            lines.append("VPN Manager add-on filtering is paused")
+            lines.append(getShort() + " add-on filtering is paused")
     if system:
         lines.append("[B][COLOR ff0099ff]System[/COLOR][/B]")
         lines.append("Kodi build version is " + xbmc.getInfoLabel("System.BuildVersion"))
@@ -582,8 +582,8 @@ def updateServiceRequested():
     
 def requestVPNCycle(immediate):
     # Don't know where this was called from so using plugin name to get addon handle
-    addon = xbmcaddon.Addon("service.vpn.manager")
-    addon_name = addon.getAddonInfo("name")
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
 
     # Don't cycle if we can't get a lock
     if getCycleLock():
@@ -658,7 +658,7 @@ def requestVPNCycle(immediate):
                     else:
                         icon = getIconPath()+"connected.png"
                     if checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
-                        notification_title = "VPN Manager, update available"
+                        notification_title = getShort() + ", update available"
                         icon = getIconPath()+"update.png"
                 else:
                     if not cycle_name == "": dialog_message = "Connect to " + getFriendlyProfileName(getVPNCycle()) + "?"
@@ -785,7 +785,7 @@ def failoverConnection(addon, current_profile):
         
 def resetVPNConnections(addon):
     # Reset all connection information so the user is forced to revalidate everything
-    infoTrace("resetVPN.py", "Resetting all validated VPN settings and disconnected existing VPN connections")
+    infoTrace("common.py", "Resetting all validated VPN settings and disconnected existing VPN connections")
     
     forceCycleLock()
     
@@ -818,8 +818,8 @@ def resetVPNConnections(addon):
     
 def disconnectVPN(display_result):
     # Don't know where this was called from so using plugin name to get addon handle
-    addon = xbmcaddon.Addon("service.vpn.manager")
-    addon_name = addon.getAddonInfo("name")
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
 
     debugTrace("Disconnecting the VPN")
     
@@ -908,8 +908,8 @@ def writeCredentials(addon):
     
 
 def wizard():
-    addon = xbmcaddon.Addon("service.vpn.manager")
-    addon_name = addon.getAddonInfo("name")    
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()    
 
     # Indicate the wizard has been run, regardless of if it is to avoid asking again
     addon.setSetting("vpn_wizard_run", "true")
@@ -945,7 +945,7 @@ def wizard():
                 addon.setSetting("vpn_password", vpn_password)
                 connectVPN("1", vpn_provider)
                 # Need to reinitialise addon here for some reason...
-                addon = xbmcaddon.Addon("service.vpn.manager")
+                addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
                     xbmcgui.Dialog().ok(addon_name, "Successfully connected to " + vpn_provider + ".  Use the Settings dialog to add additional VPN connections.  You can also define add-on filters to dynamically change the VPN connection being used.")
                 else:
@@ -977,8 +977,8 @@ def removeUsedConnections(addon, connection_order, connections):
 def connectVPN(connection_order, vpn_profile):
 
     # Don't know where this was called from so using plugin name to get addon handle
-    addon = xbmcaddon.Addon("service.vpn.manager")
-    addon_name = addon.getAddonInfo("name")
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
 
     # Check openvpn installed and runs
     if not (addon.getSetting("checked_openvpn") == "true"):
@@ -1076,7 +1076,7 @@ def connectVPN(connection_order, vpn_profile):
         progress.update(7, progress_title, progress_message)
         xbmc.sleep(500)
         if checkForGitUpdates(vpn_provider, False):
-            addon = xbmcaddon.Addon("service.vpn.manager")
+            addon = xbmcaddon.Addon(getID())
             if (connection_order == "1" and addon.getSetting("2_vpn_validated") == ""):
                 # Is this provider able to update via the interweb?
                 provider_download = refreshFromGit(vpn_provider, progress)    
@@ -1098,7 +1098,7 @@ def connectVPN(connection_order, vpn_profile):
             progress_message = "Using latest VPN provider files."
             progress.update(7, progress_title, progress_message)
             xbmc.sleep(500)
-        addon = xbmcaddon.Addon("service.vpn.manager") 
+        addon = xbmcaddon.Addon(getID()) 
         
     # Install the VPN provider    
     existing_connection = ""
@@ -1208,7 +1208,7 @@ def connectVPN(connection_order, vpn_profile):
                     # User selected cancel on dialog box
                     provider_gen = False
                     cancel_attempt = True
-        addon = xbmcaddon.Addon("service.vpn.manager")
+        addon = xbmcaddon.Addon(getID())
  
                     
     if provider_gen:
@@ -1378,7 +1378,7 @@ def connectVPN(connection_order, vpn_profile):
         progress.update(96, progress_title, progress_message)
         _, ip, country, isp = getIPInfo(addon)
         # Indicate we're restarting the VPN monitor
-        progress_message = "Connected, restarting VPN Monitor"
+        progress_message = "Connected, restarting VPN monitor"
         progress.update(98, progress_title, progress_message)
         xbmc.sleep(500)
         # Set up final message

@@ -22,7 +22,7 @@ import re
 import urllib2
 import xbmcaddon
 import xbmcgui
-from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
+from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
 
 
 
@@ -152,7 +152,7 @@ def recordWorking(source):
     
 def getAutoSource():
     # If the VPN has changed, then reset all the numbers        
-    addon = xbmcaddon.Addon("service.vpn.manager")
+    addon = xbmcaddon.Addon(getID())
     last_vpn = addon.getSetting("ip_service_last_vpn")
     current_vpn = addon.getSetting("vpn_provider_validated")
     if (not last_vpn == current_vpn):
@@ -175,7 +175,7 @@ def getAutoSource():
 
 
 def resetIPServices():
-    addon = xbmcaddon.Addon("service.vpn.manager")
+    addon = xbmcaddon.Addon(getID())
     addon.setSetting("ip_service_errors", LIST_DEFAULT)
     addon.setSetting("ip_service_values", LIST_DEFAULT)
     xbmcgui.Window(10000).setProperty("VPN_Manager_Last_IP_Service", ip_sources[1])
@@ -186,7 +186,7 @@ def getIndex(source):
     
 def getErrorValue(index):
     index -= 1
-    errors = xbmcaddon.Addon("service.vpn.manager").getSetting("ip_service_errors")
+    errors = xbmcaddon.Addon(getID()).getSetting("ip_service_errors")
     if not errors == "":
         list = errors.split(",")
         if not index > len(list):
@@ -196,7 +196,7 @@ def getErrorValue(index):
     
 def setErrorValue(index, value):
     index -= 1
-    errors = xbmcaddon.Addon("service.vpn.manager").getSetting("ip_service_errors")    
+    errors = xbmcaddon.Addon(getID()).getSetting("ip_service_errors")    
     if errors == "": errors = LIST_DEFAULT
     list = errors.split(",")
     i = 0
@@ -206,12 +206,12 @@ def setErrorValue(index, value):
         if i == index: output = output + str(value)
         else: output = output + str(list[i])
         i += 1
-    xbmcaddon.Addon("service.vpn.manager").setSetting("ip_service_errors", output)
+    xbmcaddon.Addon(getID()).setSetting("ip_service_errors", output)
     
     
 def getWorkingValue(index):
     index -= 1
-    values = xbmcaddon.Addon("service.vpn.manager").getSetting("ip_service_values")
+    values = xbmcaddon.Addon(getID()).getSetting("ip_service_values")
     if not values == "":
         list = values.split(",")
         if not index > len(list):
@@ -221,7 +221,7 @@ def getWorkingValue(index):
     
 def setWorkingValue(index, value):
     index -= 1
-    values = xbmcaddon.Addon("service.vpn.manager").getSetting("ip_service_values")    
+    values = xbmcaddon.Addon(getID()).getSetting("ip_service_values")    
     if values == "": values = LIST_DEFAULT
     list = values.split(",")
     i = 0
@@ -231,6 +231,6 @@ def setWorkingValue(index, value):
         if i == index: output = output + str(value)
         else: output = output + str(list[i])
         i += 1
-    xbmcaddon.Addon("service.vpn.manager").setSetting("ip_service_values", output)
+    xbmcaddon.Addon(getID()).setSetting("ip_service_values", output)
     
         

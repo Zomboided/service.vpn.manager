@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    This module displays the VPN Manager for OpenVPN menu options
+#    This module displays the menu options
 
 import xbmc
 import xbmcaddon
@@ -29,7 +29,7 @@ from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorSt
 from libs.common import getIconPath, getSystemData
 from libs.platform import getPlatform, platforms, getPlatformString, fakeConnection
 from libs.vpnproviders import getAddonList
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
 
 
 debugTrace("-- Entered addon.py " + sys.argv[0] + " " + sys.argv[1] + " " + sys.argv[2] + " --")
@@ -37,6 +37,7 @@ debugTrace("-- Entered addon.py " + sys.argv[0] + " " + sys.argv[1] + " " + sys.
 # Set the addon name for use in the dialogs
 addon = xbmcaddon.Addon()
 addon_name = addon.getAddonInfo("name")
+addon_id = addon.getAddonInfo('id')
 
 # Get the arguments passed in
 base_url = sys.argv[0]
@@ -220,13 +221,15 @@ elif not connectionValidated(addon) and action != "":
         wizard()
     else:
         if not action =="settings": xbmcgui.Dialog().ok(addon_name, "Please validate a primary VPN connection first.  You can do this using the VPN Configuration and VPN Connections tabs within the Settings dialog.")
-    xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
+    command = "Addon.OpenSettings(" + addon_id + ")"
+    xbmc.executebuiltin(command)
 else:
     # User wants to see settings, list connections or they've selected to change something.  
     # If it's none of these things, we're at the top level and just need to show the menu
     if action == "settings" :
         debugTrace("Opening settings")
-        xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")    
+        command = "Addon.OpenSettings(" + addon_id + ")"
+        xbmc.executebuiltin(command)    
     elif action == "list" : listConnections()
     elif action == "disconnect" : disconnect()
     elif action == "change" : changeConnection()

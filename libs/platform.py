@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    Platform specific calls used by VPN Manager for OpenVPN add-on.
+#    Platform specific calls used the add-on.
 
 import os
 import shlex
@@ -26,7 +26,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum
+from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum, getID
 from sys import platform
 
 
@@ -113,7 +113,7 @@ def copySystemdFiles():
         if not xbmcvfs.exists(service_dest): raise IOError('Failed to copy service ' + service_source + " to " + service_dest)
     
     # Delete any existing openvpn.config and copy first VPN to openvpn.config
-    config_source = sudo_setting = xbmcaddon.Addon("service.vpn.manager").getSetting("1_vpn_validated")
+    config_source = sudo_setting = xbmcaddon.Addon(getID()).getSetting("1_vpn_validated")
     if service_source == "": errorTrace("platform.py", "Nothing has been validated")
     config_dest = getSystemdPath("openvpn.config")
     debugTrace("Copying openvpn.config " + config_source + " to " + config_dest)
@@ -142,7 +142,7 @@ def removeSystemd():
     
   
 def useSudo():
-    sudo_setting = xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_sudo")
+    sudo_setting = xbmcaddon.Addon(getID()).getSetting("openvpn_sudo")
     if sudo_setting == "Always": return True
     if sudo_setting == "Never": return False
     if getPlatform() == platforms.LINUX:
@@ -152,7 +152,7 @@ def useSudo():
 
 
 def useBigHammer():
-    hammer = xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_killall")
+    hammer = xbmcaddon.Addon(getID()).getSetting("openvpn_killall")
     if hammer == "true": 
         return True
     else:
@@ -167,7 +167,7 @@ def getPlatformString():
 def getVPNLogFilePath():
     # Return the full filename for the VPN log file
     # It's platform dependent, but can be forced to the Kodi log location
-    use_kodi_dir = xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_log_location")
+    use_kodi_dir = xbmcaddon.Addon(getID()).getSetting("openvpn_log_location")
     p = getPlatform()
     if p == platforms.WINDOWS or use_kodi_dir == "true" :
         # Putting this with the other logs on Windows
@@ -271,7 +271,7 @@ def getOpenVPNPath():
     if p == platforms.RPI:
         return getAddonPath(False, "network.openvpn/bin/openvpn")
     if p == platforms.LINUX:
-        if xbmcaddon.Addon("service.vpn.manager").getSetting("openvpn_no_path") == "true": return "openvpn"
+        if xbmcaddon.Addon(getID()).getSetting("openvpn_no_path") == "true": return "openvpn"
         return "/usr/sbin/openvpn"
     if p == platforms.WINDOWS:
         # No path specified as install will update command path
@@ -382,7 +382,7 @@ def isVPNTaskRunning():
             debugTrace("(Linux) Checking VPN task with " + command)
             pid = os.system(command)
             # This horrible call returns 0 if it finds a process, it's not returning the PID number
-            if xbmcaddon.Addon("service.vpn.manager").getSetting("alt_pid_check") == "true":
+            if xbmcaddon.Addon(getID()).getSetting("alt_pid_check") == "true":
                 if pid > 0 : return True
             else:
                 if pid == 0 : return True
@@ -492,7 +492,7 @@ def getSeparator():
 def getAddonPath(this_addon, path):
     # Return the URL of the addon directory, plus any addition path/file name.
     if this_addon:
-        return xbmc.translatePath("special://home/addons/service.vpn.manager/" + path)
+        return xbmc.translatePath("special://home/addons/" + getID() + "/" + path)
     else:
         return xbmc.translatePath("special://home/addons/" + path)
         
@@ -502,7 +502,7 @@ def getSystemdPath(path):
     
     
 def getUserDataPath(path):
-    return xbmc.translatePath("special://userdata/addon_data/service.vpn.manager/" + path)
+    return xbmc.translatePath("special://userdata/addon_data/" + getID() + "/" + path)
     
     
 def getKeyMapsPath(path):

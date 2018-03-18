@@ -3,9 +3,6 @@
 #
 #    Copyright (C) 2016 Zomboided
 #
-#    Connection script called by the VPN Manager for OpenVPN settings screen
-#    to validate a connection to a VPN provider.
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -29,7 +26,7 @@ import xbmcvfs
 import os
 import time
 import glob
-from utility import debugTrace, errorTrace, infoTrace, newPrint
+from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles, getGitMetaData
 from platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
 from logbox import popupImportLog
@@ -47,8 +44,8 @@ def clearUserData():
                 debugTrace("Deleting " + file)
                 xbmcvfs.delete(file)
     except Exception as e:
-        errorTrace("import.py", "Couldn't clear the UserDefined directory")
-        errorTrace("import.py", str(e))
+        errorTrace("userdefined.py", "Couldn't clear the UserDefined directory")
+        errorTrace("userdefined.py", str(e))
         return False
     return True
 
@@ -62,8 +59,8 @@ def getSeparatorOutput():
     
     
 def importWizard():    
-    addon = xbmcaddon.Addon("service.vpn.manager")
-    addon_name = addon.getAddonInfo("name")
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
 
     errorMessage = ""
     success = False
@@ -138,7 +135,7 @@ def importWizard():
             dest_path = getUserDataPath("UserDefined/")
             debugTrace("Checking directory path exists before copying " + dest_path)
             if not os.path.exists(dest_path):
-                infoTrace("import.py", "Creating " + dest_path)
+                infoTrace("userdefined.py", "Creating " + dest_path)
                 os.makedirs(os.path.dirname(dest_path))
                 xbmc.sleep(500)
                 # Loop around waiting for the directory to be created.  After 10 seconds we'll carry 
@@ -146,7 +143,7 @@ def importWizard():
                 t = 0
                 while not os.path.exists(os.path.dirname(dest_path)):
                     if t == 9:
-                        errorTrace("vpnprovider.py", "Waited 10 seconds to create directory but it never appeared")
+                        errorTrace("userdefined.py", "Waited 10 seconds to create directory but it never appeared")
                         break
                     xbmc.sleep(1000)
                     t += 1
@@ -159,7 +156,7 @@ def importWizard():
                 progress.update(prog_step, progress_title, progress_message)
                 xbmc.sleep(100)
                 prog_step += dialog_step
-                infoTrace("import.py", "Copying " + fname + " to " + dest_name)
+                infoTrace("userdefined.py", "Copying " + fname + " to " + dest_name)
                 detail.append("Copying " + fname + " to " + dest_name + "\n")
                 xbmcvfs.copy(fname, dest_name)
                 if not xbmcvfs.exists(dest_name): raise IOError('Failed to copy user def file ' + fname + " to " + dest_name)
@@ -202,7 +199,7 @@ def importWizard():
                     prog_step += dialog_step
 
                     # Copy the ovpn file
-                    infoTrace("import.py", "Copying " + oname + " to " + dest_name)
+                    infoTrace("userdefined.py", "Copying " + oname + " to " + dest_name)
                     detail.append("Copying " + oname + " to " + dest_name + "\n")
                     xbmcvfs.copy(oname, dest_name)
                     if not xbmcvfs.exists(dest_name): raise IOError('Failed to copy user def ovpn ' + oname + " to " + dest_name)
@@ -212,7 +209,7 @@ def importWizard():
                         # Was doing a read from source and write here but this failed on Linux over an smb mount (file not found)
                         auth = False
                         keypass = False
-                        infoTrace("import.py", "Updating " + dest_name)
+                        infoTrace("userdefined.py", "Updating " + dest_name)
                         detail.append("Updating " + dest_name + "\n")
                         source_file = open(dest_name, 'r')
                         source = source_file.readlines()
@@ -311,8 +308,8 @@ def importWizard():
                         break
                         
         except Exception as e:
-            errorTrace("import.py", "Failed to copy (or update) file")
-            errorTrace("import.py", str(e))
+            errorTrace("userdefined.py", "Failed to copy (or update) file")
+            errorTrace("userdefined.py", str(e))
             success = False
             errorMessage = "Failed to copy (or update) selected files.  Check the log."
             

@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    VPN provider code used by the VPN Manager for OpenVPN add-on.
+#    Various pieces of VPN provider code used by the add-on.
 
 import os
 import xbmc
@@ -26,7 +26,7 @@ import xbmcaddon
 import glob
 import urllib2
 import time
-from utility import debugTrace, errorTrace, infoTrace, newPrint
+from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 
 
@@ -143,14 +143,14 @@ def usesUserKeys(vpn_provider):
     
 def usesSingleKey(vpn_provider):
     if isUserDefined(vpn_provider):
-        if xbmcaddon.Addon("service.vpn.manager").getSetting("user_def_keys") == "Single": return True
+        if xbmcaddon.Addon(getID()).getSetting("user_def_keys") == "Single": return True
     if vpn_provider in providers_with_single_keys: return True
     return False
 
     
 def usesMultipleKeys(vpn_provider):
     if isUserDefined(vpn_provider):
-        if xbmcaddon.Addon("service.vpn.manager").getSetting("user_def_keys") == "Multiple": return True
+        if xbmcaddon.Addon(getID()).getSetting("user_def_keys") == "Multiple": return True
     if vpn_provider in providers_with_multiple_keys: return True
     return False
     
@@ -284,7 +284,7 @@ def getKeyName(vpn_provider, ovpn_name):
     
 def usesKeyPass(vpn_provider):
     if isUserDefined(vpn_provider):
-        if not (xbmcaddon.Addon("service.vpn.manager").getSetting("user_def_key_password") == "true"): 
+        if not (xbmcaddon.Addon(getID()).getSetting("user_def_key_password") == "true"): 
             return False
     elif not vpn_provider in providers_with_single_key_pass: return False
     return True
@@ -341,7 +341,7 @@ def getCertName(vpn_provider, ovpn_name):
 def usesPassAuth(vpn_provider):
     # Determine if we're using a user name and password or not
     if isUserDefined(vpn_provider):
-        if not (xbmcaddon.Addon("service.vpn.manager").getSetting("user_def_credentials") == "true"): 
+        if not (xbmcaddon.Addon(getID()).getSetting("user_def_credentials") == "true"): 
             return False
     elif vpn_provider in providers_no_pass: return False
     return True
@@ -355,7 +355,7 @@ def getUpParam(provider):
     if xbmcvfs.exists(filename): return "up " + filename
     filename = getAddonPathWrapper(getVPNLocation(provider) + "/up." + ext)
     if xbmcvfs.exists(filename): return "up " + filename
-    if xbmcaddon.Addon("service.vpn.manager").getSetting("use_default_up_down") == "true":
+    if xbmcaddon.Addon(getID()).getSetting("use_default_up_down") == "true":
         filename = getAddonPathWrapper("up." + ext)
         if xbmcvfs.exists(filename): return "up " + filename
     return ""
@@ -369,7 +369,7 @@ def getDownParam(provider):
     if xbmcvfs.exists(filename): return "down " + filename
     filename = getAddonPathWrapper(getVPNLocation(provider) + "/down." + ext)
     if xbmcvfs.exists(filename): return "down " + filename
-    if xbmcaddon.Addon("service.vpn.manager").getSetting("use_default_up_down") == "true":
+    if xbmcaddon.Addon(getID()).getSetting("use_default_up_down") == "true":
         filename = getAddonPathWrapper("down." + ext)
         if xbmcvfs.exists(filename): return "down " + filename
     return ""
@@ -473,7 +473,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
     infoTrace("vpnproviders.py", "Generating OVPN files for " + vpn_provider + " using list " + alternative_locations_name)
 
     # See if there's a port override going on
-    addon = xbmcaddon.Addon("service.vpn.manager")
+    addon = xbmcaddon.Addon(getID())
     if addon.getSetting("default_udp") == "true":
         portUDP = ""
     else:
@@ -710,7 +710,7 @@ def updateVPNFiles(vpn_provider):
         ovpn_connections = getDownloadList(vpn_provider, "*.ovpn")
 
     # See if there's a port override going on
-    addon = xbmcaddon.Addon("service.vpn.manager")
+    addon = xbmcaddon.Addon(getID())
     if addon.getSetting("default_udp") == "true":
         portUDP = ""
     else:
@@ -984,7 +984,7 @@ def getVPNProviderUpdate():
 def setVPNProviderUpdate(update):
     # Store indication of whether a provider has an updated set of files
     xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Update", update)
-    xbmcaddon.Addon("service.vpn.manager").setSetting("vpn_provider_update", update)
+    xbmcaddon.Addon(getID()).setSetting("vpn_provider_update", update)
     return     
 
     
@@ -1002,7 +1002,7 @@ def setVPNProviderUpdateTime(t):
     
 
 def refreshFromGit(vpn_provider, progress):
-    addon = xbmcaddon.Addon("service.vpn.manager")
+    addon = xbmcaddon.Addon(getID())
     infoTrace("vpnproviders.py", "Checking downloaded ovpn files for " + vpn_provider + " with GitHub files")
     progress_title = "Updating files for " + vpn_provider
     try:
@@ -1028,7 +1028,7 @@ def refreshFromGit(vpn_provider, progress):
     except:
         addon_version = int(addon.getAddonInfo("version").replace(".", ""))
     if addon_version < int(version):
-        errorTrace("vpnproviders.py", "VPN Manager version is " + str(addon_version) + " and version " + version + " is needed for this VPN.")
+        errorTrace("vpnproviders.py", getShort() + " version is " + str(addon_version) + " and version " + version + " is needed for this VPN.")
         return False  
     
     try:

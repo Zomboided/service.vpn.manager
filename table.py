@@ -24,48 +24,52 @@ import xbmcaddon
 from libs.vpnproviders import getAddonList
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
 from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 
 debugTrace("-- Entered table.py --")
 
-addon = xbmcaddon.Addon("service.vpn.manager")
-addon_name = addon.getAddonInfo("name")
+if not getID() == "":
+    # Get info about the addon that this script is pretending to be attached to
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
 
-cancel_text = "[I][COLOR grey]Cancel[/COLOR][/I]"
-disconnect_text = "[COLOR ffff0000]Disconnect[/COLOR]"
-disconnected_text = "[COLOR ffff0000](Disconnected)[/COLOR]"
+    cancel_text = "[I][COLOR grey]Cancel[/COLOR][/I]"
+    disconnect_text = "[COLOR ffff0000]Disconnect[/COLOR]"
+    disconnected_text = "[COLOR ffff0000](Disconnected)[/COLOR]"
 
-# Don't display the table if there's nothing been set up
-if connectionValidated(addon):
-    if getCycleLock():
-        # Want to stop cycling whilst this menu is displayed, and clear any active cycle
-        clearVPNCycle()
-        if addon.getSetting("table_display_type") == "All Connections":
-            # Build a list of all ovpn files using the current active filter
-            all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")
-            ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
-            ovpn_connections.sort()
-        else:
-            # Build a list of all validated connections
-            ovpn_connections = getValidatedList(addon, "")
-        # Build the friendly list, displaying any active connection in blue
-        location_connections = getFriendlyProfileList(ovpn_connections, getVPNProfile(), "ff00ff00")
-        if getVPNState() == "started":
-            title = "Connected - " + getVPNProfileFriendly()
-            location_connections.insert(0, disconnect_text)
-        else:
-            title = "Disconnected"
-            location_connections.insert(0, disconnected_text)
-        
-        location_connections.append(cancel_text)
+    # Don't display the table if there's nothing been set up
+    if connectionValidated(addon):
+        if getCycleLock():
+            # Want to stop cycling whilst this menu is displayed, and clear any active cycle
+            clearVPNCycle()
+            if addon.getSetting("table_display_type") == "All Connections":
+                # Build a list of all ovpn files using the current active filter
+                all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")
+                ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
+                ovpn_connections.sort()
+            else:
+                # Build a list of all validated connections
+                ovpn_connections = getValidatedList(addon, "")
+            # Build the friendly list, displaying any active connection in blue
+            location_connections = getFriendlyProfileList(ovpn_connections, getVPNProfile(), "ff00ff00")
+            if getVPNState() == "started":
+                title = "Connected - " + getVPNProfileFriendly()
+                location_connections.insert(0, disconnect_text)
+            else:
+                title = "Disconnected"
+                location_connections.insert(0, disconnected_text)
+            
+            location_connections.append(cancel_text)
 
-        i = xbmcgui.Dialog().select(title, location_connections)
-        if location_connections[i] == disconnect_text or location_connections[i] == disconnected_text:
-            setAPICommand("Disconnect")
-        elif not location_connections[i] == cancel_text:
-            setAPICommand(ovpn_connections[i-1])
-        freeCycleLock()
+            i = xbmcgui.Dialog().select(title, location_connections)
+            if location_connections[i] == disconnect_text or location_connections[i] == disconnected_text:
+                setAPICommand("Disconnect")
+            elif not location_connections[i] == cancel_text:
+                setAPICommand(ovpn_connections[i-1])
+            freeCycleLock()
+    else:
+        xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
 else:
-    xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)
-
+    errorTrace("table.py", "VPN service is not ready")
+    
 debugTrace("-- Exit table.py --")

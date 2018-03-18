@@ -22,7 +22,7 @@
 import xbmcaddon
 import xbmcgui
 from libs.common import getSystemData
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.utility import debugTrace, errorTrace, infoTrace, getID, getName
 
 
 ACTION_PREVIOUS_MENU = 10
@@ -49,7 +49,7 @@ class InfoBox(xbmcgui.WindowXMLDialog):
         
 
 def showInfoBox(caption, text_l, text_r):
-    path = xbmcaddon.Addon("service.vpn.manager").getAddonInfo("path")
+    path = xbmcaddon.Addon(getID()).getAddonInfo("path")
     win = InfoBox("infotextbox.xml", path, caption=caption, text_left=text_l, text_right=text_r)
     win.doModal()
     del win
@@ -57,17 +57,20 @@ def showInfoBox(caption, text_l, text_r):
     
 debugTrace("-- Entered infopopup.py --")
 
-addon = xbmcaddon.Addon("service.vpn.manager")
-dialog_text_l = ""
-dialog_text_r = ""
-data_left = getSystemData(addon, True, True, False, False)
-data_right = getSystemData(addon, False, False, False, True)
-for line in data_left:
-    if line.startswith("[B]") and not dialog_text_l == "": dialog_text_l = dialog_text_l + "\n"
-    dialog_text_l = dialog_text_l + line + "\n"
-for line in data_right:
-    if line.startswith("[B]") and not dialog_text_r == "": dialog_text_r = dialog_text_r + "\n"
-    dialog_text_r = dialog_text_r + line + "\n"    
-showInfoBox("System Information", dialog_text_l, dialog_text_r)
-
+if not getID() == "":
+    addon = xbmcaddon.Addon(getID())
+    dialog_text_l = ""
+    dialog_text_r = ""
+    data_left = getSystemData(addon, True, True, False, False)
+    data_right = getSystemData(addon, False, False, False, True)
+    for line in data_left:
+        if line.startswith("[B]") and not dialog_text_l == "": dialog_text_l = dialog_text_l + "\n"
+        dialog_text_l = dialog_text_l + line + "\n"
+    for line in data_right:
+        if line.startswith("[B]") and not dialog_text_r == "": dialog_text_r = dialog_text_r + "\n"
+        dialog_text_r = dialog_text_r + line + "\n"    
+    showInfoBox("System Information", dialog_text_l, dialog_text_r)
+else:
+    errorTrace("infopopup.py", "VPN service is not ready")
+    
 debugTrace("-- Exit infopopup.py --")

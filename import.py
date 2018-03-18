@@ -3,9 +3,6 @@
 #
 #    Copyright (C) 2016 Zomboided
 #
-#    Connection script called by the VPN Manager for OpenVPN settings screen
-#    to validate a connection to a VPN provider.
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -22,14 +19,18 @@
 #    This module assists with the import of a user defined VPN provider
 
 import xbmc
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID
 from libs.userdefined import importWizard
 
 debugTrace("Entered import.py")
-        
-importWizard()        
 
-# Return to the settings screen
-xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
-    
+if not getID() == "":     
+    importWizard()        
+
+    # Return to the settings screen
+    command = "Addon.OpenSettings(" + getID() + ")"
+    xbmc.executebuiltin(command)
+else:
+    errorTrace("import.py", "VPN service is not ready")
+
 debugTrace("Exit import.py")

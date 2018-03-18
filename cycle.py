@@ -20,10 +20,12 @@
 #    menu screen but allows a user to configure it to a button on a remote, etc
 
 from libs.common import requestVPNCycle
-from libs.utility import debugTrace, errorTrace, infoTrace
-
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID
 
 # Call the common cycle routine
 debugTrace("-- Entered cycle.py --")
-requestVPNCycle(False)
+if not getID() == "":
+    requestVPNCycle(False)
+else:
+    errorTrace("cycle.py", "VPN service is not ready")
 debugTrace("-- Exit cycle.py --")

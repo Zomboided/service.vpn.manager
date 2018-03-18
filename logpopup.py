@@ -20,20 +20,23 @@
 
 import xbmcaddon
 import xbmcgui
-from libs.utility import debugTrace, errorTrace, infoTrace
+from libs.utility import debugTrace, errorTrace, infoTrace, getID
 from libs.logbox import popupOpenVPNLog, popupKodiLog, popupImportLog
 
 action = sys.argv[1]
 
 debugTrace("-- Entered infopopup.py with parameter " + action + " --")
 
-if action == "kodi":
-    popupKodiLog()
+if not getID() == "":
+    if action == "kodi":
+        popupKodiLog()
 
-if action == "openvpn":
-    popupOpenVPNLog("")
+    if action == "openvpn":
+        popupOpenVPNLog("")
+        
+    if action == "import":
+        popupImportLog()
+else:
+    errorTrace("logpopup.py", "VPN service is not ready")
     
-if action == "import":
-    popupImportLog()
-
 debugTrace("-- Exit infopopup.py --")

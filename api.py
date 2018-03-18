@@ -23,10 +23,7 @@ import xbmcaddon
 import xbmcvfs
 import string
 from libs.common import setAPICommand, clearAPICommand, getAPICommand
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
-
-addon = xbmcaddon.Addon("service.vpn.manager")
-addon_name = addon.getAddonInfo("name")
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID
 
 # Get the first argument which will indicate the connection that's being dealt with
 command = sys.argv[1]
@@ -34,41 +31,45 @@ lcommand = command.lower()
 
 debugTrace("Entered api.py with parameter " + command)
 
-if lcommand == "disconnect": 
-    setAPICommand("Disconnect")
-elif lcommand == "cycle":
-    setAPICommand("Cycle")
-elif lcommand == "fake":
-    setAPICommand("Fake")
-elif lcommand == "real":
-    setAPICommand("Real")
-elif lcommand == "pause":
-    setAPICommand("Pause")
-elif lcommand == "restart":
-    setAPICommand("Restart")
-elif lcommand == "reconnect":
-    setAPICommand("Reconnect")
-elif lcommand == "getip":
-    setAPICommand("GetIP")
-elif lcommand.startswith("connect"): 
-    connection = command[8:].strip(' \t\n\r')
-    if connection.isdigit():
-        c = int(connection)
-        # Adjust the 11 below to change conn_max
-        if c > 0 and c < 11:
-            connection = addon.getSetting(str(c) + "_vpn_validated")
-            if not connection == "":
+if not getID() == "":
+    if lcommand == "disconnect": 
+        setAPICommand("Disconnect")
+    elif lcommand == "cycle":
+        setAPICommand("Cycle")
+    elif lcommand == "fake":
+        setAPICommand("Fake")
+    elif lcommand == "real":
+        setAPICommand("Real")
+    elif lcommand == "pause":
+        setAPICommand("Pause")
+    elif lcommand == "restart":
+        setAPICommand("Restart")
+    elif lcommand == "reconnect":
+        setAPICommand("Reconnect")
+    elif lcommand == "getip":
+        setAPICommand("GetIP")
+    elif lcommand.startswith("connect"): 
+        connection = command[8:].strip(' \t\n\r')
+        if connection.isdigit():
+            c = int(connection)
+            addon = xbmcaddon.Addon(getID())
+            # Adjust the 11 below to change conn_max
+            if c > 0 and c < 11:
+                connection = addon.getSetting(str(c) + "_vpn_validated")
+                if not connection == "":
+                    setAPICommand(connection)
+                else:
+                    errorTrace("api.py", "Connection requested, " + str(c) + " has not been validated")
+            else:
+                errorTrace("api.py", "Invalid connection, " + str(c) + " requested")
+        else:
+            if xbmcvfs.exists(connection):
                 setAPICommand(connection)
             else:
-                errorTrace("api.py", "Connection requested, " + str(c) + " has not been validated")
-        else:
-            errorTrace("api.py", "Invalid connection, " + str(c) + " requested")
+                errorTrace("api.py", "Requested connection, " + connection + " does not exist")
     else:
-        if xbmcvfs.exists(connection):
-            setAPICommand(connection)
-        else:
-            errorTrace("api.py", "Requested connection, " + connection + " does not exist")
+        errorTrace("api.py", "Unrecognised command: " + command)
 else:
-    errorTrace("api.py", "Unrecognised command: " + command)
+    errorTrace("api.py", "VPN service is not ready")
     
 debugTrace("-- Exit api.py --")

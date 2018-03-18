@@ -16,34 +16,36 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    Shared code fragments used by the VPN Manager for OpenVPN add-on.
+#    Shared code fragments used by the add-on.
 
 import xbmc
 import xbmcaddon
+import xbmcgui
 
 
 def ifDebug():
-    if xbmcaddon.Addon("service.vpn.manager").getSetting("vpn_enable_debug") == "true":
+    if getID() == "": return False
+    if xbmcaddon.Addon(getID()).getSetting("vpn_enable_debug") == "true":
         return True
     return False
 
     
 def debugTrace(data):    
     if ifDebug():
-        log = "VPN Mgr Debug: " + data
+        log = getVery() + " : " + data
         xbmc.log(msg=log, level=xbmc.LOGNONE)       
     else:
-        log = "VPN Mgr : " + data
+        log = getVery() + " : " + data
         xbmc.log(msg=log, level=xbmc.LOGDEBUG)
     
     
 def errorTrace(module, data):
-    log = "VPN Mgr : (" + module + ") " + data
+    log = getVery() + " : (" + module + ") " + data
     xbmc.log(msg=log, level=xbmc.LOGERROR)
     
     
 def infoTrace(module, data):
-    log = "VPN Mgr : (" + module + ") " + data
+    log = getVery() + " : (" + module + ") " + data
     xbmc.log(msg=log, level=xbmc.LOGNOTICE)
 
     
@@ -56,5 +58,33 @@ def newPrint(data):
 
     
 def enum(**enums):
-    return type('Enum', (), enums)    
+    return type('Enum', (), enums) 
+    
+    
+def getID():
+    return xbmcgui.Window(10000).getProperty("VPN_Addon_ID")
+
+def setID(id):
+    return xbmcgui.Window(10000).setProperty("VPN_Addon_ID", id)
+
+    
+def getName():
+    return xbmcgui.Window(10000).getProperty("VPN_Addon_Name")
+    
+def setName(name):
+    return xbmcgui.Window(10000).setProperty("VPN_Addon_Name", name)
+
+    
+def getShort():
+    return xbmcgui.Window(10000).getProperty("VPN_Addon_Short_Name")
+
+def setShort(short_name):
+    return xbmcgui.Window(10000).setProperty("VPN_Addon_Short_Name", short_name)
+
+    
+def getVery():
+    return xbmcgui.Window(10000).getProperty("VPN_Addon_Very_Short_Name")
+      
+def setVery(very_short_name):
+    return xbmcgui.Window(10000).setProperty("VPN_Addon_Very_Short_Name", very_short_name)     
     

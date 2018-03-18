@@ -21,13 +21,11 @@
 import xbmcaddon
 import xbmcgui
 import xbmcvfs
-from utility import debugTrace, errorTrace, infoTrace
+from utility import debugTrace, errorTrace, infoTrace, getID
 from platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
-
 
 ACTION_PREVIOUS_MENU = 10
 ACTION_NAV_BACK = 92
-
 
 # Class to display a box with an ok and refresh, a close, and a big pane full of small text
 class LogBox(xbmcgui.WindowXMLDialog):
@@ -47,7 +45,7 @@ class LogBox(xbmcgui.WindowXMLDialog):
             
 
 def showLogBox(caption, text):
-    path = xbmcaddon.Addon("service.vpn.manager").getAddonInfo("path")
+    path = xbmcaddon.Addon(getID()).getAddonInfo("path")
     win = LogBox("logtextbox.xml", path, caption=caption, text=text)
     win.doModal()
     del win
@@ -72,9 +70,9 @@ def popupImportLog():
         for line in log_output:
             dialog_text = dialog_text + line
     else:
-            dialog_text = "No import log file available.  A log file is only available once the import wizard has been run.\n\n"
-            dialog_text = dialog_text + "The User Defined directory is " + getUserDataPath("UserDefined/") + "\n\n"
-            dialog_text = dialog_text + "More information on using User Defined VPNs can be found on the GitHub wiki for the service.vpn.manager project.\n"
+        dialog_text = "No import log file available.  A log file is only available once the import wizard has been run.\n\n"
+        dialog_text = dialog_text + "The User Defined directory is " + getUserDataPath("UserDefined/") + "\n\n"
+        dialog_text = dialog_text + "More information on using User Defined VPNs can be found on the GitHub wiki for the service.vpn.manager project.\n"
     showLogBox("Import Wizard Log", dialog_text)
 
     

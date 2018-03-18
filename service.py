@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    Service module for VPN Manager for OpenVPN addon
+#    Service module for addon
 
 import xbmc
 import xbmcgui
@@ -38,7 +38,7 @@ from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTi
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
-from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint
+from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnproviders import populateSupportingFromGit
 from libs.vpnapi import VPNAPI
@@ -56,6 +56,13 @@ primary_vpns_friendly = []
 # Set the addon name for use in the dialogs
 addon = xbmcaddon.Addon()
 addon_name = addon.getAddonInfo('name')
+setName(addon_name)
+addon_id = addon.getAddonInfo('id')
+setID(addon_id)
+addon_short = addon.getSetting("vpn_short")
+setShort(addon_short)
+addon_very = addon.getSetting("vpn_very")
+setVery(addon_very)
 
 accepting_changes = False
 
@@ -157,7 +164,7 @@ if __name__ == '__main__':
     settingsMonitor = KodiMonitor()
     
     if not xbmcvfs.exists(getAddonPath(True, "connect.py")):
-        xbmcgui.Dialog().ok(addon_name, "You've installed VPN Manager incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
+        xbmcgui.Dialog().ok(addon_name, "You've installed " + addon_short + " incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
         errorTrace("service.py", "Install is in the wrong place, expecting to find the add-on installed in " + getAddonPath(True,""))
     
     # See if this is a new install...we might want to do things here
@@ -172,8 +179,9 @@ if __name__ == '__main__':
             infoTrace("service.py", "New install, resetting the world " + addon.getSetting("version_number"))
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
-            xbmcgui.Dialog().ok(addon_name, "VPN Manager installed.\nPlease set up a VPN provider and then validate a connection")
-            xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
+            xbmcgui.Dialog().ok(addon_name, addon_short + " installed.\nPlease set up a VPN provider and then validate a connection")
+            command = "Addon.OpenSettings(" + addon_id + ")"
+            xbmc.executebuiltin(command)
         else:
             # Do a bunch of version number dependent tests
             last_version = int(stored_version.replace(".", ""))
@@ -185,7 +193,7 @@ if __name__ == '__main__':
             if last_version < 400:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
-                xbmcgui.Dialog().ok(addon_name, "Thanks for using VPN Manager! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
+                xbmcgui.Dialog().ok(addon_name, "Thanks for using " + addon_short + "! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
             reset_everything = False
             if addon.getSetting("vpn_provider_validated") == "NordVPN" or addon.getSetting("vpn_provider") == "NordVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")
@@ -403,7 +411,7 @@ if __name__ == '__main__':
                                     if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
                                         notification_title = addon_name
                                     else:
-                                        notification_title = "VPN Manager, update available"
+                                        notification_title = addon_short + ", update available"
                                         icon = "/resources/update.png"
                                         notification_time = 8000
                                     addon = xbmcaddon.Addon()
@@ -673,7 +681,7 @@ if __name__ == '__main__':
                         if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
                             notification_title = addon_name
                         else:
-                            notification_title = "VPN Manager, update available"
+                            notification_title = addon_short + ", update available"
                             icon = "/resources/update.png"
                         addon = xbmcaddon.Addon()
                         if addon.getSetting("display_location_on_connect") == "true":
@@ -785,7 +793,7 @@ if __name__ == '__main__':
                                 if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
                                     notification_title = addon_name
                                 else:
-                                    notification_title = "VPN Manager, update available"
+                                    notification_title = addon_short + ", update available"
                                     icon = "/resources/update.png"
                                     notification_time = 8000
                                 addon = xbmcaddon.Addon()

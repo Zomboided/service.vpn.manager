@@ -62,7 +62,7 @@ def topLevel():
     # Build the top level menu with URL callbacks to this plugin
     debugTrace("Displaying the top level menu")
     url = base_url + "?settings"
-    li = xbmcgui.ListItem("Add-on Settings", iconImage=getIconPath()+"settings.png")
+    li = xbmcgui.ListItem("Settings", iconImage=getIconPath()+"settings.png")
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     url = base_url + "?display"
     li = xbmcgui.ListItem("Display VPN status", iconImage=getIconPath()+"display.png")
@@ -217,12 +217,11 @@ elif action == "back" :
     #listSystem()
 elif not connectionValidated(addon) and action != "":
     # Haven't got a valid connection so force user into the wizard or the settings dialog
-    if not addon.getSetting("vpn_wizard_run") == "true" : 
+    if not addon.getSetting("vpn_wizard_run") == "true":
         wizard()
     else:
-        if not action =="settings": xbmcgui.Dialog().ok(addon_name, "Please validate a primary VPN connection first.  You can do this using the VPN Configuration and VPN Connections tabs within the Settings dialog.")
-    command = "Addon.OpenSettings(" + addon_id + ")"
-    xbmc.executebuiltin(command)
+        command = "Addon.OpenSettings(" + addon_id + ")"
+        xbmc.executebuiltin(command)   
 else:
     # User wants to see settings, list connections or they've selected to change something.  
     # If it's none of these things, we're at the top level and just need to show the menu

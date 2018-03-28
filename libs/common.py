@@ -36,7 +36,7 @@ from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID,
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
-from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime
+from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -910,53 +910,99 @@ def writeCredentials(addon):
 def wizard():
     addon = xbmcaddon.Addon(getID())
     addon_name = getName()    
-
-    # Indicate the wizard has been run, regardless of if it is to avoid asking again
-    addon.setSetting("vpn_wizard_run", "true")
     
+    settings = False
     # Wizard or settings?
-    if xbmcgui.Dialog().yesno(addon_name, "No primary VPN connection has been set up.  Would you like to do this using the set up wizard or using the Settings dialog?", "", "", "Settings", "Wizard"):
+    if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", "", "", "Wizard", "Settings"):
         
         # Select the VPN provider
+        current = ""
         if not isCustom():
+            cancel_text = "[I]Cancel setup[/I]"
+            # Build the list of display names and highlight the current one if it's been used previously
             provider_list = list(provider_display)
             provider_list.sort()
-            vpn = xbmcgui.Dialog().select("Select your VPN provider.", provider_list)
-            vpn = provider_display.index(provider_list[vpn])
-            vpn_provider = provider_display[vpn]
-        else: vpn_provider = addon.getSetting("vpn_custom")
-        
+            if not addon.getSetting("vpn_username") == "":
+                current = addon.getSetting("vpn_provider")
+                i = provider_list.index(getVPNDisplay(current))
+                provider_list[i] = "[B]" + provider_list[i] + "[/B]"
+            provider_list.append(cancel_text)
+            vpn = xbmcgui.Dialog().select("Select your VPN provider", provider_list)
+            selected = provider_list[vpn]
+            if not selected == cancel_text:
+                selected = selected.replace("[B]", "")
+                selected = selected.replace("[/B]", "")
+                i = provider_display.index(selected)
+                vpn_provider = provider_display[i]
+            else:
+                vpn_provider = ""
+                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+        else:
+            vpn_provider = addon.getSetting("vpn_custom")
+            current = vpn_provider
+            
         success = True
         # If User Defined VPN then offer to run the wizard
         if isUserDefined(vpn_provider):
-            success = importWizard()        
-        
-        if success:
-            # Get the username and password
-            vpn_username = ""
-            vpn_password = ""
-            if usesPassAuth(vpn_provider):
-                vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " username.", type=xbmcgui.INPUT_ALPHANUM)
-                if not vpn_username == "":
-                    vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password.", type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
+            success = importWizard()
+        # FIXME TEST USER DEFINED IMPORT AS PART OF THE NEW WIZARD            
             
-            # Try and connect if we've gotten all the data
-            if (not usesPassAuth(vpn_provider)) or (not vpn_password == ""):
-                addon.setSetting("vpn_provider", vpn_provider)
-                addon.setSetting("vpn_username", vpn_username)
-                addon.setSetting("vpn_password", vpn_password)
+        if success and not vpn_provider == "":
+            # Get the username and password
+            if usesPassAuth(vpn_provider):
+                # Preload with any existing info if it's the same VPN
+                if not current == vpn_provider:
+                    vpn_username = ""
+                    vpn_password = ""
+                else:
+                    vpn_username = addon.getSetting("vpn_username")
+                    vpn_password = addon.getSetting("vpn_password")            
+                # Get the user name
+                while True:
+                    vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " user name", vpn_username, type=xbmcgui.INPUT_ALPHANUM)
+                    if vpn_username == "":
+                        if xbmcgui.Dialog().yesno(addon_name, "You must enter the user name supplied by " + vpn_provider + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
+                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                            break
+                    else:
+                        break
+                        
+                if not vpn_username == "":
+                    while True:
+                        vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password", vpn_password, type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
+                        if vpn_password == "":
+                            if xbmcgui.Dialog().yesno(addon_name, "You must enter the password supplied by " + vpn_provider + " for user name " + vpn_username + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
+                                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                                break
+                        else:
+                            break
+            else:
+                xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses private key and cert authentication.  You'll be asked for these during the connection.")
+        
+        #FIXME If the platform is Linux, could offer to default some options here
+
+        if success and not vpn_provider == "" and (not usesPassAuth(vpn_provider) or not vpn_password == ""):
+            # Commit the settings entered and try the connection
+            addon.setSetting("vpn_provider", vpn_provider)
+            addon.setSetting("vpn_username", vpn_username)
+            addon.setSetting("vpn_password", vpn_password)
+            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".", "", "", "Ok", "Cancel"):
                 connectVPN("1", vpn_provider)
-                # Need to reinitialise addon here for some reason...
                 addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
-                    xbmcgui.Dialog().ok(addon_name, "Successfully connected to " + vpn_provider + ".  Use the Settings dialog to add additional VPN connections.  You can also define add-on filters to dynamically change the VPN connection being used.")
+                    xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This connection will be used when Kodi starts.")
+                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections (or countries) and define filters to automatically change the VPN connection being used with each add-on.  Do you want to do this now?", "", "", "Yes", "No"):
+                        settings = True
                 else:
-                    xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Use the Settings dialog to correct any issues and try connecting again.")
-                
+                    xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
-                xbmcgui.Dialog().ok(addon_name, "You need to enter both a VPN username and password to connect.")
-        else:
-            xbmcgui.Dialog().ok(addon_name, "There was a problem setting up the User Defined provider.  Fix any issues and run the wizard again from the VPN Configuration tab.")
+                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+    else:
+        settings = True
+    
+    if settings:
+        command = "Addon.OpenSettings(" + getID() + ")"
+        xbmc.executebuiltin(command)
 
             
 def removeUsedConnections(addon, connection_order, connections):
@@ -987,12 +1033,9 @@ def connectVPN(connection_order, vpn_profile):
         debugTrace("Checking platform is valid and openvpn is installed")
         if checkPlatform(addon) and checkVPNInstall(addon): addon.setSetting("checked_openvpn", "true")
         else: return
-    
-    # If we've not arrived here though the addon (because we've used the add-on setting
-    # on the option menu), we want to surpress running the wizard as there's no need.
-    if not addon.getSetting("vpn_wizard_run") == "true":
-        addon.setSetting("vpn_wizard_run", "true")
 
+    # FIXME consider whether killall, ps is working too for OSMC
+        
     if not addon.getSetting("ran_openvpn") == "true":
         debugTrace("Checking openvpn can be run")
         stopVPN9()    
@@ -1120,7 +1163,7 @@ def connectVPN(connection_order, vpn_profile):
             else:
                 errorTrace("common.py", "DEFAULT.txt found in VPN directory for " + vpn_provider + ", but file appears to be invalid.")
 
-        # Reset the username/password if it's not being used
+        # Reset the user name/password if it's not being used
         if not usesPassAuth(getVPNLocation(vpn_provider)):
             addon.setSetting("vpn_username", "")
             addon.setSetting("vpn_password", "")  
@@ -1130,7 +1173,7 @@ def connectVPN(connection_order, vpn_profile):
         # Check for formatting characters first time through
         if connection_order == "1":
             vpn_username_stripped = vpn_username.strip(' \t\n\r')
-            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your username starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
+            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your user name starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
                 vpn_username = vpn_username_stripped
                 addon.setSetting("vpn_username", vpn_username)
             vpn_password_stripped = vpn_password.strip(' \t\n\r')
@@ -1374,7 +1417,7 @@ def connectVPN(connection_order, vpn_profile):
     
     log_option = True
     # Determine what happened during the connection attempt        
-    if state == connection_status.CONNECTED :
+    if state == connection_status.CONNECTED:
         # Success, VPN connected! Display an updated progress window whilst we work out where we're connected to
         progress_message = "Connected, checking location info."
         progress.update(96, progress_title, progress_message)
@@ -1400,6 +1443,9 @@ def connectVPN(connection_order, vpn_profile):
             addon.setSetting("vpn_password_validated", vpn_password)
             addon.setSetting(connection_order + "_vpn_validated", ovpn_connection)
             addon.setSetting(connection_order + "_vpn_validated_friendly", ovpn_name)
+        # Stop the wizard running once the first connection has been validated
+        if connection_order == "1":
+            addon.setSetting("vpn_wizard_run", "true")
         setVPNState("started")
         setVPNRequestedProfile("")
         setVPNRequestedProfileFriendly("")
@@ -1485,13 +1531,13 @@ def connectVPN(connection_order, vpn_profile):
         else:
             # This second set of errors happened because we tried to connect and failed
             if state == connection_status.AUTH_FAILED: 
-                dialog_message = "Error connecting to VPN, authentication failed. Check your username and password (or cert and key files).  If you've connected previously, check that your VPN plan allows access to this location, and supports multiple connections."
+                dialog_message = "Error connecting to VPN, authentication failed. Check your user name and password (or cert and key files).  If you've connected previously, check that your VPN plan allows access to this location, and supports multiple connections."
                 credentials_path = getCredentialsPath(addon)
                 if not connection_order == "0":
                     addon.setSetting("vpn_username_validated", "")
                     addon.setSetting("vpn_password_validated", "")
             elif state == connection_status.NETWORK_FAILED: 
-                dialog_message = "Error connecting to VPN, could not estabilish connection. Check your username, password and network connectivity and retry."
+                dialog_message = "Error connecting to VPN, could not establish connection. Check your user name, password and network connectivity and retry."
             elif state == connection_status.TIMEOUT:
                 dialog_message = "Error connecting to VPN, connection has timed out. Try using a different VPN profile or retry."
             elif state == connection_status.ROUTE_FAILED:

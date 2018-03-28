@@ -35,7 +35,7 @@ from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, 
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
-from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer
+from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
@@ -198,10 +198,6 @@ if __name__ == '__main__':
             infoTrace("service.py", "New install, resetting the world " + addon.getSetting("version_number"))
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
-            #FIXME If the platform is Linux, could default some options here
-            xbmcgui.Dialog().ok(addon_name, addon_short + " installed.\nPlease set up a VPN provider and then validate a connection")
-            command = "Addon.OpenSettings(" + addon_id + ")"
-            xbmc.executebuiltin(command)
         else:
             # Do a bunch of version number dependent tests
             last_version = int(stored_version.replace(".", ""))
@@ -327,6 +323,10 @@ if __name__ == '__main__':
     
     accepting_changes = True
     
+    # If no connection has been set up, offer to run the wizard
+    if not connectionValidated(addon) and not addon.getSetting("vpn_wizard_run") == "true": 
+        wizard()
+        
     while not abortRequested():
 
         if stopRequested() or stop:

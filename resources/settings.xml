@@ -141,30 +141,31 @@
     </category>
     <category label="32140">
         <setting label="32141" type="lsep"/>
-        <setting label="32142" type="bool" id="vpn_enable_debug" default="false"/>                
-        <setting label="32143" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, kodi)"/>
-        <setting label="32144" type="action" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, log)"/>
+        <setting label="32142" type="bool" id="vpn_enable_debug" default="false"/>  
+        <setting label="32143" type="bool" id="vpn_wizard_run" default="false"/>        
+        <setting label="32144" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, kodi)"/>
+        <setting label="32145" type="action" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, log)"/>
         <setting label=""      type="lsep"/>
-        <setting label="32145" type="lsep"/>
-        <setting label="32146" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, openvpn)"/>
-        <setting label="32147" type="labelenum" id="openvpn_verb" lvalues="32151|32152|32153|32148|32149|32150"/>   
+        <setting label="32146" type="lsep"/>
+        <setting label="32147" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, openvpn)"/>
+        <setting label="32148" type="labelenum" id="openvpn_verb" lvalues="32152|32153|32154|32149|32150|32151"/>   
         <setting label=""      type="text" id="platform" enable="false" visible="false"/>       
-        <setting label="32154" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
-        <setting label="32155" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32156|32157|32158"/>
-        <setting label="32159" type="bool" id="openvpn_no_path" visible="eq(-3,2)" default="false"/>
-        <setting label="32160" type="bool" id="openvpn_killall" visible="eq(-4,2)|eq(-4,3)" default="false"/>
-        <setting label="32161" type="bool" id="alt_pid_check" visible="eq(-5,2)" default="false"/>
-        <setting label="32162" type="text" visible="eq(-6,0)" enable="false"/>
-        <setting label="32163" type="bool" id="up_down_script" default="true"/>
-        <setting label="32164" type="bool" id="use_default_up_down" visible="eq(-8,2)|eq(-8,3)" enable="true" default="false"/>
-        <setting label="32165" type="bool" id="force_ping" visible="true" default="true"/>
-        <setting label="32166" type="bool" id="openvpn_log_location" default="false"/>
-        <setting label="32167" type="bool" id="fix_system_time" visible="eq(-11,1)" default="true"/>
+        <setting label="32155" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
+        <setting label="32156" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32157|32158|32159"/>
+        <setting label="32160" type="bool" id="openvpn_no_path" visible="eq(-3,2)" default="false"/>
+        <setting label="32161" type="bool" id="openvpn_killall" visible="eq(-4,2)|eq(-4,3)" default="false"/>
+        <setting label="32162" type="bool" id="alt_pid_check" visible="eq(-5,2)" default="false"/>
+        <setting label="32163" type="text" visible="eq(-6,0)" enable="false"/>
+        <setting label="32164" type="bool" id="up_down_script" default="true"/>
+        <setting label="32165" type="bool" id="use_default_up_down" visible="eq(-8,2)|eq(-8,3)" enable="true" default="false"/>
+        <setting label="32166" type="bool" id="force_ping" visible="true" default="true"/>
+        <setting label="32167" type="bool" id="openvpn_log_location" default="false"/>
+        <setting label="32168" type="bool" id="fix_system_time" visible="eq(-11,1)" default="true"/>
         <setting label=""      type="lsep"/>
-        <setting label="32168" type="lsep"/>
-        <setting label="32169" type="bool" id="vpn_system_menu_item" default="false"/>
-        <setting label="32170" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
-        <setting label="32171" type="labelenum" id="ip_info_source" lvalues="32172|32173|32174|32175"/>
+        <setting label="32169" type="lsep"/>
+        <setting label="32170" type="bool" id="vpn_system_menu_item" default="false"/>
+        <setting label="32171" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/infopopup.py, sysinfo)"/>
+        <setting label="32172" type="labelenum" id="ip_info_source" lvalues="32173|32174|32175|32176"/>
         <setting label=""      type="text" id="vpn_provider_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_username_validated" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" enable="false" visible="false" default=""/>
@@ -190,7 +191,6 @@
         <setting label=""      type="text" id="10_vpn_validated_friendly" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="vpn_locations_list" enable="false" visible="false" default=""/>
         <setting label=""      type="text" id="version_number" enable="false" visible="false" default=""/>
-        <setting label=""      type="bool" id="vpn_wizard_run" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="checked_openvpn" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="ran_openvpn" enable="false" visible="false" default="false"/>
         <setting label=""      type="bool" id="monitor_paused" enable="false" visible="false" default="false"/>
@@ -204,7 +204,7 @@
         <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
         <setting label=""      type="bool" id="location_ip_view" enable="false" visible="false" default="false"/>
         <setting label=""      type="text" id="last_connect_time" enable="false" visible="false" default=""/>
-        <setting label=""      type="text" id="vpn_custom" visible="true" enable="true" default=""/>
+        <setting label=""      type="text" id="vpn_custom" visible="false" enable="false" default=""/>
         <setting label=""      type="text" id="vpn_short" enable="false" visible="false" default="VPN Manager"/>
         <setting label=""      type="text" id="vpn_very" enable="false" visible="false" default="VPN Mgr"/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>

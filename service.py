@@ -66,10 +66,10 @@ setVery(addon_very)
 
 accepting_changes = False
 
+streaming = False
+
 abort = False
 
-stop_ids = []
-    
 def refreshPrimaryVPNs():
     # Fetch the list of excluded or filtered addons
 
@@ -147,21 +147,40 @@ class KodiMonitor(xbmc.Monitor):
             debugTrace("Received a quit notification")
             abort = True
             
+
+# Player class which will get called when a video starts/stops            
+class KodiPlayer(xbmc.Player):
+    
+    def __init__ (self):
+        xbmc.Player.__init__(self)
+        self.logger = None
+
+    def onPlayBackStarted(self, *arg):
+        global streaming
+        filename = self.getPlayingFile()
+        addon = xbmcaddon.Addon()
+        stop_ids = addon.getSetting("vpn_stop_ids").split()
+        streaming = False
+        for stop_id in stop_ids:
+            if filename.startswith(stop_id):
+                newPrint("Streaming MATTHEW")
+                streaming = True
+                break
         
+                
 if __name__ == '__main__':   
 
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
     infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
     infoTrace("service.py", "Addon path is " + getAddonPath(True, ""))
     
+    # Initialise the monitor classes
+    monitor = KodiMonitor()
+    player = KodiPlayer() 
+    
     # Initialise some variables we'll be using repeatedly
-    monitor = xbmc.Monitor()
-    player = xbmc.Player() 
     addon = xbmcaddon.Addon()
     filters = VPNAPI()
-    
-    # Create a monitor to look out for settings changes
-    settingsMonitor = KodiMonitor()
     
     if not xbmcvfs.exists(getAddonPath(True, "connect.py")):
         xbmcgui.Dialog().ok(addon_name, "You've installed " + addon_short + " incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
@@ -179,6 +198,7 @@ if __name__ == '__main__':
             infoTrace("service.py", "New install, resetting the world " + addon.getSetting("version_number"))
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)
+            #FIXME If the platform is Linux, could default some options here
             xbmcgui.Dialog().ok(addon_name, addon_short + " installed.\nPlease set up a VPN provider and then validate a connection")
             command = "Addon.OpenSettings(" + addon_id + ")"
             xbmc.executebuiltin(command)
@@ -367,10 +387,6 @@ if __name__ == '__main__':
                     # It can get deleted sometimes, like when reinstalling the addon
                     if usesPassAuth(getVPNLocation(vpn_provider)) and not xbmcvfs.exists(getCredentialsPath(addon)):
                         writeCredentials(addon)
-                
-                # Get the kill stream identifiers
-                stop_string = addon.getSetting("vpn_stop_ids")
-                stop_ids = stop_string.split()
 
 				# Flag that filter and VPN lists have changed
                 debugTrace("Flag lists have changed")
@@ -449,9 +465,8 @@ if __name__ == '__main__':
 			# This checks the connection is still good.  It will always do it whilst there's 
             # no playback but there's an option to suppress this during playback
             addon = xbmcaddon.Addon()
-            if (not playing) or addon.getSetting("vpn_reconnect_while_playing") == "true":
+            if (not playing) or (addon.getSetting("vpn_reconnect_while_playing") == "true" or (addon.getSetting("vpn_reconnect_while_streaming") == "true" and streaming)):
                 if vpn_setup and timer > connection_retry_time:
-                    addon = xbmcaddon.Addon()
                     if addon.getSetting("vpn_reconnect") == "true":
                         if not isVPNConnected() and not (getVPNState() == "off"):
                             # Don't know why we're disconnected, but reconnect to the last known VPN
@@ -710,11 +725,9 @@ if __name__ == '__main__':
                         filename = player.getPlayingFile()
                         debugTrace("File " + filename + " is playing")                        
                         if addon.getSetting("vpn_stop_media") == "true":
-                            for stop_id in stop_ids:
-                                if filename.startswith(stop_id):
-                                    infoTrace("service.py", "Stopping " + filename + " to change the VPN connection state")                        
-                                    player.stop()
-                                    break
+                            if streaming:
+                                infoTrace("service.py", "Stopping " + filename + " to change the VPN connection state")                        
+                                player.stop()
                                 
                     # Stop any existing VPN
                     debugTrace("Stopping VPN before any new connection attempt")

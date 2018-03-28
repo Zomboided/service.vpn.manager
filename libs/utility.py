@@ -88,3 +88,11 @@ def getVery():
 def setVery(very_short_name):
     return xbmcgui.Window(10000).setProperty("VPN_Addon_Very_Short_Name", very_short_name)     
     
+    
+def isCustom():
+    if getID() == "": return False
+    if not xbmcaddon.Addon(getID()).getSetting("vpn_custom") == "": return True
+    return False
+
+    
+    

@@ -31,98 +31,102 @@ msgid "Set up VPN provider, then validate VPN connections"
 msgstr ""
 
 msgctxt "#32002"
-msgid "[I]*** VPN provider update available, revalidate connections[/I] ***"
+msgid "Enter details, then validate VPN connections"
 msgstr ""
 
 msgctxt "#32003"
-msgid "Click here to update VPN settings"
+msgid "[I]*** VPN provider update available, revalidate connections[/I] ***"
 msgstr ""
 
 msgctxt "#32004"
-msgid "VPN Provider"
+msgid "Click here to update VPN settings"
 msgstr ""
 
 msgctxt "#32005"
-msgid "Username"
+msgid "VPN Provider"
 msgstr ""
 
 msgctxt "#32006"
-msgid "Password"
+msgid "Username"
 msgstr ""
 
 msgctxt "#32007"
-msgid "Show password"
+msgid "Password"
 msgstr ""
 
 msgctxt "#32008"
-msgid "Advanced settings (leave as default if in doubt)"
+msgid "Show password"
 msgstr ""
 
 msgctxt "#32009"
-msgid "Protocol filter (UDP recommended)"
+msgid "Advanced settings (leave as default if in doubt)"
 msgstr ""
 
 msgctxt "#32010"
-msgid "UDP"
+msgid "Protocol filter (UDP recommended)"
 msgstr ""
 
 msgctxt "#32011"
-msgid "TCP"
+msgid "UDP"
 msgstr ""
 
 msgctxt "#32012"
-msgid "UDP and TCP"
+msgid "TCP"
 msgstr ""
 
 msgctxt "#32013"
-msgid "Use VPN provider default UDP port"
+msgid "UDP and TCP"
 msgstr ""
 
 msgctxt "#32014"
-msgid "  Alternative UDP port"
+msgid "Use VPN provider default UDP port"
 msgstr ""
 
 msgctxt "#32015"
-msgid "Use VPN provider default TCP port"
+msgid "  Alternative UDP port"
 msgstr ""
 
 msgctxt "#32016"
-msgid "  Alternative TCP port"
+msgid "Use VPN provider default TCP port"
 msgstr ""
 
 msgctxt "#32017"
-msgid "[I]User Defined[/I]  provider"
+msgid "  Alternative TCP port"
 msgstr ""
 
 msgctxt "#32018"
-msgid "User Defined import wizard"
+msgid "[I]User Defined[/I]  provider"
 msgstr ""
 
 msgctxt "#32019"
-msgid "View last User Defined import wizard log"
+msgid "User Defined import wizard"
 msgstr ""
 
 msgctxt "#32020"
-msgid "Manage username and password"
+msgid "View last User Defined import wizard log"
 msgstr ""
 
 msgctxt "#32021"
-msgid "Manage client or user key and cert files"
+msgid "Manage username and password"
 msgstr ""
 
 msgctxt "#32022"
-msgid "None"
+msgid "Manage client or user key and cert files"
 msgstr ""
 
 msgctxt "#32023"
-msgid "Single"
+msgid "None"
 msgstr ""
 
 msgctxt "#32024"
-msgid "Multiple"
+msgid "Single"
 msgstr ""
 
 msgctxt "#32025"
+msgid "Multiple"
+msgstr ""
+
+msgctxt "#32026"
 msgid "Manage key password"
 msgstr ""
 
@@ -208,7 +212,7 @@ msgid "Reconnect if connection lost during playback"
 msgstr ""
 
 msgctxt "#32047"
-msgid "Force reconnect on wake"
+msgid "Reconnect if connection lost during streaming"
 msgstr ""
 
 msgctxt "#32048"
@@ -220,38 +224,42 @@ msgid "Stream IDs"
 msgstr ""
 
 msgctxt "#32050"
-msgid "Connection validation frequency (seconds)"
+msgid "Force reconnect on wake"
 msgstr ""
 
 msgctxt "#32051"
-msgid "Try next connection if first connect fails"
+msgid "Connection validation frequency (seconds)"
 msgstr ""
 
 msgctxt "#32052"
-msgid "Ask to reboot if reconnect fails 10 times"
+msgid "Try next connection if first connect fails"
 msgstr ""
 
 msgctxt "#32053"
-msgid "Revert to previous VPN state for non-filtered add-ons"
+msgid "Ask to reboot if reconnect fails 10 times"
 msgstr ""
 
 msgctxt "#32054"
-msgid "Include disconnect option in VPN cycle"
+msgid "Revert to previous VPN state for non-filtered add-ons"
 msgstr ""
 
 msgctxt "#32055"
-msgid "Popup connection table display"
+msgid "Include disconnect option in VPN cycle"
 msgstr ""
 
 msgctxt "#32056"
-msgid "All Connections"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32057"
-msgid "Validated Connections"
+msgid "All Connections"
 msgstr ""
 
 msgctxt "#32058"
+msgid "Validated Connections"
+msgstr ""
+
+msgctxt "#32059"
 msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 
@@ -388,7 +396,7 @@ msgid "Manage VPN provider files"
 msgstr ""
 
 msgctxt "#32102"
-msgid "Reset all VPN provider files to default"
+msgid "Reset VPN provider files"
 msgstr ""
 
 msgctxt "#32103"
@@ -495,7 +503,7 @@ msgid "General"
 msgstr ""
 
 msgctxt "#32142"
-msgid "Enable debug for just VPN Manager"
+msgid "Enable debug for just this add-on"
 msgstr ""
 
 msgctxt "#32143"
@@ -515,7 +523,7 @@ msgid "View OpenVPN log file"
 msgstr ""
 
 msgctxt "#32147"
-msgid "OpenVPN verb level (reset .ovpn files after updating)"
+msgid "OpenVPN verb level (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32148"
@@ -543,7 +551,7 @@ msgid "5"
 msgstr ""
 
 msgctxt "#32154"
-msgid "Force block-outside-dns (reset .ovpn files after updating)"
+msgid "Force block-outside-dns (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32155"
@@ -579,15 +587,15 @@ msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
 msgctxt "#32163"
-msgid "Enable up/down scripts (reset .ovpn files after updating)"
+msgid "Enable up/down scripts (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32164"
-msgid "Use default up/down scripts (reset .ovpn files after updating)"
+msgid "Use default up/down scripts (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32165"
-msgid "Check connection with ping (reset .ovpn files after updating)"
+msgid "Check connection with ping (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32166"
@@ -694,85 +702,89 @@ msgid "LiquidVPN"
 msgstr ""
 
 msgctxt "#32216"
-msgid "Perfect Privacy"
+msgid "NordVPN"
 msgstr ""
 
 msgctxt "#32217"
-msgid "Private Internet Access"
+msgid "Perfect Privacy"
 msgstr ""
 
 msgctxt "#32218"
-msgid "PrivateVPN"
+msgid "Private Internet Access"
 msgstr ""
 
 msgctxt "#32219"
-msgid "proXPN"
+msgid "PrivateVPN"
 msgstr ""
 
 msgctxt "#32220"
-msgid "RA4W VPN"
+msgid "proXPN"
 msgstr ""
 
 msgctxt "#32221"
-msgid "SaferVPN"
+msgid "RA4W VPN"
 msgstr ""
 
 msgctxt "#32222"
-msgid "SecureVPN.to"
+msgid "SaferVPN"
 msgstr ""
 
 msgctxt "#32223"
-msgid "Smart DNS Proxy"
+msgid "SecureVPN.to"
 msgstr ""
 
 msgctxt "#32224"
-msgid "tigerVPN"
+msgid "Smart DNS Proxy"
 msgstr ""
 
 msgctxt "#32225"
-msgid "TorGuard"
+msgid "tigerVPN"
 msgstr ""
 
 msgctxt "#32226"
-msgid "TotalVPN"
+msgid "TorGuard"
 msgstr ""
 
 msgctxt "#32227"
-msgid "User Defined"
+msgid "TotalVPN"
 msgstr ""
 
 msgctxt "#32228"
-msgid "VanishedVPN"
+msgid "User Defined"
 msgstr ""
 
 msgctxt "#32229"
-msgid "VPN.ac"
+msgid "VanishedVPN"
 msgstr ""
 
 msgctxt "#32230"
-msgid "VPN.ht"
+msgid "VPN.ac"
 msgstr ""
 
 msgctxt "#32231"
-msgid "VPN Unlimited"
+msgid "VPN.ht"
 msgstr ""
 
 msgctxt "#32232"
-msgid "VPNArea"
+msgid "VPN Unlimited"
 msgstr ""
 
 msgctxt "#32233"
-msgid "VPNSecure"
+msgid "VPNArea"
 msgstr ""
 
 msgctxt "#32234"
-msgid "VyprVPN"
+msgid "VPNSecure"
 msgstr ""
 
 msgctxt "#32235"
-msgid "WiTopia"
+msgid "VyprVPN"
 msgstr ""
 
 msgctxt "#32236"
+msgid "WiTopia"
+msgstr ""
+
+msgctxt "#32237"
 msgid "Windscribe"
 msgstr ""

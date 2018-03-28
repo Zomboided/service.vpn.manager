@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
 	<category label="32000">
-		<setting label="32001" type="lsep"/>
-        <setting label="32002" type="text" visible="eq(1,true)" enable="false" default=""/>
+        <setting label=""      type="text" id="vpn_custom" visible="false" enable="false"/>
+		<setting label="32001" type="lsep" visible="eq(-1,)"/>
+        <setting label="32002" type="lsep" visible="!eq(-2,)"/>
+        <setting label="32003" type="text" visible="eq(1,true)" enable="false" default=""/>
         <setting label=""      type="text" id="vpn_provider_update" visible="false" enable="false" default=""/>
-        <setting label="32003" type="action" visible="!eq(1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/resetVPN.py, reset)"/>
+        <setting label="32004" type="action" visible="!eq(1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/resetVPN.py, reset)"/>
         <setting label=""      type="text" id="1_vpn_validated_friendly" visible="false" enable="false" default=""/>
-		<setting label="32004" type="labelenum" id="vpn_provider" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232|32233|32234|32235|32236"/>
-        <setting label=""      type='lsep'/>
+		<setting label="32005" type="labelenum" id="vpn_provider" visible="eq(-7,)" enable="eq(-1,)" lvalues="32201|32202|32203|32204|32205|32206|32207|32208|32209|32210|32211|32212|32213|32214|32215|32216|32217|32218|32219|32220|32221|32222|32223|32224|32225|32226|32227|32228|32229|32230|32231|32232|32233|32234|32235|32236|32237"/>
+        <setting label=""      type='lsep' visible="eq(-8,)"/>
         <setting label=""      type="text" id="vpn_username_validated" visible="false" enable="false" default=""/>
-		<setting label="32005" type="text" id="vpn_username" enable="eq(-4,)" default=""/>
+		<setting label="32006" type="text" id="vpn_username" enable="eq(-4,)" default=""/>
         <setting label=""      type="text" id="vpn_password_validated" visible="false" enable="false" default=""/>
-		<setting label="32006" type="text" id="vpn_password" enable="eq(-6,)" visible="!eq(2,true)" option="hidden"  default=""/>
-        <setting label="32006" type="text" id="vpn_password" enable="eq(-7,)" visible="eq(1,true)" default=""/>
-        <setting label="32007" type="bool" id="vpn_password_display" visible="true" enable="true" default="false"/>        
+		<setting label="32007" type="text" id="vpn_password" enable="eq(-6,)" visible="!eq(2,true)" option="hidden"  default=""/>
+        <setting label="32007" type="text" id="vpn_password" enable="eq(-7,)" visible="eq(1,true)" default=""/>
+        <setting label="32008" type="bool" id="vpn_password_display" visible="true" enable="true" default="false"/>        
         <setting label=""      type='lsep'/>
-        <setting label="32008" type='lsep'/>
-        <setting label="32009" type="labelenum" id="vpn_protocol" lvalues="32010|32011|32012"/>
-        <setting label="32013" type="bool" id="default_udp" enable="eq(-12,)" default="true"/>
-        <setting label="32014" type="number" id="alternative_udp_port" enable="eq(-13,)" visible="!eq(-1,true)" default="1194"/>
-        <setting label="32015" type="bool" id="default_tcp" enable="eq(-14,)" default="true"/>
-        <setting label="32016" type="number" id="alternative_tcp_port" enable="eq(-15,)" visible="!eq(-1,true)" default="443"/>
-        <setting label=""      type='lsep'/>
-        <setting label="32017" type='lsep'/>   
-        <setting label="32018" type="action" enable="eq(-18,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/import.py)"/>
-        <setting label="32019" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, import)"/>
-        <setting label="32020" type="bool" id="user_def_credentials" enable="eq(-20,)" default="true"/>        
-        <setting label="32021" type="labelenum" id="user_def_keys" enable="eq(-21,)" lvalues="32022|32023|32024"/>
-        <setting label="32025" type="bool" id="user_def_key_password" enable="eq(-22,)" default="true"/>
+        <setting label="32009" type='lsep'/>
+        <setting label="32010" type="labelenum" id="vpn_protocol" lvalues="32011|32012|32013"/>
+        <setting label="32014" type="bool" id="default_udp" enable="eq(-12,)" default="true"/>
+        <setting label="32015" type="number" id="alternative_udp_port" enable="eq(-13,)" visible="!eq(-1,true)" default="1194"/>
+        <setting label="32016" type="bool" id="default_tcp" enable="eq(-14,)" default="true"/>
+        <setting label="32017" type="number" id="alternative_tcp_port" enable="eq(-15,)" visible="!eq(-1,true)" default="443"/>
+        <setting label=""      type='lsep' visible="eq(-22,)"/>
+        <setting label="32018" type='lsep' visible="eq(-23,)"/>   
+        <setting label="32019" type="action" visible="eq(-24,)" enable="eq(-18,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/import.py)"/>
+        <setting label="32020" type="action" visible="eq(-25,)" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, import)"/>
+        <setting label="32021" type="bool" id="user_def_credentials" visible="eq(-26,)" enable="eq(-20,)" default="true"/>        
+        <setting label="32022" type="labelenum" id="user_def_keys" visible="eq(-27,)" enable="eq(-21,)" lvalues="32023|32024|32025"/>
+        <setting label="32026" type="bool" id="user_def_key_password" visible="eq(-28,)" enable="eq(-22,)" default="true"/>
     </category>
     <category label="32028">
 		<setting label="32029" type='lsep'/>
@@ -54,25 +56,27 @@
         <setting label="32039" type="action" enable="!eq(-1,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/connect.py, 10)"/>
         <setting label=""      type="text" id="10_vpn_validated_friendly" visible="!eq(0,)" enable="false" default=""/>        
         </category>
-	<category label="32040">        
+	<category label="32040">
+        <setting label=""      type="text" id="vpn_custom" visible="false" enable="false"/>    
         <setting label="32041" type="lsep"/>	        
 		<setting label="32042" type="bool" id="vpn_connect_at_boot" default="true"/>
         <setting label=""      type="bool" id="show_preboot_connect" visible="false" enable="false" default="false"/>
         <setting label="32043" type="bool" id="vpn_connect_before_boot" visible="eq(-1,true)+eq(-2,true)" default="false"/>
         <setting label="32044" type="slider" id="vpn_connect_delay" visible="!eq(-1,true)" default="0" range="0,10,600" option="int" />
 		<setting label="32045" type="bool" id="vpn_reconnect" default="true"/>
-        <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="true"/>
-        <setting label="32047" type="bool" id="vpn_force_reconnect_after_wake" default="false"/>
+        <setting label="32046" type="bool" id="vpn_reconnect_while_playing" default="false"/>
+        <setting label="32047" type="bool" id="vpn_reconnect_while_streaming" visible="eq(-1,false)" default="true"/>
         <setting label="32048" type="bool" id="vpn_stop_media" default="true"/>
         <setting label=""      type="bool" id="vpn_enable_debug" visible="false"/> 
-        <setting label="32049" type="text" id="vpn_stop_ids" visible="eq(-1,true)+eq(-2,true)" default="http: https:"/>
-        <setting label="32050" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
-        <setting label="32051" type="bool" id="vpn_reconnect_next" default="false"/>
-        <setting label="32052" type="bool" id="vpn_reconnect_reboot" default="true"/>
-		<setting label="32053" type="bool" id="vpn_reconnect_filtering" default="true"/>
-        <setting label="32054" type="bool" id="allow_cycle_disconnect" default="false"/>
-        <setting label="32055" type="labelenum" id="table_display_type" lvalues="32056|32057"/>
-        <setting label="32058" type="bool" id="display_location_on_connect" default="false"/>
+        <setting label="32049" type="text" id="vpn_stop_ids" visible="eq(-1,true)" default="http: https:"/>
+        <setting label="32050" type="bool" id="vpn_force_reconnect_after_wake" default="false"/>
+        <setting label="32051" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
+        <setting label="32052" type="bool" id="vpn_reconnect_next" visible="eq(-14,)" default="false"/>
+        <setting label="32053" type="bool" id="vpn_reconnect_reboot" default="true"/>
+		<setting label="32054" type="bool" id="vpn_reconnect_filtering" default="true"/>
+        <setting label="32055" type="bool" id="allow_cycle_disconnect" default="true"/>
+        <setting label="32056" type="labelenum" id="table_display_type" lvalues="32057|32058"/>
+        <setting label="32059" type="bool" id="display_location_on_connect" default="false"/>
     </category>
     <category label="32060">	
         <setting label="32061" type="lsep"/>
@@ -117,12 +121,13 @@
         <setting label=""      type="text" id="10_vpn_windows" visible="!eq(0,)" enable="false" default=""/>
     </category>
     <category label="32100">		
+        <setting label=""      type="text" id="vpn_custom" visible="false" enable="false"/>
         <setting label="32101" type="lsep"/>        
         <setting label="32102" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, ovpn)"/>
-        <setting label="32103" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, downloads)"/>
+        <setting label="32103" type="action" visible="eq(-3,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, downloads)"/>
         <setting label=""      type="bool" id="allow_vpn_generation" visible="false" enable="false" default="false"/>
         <setting label="32104" type="action" visible="eq(-1,true)" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, generate)"/>
-        <setting label="32105" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, user)"/>
+        <setting label="32105" type="action" visible="eq(-6,)" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, user)"/>
         <setting label=""      type="lsep"/>
         <setting label="32106" type="lsep"/>        
         <setting label="32107" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/mapkey.py, cycle)"/>
@@ -199,6 +204,7 @@
         <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
         <setting label=""      type="bool" id="location_ip_view" enable="false" visible="false" default="false"/>
         <setting label=""      type="text" id="last_connect_time" enable="false" visible="false" default=""/>
+        <setting label=""      type="text" id="vpn_custom" visible="true" enable="true" default=""/>
         <setting label=""      type="text" id="vpn_short" enable="false" visible="false" default="VPN Manager"/>
         <setting label=""      type="text" id="vpn_very" enable="false" visible="false" default="VPN Mgr"/>
         <setting label="Disconnect" type="action" enable="false" visible="false" action="RunScript(special://home/addons/service.vpn.manager/api.py, Disconnect)"/>

@@ -32,7 +32,7 @@ import time
 from platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
 from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName
-from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort
+from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort, isCustom
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
@@ -918,11 +918,13 @@ def wizard():
     if xbmcgui.Dialog().yesno(addon_name, "No primary VPN connection has been set up.  Would you like to do this using the set up wizard or using the Settings dialog?", "", "", "Settings", "Wizard"):
         
         # Select the VPN provider
-        provider_list = list(provider_display)
-        provider_list.sort()
-        vpn = xbmcgui.Dialog().select("Select your VPN provider.", provider_list)
-        vpn = provider_display.index(provider_list[vpn])
-        vpn_provider = provider_display[vpn]
+        if not isCustom():
+            provider_list = list(provider_display)
+            provider_list.sort()
+            vpn = xbmcgui.Dialog().select("Select your VPN provider.", provider_list)
+            vpn = provider_display.index(provider_list[vpn])
+            vpn_provider = provider_display[vpn]
+        else: vpn_provider = addon.getSetting("vpn_custom")
         
         success = True
         # If User Defined VPN then offer to run the wizard

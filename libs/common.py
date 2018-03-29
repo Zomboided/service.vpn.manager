@@ -478,6 +478,8 @@ def fixKeymaps():
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response
+    # Return true if the check should be bypassed
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if service is not already running (shouldn't be...)
     if not xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -505,6 +507,8 @@ def startRequested():
     
 def stopService():
     # Routine for config to call to request service stops and waits until that happens
+    # Return true if the check should be bypassed
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if the service has stopped previously
     if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -528,6 +532,18 @@ def stopRequested():
 def ackStop():    
     # Routine for service to call to acknowledge service has stopped
     xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "stopped")
+
+
+def suspendStartStop():
+    # This will stop any service checking from happening and return the current state
+    current = xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control")
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "ignore")
+    return current
+    
+    
+def resumeStartStop(state):
+    # This can be used to resume service checking, returning to a previous known state (or pass in an empty string)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", state)
 
     
 def updateService(reason):
@@ -980,17 +996,31 @@ def wizard():
                 xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses private key and cert authentication.  You'll be asked for these during the connection.")
         
         #FIXME If the platform is Linux, could offer to default some options here
-
+        
+        if success and not vpn_provider == "":
+            # Offer to default the common options
+            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?.  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", "", "", "Yes", "No"):
+                # These options will connect and boot, reconnect during streaming or not playing, and reconnect after filtering
+                addon.setSetting("vpn_connect_at_boot", "true")
+                addon.setSetting("vpn_reconnect", "true")
+                addon.setSetting("vpn_reconnect_while_streaming", "true")
+                addon.setSetting("vpn_reconnect_filtering", "true")
+                addon.setSetting("vpn_stop_media", "true")
+            else:
+                # These options will mean that the connection is not automatic and not monitored
+                addon.setSetting("vpn_connect_at_boot", "false")
+                addon.setSetting("vpn_reconnect", "false")        
+        
         if success and not vpn_provider == "" and (not usesPassAuth(vpn_provider) or not vpn_password == ""):
             # Commit the settings entered and try the connection
             addon.setSetting("vpn_provider", vpn_provider)
             addon.setSetting("vpn_username", vpn_username)
             addon.setSetting("vpn_password", vpn_password)
-            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".", "", "", "Ok", "Cancel"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection (or country) you want to use during the connection process.", "", "", "Ok", "Cancel"):
                 connectVPN("1", vpn_provider)
                 addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
-                    xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This connection will be used when Kodi starts.")
+                    xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This is the primary connection and will be used when Kodi starts.")
                     if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections (or countries) and define filters to automatically change the VPN connection being used with each add-on.  Do you want to do this now?", "", "", "Yes", "No"):
                         settings = True
                 else:
@@ -1173,11 +1203,11 @@ def connectVPN(connection_order, vpn_profile):
         # Check for formatting characters first time through
         if connection_order == "1":
             vpn_username_stripped = vpn_username.strip(' \t\n\r')
-            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your user name starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
+            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your user name starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", "", "", "No", "Yes"):
                 vpn_username = vpn_username_stripped
                 addon.setSetting("vpn_username", vpn_username)
             vpn_password_stripped = vpn_password.strip(' \t\n\r')
-            if (not vpn_password == vpn_password_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your password starts or ends with formatting characters (space, tab, new line or return).  Remove them (recommended)?", "", "", "No", "Yes"):
+            if (not vpn_password == vpn_password_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your password starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", "", "", "No", "Yes"):
                 vpn_password = vpn_password_stripped
                 addon.setSetting("vpn_password", vpn_password)
         

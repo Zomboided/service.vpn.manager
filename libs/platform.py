@@ -181,6 +181,23 @@ def getVPNLogFilePath():
     return ""
     
 
+def getTestFilePath():
+    # Return the full filename for the VPN log file
+    # It's platform dependent, but can be forced to the Kodi log location
+    use_kodi_dir = xbmcaddon.Addon(getID()).getSetting("openvpn_log_location")
+    p = getPlatform()
+    if p == platforms.WINDOWS or use_kodi_dir == "true" :
+        # Putting this with the other logs on Windows
+        return xbmc.translatePath("special://logpath/command_test.txt")
+    if p == platforms.LINUX or p == platforms.RPI:
+        # This should be a RAM drive so doesn't wear the media
+        return "/run/command_text.txt"
+        
+    # **** ADD MORE PLATFORMS HERE ****
+    
+    return ""    
+    
+    
 def getImportLogPath():
     return xbmc.translatePath("special://logpath/import.log")
     
@@ -313,7 +330,90 @@ def checkVPNInstall(addon):
             xbmcgui.Dialog().ok(addon.getAddonInfo("name"), dialog_msg)
     return True
 
+
+def checkKillallCommand(addon):
+    # Only necessary with Linux, sees if killall is installed/working
+    p = getPlatform()
+    if p == platforms.RPI or p == platforms.LINUX:
+        # Issue Linux command
+        command = "killall vpnmanagertest -v " + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        if useSudo() : command = "sudo " + command
+        infoTrace("platform.py", "Testing killall with : " + command)
+        os.system(command)
+    else:
+        return True
+        
+    # Waiting for the log file to appear            
+    xbmc.sleep(1000)
+    i = 0
+    while not xbmcvfs.exists(getTestFilePath()) and i < 10:
+        xbmc.sleep(1000)
+        i = i + 1
+    # If the log file appears, check it's what we expect
+    if xbmcvfs.exists(getTestFilePath()):
+        log_file = open(getTestFilePath(), 'r')
+        log_file_lines = log_file.readlines()
+        log_file.close()
+        # Look for a phrase we'd expect to see if the call
+        # worked and a killall error message was displayed
+        for line in log_file_lines:
+            if "killall" in line and "vpnmanagertest" in line:
+                deleteTestFile()
+                return True
+        # Write the log file in case there's something in it
+        errorTrace("platform.py", "Ran killall command and it failed")            
+        writeTestFile()
+        dialog_msg = "The command 'killall' is required to run this add-on.  Please install it and ensure it's available on the command path."
+    else:
+        errorTrace("platform.py", "Ran killall command and the log didn't appear")
+        dialog_msg = "The 'killall' command isn't writing out a response.  Try changing the Kodi log directory setting in Settings-Debug menu and retry."
     
+    # Display an error message
+    xbmcgui.Dialog().ok(addon.getAddonInfo("name"), dialog_msg)
+    return False
+    
+        
+def checkPidofCommand(addon):        
+    # Only necessary with Linux, sees if killall is installed/working
+    p = getPlatform()
+    if p == platforms.RPI or p == platforms.LINUX:
+        # Issue Linux command
+        command = "pidof kodi.bin" + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        if useSudo() : command = "sudo " + command
+        infoTrace("platform.py", "Testing pidof with : " + command)
+        os.system(command)
+    else:
+        return True
+        
+    # Waiting for the log file to appear            
+    xbmc.sleep(1000)
+    i = 0
+    while not xbmcvfs.exists(getTestFilePath()) and i < 10:
+        xbmc.sleep(1000)
+        i = i + 1
+    # If the log file appears, check it's what we expect
+    if xbmcvfs.exists(getTestFilePath()):
+        log_file = open(getTestFilePath(), 'r')
+        log_file_lines = log_file.readlines()
+        log_file.close()
+        # If this worked, the first line should be a number
+        for line in log_file_lines:
+            line = line.strip()
+            if line.isdigit():
+                return True
+        # Write the log file in case there's something in it
+        errorTrace("platform.py", "Ran pidof command and it failed")            
+        writeTestFile()
+        dialog_msg = "The command 'pidof' is required to run this add-on.  Please install it and ensure it's available on the command path."
+    else:
+        errorTrace("platform.py", "Ran pidof command and the log didn't appear")
+        dialog_msg = "The 'pidof' command isn't writing out a response.  Try changing the Kodi log directory setting in Settings-Debug menu and retry."
+    
+    # Display an error message
+    xbmcgui.Dialog().ok(addon.getAddonInfo("name"), dialog_msg)
+    return False
+
+        
 def checkVPNCommand(addon):
     # Issue the openvpn command and see if the output is a bunch of commands
     if not fakeConnection():
@@ -481,7 +581,31 @@ def writeVPNLog():
         errorTrace("platform.py", "Couldn't write VPN error log")
         errorTrace("platform.py", str(e))
 
+        
+def writeTestFile():
+    # Write the command test output to the error file
+    try:
+        log_file = open(getTestFilePath(), 'r')
+        log_output = log_file.readlines()
+        log_file.close()
+        infoTrace("platform.py", "Command test file start >>>")
+        for line in log_output:
+            infoPrint(line)
+        infoTrace("platform.py", "<<< Command test file end")
+    except Exception as e:
+        errorTrace("platform.py", "Couldn't write test file")
+        errorTrace("platform.py", str(e))        
+        
 
+def deleteTestFile():
+    try:
+        if xbmcvfs.exists(getTestFilePath()):
+            xbmcvfs.delete(getTestFilePath())
+    except Exception as e:
+        errorTrace("platform.py", "Couldn't delete test file")
+        errorTrace("platform.py", str(e))
+
+        
 def getSeparator():
     if getPlatform() == platforms.WINDOWS:
         return "\\"

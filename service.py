@@ -85,7 +85,7 @@ def refreshPrimaryVPNs():
     
 def refreshPlatformInfo():
     # Write the platform so that options only appear in the settings menu when relevant
-    if not addon.getSetting("platform") == str(getPlatform()): addon.setSetting("platform", str(getPlatform()))
+    addon.setSetting("platform", str(getPlatform()))
     
     # Determine if systemd is available so that extra options appear in the settings menu
     curr_sysd = addon.getSetting("show_preboot_connect")
@@ -93,7 +93,7 @@ def refreshPlatformInfo():
         new_sysd = "true"
     else:
         new_sysd = "false"
-    if not curr_sysd == new_sysd: addon.setSetting("show_preboot_connect", new_sysd)
+    addon.setSetting("show_preboot_connect", new_sysd)
     
 
 def checkConnections():
@@ -253,6 +253,9 @@ if __name__ == '__main__':
             removeGeneratedFiles()
             resetVPNConfig(addon, 1)        
             
+    # Make sure the right options appear in the settings menu
+    refreshPlatformInfo()        
+            
     # This will adjust the system time on Linux platforms if it's too far adrift from reality
     if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
         curr_time = int(time.time())
@@ -327,8 +330,9 @@ if __name__ == '__main__':
     if not connectionValidated(addon) and not addon.getSetting("vpn_wizard_run") == "true":
         state = suspendStartStop()
         wizard()
-        restartStartStop(state)
-     
+        resumeStartStop(state)
+    
+    addon = xbmcaddon.Addon()
     while not abortRequested():
 
         if stopRequested() or stop:

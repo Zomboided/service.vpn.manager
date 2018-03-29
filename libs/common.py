@@ -30,8 +30,8 @@ import glob
 import sys
 import time
 from platform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
-from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand
-from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName
+from platform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand, checkKillallCommand
+from platform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName, checkPidofCommand
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort, isCustom
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
@@ -930,40 +930,75 @@ def wizard():
     settings = False
     # Wizard or settings?
     if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", "", "", "Wizard", "Settings"):
-        
-        # Select the VPN provider
-        current = ""
-        if not isCustom():
-            cancel_text = "[I]Cancel setup[/I]"
-            # Build the list of display names and highlight the current one if it's been used previously
-            provider_list = list(provider_display)
-            provider_list.sort()
-            if not addon.getSetting("vpn_username") == "":
-                current = addon.getSetting("vpn_provider")
-                i = provider_list.index(getVPNDisplay(current))
-                provider_list[i] = "[B]" + provider_list[i] + "[/B]"
-            provider_list.append(cancel_text)
-            vpn = xbmcgui.Dialog().select("Select your VPN provider", provider_list)
-            selected = provider_list[vpn]
-            if not selected == cancel_text:
-                selected = selected.replace("[B]", "")
-                selected = selected.replace("[/B]", "")
-                i = provider_display.index(selected)
-                vpn_provider = provider_display[i]
-            else:
-                vpn_provider = ""
-                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
-        else:
-            vpn_provider = addon.getSetting("vpn_custom")
-            current = vpn_provider
-            
+
         success = True
-        # If User Defined VPN then offer to run the wizard
-        if isUserDefined(vpn_provider):
-            success = importWizard()
-        # FIXME TEST USER DEFINED IMPORT AS PART OF THE NEW WIZARD            
+    
+        # Check everything is installed and working
+        if not addon.getSetting("ran_openvpn") == "true":
+            if getPlatform() == platforms.WINDOWS:
+                xbmcgui.Dialog().ok(addon_name, "This add-on uses openvpn to make the VPN connection.  You can download this from openvpn.net/index.php/open-source/downloads.html.  Click ok to check that openvpn is working.")
+            else:
+                xbmcgui.Dialog().ok(addon_name, "This add-on uses openvpn, killall and pidof to make and manage the VPN connections.  You will need to install these if your system doesn't have them.  Click ok to set some system defaults and check everything is working.")
+                # If openvpn is not where it's expected, set the option to call it without a path
+                if xbmcvfs.exists("/usr/sbin/openvpn"):
+                    addon.setSetting("openvpn_no_path", "false")
+                else:
+                    addon.setSetting("openvpn_no_path", "true")
+                # If this is an LE install, don't need sudo and can use the /run directory for the logs, etc
+                if getAddonPath(True, "").startswith("/storage/.kodi/"):
+                    addon.setSetting("openvpn_sudo", "false")
+                    addon.setSetting("openvpn_log_location", "false")
+                else:
+                    addon.setSetting("openvpn_sudo", "true")
+                    addon.setSetting("openvpn_log_location", "true")
+
+            if checkVPNCommand(addon) and checkPidofCommand(addon) and checkKillallCommand(addon): 
+                addon.setSetting("ran_openvpn", "true")
+            else:
+                success = False
+                if getPlatform() == platforms.WINDOWS:
+                    xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed and available on the command path.  Review the add-on Windows installation instructions.")
+                else:
+                    xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands all must be installed and available on the command path.  Review the add-on Linux installation instructions and check the log for more details.")
+
+        
+        addon = xbmcaddon.Addon(getID())
+        if success:
+            # Select the VPN provider
+            current = ""
+            if not isCustom():
+                cancel_text = "[I]Cancel setup[/I]"
+                # Build the list of display names and highlight the current one if it's been used previously
+                provider_list = list(provider_display)
+                provider_list.sort()
+                if not addon.getSetting("vpn_username") == "":
+                    current = addon.getSetting("vpn_provider")
+                    i = provider_list.index(getVPNDisplay(current))
+                    provider_list[i] = "[B]" + provider_list[i] + "[/B]"
+                provider_list.append(cancel_text)
+                vpn = xbmcgui.Dialog().select("Select your VPN provider", provider_list)
+                selected = provider_list[vpn]
+                if not selected == cancel_text:
+                    selected = selected.replace("[B]", "")
+                    selected = selected.replace("[/B]", "")
+                    i = provider_display.index(selected)
+                    vpn_provider = provider_display[i]
+                else:
+                    vpn_provider = ""
+                    success = False
+                    xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+            else:
+                vpn_provider = addon.getSetting("vpn_custom")
+                current = vpn_provider
             
-        if success and not vpn_provider == "":
+        # If User Defined VPN then offer to run the wizard
+        addon = xbmcaddon.Addon(getID())
+        if success and isUserDefined(vpn_provider):
+            success = importWizard()
+            if not success: xbmcgui.Dialog().ok(addon_name, "Setup stopped because it could not import any user files.  You can run the wizard again by selecting 'Settings' in the add-on menu")            
+        
+        addon = xbmcaddon.Addon(getID())        
+        if success:
             # Get the username and password
             if usesPassAuth(vpn_provider):
                 # Preload with any existing info if it's the same VPN
@@ -979,6 +1014,7 @@ def wizard():
                     if vpn_username == "":
                         if xbmcgui.Dialog().yesno(addon_name, "You must enter the user name supplied by " + vpn_provider + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
                             xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                            success = False
                             break
                     else:
                         break
@@ -989,15 +1025,15 @@ def wizard():
                         if vpn_password == "":
                             if xbmcgui.Dialog().yesno(addon_name, "You must enter the password supplied by " + vpn_provider + " for user name " + vpn_username + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
                                 xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                                success = False
                                 break
                         else:
                             break
             else:
                 xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses private key and cert authentication.  You'll be asked for these during the connection.")
         
-        #FIXME If the platform is Linux, could offer to default some options here
-        
-        if success and not vpn_provider == "":
+        addon = xbmcaddon.Addon(getID())
+        if success:
             # Offer to default the common options
             if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?.  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", "", "", "Yes", "No"):
                 # These options will connect and boot, reconnect during streaming or not playing, and reconnect after filtering
@@ -1010,18 +1046,19 @@ def wizard():
                 # These options will mean that the connection is not automatic and not monitored
                 addon.setSetting("vpn_connect_at_boot", "false")
                 addon.setSetting("vpn_reconnect", "false")        
-        
-        if success and not vpn_provider == "" and (not usesPassAuth(vpn_provider) or not vpn_password == ""):
+
+        addon = xbmcaddon.Addon(getID())       
+        if success:
             # Commit the settings entered and try the connection
             addon.setSetting("vpn_provider", vpn_provider)
             addon.setSetting("vpn_username", vpn_username)
             addon.setSetting("vpn_password", vpn_password)
-            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection (or country) you want to use during the connection process.", "", "", "Ok", "Cancel"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection or country you want to use during the connection process.", "", "", "Ok", "Cancel"):
                 connectVPN("1", vpn_provider)
                 addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
                     xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This is the primary connection and will be used when Kodi starts.")
-                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections (or countries) and define filters to automatically change the VPN connection being used with each add-on.  Do you want to do this now?", "", "", "Yes", "No"):
+                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections or countries and define filters to automatically change the VPN connection being used with each add-on.  Do you want to do this now?", "", "", "Yes", "No"):
                         settings = True
                 else:
                     xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")
@@ -1063,13 +1100,11 @@ def connectVPN(connection_order, vpn_profile):
         debugTrace("Checking platform is valid and openvpn is installed")
         if checkPlatform(addon) and checkVPNInstall(addon): addon.setSetting("checked_openvpn", "true")
         else: return
-
-    # FIXME consider whether killall, ps is working too for OSMC
         
     if not addon.getSetting("ran_openvpn") == "true":
-        debugTrace("Checking openvpn can be run")
+        debugTrace("Checking openvpn (and maybe pidof and killall) can be run")
         stopVPN9()    
-        if checkVPNCommand(addon): addon.setSetting("ran_openvpn", "true")
+        if checkVPNCommand(addon) and checkPidofCommand(addon) and checkKillallCommand(addon): addon.setSetting("ran_openvpn", "true")
         else: return
     
     # This is needed because after a default it can end up as a null value rather than one of 

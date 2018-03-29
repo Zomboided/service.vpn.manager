@@ -117,10 +117,10 @@ def importWizard():
         
         update = False
         rename = False
-        if xbmcgui.Dialog().yesno(addon_name, "Update the .ovpn files to best guess values and determine the best User Defined provider settings [I](recommended)[/I]?", "", ""):
+        if not xbmcgui.Dialog().yesno(addon_name, "Update the .ovpn files to best guess values and determine the best User Defined provider settings [I](recommended)[/I]?", "", "", "Yes", "No"):
             update = True
             detail.append("Updating the .ovpn files to best guess settings\n")
-            if xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections?", "", ""):
+            if not xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections [I](recommended)[/I]?", "", "", "Yes", "No"):
                 rename = True
                 detail.append("Files will be renamed to indicate UDP or TCP\n")        
             

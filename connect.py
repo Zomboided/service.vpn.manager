@@ -54,7 +54,8 @@ if not getID() == "":
 
     # Finally return to the settings screen if that's where we came from
     if connection_order > 0:
-        xbmc.executebuiltin("Addon.OpenSettings(service.vpn.manager)")
+        command = "Addon.OpenSettings(" + getID() + ")"
+        xbmc.executebuiltin(command)
 
 else:
     errorTrace("connect.py", "VPN service is not ready")

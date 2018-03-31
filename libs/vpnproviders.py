@@ -456,6 +456,10 @@ def getAlternativeFriendlyLocations(vpn_provider, exclude_used):
 
 def getAlternativeLocations(vpn_provider, exclude_used):
     return globals()["get" + vpn_provider + "Locations"](vpn_provider, exclude_used)
+
+
+def getAlternativeLocation(vpn_provider, location):
+    return globals()["get" + vpn_provider + "Location"](vpn_provider, location)
     
     
 def getAlternativeFriendlyServers(vpn_provider, exclude_used):
@@ -464,11 +468,7 @@ def getAlternativeFriendlyServers(vpn_provider, exclude_used):
 
 def getAlternativeFriendlyServers(vpn_provider, current_server):
     return globals()["get" + vpn_provider + "Servers"](vpn_provider, current_server)
-    
-    
-def getAlternativeLocation(vpn_provider, location):
-    return globals()["get" + vpn_provider + "Location"](vpn_provider, location)
-    
+ 
 
 def getAlternativeServer(vpn_provider, server):
     return globals()["get" + vpn_provider + "Server"](vpn_provider, server)

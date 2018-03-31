@@ -125,6 +125,7 @@ def copySystemdFiles():
 
 def addSystemd():
     # Enable the openvpn systemd service, assuming a configuration has been copied
+    if not getPlatform() == platforms.LINUX: return
     command = "systemctl enable openvpn.service"
     if useSudo(): command = "sudo " + command
     infoTrace("platform.py", "Enabling systemd service with " + command)
@@ -134,6 +135,7 @@ def addSystemd():
     
 def removeSystemd():
     # Disable the openvpn systemd service
+    if not getPlatform() == platforms.LINUX: return
     command = "systemctl disable openvpn.service"
     if useSudo(): command = "sudo " + command
     infoTrace("platform.py", "Disabling systemd service with " + command)
@@ -146,7 +148,7 @@ def useSudo():
     if sudo_setting == "Always": return True
     if sudo_setting == "Never": return False
     if getPlatform() == platforms.LINUX:
-        # For non-OpenELEC Linux (based on the path name...) we don't need to use sudo
+        # For non-LE/OE Linux (based on the path name...) we don't need to use sudo
         if not getAddonPath(True, "").startswith("/storage/.kodi/"): return True
     return False
 
@@ -513,7 +515,7 @@ def isVPNTaskRunning():
     return False
 
 
-connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, OPTIONS_ERROR=7, ERROR=8) 
+connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, OPTIONS_ERROR=7, FILE_ERROR=8, ERROR=9) 
     
 def getVPNConnectionStatus():
     # Open the openvpn output file and parse it for known phrases
@@ -544,10 +546,8 @@ def getVPNConnectionStatus():
                     state = connection_status.NETWORK_FAILED
                 if "Connection timed out" in line:
                     state = connection_status.TIMEOUT
-                #if (not p == platforms.WINDOWS) and "Options error" in line and "block-outside-dns" in line
-                    #state = connection_status.OPTIONS_ERROR
-                    # This has been updated to what should be the right check, but other checks elsewhere 
-                    # have make it unnecessary (block-outside-dns is not written for non Windows platform).
+                if "Error opening configuration file" in line:
+                    state = connection_status.FILE_ERROR
                 if p == platforms.WINDOWS and "ROUTE" in line and "Access is denied" in line:
                     # This is a Windows, not running Kodi as administrator error
                     state = connection_status.ACCESS_DENIED

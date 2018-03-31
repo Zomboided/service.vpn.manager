@@ -1,7 +1,4 @@
-# Kodi Media Center language file
-# Addon Name: VPN Manager for OpenELEC
-# Addon id: service.vpn.manager
-# Addon Provider: Zomboided
+# Addon language file
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -63,7 +60,7 @@ msgid "Advanced settings (leave as default if in doubt)"
 msgstr ""
 
 msgctxt "#32010"
-msgid "Protocol filter (UDP recommended)"
+msgid "Protocol (UDP recommended)"
 msgstr ""
 
 msgctxt "#32011"
@@ -245,22 +242,6 @@ msgstr ""
 
 msgctxt "#32055"
 msgid "Include disconnect option in VPN cycle"
-msgstr ""
-
-msgctxt "#32056"
-msgid "Popup connection table display"
-msgstr ""
-
-msgctxt "#32057"
-msgid "All Connections"
-msgstr ""
-
-msgctxt "#32058"
-msgid "Validated Connections"
-msgstr ""
-
-msgctxt "#32059"
-msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 
 
@@ -492,10 +473,10 @@ msgid "Run speed test"
 msgstr ""
 
 
-# Debug Settings
+# Advanced Settings
 
 msgctxt "#32140"
-msgid "Debug"
+msgid "Advanced"
 msgstr ""
 
 msgctxt "#32141"
@@ -619,26 +600,42 @@ msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32171"
-msgid "View system information window"
+msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32172"
-msgid "Change IP location service"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32173"
-msgid "Auto select"
+msgid "All Connections"
 msgstr ""
 
 msgctxt "#32174"
-msgid "ipinfo.io"
+msgid "Validated Connections"
 msgstr ""
 
 msgctxt "#32175"
-msgid "IP-API"
+msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 
 msgctxt "#32176"
+msgid "Change IP location service"
+msgstr ""
+
+msgctxt "#32177"
+msgid "Auto select"
+msgstr ""
+
+msgctxt "#32178"
+msgid "ipinfo.io"
+msgstr ""
+
+msgctxt "#32179"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32180"
 msgid "freegeoip.net"
 msgstr ""
 

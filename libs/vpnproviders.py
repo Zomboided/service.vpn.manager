@@ -28,7 +28,8 @@ import urllib2
 import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-
+from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNServers
+from alternative import getNordVPNFriendlyServers, getNordVPNServer
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
@@ -55,7 +56,11 @@ providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
 # Names must match the directory names as used in providers, just above
 providers_with_single_key_pass = ["VPNSecure"]
 
+# List of providers that use an alternative to GitHub
+providers_alternative = ["NordVPN"]
 
+# List of providers that only allow location based selection
+providers_single_view = []
 
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
@@ -430,7 +435,45 @@ def isUserDefined(vpn_provider):
     if vpn_provider == user_def_str or vpn_provider == user_def_disp_str: return True
     return False
     
+
+def isAlternative(vpn_provider):
+    if vpn_provider in providers_alternative: return True
+    return False
     
+    
+def allowViewSelection(vpn_provider):
+    if vpn_provider in providers_single_view: return False
+    return True
+    
+
+def getAlternativePreFetch(vpn_provider):
+    return globals()["get" + vpn_provider + "PreFetch"](vpn_provider)
+    
+    
+def getAlternativeFriendlyLocations(vpn_provider, exclude_used):
+    return globals()["get" + vpn_provider + "FriendlyLocations"](vpn_provider, exclude_used)
+
+
+def getAlternativeLocations(vpn_provider, exclude_used):
+    return globals()["get" + vpn_provider + "Locations"](vpn_provider, exclude_used)
+    
+    
+def getAlternativeFriendlyServers(vpn_provider, exclude_used):
+    return globals()["get" + vpn_provider + "FriendlyServers"](vpn_provider, exclude_used)
+
+
+def getAlternativeFriendlyServers(vpn_provider, current_server):
+    return globals()["get" + vpn_provider + "Servers"](vpn_provider, current_server)
+    
+    
+def getAlternativeLocation(vpn_provider, location):
+    return globals()["get" + vpn_provider + "Location"](vpn_provider, location)
+    
+
+def getAlternativeServer(vpn_provider, server):
+    return globals()["get" + vpn_provider + "Server"](vpn_provider, server)
+    
+
 def getLocationFiles(vpn_provider):
     # Return the locations files, add any user version to the end of the list
     locations = glob.glob(getAddonPath(True, vpn_provider + "/LOCATIONS*.txt"))

@@ -163,7 +163,6 @@ class KodiPlayer(xbmc.Player):
         streaming = False
         for stop_id in stop_ids:
             if filename.startswith(stop_id):
-                newPrint("Streaming MATTHEW")
                 streaming = True
                 break
         
@@ -227,7 +226,9 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_locations_list", "")
                 addon.setSetting("vpn_provider", "")
                 addon.setSetting("vpn_provider_validated", "")
+                addon.setSetting("vpn_wizard_run", "false")
                 removeSystemd()
+                
             if last_version < 420:
                 fixKeymaps()
             if last_version < 430:
@@ -244,6 +245,7 @@ if __name__ == '__main__':
     setVPNState("")
     
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
+        # FIXME This needs fixing for the case of alternative sources
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
         infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
         populateSupportingFromGit(vpn_provider)
@@ -334,7 +336,7 @@ if __name__ == '__main__':
     
     addon = xbmcaddon.Addon()
     while not abortRequested():
-
+    
         if stopRequested() or stop:
             if not stop:
 				# Acknowledge that we've stopped so that the config can do things
@@ -372,7 +374,7 @@ if __name__ == '__main__':
                 # See if the primary VPN Or boot setting has changed.  If it has, systemd needs fixing
                 if (addon.getSetting("vpn_connect_at_boot") == "false" and connect_on_boot_setting == "true"):
                     addon.setSetting("vpn_connect_before_boot", "false")
-                if (not connect_on_boot_setting == addon.getSetting("vpn_connect_before_boot")) or (not connect_on_boot_ovpn == addon.getSetting("1_vpn_validated")):
+                if getPlatform() == platforms.LINUX and ((not connect_on_boot_setting == addon.getSetting("vpn_connect_before_boot")) or (not connect_on_boot_ovpn == addon.getSetting("1_vpn_validated"))):
                     connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
                     connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
                     infoTrace("service.py", "Updating systemd, connect before boot is " + connect_on_boot_setting + ", location is " + connect_on_boot_ovpn)
@@ -386,7 +388,11 @@ if __name__ == '__main__':
                     debugTrace("Found no VPNs, setup is invalid")
                     vpn_setup = False
                 else:
-                    debugTrace("Found " + str(len(primary_vpns)) + " VPNs, setup is valid")
+                    vpn_count = 0
+                    for next_vpn in primary_vpns:
+                        if next_vpn == "": break
+                        vpn_count += 1
+                    debugTrace("Found " + str(vpn_count) + " VPNs, setup is valid")
                     vpn_setup = True
                     vpn_provider = addon.getSetting("vpn_provider_validated")
                     # If it's been set up, just check the VPN credentials file exists
@@ -459,6 +465,8 @@ if __name__ == '__main__':
 							# Unknown state, and not in an error retry cycle, so try and reconnect immediately
                             debugTrace("Unknown VPN state so forcing reconnect")
                             reconnect_vpn = True
+                # Sleep before accepting changes just in case there are callbacks to the settings monitor outstanding
+                xbmc.sleep(1000)
                 accepting_changes = True						
 
             # This forces a connection validation after something stops playing

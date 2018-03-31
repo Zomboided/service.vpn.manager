@@ -21,7 +21,7 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.vpnproviders import getAddonList
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
 from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
@@ -44,28 +44,31 @@ if not getID() == "":
             clearVPNCycle()
             if addon.getSetting("table_display_type") == "All Connections":
                 # Build a list of all ovpn files using the current active filter
-                all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")
-                ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
-                ovpn_connections.sort()
+                if not isAlternative(addon.getSetting("vpn_provider_validated")):
+                    all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")
+                    location_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
+                    location_connections.sort()
+                else:
+                    location_connections = getAlternativeLocations(addon.getSetting("vpn_provider_validated"), False)
             else:
                 # Build a list of all validated connections
-                ovpn_connections = getValidatedList(addon, "")
+                location_connections = getValidatedList(addon, "")
             # Build the friendly list, displaying any active connection in blue
-            location_connections = getFriendlyProfileList(ovpn_connections, getVPNProfile(), "ff00ff00")
+            connections = getFriendlyProfileList(location_connections, getVPNProfile(), "ff00ff00")
             if getVPNState() == "started":
                 title = "Connected - " + getVPNProfileFriendly()
-                location_connections.insert(0, disconnect_text)
+                connections.insert(0, disconnect_text)
             else:
                 title = "Disconnected"
-                location_connections.insert(0, disconnected_text)
+                connections.insert(0, disconnected_text)
             
-            location_connections.append(cancel_text)
+            connections.append(cancel_text)
 
-            i = xbmcgui.Dialog().select(title, location_connections)
-            if location_connections[i] == disconnect_text or location_connections[i] == disconnected_text:
+            i = xbmcgui.Dialog().select(title, connections)
+            if connections[i] == disconnect_text or connections[i] == disconnected_text:
                 setAPICommand("Disconnect")
-            elif not location_connections[i] == cancel_text:
-                setAPICommand(ovpn_connections[i-1])
+            elif not connections[i] == cancel_text:
+                setAPICommand(location_connections[i-1])
             freeCycleLock()
     else:
         xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)

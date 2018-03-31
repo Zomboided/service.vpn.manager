@@ -25,7 +25,7 @@ from libs.logbox import popupOpenVPNLog, popupKodiLog, popupImportLog
 
 action = sys.argv[1]
 
-debugTrace("-- Entered infopopup.py with parameter " + action + " --")
+debugTrace("-- Entered logpopup.py with parameter " + action + " --")
 
 if not getID() == "":
     if action == "kodi":

@@ -28,8 +28,9 @@ from libs.common import getFriendlyProfileList, connectVPN, disconnectVPN, setVP
 from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorState, wizard
 from libs.common import getIconPath, getSystemData
 from libs.platform import getPlatform, platforms, getPlatformString, fakeConnection
-from libs.vpnproviders import getAddonList
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
+from libs.sysbox import popupSysBox
 
 
 debugTrace("-- Entered addon.py " + sys.argv[0] + " " + sys.argv[1] + " " + sys.argv[2] + " --")
@@ -97,6 +98,11 @@ def listSystem(addon):
     return
 
 
+def displaySystem():
+    popupSysBox()
+    return
+    
+    
 def back():
     xbmc.executebuiltin("Action(ParentDir)")
     return
@@ -130,9 +136,13 @@ def listConnections():
     debugTrace("Listing the connections available for " + vpn_provider)
     if vpn_provider != "":
         # Get the list of connections and add them to the directory
-        all_connections = getAddonList(vpn_provider, "*.ovpn")
-        ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
-        connections = getFriendlyProfileList(ovpn_connections, "", "")
+        if not isAlternative(vpn_provider):
+            all_connections = getAddonList(vpn_provider, "*.ovpn")
+            ovpn_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
+            connections = getFriendlyProfileList(ovpn_connections, "", "")
+        else:
+            ovpn_connections = getAlternativeLocations(vpn_provider, False)
+            connections = getAlternativeFriendlyLocations(vpn_provider, False)
         inc = 0
         for connection in ovpn_connections:
             url = base_url + "?change?" + ovpn_connections[inc]
@@ -211,10 +221,9 @@ if action == "display":
     # Display the network status
     displayStatus()
 elif action == "system":
-    listSystem(addon)
+    displaySystem()
 elif action == "back" : 
     back()
-    #listSystem()
 elif not connectionValidated(addon) and action != "":
     # Haven't got a valid connection so force user into the wizard or the settings dialog
     if not addon.getSetting("vpn_wizard_run") == "true":

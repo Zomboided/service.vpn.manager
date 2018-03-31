@@ -94,5 +94,5 @@ def isCustom():
     if not xbmcaddon.Addon(getID()).getSetting("vpn_custom") == "": return True
     return False
 
-    
-    
+def getCustom():    
+    return xbmcaddon.Addon(getID()).getSetting("vpn_custom")

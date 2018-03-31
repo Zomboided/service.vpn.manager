@@ -40,7 +40,7 @@ from libs.platform import getPlatform, platforms, connection_status, getAddonPat
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
-from libs.vpnproviders import populateSupportingFromGit
+from libs.vpnproviders import populateSupportingFromGit, isAlternative
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -677,7 +677,7 @@ if __name__ == '__main__':
 
                 # Wait a short period, and then just grab the lock anyway.
                 forceCycleLock()
-                debugTrace("Got forced cycle lock in cycle part of service")
+                debugTrace("Got forced cycle lock in cycle part of service, cycle is " + cycle_requested)
                 
                 # Reset the timer if this is a different request than last time we looked
                 if not cycle_requested == last_cycle:
@@ -692,6 +692,12 @@ if __name__ == '__main__':
                 if cycle_timer > 7:
                     debugTrace("Running VPN cycle request " + cycle_requested + ", current VPN is " + getVPNProfile())
                     if not (cycle_requested == "Disconnect" and getVPNProfile() == "") and (not cycle_requested == getVPNProfile()):
+                        # A reconnect request is the profile name prefixed with an explanation mark
+                        # Need to force a reconnect by pretending it's not currently got a connection
+                        if cycle_requested.startswith("!"): 
+                            cycle_requested = cycle_requested[1:]
+                            setVPNProfile("")
+                            setVPNProfileFriendly("")
                         infoTrace("service.py", "Cycle requested connection to " + cycle_requested)
                         setVPNRequestedProfile(cycle_requested)
                         if cycle_requested == "Disconnect":
@@ -707,7 +713,7 @@ if __name__ == '__main__':
                             icon = "/resources/faked.png"
                         else:
                             icon = "/resources/connected.png"
-                        if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                        if isAlternative(addon.getSetting("vpn_provider_validated")) or not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
                             notification_title = addon_name
                         else:
                             notification_title = addon_short + ", update available"
@@ -718,7 +724,6 @@ if __name__ == '__main__':
                             xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                     clearVPNCycle()
                     cycle_timer = 0
-                
                 freeCycleLock()    
                 
 			# Somewhere above we've requested we mess with the connection...

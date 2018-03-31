@@ -40,6 +40,9 @@ if not getID() == "":
     # Don't display the table if there's nothing been set up
     if connectionValidated(addon):
         if getCycleLock():
+        
+            vpn_provider = addon.getSetting("vpn_provider_validated")
+        
             # Want to stop cycling whilst this menu is displayed, and clear any active cycle
             clearVPNCycle()
             if addon.getSetting("table_display_type") == "All Connections":
@@ -49,7 +52,7 @@ if not getID() == "":
                     location_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
                     location_connections.sort()
                 else:
-                    location_connections = getAlternativeLocations(addon.getSetting("vpn_provider_validated"), False)
+                    location_connections = getAlternativeLocations(vpn_provider, False)
             else:
                 # Build a list of all validated connections
                 location_connections = getValidatedList(addon, "")
@@ -68,7 +71,10 @@ if not getID() == "":
             if connections[i] == disconnect_text or connections[i] == disconnected_text:
                 setAPICommand("Disconnect")
             elif not connections[i] == cancel_text:
-                setAPICommand(location_connections[i-1])
+                if getVPNProfile() == location_connections[i-1] and (isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true"):
+                    setAPICommand("Reconnect")
+                else:
+                    setAPICommand(location_connections[i-1])
             freeCycleLock()
     else:
         xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)

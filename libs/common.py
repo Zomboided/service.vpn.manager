@@ -43,8 +43,7 @@ from logbox import popupOpenVPNLog
 from userdefined import importWizard
 
 
-# FIXME this should be 500
-DIALOG_SPEED = 1000
+DIALOG_SPEED = 500
 
 
 def getIconPath():
@@ -611,8 +610,8 @@ def requestVPNCycle(immediate):
     
         # Don't cycle if there's nothing been set up to cycle around
         if connectionValidated(addon):
-        
             debugTrace("Got cycle lock in requestVPNCycle")
+            vpn_provider = addon.getSetting("vpn_provider_validated")
         
             if addon.getSetting("allow_cycle_disconnect") == "true":
                 allow_disconnect = True
@@ -644,6 +643,8 @@ def requestVPNCycle(immediate):
                         profiles.append(next_profile)
                         if next_profile == getVPNProfile() : 
                             found_current = True
+                            if isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
+                                profiles.append("!" + next_profile)
                     i=i+1
                 if not found_current:
                     profiles.append(getVPNProfile())
@@ -663,7 +664,7 @@ def requestVPNCycle(immediate):
             icon = getIconPath()+"locked.png"
             notification_title = addon_name
             dialog_message = ""
-            vpn_provider = addon.getSetting("vpn_provider_validated")
+            
             if getVPNCycle() == "Disconnect":
                 if getVPNProfile() == "":
                     dialog_message = "Disconnected"
@@ -673,8 +674,12 @@ def requestVPNCycle(immediate):
                     icon = getIconPath()+"unlocked.png"
             else:
                 cycle_name = getVPNCycle()
+                reconnect = False
+                if cycle_name.startswith("!"): 
+                    reconnect = True
+                    cycle_name = cycle_name[1:]
                 friendly_cycle_name = getFriendlyProfileName(cycle_name)
-                if getVPNProfile() == cycle_name:
+                if not reconnect and getVPNProfile() == cycle_name:
                     if not cycle_name == "": dialog_message = "Connected to " + friendly_cycle_name
                     if fakeConnection():
                         icon = getIconPath()+"faked.png"
@@ -684,7 +689,10 @@ def requestVPNCycle(immediate):
                         notification_title = getShort() + ", update available"
                         icon = getIconPath()+"update.png"
                 else:
-                    if not cycle_name == "": dialog_message = "Connect to " + friendly_cycle_name + "?"
+                    if not cycle_name == "":
+                        if not reconnect: dialog_message = "Connect to " + friendly_cycle_name + "?"
+                        else: dialog_message = "Reconnect to " + friendly_cycle_name + "?"
+                        
             if not dialog_message == "": 
                 debugTrace("Cycle request is " + dialog_message)
                 xbmcgui.Dialog().notification(notification_title, dialog_message , icon, 3000, False)
@@ -1327,11 +1335,13 @@ def connectVPN(connection_order, vpn_profile):
                         addon.setSetting("vpn_locations_list", selected_profile)
                         progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)."
                         progress.update(11, progress_title, progress_message)
-                        # Delete any old files in other directories
                         debugTrace("Deleting all generated ovpn files")
                         # Generate new ones
                         try:
                             provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
+                            progress_message = "Set up " + vpn_provider + "."
+                            progress.update(15, progress_title, progress_message)
+                            xbmc.sleep(DIALOG_SPEED)
                         except Exception as e:
                             errorTrace("common.py", "Couldn't generate new .ovpn files")
                             errorTrace("common.py", str(e))
@@ -1347,12 +1357,7 @@ def connectVPN(connection_order, vpn_profile):
         addon = xbmcaddon.Addon(getID())
  
                     
-    if provider_gen:
-        if not progress.iscanceled():
-            progress_message = "Set up " + vpn_provider + " files."
-            progress.update(15, progress_title, progress_message)
-            xbmc.sleep(DIALOG_SPEED)
-                            
+    if provider_gen:                            
         # Set up user credentials file
         if (not progress.iscanceled()) and usesPassAuth(getVPNLocation(vpn_provider)):
             credentials_path = getCredentialsPath(addon)
@@ -1395,7 +1400,6 @@ def connectVPN(connection_order, vpn_profile):
                     location_connections = getFriendlyProfileList(ovpn_connections, "", "")
                     server_connections = getTranslatedProfileList(location_connections, getVPNLocation(vpn_provider))
                 else:
-                    # FIXME need to deal with connected location
                     location_connections = getAlternativeFriendlyLocations(vpn_provider, True)
                     server_connections = getAlternativeFriendlyServers(vpn_provider, True)
                     

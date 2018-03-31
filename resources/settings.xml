@@ -74,7 +74,8 @@
         <setting label="32052" type="bool" id="vpn_reconnect_next" visible="eq(-14,)" default="false"/>
         <setting label="32053" type="bool" id="vpn_reconnect_reboot" default="true"/>
 		<setting label="32054" type="bool" id="vpn_reconnect_filtering" default="true"/>
-        <setting label="32055" type="bool" id="allow_cycle_disconnect" default="true"/>
+        <setting label="32055" type="bool" id="allow_cycle_reconnect" default="false"/>
+        <setting label="32056" type="bool" id="allow_cycle_disconnect" default="true"/>
     </category>
     <category label="32060">	
         <setting label="32061" type="lsep"/>

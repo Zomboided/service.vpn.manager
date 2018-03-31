@@ -241,9 +241,12 @@ msgid "Revert to previous VPN state for non-filtered add-ons"
 msgstr ""
 
 msgctxt "#32055"
-msgid "Include disconnect option in VPN cycle"
+msgid "Always allow reconnect in VPN cycle and table"
 msgstr ""
 
+msgctxt "#32056"
+msgid "Include disconnect option in VPN cycle"
+msgstr ""
 
 # Add-on Filter Settings
 

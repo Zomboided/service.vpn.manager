@@ -241,7 +241,7 @@ msgid "Revert to previous VPN state for non-filtered add-ons"
 msgstr ""
 
 msgctxt "#32055"
-msgid "Always allow reconnect in VPN cycle and table"
+msgid "Allow re-connection of existing connection"
 msgstr ""
 
 msgctxt "#32056"

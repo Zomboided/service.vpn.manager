@@ -189,7 +189,7 @@ def disconnect():
 def changeConnection():
     # Connect, or display status if we're already using selected VPN profile
     debugTrace("Changing connection to " + params + " from " + getVPNProfile() + ", connected:" + str(isVPNConnected()))
-    if isVPNConnected() and params == getVPNProfile():
+    if isVPNConnected() and params == getVPNProfile() and not isAlternative(addon.getSetting("vpn_provider")) and not addon.getSetting("allow_cycle_reconnect") == "true":
         displayStatus()
     else:        
         connectVPN("0", params)

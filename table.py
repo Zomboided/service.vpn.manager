@@ -21,7 +21,7 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocation
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
 from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
@@ -47,7 +47,7 @@ if not getID() == "":
             clearVPNCycle()
             if addon.getSetting("table_display_type") == "All Connections":
                 # Build a list of all ovpn files using the current active filter
-                if not isAlternative(addon.getSetting("vpn_provider_validated")):
+                if not isAlternative(vpn_provider):
                     all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")
                     location_connections = getFilteredProfileList(all_connections, addon.getSetting("vpn_protocol"), None)
                     location_connections.sort()
@@ -74,7 +74,11 @@ if not getID() == "":
                 if getVPNProfile() == location_connections[i-1] and (isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true"):
                     setAPICommand("Reconnect")
                 else:
-                    setAPICommand(location_connections[i-1])
+                    if isAlternative(vpn_provider):
+                        _, connection = getAlternativeLocation(vpn_provider, connections[i])
+                    else:
+                        connection = location_connections[i-1]
+                    setAPICommand(connection)
             freeCycleLock()
     else:
         xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)

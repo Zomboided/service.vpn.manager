@@ -245,15 +245,16 @@ if __name__ == '__main__':
     setVPNState("")
     
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
-        # FIXME This needs fixing for the case of alternative sources
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
-        infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
-        populateSupportingFromGit(vpn_provider)
-        if not fixOVPNFiles(vpn_provider, addon.getSetting("vpn_locations_list")) or not checkConnections():
-            errorTrace("service.py", "VPN connection is not available for " + vpn_provider + " with list " + addon.getSetting("vpn_locations_list") + ", need to revalidate")
-            xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
-            removeGeneratedFiles()
-            resetVPNConfig(addon, 1)        
+        if not isAlternative(vpn_provider):
+            # FIXME This needs fixing for the case of alternative sources, above line might not be good enough
+            infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
+            populateSupportingFromGit(vpn_provider)
+            if not fixOVPNFiles(vpn_provider, addon.getSetting("vpn_locations_list")) or not checkConnections():
+                errorTrace("service.py", "VPN connection is not available for " + vpn_provider + " with list " + addon.getSetting("vpn_locations_list") + ", need to revalidate")
+                xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
+                removeGeneratedFiles()
+                resetVPNConfig(addon, 1)        
             
     # Make sure the right options appear in the settings menu
     refreshPlatformInfo()        

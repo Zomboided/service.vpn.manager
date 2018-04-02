@@ -55,13 +55,13 @@ def getNordVPNFriendlyServers(vpn_provider, exclude_used):
     return ["c:\\user\\1.2.3.4.ovpn", "c:\\user\\2.3.4.5.ovpn"] 
     
 
-def getNordVPNLocation(vpn_provider, location):
+def getNordVPNLocation(vpn_provider, location, server_count):
     # Return friendly name and .ovpn file name
     # FIXME 
     return location, "c:\\user\\" + location + ".ovpn"
     
     
-def getNordVPNServer(vpn_provider, server):
+def getNordVPNServer(vpn_provider, server, server_count):
     # Return friendly name and .ovpn file name
     # FIXME
     return server, "c:\\user\\" + server + ".ovpn"

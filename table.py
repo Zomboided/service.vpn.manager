@@ -75,7 +75,9 @@ if not getID() == "":
                     setAPICommand("Reconnect")
                 else:
                     if isAlternative(vpn_provider):
-                        _, connection = getAlternativeLocation(vpn_provider, connections[i])
+                        _, connection = getAlternativeLocation(vpn_provider, connections[i], 1)
+                        if connection == "":
+                            errorTrace("table.py", "Could not find a location for the selected item " + connection[i])
                     else:
                         connection = location_connections[i-1]
                     setAPICommand(connection)

@@ -1292,7 +1292,6 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace("Credentials need to be validated")
             resetVPNConfig(addon, 1)
     
-
     # Generate or fix the OVPN files if we've not done this previously
     provider_gen = False
     if not progress.iscanceled() and provider_download:
@@ -1355,7 +1354,6 @@ def connectVPN(connection_order, vpn_profile):
             provider_gen = getAlternativePreFetch(vpn_provider)
             addon.setSetting("vpn_locations_list", "")
         addon = xbmcaddon.Addon(getID())
- 
                     
     if provider_gen:                            
         # Set up user credentials file
@@ -1447,15 +1445,14 @@ def connectVPN(connection_order, vpn_profile):
                             break
                         else:
                             if server_view:
-                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name)
+                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, 1)
                             else:
-                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name)
+                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, 1)
                             break
             else:
                 ovpn_name = getFriendlyProfileName(vpn_profile)
                 ovpn_connection = vpn_profile
                 
-
         if (not progress.iscanceled()) and (not ovpn_name == ""):
             # Fetch the key from the user if one is needed
             if usesUserKeys(getVPNLocation(vpn_provider)):                
@@ -1510,6 +1507,7 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace(progress_message)
             
             # Start the connection and wait a second before starting to check the state
+            # FIXME loop here around the multiple servers if there's a failure
             startVPN(ovpn_connection)
             
             i = 0
@@ -1709,6 +1707,3 @@ def connectVPN(connection_order, vpn_profile):
     
     # Refresh the screen if this is not being done on settings screen
     if connection_order == "0" : xbmc.executebuiltin('Container.Refresh')
-    
-
-  

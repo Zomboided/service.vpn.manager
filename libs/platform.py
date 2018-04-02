@@ -380,6 +380,7 @@ def checkPidofCommand(addon):
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
+        # FIXME I'm not sure this works if kodi.bin is not on the classpath
         command = "pidof kodi.bin " + getTestFilePath() + ">&" + getTestFilePath() + " &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing pidof with : " + command)

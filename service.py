@@ -771,6 +771,7 @@ if __name__ == '__main__':
                         if not getVPNRequestedProfile() == "":
                             infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
+                            # FIXME, allow for different server
                             state = startVPNConnection(getVPNRequestedProfile(), addon)
                             if not state == connection_status.CONNECTED:
                                 if state == connection_status.AUTH_FAILED:
@@ -785,6 +786,7 @@ if __name__ == '__main__':
                                     if connection_errors == 1 and addon.getSetting("vpn_reconnect_next") == "true":
                                         # See if there's a legitimate next connection to failover to
                                         failover_connection = failoverConnection(addon, getVPNRequestedProfile())
+                                    # FIXME don't always allow failover
                                     if not failover_connection == -1:
                                         # Failover to next connection if the first connection attempt fails
                                         setVPNRequestedProfile(primary_vpns[failover_connection-1])
@@ -813,6 +815,7 @@ if __name__ == '__main__':
                                     timer = 1
                                 # Want to kill any running process if it's not completed successfully
                                 stopVPNConnection()
+                                # FIXME add more details about the connection
                                 errorTrace("service.py", "VPN connect to " + getVPNLastConnectedProfile() + " has failed, VPN error was " + str(state))
                                 writeVPNLog()
                                 debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
@@ -823,7 +826,8 @@ if __name__ == '__main__':
                                     icon = "/resources/faked.png"
                                 else:
                                     icon = "/resources/connected.png"
-                                if not checkForGitUpdates(getVPNLocation(addon.getSetting("vpn_provider_validated")), True):
+                                vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
+                                if isAlternative(vpn_provider) or not checkForGitUpdates(vpn_provider, True):
                                     notification_title = addon_name
                                 else:
                                     notification_title = addon_short + ", update available"

@@ -380,7 +380,7 @@ def checkPidofCommand(addon):
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
-        command = "pidof kodi.bin" + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        command = "pidof kodi.bin " + getTestFilePath() + ">&" + getTestFilePath() + " &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing pidof with : " + command)
         os.system(command)

@@ -477,15 +477,16 @@ def getAlternativeServer(vpn_provider, server):
 def getLocationFiles(vpn_provider):
     # Return the locations files, add any user version to the end of the list
     locations = glob.glob(getAddonPath(True, vpn_provider + "/LOCATIONS*.txt"))
-    user_locations = getUserDataPath(vpn_provider + "/LOCATIONS.txt")
-    if xbmcvfs.exists(user_locations): locations.append(user_locations.replace(".txt", " User.txt"))
+    if not isAlternative(vpn_provider):
+        user_locations = getUserDataPath(vpn_provider + "/LOCATIONS.txt")
+        if xbmcvfs.exists(user_locations): locations.append(user_locations.replace(".txt", " User.txt"))
     return locations
 
     
 def getTemplateFile(vpn_provider):
     def_temp = getAddonPath(True, vpn_provider + "/TEMPLATE.txt")
     user_temp = getUserDataPath(vpn_provider + "/TEMPLATE.txt")
-    if xbmcvfs.exists(user_temp):
+    if xbmcvfs.exists(user_temp) and not isAlternative(vpn_provider):
         return user_temp
     else:
         return def_temp

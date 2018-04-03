@@ -210,9 +210,6 @@ if __name__ == '__main__':
                 resetVPNConfig(addon, 1)
                 xbmcgui.Dialog().ok(addon_name, "Thanks for using " + addon_short + "! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
             reset_everything = False
-            if addon.getSetting("vpn_provider_validated") == "NordVPN" or addon.getSetting("vpn_provider") == "NordVPN":
-                xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been removed due to the relentless server changes.  You can use the User Defined wizard if you want to continue to use this provider.")
-                reset_everything = True
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
                 reset_everything = True
@@ -228,7 +225,7 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_provider_validated", "")
                 addon.setSetting("vpn_wizard_run", "false")
                 removeSystemd()
-                
+            # FIXME add Nord info in here.  Cope with previous support and new support
             if last_version < 420:
                 fixKeymaps()
             if last_version < 430:
@@ -246,15 +243,19 @@ if __name__ == '__main__':
     
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
+        infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
         if not isAlternative(vpn_provider):
-            # FIXME This needs fixing for the case of alternative sources, above line might not be good enough
-            infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
             populateSupportingFromGit(vpn_provider)
             if not fixOVPNFiles(vpn_provider, addon.getSetting("vpn_locations_list")) or not checkConnections():
                 errorTrace("service.py", "VPN connection is not available for " + vpn_provider + " with list " + addon.getSetting("vpn_locations_list") + ", need to revalidate")
                 xbmcgui.Dialog().ok(addon_name, "One of the VPN connections you were using previously is no longer available.  Please re-validate all connections.")
                 removeGeneratedFiles()
-                resetVPNConfig(addon, 1)        
+                resetVPNConfig(addon, 1)
+        else:
+            if not regenerateAlternative(vpn_provider):
+                removeGeneratedFiles()
+                resetVPNConfig(addon, 1)
+        
             
     # Make sure the right options appear in the settings menu
     refreshPlatformInfo()        

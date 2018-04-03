@@ -60,7 +60,7 @@ providers_with_single_key_pass = ["VPNSecure"]
 providers_alternative = ["NordVPN"]
 
 # List of providers that only allow location based selection
-providers_single_view = []
+providers_single_view = ["NordVPN"]
 
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
@@ -474,6 +474,10 @@ def getAlternativeServer(vpn_provider, server, server_count):
     return globals()["get" + vpn_provider + "Server"](vpn_provider, server, server_count)
     
 
+def regenerateAlternative(vpn_provider):
+    return globals()["reset" + vpn_provider](vpn_provider)
+    
+    
 def getLocationFiles(vpn_provider):
     # Return the locations files, add any user version to the end of the list
     locations = glob.glob(getAddonPath(True, vpn_provider + "/LOCATIONS*.txt"))

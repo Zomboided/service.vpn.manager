@@ -65,3 +65,9 @@ def getNordVPNServer(vpn_provider, server, server_count):
     # Return friendly name and .ovpn file name
     # FIXME
     return server, "c:\\user\\" + server + ".ovpn"
+    
+
+def regenerateNordVPN(vpn_provider)
+    # Regenerate the files for the validated connections
+    # FIXME
+    return True

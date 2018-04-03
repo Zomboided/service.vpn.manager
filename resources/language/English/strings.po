@@ -563,82 +563,94 @@ msgid "Use openvpn with no path"
 msgstr ""
 
 msgctxt "#32161"
-msgid "Stop openvpn with killall -9 instead of -15"
+msgid "openvpn path"
 msgstr ""
 
 msgctxt "#32162"
-msgid "Alternative running openvpn task detection"
+msgid "killall path"
 msgstr ""
 
 msgctxt "#32163"
-msgid "Click OK and reopen Settings to see platform specific options"
+msgid "pidof path"
 msgstr ""
 
 msgctxt "#32164"
-msgid "Enable up/down scripts (reset VPN files after updating)"
+msgid "Stop openvpn with killall -9 instead of -15"
 msgstr ""
 
 msgctxt "#32165"
-msgid "Use default up/down scripts (reset VPN files after updating)"
+msgid "Alternative running openvpn task detection"
 msgstr ""
 
 msgctxt "#32166"
-msgid "Check connection with ping (reset VPN files after updating)"
+msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
 msgctxt "#32167"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "Enable up/down scripts (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32168"
-msgid "Evaluate and adjust system time"
+msgid "Use default up/down scripts (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32169"
-msgid "Information Display"
+msgid "Check connection with ping (reset VPN files after updating)"
 msgstr ""
 
 msgctxt "#32170"
-msgid "Enable enhanced information menu option"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32171"
-msgid "View enhanced information window now"
+msgid "Evaluate and adjust system time"
 msgstr ""
 
 msgctxt "#32172"
-msgid "Popup connection table display"
+msgid "Information Display"
 msgstr ""
 
 msgctxt "#32173"
-msgid "All Connections"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32174"
-msgid "Validated Connections"
+msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32175"
-msgid "Display IP, location and Service Provider in VPN cycle notification"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32176"
-msgid "Change IP location service"
+msgid "All Connections"
 msgstr ""
 
 msgctxt "#32177"
-msgid "Auto select"
+msgid "Validated Connections"
 msgstr ""
 
 msgctxt "#32178"
-msgid "ipinfo.io"
+msgid "Display IP, location and Service Provider in VPN cycle notification"
 msgstr ""
 
 msgctxt "#32179"
-msgid "IP-API"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32180"
+msgid "Auto select"
+msgstr ""
+
+msgctxt "#32181"
+msgid "ipinfo.io"
+msgstr ""
+
+msgctxt "#32182"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32183"
 msgid "freegeoip.net"
 msgstr ""
 

@@ -222,7 +222,7 @@ def stopVPNn(n):
         p = getPlatform()
         if p == platforms.LINUX or p == platforms.RPI:
             if useBigHammer(): n = "9"
-            command = "killall -" + n + " openvpn"
+            command = getKillallPath()+ " -" + n + " openvpn"
             if useSudo(): command = "sudo " + command
             debugTrace("(Linux) Stopping VPN with " + command)
             os.system(command)
@@ -267,31 +267,24 @@ def startVPN(vpn_profile):
 
 def updateSystemTime(newtime):
     # Update the system time using a second since epoch value
-    if not fakeConnection():
-        p = getPlatform()
-        # Only doing this for Linux as it's the small Linux boxes that no clocks
-        if p == platforms.RPI or p == platforms.LINUX:
-            command = "date +%s -s @" + str(newtime)
-            if useSudo() : command = "sudo " + command            
-            debugTrace("(Linux) Changing system clock with " + command)
-            os.system(command)
-            
-        # **** ADD MORE PLATFORMS HERE ****
-        
+    p = getPlatform()
+    # Only doing this for Linux as it's the small Linux boxes that no clocks
+    if p == platforms.RPI or p == platforms.LINUX:
+        command = "date +%s -s @" + str(newtime)
+        if useSudo() : command = "sudo " + command            
+        debugTrace("(Linux) Changing system clock with " + command)
+        os.system(command)
     return
 
     
 def getOpenVPNPath():
-    # Call the platform VPN to start the VPN
-    #if fakeConnection():
-    #    p = platforms.LINUX
-    #else:
+    # Return the path to openvpn
     p = getPlatform()   
     if p == platforms.RPI:
         return getAddonPath(False, "network.openvpn/bin/openvpn")
     if p == platforms.LINUX:
         if xbmcaddon.Addon(getID()).getSetting("openvpn_no_path") == "true": return "openvpn"
-        return "/usr/sbin/openvpn"
+        return xbmcaddon.Addon(getID()).getSetting("openvpn_path") + "openvpn"
     if p == platforms.WINDOWS:
         # No path specified as install will update command path
         return "openvpn"
@@ -301,13 +294,29 @@ def getOpenVPNPath():
     return
 
 
+def getKillallPath():
+    # return the path to killall
+    p = getPlatform()   
+    if p == platforms.LINUX or platforms.RPI:
+        return xbmcaddon.Addon(getID()).getSetting("killall_path") + "killall"
+    return
+    
+
+def getPidofPath():
+    # return the path to pidof
+    p = getPlatform()   
+    if p == platforms.LINUX or platforms.RPI:
+        return xbmcaddon.Addon(getID()).getSetting("pidof_path") + "pidof"
+    return
+    
+    
 def checkPlatform(addon):
     if not fakeConnection():
         p = getPlatform()
         infoTrace("platform.py", "Checking platform, found " + str(p) + ", " + sys.platform)
         dialog_msg = ""
         if p == platforms.UNKNOWN or "Android" in getAddonPath(True, ""):
-            dialog_msg = addon.getAddonInfo("name") + " is not currently supported on this hardware platform."
+            dialog_msg = addon.getAddonInfo("name") + " is not supported on this hardware platform."
             xbmcgui.Dialog().ok(addon.getAddonInfo("name"), dialog_msg)
             return False
     return True
@@ -338,7 +347,7 @@ def checkKillallCommand(addon):
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
-        command = "killall vpnmanagertest -v " + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        command = getKillallPath() + " vpnmanagertest -v " + getTestFilePath() + ">&" + getTestFilePath() + " &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing killall with : " + command)
         os.system(command)
@@ -376,12 +385,11 @@ def checkKillallCommand(addon):
     
         
 def checkPidofCommand(addon):        
-    # Only necessary with Linux, sees if killall is installed/working
+    # Only necessary with Linux, sees if pidof is installed/working
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
-        # FIXME I'm not sure this works if kodi.bin is not on the classpath
-        command = "pidof kodi.bin " + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        command = getPidofPath() + " kodi.bin " + getTestFilePath() + ">&" + getTestFilePath() + " &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing pidof with : " + command)
         os.system(command)
@@ -480,7 +488,7 @@ def isVPNTaskRunning():
     p = getPlatform()
     if p == platforms.LINUX or p == platforms.RPI:
         try:
-            command = "pidof openvpn"
+            command = getPidofPath() + " openvpn"
             if useSudo() : command = "sudo " + command
             debugTrace("(Linux) Checking VPN task with " + command)
             pid = os.system(command)

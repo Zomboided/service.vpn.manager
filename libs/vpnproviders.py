@@ -28,8 +28,8 @@ import urllib2
 import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNServers
-from alternative import getNordVPNFriendlyServers, getNordVPNServer
+from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
+from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
@@ -66,6 +66,9 @@ providers_single_view = ["NordVPN"]
 user_def_disp_str = "User Defined"
 user_def_str = "UserDefined"
         
+        
+VPN_VALIDATION = -1
+
 
 def getBestPathWrapper(name):
     # This function will return the path to the user version of a given file
@@ -458,6 +461,10 @@ def getAlternativeLocations(vpn_provider, exclude_used):
     return globals()["get" + vpn_provider + "Locations"](vpn_provider, exclude_used)
 
 
+def getAlternativeLocationName(vpn_provider, location):
+    return globals()["get" + vpn_provider + "LocationName"](vpn_provider, location)
+    
+    
 def getAlternativeLocation(vpn_provider, location, server_count):
     return globals()["get" + vpn_provider + "Location"](vpn_provider, location, server_count)
     
@@ -475,7 +482,7 @@ def getAlternativeServer(vpn_provider, server, server_count):
     
 
 def regenerateAlternative(vpn_provider):
-    return globals()["reset" + vpn_provider](vpn_provider)
+    return globals()["regenerate" + vpn_provider](vpn_provider)
     
     
 def getLocationFiles(vpn_provider):
@@ -757,6 +764,45 @@ def updateVPNFiles(vpn_provider):
     else:
         ovpn_connections = getDownloadList(vpn_provider, "*.ovpn")
 
+    # Open a translate file
+    if allowViewSelection(vpn_provider):
+        try:
+            debugTrace("Opening translate file for " + vpn_provider)
+            translate_file = open(getAddonPath(True, vpn_provider + "/TRANSLATE.txt"), 'w')
+            debugTrace("Opened translate file for " + vpn_provider)
+        except Exception as e:
+            errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
+            errorTrace("vpnproviders.py", str(e))
+            return False
+        
+    success = False
+    for connection in ovpn_connections:
+        # Update each ovpn file based on settings, etc
+        success, translate_location, translate_server, server_count, proto = updateVPNFile(connection, vpn_provider)
+        if not success: break
+        if allowViewSelection(vpn_provider):
+            # Update the translate file with the server info needed
+            if server_count > 1: translate_server = translate_server + " & " + str(server_count - 1) + " more"
+            translate_file.write(translate_location + "," + translate_server + " (" + proto.upper() + ")\n")
+
+    if allowViewSelection(vpn_provider): translate_file.close()
+    if success:
+        # Flag that the files have been generated            
+        writeGeneratedFile(vpn_provider)  
+    return success    
+
+
+def updateVPNFile(connection, vpn_provider):
+
+    try:
+        f = open(connection, 'r')
+        debugTrace("Processing file " + connection)
+        ovpn = f.readlines()
+        f.close()
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Couldn't open the ovpn file " + connection + " for " + vpn_provider)
+        errorTrace("vpnproviders.py", str(e))
+
     # See if there's a port override going on
     addon = xbmcaddon.Addon(getID())
     if addon.getSetting("default_udp") == "true":
@@ -775,145 +821,124 @@ def updateVPNFiles(vpn_provider):
         verb_value = "1"
         addon.setSetting("openvpn_verb", verb_value)
 
-    # Open a translate file
     try:
-        debugTrace("Opening translate file for " + vpn_provider)
-        translate_file = open(getAddonPath(True, vpn_provider + "/TRANSLATE.txt"), 'w')
-        debugTrace("Opened translate file for " + vpn_provider)
-    except Exception as e:
-        errorTrace("vpnproviders.py", "Couldn't open the translate file for " + vpn_provider)
-        errorTrace("vpnproviders.py", str(e))
-        return False
+
+        if isUserDefined(vpn_provider):
+            f = open(connection, 'w')
+        else:
+            f = open(getAddonPath(True, vpn_provider + "/" + os.path.basename(connection)), 'w')
+        # Get the profile friendly name in case we need to generate key/cert names
+        name = connection[connection.rfind(getSeparator())+1:connection.rfind(".ovpn")]
+        translate_location = name
+        translate_server = ""
+        server_count = 0
         
-    for connection in ovpn_connections:
-        try:
-            f = open(connection, 'r')
-            debugTrace("Processing file " + connection)
-            lines = f.readlines()
-            f.close()
+        found_up = False
+        found_down = False
+        found_script_sec = False
+        found_block_dns = False
+        found_ping = False
+        found_verb = False
+        proto = "udp"
+        
+        # Update the necessary values in the ovpn file
+        for line in ovpn:
+            
+            line = line.strip(' \t\n\r')
+            
+            # Update path to pass.txt
+            if not isUserDefined(vpn_provider) or addon.getSetting("user_def_credentials") == "true":
+                if line.startswith("auth-user-pass"):
+                    line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")               
+
+            # Update port numbers
+            if line.startswith("remote "):
+                server_count += 1
+                tokens = line.split()
+                port = ""
+                for newline in ovpn:
+                    if newline.startswith("proto "):
+                        if "tcp" in newline:
+                            proto = "tcp"
+                            if not portTCP == "": port = portTCP
+                            break
+                        if "udp" in newline:
+                            proto = "udp"
+                            if not portUDP == "": port = portUDP
+                            break
+                if not port == "":
+                    line = "remote " + tokens[1] + " " + port + "\n"
+                if translate_server == "": translate_server = tokens[1]
+      
+            # Update user cert and key                
+            if not isUserDefined(vpn_provider) and usesUserKeys(vpn_provider):
+                if line.startswith("cert "):
+                    line = "cert " + getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, name))
+                if line.startswith("key "):
+                    line = "key " + getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, name))
+            
+            # Update key password (if there is one)
+            if not isUserDefined(vpn_provider) or usesKeyPass(vpn_provider):
+                if line.startswith("askpass"):
+                    line = "askpass " + getUserDataPathWrapper(vpn_provider + "/" + getKeyPass(vpn_provider))
+            
+            # For user defined profile we need to replace any path tags with the addon dir path
             if isUserDefined(vpn_provider):
-                f = open(connection, 'w')
+                line = line.replace("#PATH", getAddonPathWrapper(vpn_provider))
+            
+            # Set the logging level
+            if line.startswith("verb "):
+                line = "verb " + verb_value
+                found_verb = True
+                
+            # Force this to 30 otherwise the add-on could sit there hanging
+            if line.startswith("resolv-retry"):
+                line = "resolv-retry 30"
+
+            if line.startswith("up "):
+                found_up = True
+            if line.startswith("down "):
+                found_down = True
+            if line.startswith("script-security "):
+                found_script_sec = True
+            if line.startswith("block-outside-dns"):
+                found_block_dns = True
+        
+            if line.startswith("ping"):
+                found_ping = True
+            
+            f.write(line + "\n")
+        
+        if not found_block_dns and getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
+            f.write("block-outside-dns\n")
+            
+        if addon.getSetting("up_down_script") == "true":
+            if not found_script_sec: f.write("script-security 2\n")
+            if not found_up: f.write(getUpParam(vpn_provider)+"\n")
+            if not found_down: f.write(getDownParam(vpn_provider)+"\n")
+        
+        if not found_ping and addon.getSetting("force_ping") == "true":
+            if proto == "tcp":
+                f.write("ping 10\n")
+                f.write("ping-exit 60\n")
             else:
-                f = open(getAddonPath(True, vpn_provider + "/" + os.path.basename(connection)), 'w')
-            # Get the profile friendly name in case we need to generate key/cert names
-            name = connection[connection.rfind(getSeparator())+1:connection.rfind(".ovpn")]
-            translate_location = name
-            translate_server = ""
-            server_count = 0
-            
-            found_up = False
-            found_down = False
-            found_script_sec = False
-            found_block_dns = False
-            found_ping = False
-            found_verb = False
-            proto = "udp"
-            
-            # Update the necessary values in the ovpn file
-            for line in lines:
-                
-                line = line.strip(' \t\n\r')
-                
-                # Update path to pass.txt
-                if not isUserDefined(vpn_provider) or addon.getSetting("user_def_credentials") == "true":
-                    if line.startswith("auth-user-pass"):
-                        line = "auth-user-pass " + getAddonPathWrapper(vpn_provider + "/" + "pass.txt")               
+                f.write("ping 5\n")
+                f.write("ping-exit 30\n")
+            f.write("ping-timer-rem\n")
+        
+        if not found_verb:
+            f.write("verb " + verb_value + "\n")
+        
+        f.close()
 
-                # Update port numbers
-                if line.startswith("remote "):
-                    server_count += 1
-                    tokens = line.split()
-                    port = ""
-                    for newline in lines:
-                        if newline.startswith("proto "):
-                            if "tcp" in newline:
-                                proto = "tcp"
-                                if not portTCP == "": port = portTCP
-                                break
-                            if "udp" in newline:
-                                proto = "udp"
-                                if not portUDP == "": port = portUDP
-                                break
-                    if not port == "":
-                        line = "remote " + tokens[1] + " " + port + "\n"
-                    if translate_server == "": translate_server = tokens[1]
-
-                        
-                # Update user cert and key                
-                if not isUserDefined(vpn_provider) and usesUserKeys(vpn_provider):
-                    if line.startswith("cert "):
-                        line = "cert " + getUserDataPathWrapper(vpn_provider + "/" + getCertName(vpn_provider, name))
-                    if line.startswith("key "):
-                        line = "key " + getUserDataPathWrapper(vpn_provider + "/" + getKeyName(vpn_provider, name))
-                
-                # Update key password (if there is one)
-                if not isUserDefined(vpn_provider) or usesKeyPass(vpn_provider):
-                    if line.startswith("askpass"):
-                        line = "askpass " + getUserDataPathWrapper(vpn_provider + "/" + getKeyPass(vpn_provider))
-                
-                # For user defined profile we need to replace any path tags with the addon dir path
-                if isUserDefined(vpn_provider):
-                    line = line.replace("#PATH", getAddonPathWrapper(vpn_provider))
-                
-                # Set the logging level
-                if line.startswith("verb "):
-                    line = "verb " + verb_value
-                    found_verb = True
+        return True, translate_location, translate_server, server_count, proto
+        
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Failed to update ovpn file for " + connection)
+        errorTrace("vpnproviders.py", str(e))
+        return False, "", "", 0, ""
     
-                if line.startswith("up "):
-                    found_up = True
-                if line.startswith("down "):
-                    found_down = True
-                if line.startswith("script-security "):
-                    found_script_sec = True
-                if line.startswith("block-outside-dns"):
-                    found_block_dns = True
-            
-                if line.startswith("ping"):
-                    found_ping = True
-                
-                f.write(line + "\n")
-            
-            if not found_block_dns and getPlatform() == platforms.WINDOWS and addon.getSetting("block_outside_dns") == "true":
-                f.write("block-outside-dns\n")
-                
-            if addon.getSetting("up_down_script") == "true":
-                if not found_script_sec: f.write("script-security 2\n")
-                if not found_up: f.write(getUpParam(vpn_provider)+"\n")
-                if not found_down: f.write(getDownParam(vpn_provider)+"\n")
-            
-            if not found_ping and addon.getSetting("force_ping") == "true":
-                if proto == "tcp":
-                    f.write("ping 10\n")
-                    f.write("ping-exit 60\n")
-                else:
-                    f.write("ping 5\n")
-                    f.write("ping-exit 30\n")
-                f.write("ping-timer-rem\n")
-            
-            if not found_verb:
-                f.write("verb " + verb_value + "\n")
-            
-            f.close()
-                                
-            if server_count > 1: translate_server = translate_server + " & " + str(server_count - 1) + " more"
-            translate_file.write(translate_location + "," + translate_server + " (" + proto.upper() + ")\n")
-            
-        except Exception as e:
-            errorTrace("vpnproviders.py", "Failed to update ovpn file")
-            errorTrace("vpnproviders.py", str(e))
-            translate_file.close()
-            return False
-
-    # Write the location to server translation file
-    translate_file.close()
-
-    # Flag that the files have been generated            
-    writeGeneratedFile(vpn_provider)
-            
-    return True    
-
-
+    
 def copyUserDefinedFiles():    
     # Copy everything in the user directory to the addon directory
     infoTrace("vpnproviders.py", "Copying user defined files from userdata directory")

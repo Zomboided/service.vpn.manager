@@ -36,7 +36,7 @@ from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID,
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
-from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection
+from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile, VPN_VALIDATION
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
@@ -365,6 +365,12 @@ def getVPNRequestedProfileFriendly():
 def setVPNProfile(profile_name):
     # Store full profile path name
     xbmcgui.Window(10000).setProperty("VPN_Manager_Connected_Profile_Name", profile_name)
+    # Update the server name if this is a connection
+    if not profile_name == "": 
+        setVPNServer(getVPNRequestedServer())
+        setVPNRequestedServer("")
+    else:
+        setVPNServer("")
     return
 
     
@@ -383,7 +389,29 @@ def getVPNProfileFriendly():
     # Return shortened profile name
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Friendly_Name")    
 
+    
+def setVPNServer(server_name):
+    # Store server name
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Connected_Server_Name", server_name)
+    return
 
+    
+def getVPNServer():
+    # Return server name
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Server_Name")
+
+    
+def setVPNRequestedServer(server_name):
+    # Store server name
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Requested_Server_Name", server_name)
+    return
+
+    
+def getVPNRequestedServer():
+    # Return server name
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Requested_Server_Name")    
+    
+    
 def setConnectionErrorCount(count):
     # Return the number of times a connection retry has failed
     xbmcgui.Window(10000).setProperty("VPN_Manager_Connection_Errors", str(count))
@@ -1377,11 +1405,11 @@ def connectVPN(connection_order, vpn_profile):
 
         # Display the list of connections
         if not progress.iscanceled():
-
+            
+            if addon.getSetting("location_server_view") == "true": server_view = True
+            else: server_view = False
             if not connection_order == "0":
                 switch = True
-                if addon.getSetting("location_server_view") == "true": server_view = True
-                else: server_view = False
                 # Build ths list of connections and the server/IP alternative
                 if not isAlternative(vpn_provider):
                     all_connections = getAddonList(vpn_provider, "*.ovpn")
@@ -1407,6 +1435,8 @@ def connectVPN(connection_order, vpn_profile):
                     location_connections.insert(0, switch_text)
                     server_connections.insert(0, switch_text)
                     switch_offset = 1
+                else:
+                    switch_text = ""
                 if existing_connection == "":
                     cancel_text = "[I]Cancel connection attempt[/I]"
                 else:
@@ -1430,7 +1460,7 @@ def connectVPN(connection_order, vpn_profile):
                         ovpn_name = ""
                         cancel_attempt = True
                         break
-                    elif selected_name == switch_text:
+                    elif allowViewSelection(vpn_provider) and selected_name == switch_text:
                         if server_view: 
                             server_view = False
                             addon.setSetting("location_server_view", "false")
@@ -1445,13 +1475,21 @@ def connectVPN(connection_order, vpn_profile):
                             break
                         else:
                             if server_view:
-                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, 1)
+                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, VPN_VALIDATION)
                             else:
-                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, 1)
+                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, VPN_VALIDATION)
+                            if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                             break
             else:
-                ovpn_name = getFriendlyProfileName(vpn_profile)
-                ovpn_connection = vpn_profile
+                if not isAlternative(vpn_provider):
+                    ovpn_name = getFriendlyProfileName(vpn_profile)
+                    ovpn_connection = vpn_profile
+                else:
+                    if server_view:
+                        ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), VPN_VALIDATION)
+                    else:
+                        ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), VPN_VALIDATION)
+                    if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                 
         if (not progress.iscanceled()) and (not ovpn_name == ""):
             # Fetch the key from the user if one is needed
@@ -1507,7 +1545,8 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace(progress_message)
             
             # Start the connection and wait a second before starting to check the state
-            # FIXME loop here around the multiple servers if there's a failure
+            # There's no retry logic here as a working server would have been selected just before trying
+            # to connect.  A subsequent retry will see a different server selected if the previous one failed.
             startVPN(ovpn_connection)
             
             i = 0
@@ -1654,7 +1693,7 @@ def connectVPN(connection_order, vpn_profile):
             elif state == connection_status.NETWORK_FAILED: 
                 dialog_message = "Error connecting to VPN, could not establish connection. Check your user name, password and network connectivity and retry."
             elif state == connection_status.TIMEOUT:
-                dialog_message = "Error connecting to VPN, connection has timed out. Try using a different VPN profile or retry."
+                dialog_message = "Error connecting to VPN, connection has timed out. Retry or try using a different VPN profile."
             elif state == connection_status.ROUTE_FAILED:
                 dialog_message = "Error connecting to VPN, could not update routing table. Retry and then check log."
             elif state == connection_status.ACCESS_DENIED:

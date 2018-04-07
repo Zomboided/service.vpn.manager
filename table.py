@@ -21,7 +21,7 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocation
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocationName
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
 from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
@@ -75,12 +75,13 @@ if not getID() == "":
                     setAPICommand("Reconnect")
                 else:
                     if isAlternative(vpn_provider):
-                        _, connection = getAlternativeLocation(vpn_provider, connections[i], 1)
+                        connection = getAlternativeLocationName(vpn_provider, connections[i])
                         if connection == "":
                             errorTrace("table.py", "Could not find a location for the selected item " + connection[i])
                     else:
                         connection = location_connections[i-1]
-                    setAPICommand(connection)
+                    if not connection == "":
+                        setAPICommand(connection)
             freeCycleLock()
     else:
         xbmcgui.Dialog().notification(addon_name, "VPN is not set up and authenticated.", xbmcgui.NOTIFICATION_ERROR, 10000, True)

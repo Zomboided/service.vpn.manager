@@ -26,7 +26,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum, getID
+from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum, getID, isCustom, getCustom
 from sys import platform
 
 
@@ -643,7 +643,10 @@ def getKeyMapsPath(path):
     
 
 def getKeyMapsFileName():
-    return "zomboided.xml"
+    if isCustom():
+        return getCustom() + ".xml"
+    else:
+        return "zomboided.xml"
 
     
 def getOldKeyMapsFileName():

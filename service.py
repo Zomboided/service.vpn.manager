@@ -40,7 +40,7 @@ from libs.platform import getPlatform, platforms, connection_status, getAddonPat
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
-from libs.vpnproviders import populateSupportingFromGit, isAlternative
+from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -772,7 +772,9 @@ if __name__ == '__main__':
                         if not getVPNRequestedProfile() == "":
                             infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
-                            # FIXME, allow for different server
+                            # FIXME allow for different server, consider retry attempts
+                            # FIXME Also generate it if it doesn't exist for the alternative cases via the API or table
+                            # FIXME I think I only need to do this for the > 1 attempt?
                             state = startVPNConnection(getVPNRequestedProfile(), addon)
                             if not state == connection_status.CONNECTED:
                                 if state == connection_status.AUTH_FAILED:
@@ -781,6 +783,10 @@ if __name__ == '__main__':
                                     # like the VPN state is off deliberately to avoid reconnect
                                     xbmcgui.Dialog().notification(addon_name, "Error authenticating with VPN, retry or update credentials.", getAddonPath(True, "/resources/warning.png"), 10000, True)
                                     setVPNState("off")
+                                elif state == connection_status.FILE_ERROR:
+                                    # If the ovpn file doesn't exist, we shouldn't retry
+                                    xbmcgui.Dialog().notification(addon_name, "Error connecting, review log for errors.", getAddonPath(True, "/resources/warning.png"), 10000, True)
+                                    setVPNState("off")                                
                                 else:
                                     connection_errors = getConnectionErrorCount() + 1
                                     failover_connection = -1

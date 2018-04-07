@@ -25,6 +25,18 @@ import json
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint
 
 
+# These are duplicated here to avoid a circular reference in common.
+# Probably should break all the getters and setters out into a separate lib sometime
+def setVPNRequestedServer(server_name):
+    # Store server name
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Requested_Server_Name", server_name)
+    return
+
+def getVPNRequestedServer():
+    # Return server name
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Requested_Server_Name") 
+
+
 def getNordVPNPreFetch(vpn_provider):
     # Optionally prefetch info from the magical internet to make the connection process smoother
     # FIXME
@@ -43,6 +55,18 @@ def getNordVPNFriendlyLocations(vpn_provider, exclude_used):
     return ["England", "Scotland", "Wales", "Ireland"]
 
 
+def getNordVPNLocationName(vpn_provider, location):
+    return getAddonPath(True, vpn_provider + "/" + location + ".ovpn")
+
+    
+def getNordVPNLocation(vpn_provider, location, server_count):
+        return "", ""
+
+        
+def getNordVPNOvpnFile(server, protocol, target_file):
+        return False
+
+    
 def getNordVPNServers(vpn_provider, exclude_used):
     # Return a list of all of the servers
     # FIXME Need to remove the location that's already been connected and filter on the protocol

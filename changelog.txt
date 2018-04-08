@@ -1,3 +1,10 @@
+v4.9.0
+- Improved setup wizard
+- Improved command checking (Linux)
+- Reconnect options
+- Check VPN connection during streaming option
+- Improved Linux path options
+
 v4.4.2
 - Keymap fix
 
@@ -10,7 +17,7 @@ v4.4.0
 
 v4.3.0
 - Rewrite keymap to allow other add-ons to use the same zomboided.xml keymap
-- Rem.0oved speed test function (moved to a different add-on)
+- Removed speed test function (moved to a different add-on)
 - Removed timed reboot and file change reboot (moved to a different add-on)
 
 v4.2.0

@@ -213,12 +213,12 @@ if __name__ == '__main__':
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
                 reset_everything = True
-            if last_version < 500:
-                if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
-                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
-                if addon.getSetting("vpn_provider_validated") == "NordVPN":
-                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
-                    reset_everything = True
+            #if last_version < 500:
+            #    if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
+            #        xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
+            #    if addon.getSetting("vpn_provider_validated") == "NordVPN":
+            #        xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
+            #        reset_everything = True
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
@@ -231,7 +231,6 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_provider_validated", "")
                 addon.setSetting("vpn_wizard_run", "false")
                 removeSystemd()
-
             if last_version < 420:
                 fixKeymaps()
             if last_version < 430:
@@ -679,7 +678,7 @@ if __name__ == '__main__':
                     updateIPInfo(addon)
                 else:
                     # Connect command is basically the profile name...any errors will 
-                    # be filtered in the api.py code before the command is passed to her
+                    # be filtered in the api.py code before the command is passed to here
                     setVPNRequestedProfile(api_command)
                     setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
                     reconnect_vpn = True

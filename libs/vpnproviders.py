@@ -65,9 +65,6 @@ providers_single_view = ["NordVPN"]
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
 user_def_str = "UserDefined"
-        
-        
-VPN_VALIDATION = -1
 
 
 def getBestPathWrapper(name):
@@ -402,6 +399,16 @@ def cleanGeneratedFiles():
         if xbmcvfs.exists(filename) : xbmcvfs.delete(filename)         
 
 
+def checkUserDefined(pattern):
+    # See if any of the user defined file names contain the pattern
+    pattern = pattern.lower()
+    list = getUserDataList("UserDefined", "*.ovpn")
+    for l in list:
+        if pattern in l.lower():
+            return True
+    return False
+        
+        
 def removeGeneratedFiles():
     for provider in providers:
         try:

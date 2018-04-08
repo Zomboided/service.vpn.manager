@@ -245,6 +245,10 @@ msgid "Allow re-connection of existing connection"
 msgstr ""
 
 msgctxt "#32056"
+msgid "Automatically reconnect (hours, 0 is off)"
+msgstr ""
+
+msgctxt "#32057"
 msgid "Include disconnect option in VPN cycle"
 msgstr ""
 

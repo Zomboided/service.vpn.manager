@@ -26,7 +26,7 @@ import os
 from libs.common import connectionValidated, getIPInfo, isVPNConnected, getVPNProfile, getVPNProfileFriendly
 from libs.common import getFriendlyProfileList, connectVPN, disconnectVPN, setVPNState, requestVPNCycle, getFilteredProfileList
 from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorState, wizard
-from libs.common import getIconPath, getSystemData
+from libs.common import getIconPath, getSystemData, getVPNServer
 from libs.platform import getPlatform, platforms, getPlatformString, fakeConnection
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
@@ -115,7 +115,10 @@ def displayStatus():
         if fakeConnection():
             xbmcgui.Dialog().ok(addon_name, "Faked connection to a VPN in " + country + ".\nUsing profile " + getVPNProfileFriendly() + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp)
         else:
-            xbmcgui.Dialog().ok(addon_name, "Connected to a VPN in " + country + ".\nUsing profile " + getVPNProfileFriendly() + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp)
+            server = getVPNServer()
+            if not server == "": server = ", " + server + "\n"
+            else: server = "\n"
+            xbmcgui.Dialog().ok(addon_name, "Connected to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + server + "External IP address is " + ip + "\nService Provider is " + isp)
     else:
         debugTrace("VPN is not connected, displaying the connection info")
         xbmcgui.Dialog().ok(addon_name, "Disconnected from VPN.\nNetwork location is " + country + ".\nIP address is " + ip + ".\nService Provider is " + isp)

@@ -28,19 +28,19 @@ import datetime
 import urllib2
 import re
 import string
-from libs.common import updateServiceRequested, ackUpdate, getVPNProfile, setVPNProfile, getVPNProfileFriendly, setVPNProfileFriendly
+from libs.common import updateServiceRequested, ackUpdate, getVPNProfile, setVPNProfile, getVPNProfileFriendly, setVPNProfileFriendly, getReconnectTime
 from libs.common import getVPNRequestedProfile, setVPNRequestedProfile, getVPNRequestedProfileFriendly, setVPNRequestedProfileFriendly, getIPInfo
 from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startRequested, ackStart, updateService, stopVPNConnection, startVPNConnection
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
 from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredentialsPath, getFriendlyProfileName, isVPNMonitorRunning, setVPNMonitorState
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection, resumeStartStop
-from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, suspendStartStop 
+from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, suspendStartStop, getVPNRequestedServer
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
-from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative
+from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -213,6 +213,12 @@ if __name__ == '__main__':
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
                 reset_everything = True
+            if last_version < 500:
+                if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
+                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
+                if addon.getSetting("vpn_provider_validated") == "NordVPN":
+                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
+                    reset_everything = True
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
@@ -225,7 +231,7 @@ if __name__ == '__main__':
                 addon.setSetting("vpn_provider_validated", "")
                 addon.setSetting("vpn_wizard_run", "false")
                 removeSystemd()
-            # FIXME add Nord info in here.  Cope with previous support and new support
+
             if last_version < 420:
                 fixKeymaps()
             if last_version < 430:
@@ -497,6 +503,14 @@ if __name__ == '__main__':
                     connection_retry_time_min = int(addon.getSetting("vpn_reconnect_freq"))
                     timer = 0
             
+            # Check to see if a reconnect is needed
+            if (not playing): 
+                if vpn_setup and isVPNConnected() and not (getVPNState() == "off"):
+                    rt = getReconnectTime()
+                    if rt > 0 and rt < int(time.time()):
+                        debugTrace("Reconnecting as connection has been alive for " + addon.getSetting("auto_reconnect_vpn") + " hours")
+                        forceReconnect("True")
+            
             # This will force a reconnect to happen, unless the VPN state is off
             if isForceReconnect() and not (getVPNState() == "off"):
                 forceReconnect("")
@@ -665,7 +679,7 @@ if __name__ == '__main__':
                     updateIPInfo(addon)
                 else:
                     # Connect command is basically the profile name...any errors will 
-                    # be filtered in the api.py code before the command is passed to here
+                    # be filtered in the api.py code before the command is passed to her
                     setVPNRequestedProfile(api_command)
                     setVPNRequestedProfileFriendly(getFriendlyProfileName(api_command))
                     reconnect_vpn = True
@@ -772,9 +786,13 @@ if __name__ == '__main__':
                         if not getVPNRequestedProfile() == "":
                             infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
-                            # FIXME allow for different server, consider retry attempts
-                            # FIXME Also generate it if it doesn't exist for the alternative cases via the API or table
-                            # FIXME I think I only need to do this for the > 1 attempt?
+                            vpn_provider = addon.getSetting("vpn_provider_validated")
+                            if isAlternative(vpn_provider):
+                                # (Re)generate the ovpn file based on the latest server settings
+                                # These will both try and do the right thing with regards to existing files if there's
+                                # a problem generating new ones, so don't check returns and report problems below
+                                getAlternativeLocation(vpn_provider, getVPNRequestedProfileFriendly(), getConnectionErrorCount())
+                                updateVPNFile(getVPNRequestedProfile(), vpn_provider)
                             state = startVPNConnection(getVPNRequestedProfile(), addon)
                             if not state == connection_status.CONNECTED:
                                 if state == connection_status.AUTH_FAILED:
@@ -790,10 +808,13 @@ if __name__ == '__main__':
                                 else:
                                     connection_errors = getConnectionErrorCount() + 1
                                     failover_connection = -1
-                                    if connection_errors == 1 and addon.getSetting("vpn_reconnect_next") == "true":
+                                    # For alternative connections, we should try a couple of times before failing over as
+                                    # it could be that our first choice of server was being precious and the next is fine
+                                    if isAlternative(vpn_provider):failover_threshold = 2
+                                    else: failover_threshold = 1
+                                    if connection_errors == failover_threshold and addon.getSetting("vpn_reconnect_next") == "true":
                                         # See if there's a legitimate next connection to failover to
                                         failover_connection = failoverConnection(addon, getVPNRequestedProfile())
-                                    # FIXME don't always allow failover
                                     if not failover_connection == -1:
                                         # Failover to next connection if the first connection attempt fails
                                         setVPNRequestedProfile(primary_vpns[failover_connection-1])
@@ -822,8 +843,9 @@ if __name__ == '__main__':
                                     timer = 1
                                 # Want to kill any running process if it's not completed successfully
                                 stopVPNConnection()
-                                # FIXME add more details about the connection
-                                errorTrace("service.py", "VPN connect to " + getVPNLastConnectedProfile() + " has failed, VPN error was " + str(state))
+                                errorTrace("service.py", "VPN connect to " + getVPNRequestedProfile() + " has failed, VPN error was " + str(state))
+                                if isAlternative(vpn_provider):
+                                    errorTrace("service.py", "Server was " + getVPNRequestedServer())
                                 writeVPNLog()
                                 debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
                             else:

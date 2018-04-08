@@ -36,7 +36,7 @@ from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID,
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForGitUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
-from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile, VPN_VALIDATION
+from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
@@ -438,10 +438,12 @@ def getVPNState():
 def getSystemData(addon, vpn, network, vpnm, system):
     lines = []
     if vpn:
-        site, ip, country, isp = getIPInfo(addon)
         lines.append("[B][COLOR ff0099ff]Connection[/COLOR][/B]")
-        if isVPNConnected():
+        site, ip, country, isp = getIPInfo(addon)
+        if isVPNConnected(): 
             lines.append("[COLOR ff00ff00]Connected using profile " + getVPNProfileFriendly() + "[/COLOR]")
+            server = getVPNServer()
+            if not server == "": lines.append("Server is " + server)
             lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
         else:
             lines.append("[COLOR ffff0000]Not connected to a VPN[/COLOR]")
@@ -792,10 +794,11 @@ def getVPNMonitorState():
     
 def setConnectTime(addon):
     # Record the connection time
-    t = str(int(time.time()))
-    addon.setSetting("last_connect_time",t)
-
-
+    t = int(time.time())
+    addon.setSetting("last_connect_time",str(t))
+    setReconnectTime(addon, t)
+    
+    
 def setConnectChange():
     xbmcgui.Window(10000).setProperty("VPN_Manager_Last_Connection_Change", str(int(time.time())))
     
@@ -821,7 +824,19 @@ def getConnectTime(addon):
     else:
         return int(t)
 
-        
+
+def setReconnectTime(addon, t):
+    reconnect = int(addon.getSetting("auto_reconnect_vpn"))
+    if reconnect > 0: reconnect = t + (reconnect * 3600)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Reconnect_Time", str(reconnect))
+
+    
+def getReconnectTime():
+    t = xbmcgui.Window(10000).getProperty("VPN_Manager_Reconnect_Time")
+    if t == "": return 0
+    else: return int(t)
+
+
 def failoverConnection(addon, current_profile):
     # Given a connection, find it in the list of validated connections and return the next 
     # one in the list, or the first connection if it's the last valid one in the list
@@ -931,7 +946,7 @@ def disconnectVPN(display_result):
         xbmc.executebuiltin('Container.Refresh')
         if display_result:
             _, ip, country, isp = getIPInfo(addon)       
-            dialog_message = "Disconnected from VPN.\nNetwork location is " + country + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp
+            dialog_message = "Disconnected from VPN\nNetwork location is " + country + "\nExternal IP address is " + ip + "\nService Provider is " + isp
         
         infoTrace("common.py", "Disconnected from the VPN")
 
@@ -1475,9 +1490,9 @@ def connectVPN(connection_order, vpn_profile):
                             break
                         else:
                             if server_view:
-                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, VPN_VALIDATION)
+                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, 0)
                             else:
-                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, VPN_VALIDATION)
+                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, 0)
                             if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                             break
             else:
@@ -1486,9 +1501,9 @@ def connectVPN(connection_order, vpn_profile):
                     ovpn_connection = vpn_profile
                 else:
                     if server_view:
-                        ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), VPN_VALIDATION)
+                        ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     else:
-                        ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), VPN_VALIDATION)
+                        ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                 
         if (not progress.iscanceled()) and (not ovpn_name == ""):
@@ -1580,9 +1595,12 @@ def connectVPN(connection_order, vpn_profile):
         # Set up final message
         progress_message = "Connected, VPN monitor restarted."
         if fakeConnection():
-            dialog_message = "Faked connection to a VPN in " + country + ".\nUsing profile " + ovpn_name + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp + "."
+            dialog_message = "Faked connection to a VPN in " + country + "\nUsing profile " + ovpn_name + "\nExternal IP address is " + ip + "\nService Provider is " + isp
         else:
-            dialog_message = "Connected to a VPN in " + country + ".\nUsing profile " + ovpn_name + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp + "."
+            server = getVPNRequestedServer()
+            if not server == "": server = ", " + server + "\n"
+            else: server = "\n"
+            dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
         infoTrace("common.py", dialog_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used

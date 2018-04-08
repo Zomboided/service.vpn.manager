@@ -1093,7 +1093,7 @@ def wizard():
         addon = xbmcaddon.Addon(getID())
         if success:
             # Offer to default the common options
-            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?.  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", "", "", "Yes", "No"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", "", "", "Yes", "No"):
                 # These options will connect and boot, reconnect during streaming or not playing, and reconnect after filtering
                 addon.setSetting("vpn_connect_at_boot", "true")
                 addon.setSetting("vpn_reconnect", "true")
@@ -1116,7 +1116,7 @@ def wizard():
                 addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
                     xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This is the primary connection and will be used when Kodi starts.")
-                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections or countries and define filters to automatically change the VPN connection being used with each add-on.  Do you want to do this now?", "", "", "Yes", "No"):
+                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections or countries and define filters to automatically change the VPN connection being used with each add-on.  Do this now?", "", "", "Yes", "No"):
                         settings = True
                 else:
                     xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")

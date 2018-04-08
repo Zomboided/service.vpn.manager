@@ -38,60 +38,44 @@ def getVPNRequestedServer():
 
 
 def getNordVPNPreFetch(vpn_provider):
-    # Optionally prefetch info from the magical internet to make the connection process smoother
-    # FIXME
     return True
 
     
 def getNordVPNLocations(vpn_provider, exclude_used):
-    # Return a list of all of the locations
-    # FIXME Need to filter on the protocol and remove the connections already selected
-    return ["c:\\England.ovpn\\", "c:\\user\\Scotland.ovpn", "c:\\user\\Wales.ovpn", "c:\\user\\Ireland.ovpn"]    
+    return [""]    
     
 
 def getNordVPNFriendlyLocations(vpn_provider, exclude_used):
-    # Return a list of all of the locations
-    # FIXME Need to remove the location that's already been connected and filter on the protocol
-    return ["England", "Scotland", "Wales", "Ireland"]
+    return [""]
 
 
 def getNordVPNLocationName(vpn_provider, location):
-    return getAddonPath(True, vpn_provider + "/" + location + ".ovpn")
+    return ""
 
     
 def getNordVPNLocation(vpn_provider, location, server_count):
-        return "", ""
+    return "", ""
 
         
 def getNordVPNOvpnFile(server, protocol, target_file):
-        return False
+    return False
 
     
 def getNordVPNServers(vpn_provider, exclude_used):
-    # Return a list of all of the servers
-    # FIXME Need to remove the location that's already been connected and filter on the protocol
-    return ["1.2.3.4", "2.3.4.5"]
+    return []
        
     
 def getNordVPNFriendlyServers(vpn_provider, exclude_used):
-    # Return a list of all of the servers
-    # FIXME Need to remove the location that's already been connected and filter on the protocol
-    return ["c:\\user\\1.2.3.4.ovpn", "c:\\user\\2.3.4.5.ovpn"] 
-    
+    return []
 
-def getNordVPNLocation(vpn_provider, location, server_count):
-    # Return friendly name and .ovpn file name
-    # FIXME 
-    return location, "c:\\user\\" + location + ".ovpn"
-    
     
 def getNordVPNServer(vpn_provider, server, server_count):
-    # Return friendly name and .ovpn file name
-    # FIXME
-    return server, "c:\\user\\" + server + ".ovpn"
+    return "", ""
     
-
-def regenerateNordVPN(vpn_provider)
-    # Regenerate the files for the validated connections
-    # FIXME
+    
+def regenerateNordVPN(vpn_provider):
     return True
+    
+    
+def resetNordVPN(vpn_provider):
+    return True  

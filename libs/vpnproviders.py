@@ -29,7 +29,7 @@ import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
-from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
+from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
@@ -490,6 +490,10 @@ def getAlternativeServer(vpn_provider, server, server_count):
 
 def regenerateAlternative(vpn_provider):
     return globals()["regenerate" + vpn_provider](vpn_provider)
+
+
+def resetAlternative(vpn_provider):
+    return globals()["reset" + vpn_provider](vpn_provider)
     
     
 def getLocationFiles(vpn_provider):

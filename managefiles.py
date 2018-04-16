@@ -25,7 +25,7 @@ import xbmcvfs
 import datetime
 import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
-from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles
+from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN
@@ -42,15 +42,17 @@ if not getID() == "":
 
     # Reset the ovpn files
     if action == "ovpn":
-        if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the .ovpn files will disconnect and reset all VPN connections. Connections must be re-validated before use. Continue?"):
+        if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
             # Disconnect so that live files are not being modified
             if isVPNConnected(): resetVPNConnections(addon)            
-            debugTrace("Deleting all generated ovpn files")
+            debugTrace("Deleting all generated files")
             # Delete the ovpn files and the generated flag file.
             removeGeneratedFiles()
+            vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
+            if isAlternative(vpn_provider): resetAlternative(vpn_provider)
             # Reset the IP service error counts, etc
             resetIPServices()
-            xbmcgui.Dialog().ok(addon_name, "Deleted all .ovpn files. Validate a connection to recreate them.\n")
+            xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
 
             
     # Generate the VPN provider files

@@ -30,6 +30,12 @@ def ifDebug():
     return False
 
     
+def ifHttpTrace():
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_HTTP_Trace") == "true":
+        return True
+    return False
+    
+    
 def debugTrace(data):    
     if ifDebug():
         log = getVery() + " : " + data

@@ -138,7 +138,7 @@ msgid "Click the boxes below to validate primary VPN connections"
 msgstr ""
 
 msgctxt "#32030"
-msgid "First VPN connection (optionally used to auto connect during boot)"
+msgid "First VPN connection (used to auto connect at start up)"
 msgstr ""
 
 msgctxt "#32031"
@@ -380,11 +380,11 @@ msgid "Utilities"
 msgstr ""
 
 msgctxt "#32101"
-msgid "Manage VPN provider files"
+msgid "Manage VPN provider"
 msgstr ""
 
 msgctxt "#32102"
-msgid "Reset VPN provider files"
+msgid "Reset VPN provider"
 msgstr ""
 
 msgctxt "#32103"
@@ -515,7 +515,7 @@ msgid "View OpenVPN log file"
 msgstr ""
 
 msgctxt "#32148"
-msgid "OpenVPN verb level (reset VPN files after updating)"
+msgid "OpenVPN verb level (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32149"
@@ -543,7 +543,7 @@ msgid "5"
 msgstr ""
 
 msgctxt "#32155"
-msgid "Force block-outside-dns (reset VPN files after updating)"
+msgid "Force block-outside-dns (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32156"
@@ -591,15 +591,15 @@ msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
 msgctxt "#32167"
-msgid "Enable up/down scripts (reset VPN files after updating)"
+msgid "Enable up/down scripts (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32168"
-msgid "Use default up/down scripts (reset VPN files after updating)"
+msgid "Use default up/down scripts (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32169"
-msgid "Check connection with ping (reset VPN files after updating)"
+msgid "Check connection with ping (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32170"

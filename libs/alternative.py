@@ -36,7 +36,11 @@ def getVPNRequestedServer():
     # Return server name
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Requested_Server_Name") 
 
-
+    
+def authenticateNordVPN(userid, password):
+    return False
+    
+    
 def getNordVPNPreFetch(vpn_provider):
     return True
 

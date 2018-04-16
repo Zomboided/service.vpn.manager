@@ -26,10 +26,10 @@ import xbmcaddon
 import glob
 import urllib2
 import time
-from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
+from utility import ifHttpTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
-from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN
+from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
@@ -494,6 +494,11 @@ def regenerateAlternative(vpn_provider):
 
 def resetAlternative(vpn_provider):
     return globals()["reset" + vpn_provider](vpn_provider)
+    
+    
+def authenticateAlternative(vpn_provider, username, password):
+    return globals()["authenticate" + vpn_provider](vpn_provider, username, password)
+    return globals()["authenticate" + vpn_provider](vpn_provider, username, password)
     
     
 def getLocationFiles(vpn_provider):
@@ -1001,12 +1006,18 @@ def getGitMetaData(vpn_provider):
         debugTrace("Getting git metadata for " + vpn_provider)
         download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/METADATA.txt"
         download_url = download_url.replace(" ", "%20")
+        if ifHttpTrace(): debugTrace("Using " + download_url)
         return urllib2.urlopen(download_url)
-    except Exception as e:
-        # Can't get the list so return null
+    except urllib2.HTTPError as e:
         errorTrace("vpnproviders.py", "Can't get the metadata from Github for " + vpn_provider)
-        errorTrace("vpnproviders.py", str(e))
-        return None
+        errorTrace("vpnproviders.py", "API call was " + download_url)
+        errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("vpnproviders.py", e.read())
+    except Exception as e:
+        errorTrace("vpnproviders.py", "Can't get the metadata from Github for " + vpn_provider)
+        errorTrace("vpnproviders.py", "API call was " + download_url)
+        errorTrace("vpnproviders.py", "Response was " + str(type(e)) + " " + str(e))    
+    return None    
 
         
 def parseGitMetaData(metadata):
@@ -1160,6 +1171,7 @@ def refreshFromGit(vpn_provider, progress):
     progress_inc = float(99/float(total_files))
     for file in file_list:
         try:
+            error = True
             #debugTrace("Downloading " + file)
             if progress is not None:
                 progress_count += progress_inc
@@ -1168,19 +1180,29 @@ def refreshFromGit(vpn_provider, progress):
                 progress.update(int(progress_count), progress_title, progress_message)
             download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
             download_url = download_url.replace(" ", "%20")
+            if ifHttpTrace(): debugTrace("Using " + download_url)
             git_file = urllib2.urlopen(download_url)
             file = file.strip(' \n')
             output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')
             for line in git_file:
                 output.write(line)
             output.close()
+            error = False
+        except urllib2.HTTPError as e:
+            errorTrace("vpnproviders.py", "Can't download " + file)
+            errorTrace("vpnproviders.py", "API call was " + download_url)
+            errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
+            errorTrace("vpnproviders.py", e.read())
         except Exception as e:
             errorTrace("vpnproviders.py", "Can't download " + file)
-            errorTrace("vpnproviders.py", str(e))
+            errorTrace("vpnproviders.py", "API call was " + download_url)
+            errorTrace("vpnproviders.py", "Response was " + str(type(e)) + " " + str(e))           
+        if error:
             error_count += 1
             # Bail after 5 failures as it's likely something bad is happening.  Don't fail
             # immediately because it could just be an error with one or two locations
-            if error_count > 5: return False
+            if error_count > 5: return False            
+            
         # Uncomment the next line to make testing larger downloads easier....
         # if file_count == 20: break
         file_count += 1

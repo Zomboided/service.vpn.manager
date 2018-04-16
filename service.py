@@ -41,6 +41,7 @@ from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fa
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
+from libs.vpnproviders import getUserDataPath
 from libs.vpnapi import VPNAPI
 
 debugTrace("-- Entered service.py --")
@@ -94,6 +95,12 @@ def refreshPlatformInfo():
     else:
         new_sysd = "false"
     addon.setSetting("show_preboot_connect", new_sysd)
+    
+    # Some tracing that we might want to do
+    if xbmcvfs.exists(getUserDataPath("HTTPTRACE.txt")):
+        xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "true")
+    else:
+        xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "")
     
 
 def checkConnections():

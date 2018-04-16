@@ -113,7 +113,7 @@ def displayStatus():
     if isVPNConnected():
         debugTrace("VPN is connected, displaying the connection info")
         if fakeConnection():
-            xbmcgui.Dialog().ok(addon_name, "Faked connection to a VPN in " + country + ".\nUsing profile " + getVPNProfileFriendly() + ".\nExternal IP address is " + ip + ".\nService Provider is " + isp)
+            xbmcgui.Dialog().ok(addon_name, "Faked connection to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + "\nExternal IP address is " + ip + "\nService Provider is " + isp)
         else:
             server = getVPNServer()
             if not server == "": server = ", " + server + "\n"
@@ -232,6 +232,7 @@ elif not connectionValidated(addon) and action != "":
     if not addon.getSetting("vpn_wizard_run") == "true":
         wizard()
     else:
+        # FIXME warn user they've not set anything up before throwing them right into settings
         command = "Addon.OpenSettings(" + addon_id + ")"
         xbmc.executebuiltin(command)   
 else:

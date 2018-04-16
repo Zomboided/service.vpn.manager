@@ -22,7 +22,7 @@ import re
 import urllib2
 import xbmcaddon
 import xbmcgui
-from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
+from utility import ifHttpTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
 
 
 
@@ -38,6 +38,7 @@ def getIPInfoFrom(source):
     # No info generated from call is "no info", "unknown", "unknown", "unknown", url response
     # Or general error is "error", "error", "error", reason, url response
     link = ""
+    error = True
     try:
         # Determine the URL, make the call and read the response
         url = getIPSourceURL(source)
@@ -45,11 +46,20 @@ def getIPInfoFrom(source):
         req = urllib2.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
         response = urllib2.urlopen(req, timeout = 10)
+        if ifHttpTrace(): debugTrace("Using " + url)
         link = response.read()
         response.close()
+        error = False
+    except urllib2.HTTPError as e:
+        errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
+        errorTrace("ipinfo.py", "API call was " + url)
+        errorTrace("ipinfo.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("ipinfo.py", e.read())
     except Exception as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
-        errorTrace("ipinfo.py", str(e))
+        errorTrace("ipinfo.py", "API call was " + url)
+        errorTrace("ipinfo.py", "Response was " + str(type(e)) + " " + str(e))
+    if error:
         recordError(source)
         return "error", "error", "error", "call failed", link
         

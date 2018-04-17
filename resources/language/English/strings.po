@@ -635,7 +635,7 @@ msgid "Validated Connections"
 msgstr ""
 
 msgctxt "#32178"
-msgid "Display IP, location and Service Provider in VPN cycle notification"
+msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
 msgctxt "#32179"

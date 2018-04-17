@@ -18,7 +18,7 @@
         <setting label="32008" type="bool" id="vpn_password_display" visible="true" enable="true" default="false"/>        
         <setting label=""      type='lsep'/>
         <setting label="32009" type='lsep'/>
-        <setting label="32010" type="labelenum" id="vpn_protocol" lvalues="32011|32012|32013"/>
+        <setting label="32010" type="labelenum" id="vpn_protocol" lvalues="32011|32012|32013" default="UDP"/>
         <setting label="32014" type="bool" id="default_udp" enable="eq(-12,)" default="true"/>
         <setting label="32015" type="number" id="alternative_udp_port" enable="eq(-13,)" visible="!eq(-1,true)" default="1194"/>
         <setting label="32016" type="bool" id="default_tcp" enable="eq(-14,)" default="true"/>

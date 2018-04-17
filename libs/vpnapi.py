@@ -17,8 +17,8 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #    All the code to access the API for the filtering and switching 
-#    functionality of VPN Manager.  Can be imported from the service.vpn.manager 
-#    add-on or can be copied as a complete file and included in a third party 
+#    functionality of the add-on.  Can be imported from the add-on or 
+#    can be copied as a complete file and included in a third party 
 #    add-on directly
 
 
@@ -30,28 +30,32 @@ import time
 class VPNAPI:
 
     def __init__(self):
-        # Class initialisation.  Fails with a RuntimeError exception if VPN Manager add-on is not available, or too old
+        # Class initialisation.  Fails with a RuntimeError exception if add-on is not available, or too old
         self.filtered_addons = []
         self.filtered_windows = []
         self.primary_vpns = []
         self.last_updated = 0
+        self.addon_name = ""        
+        self.timeout = 30
+        if xbmc.getCondVisibility("System.HasAddon(service.vpn.manager)"):
+            self.addon_name = "service.vpn.manager"
+        elif xbmc.getCondVisibility("System.HasAddon(service.nord.vpn)"):
+            self.addon_name = "service.nord.vpn"
+        if self.addon_name == "":
+            xbmc.log("VPN API : A VPN add-on is not installed, cannot use filtering", level=xbmc.LOGERROR)
+            raise RuntimeError("VPN add-on is not installed")
+        else:
+            v = int((xbmcaddon.Addon(self.addon_name).getAddonInfo("version").strip()).replace(".",""))
+            if v < 310:
+                raise RuntimeError("VPN add-on version " + str(v) + " installed, but needs to be v3.1.0 or later")
         self.refreshLists()
         self.default = self.getConnected()
-        xbmc.log("VPN Mgr API : Default is " + self.default, level=xbmc.LOGDEBUG)
-        self.timeout = 30
-        if not xbmc.getCondVisibility("System.HasAddon(service.vpn.manager)"):
-            xbmc.log("VPN Mgr API : VPN Manager is not installed, cannot use filtering", level=xbmc.LOGERROR)
-            raise RuntimeError("VPN Manager is not installed")
-        else:
-            v = int((xbmcaddon.Addon("service.vpn.manager").getAddonInfo("version").strip()).replace(".",""))
-            if v < 310:
-                raise RuntimeError("VPN Manager " + str(v) + " installed, but needs to be v3.1.0 or later")
-
+        xbmc.log("VPN API : Default is " + self.default, level=xbmc.LOGDEBUG)
                 
     def isVPNSetUp(self):
         # Indicates if the VPN has been set up.  Can be called directly, but is used by
         # all calls that mess with the connection to ensure the VPN is running.
-        addon = xbmcaddon.Addon("service.vpn.manager")
+        addon = xbmcaddon.Addon(self.addon_name)
         if not addon.getSetting("1_vpn_validated") == "": return True
         return False
         
@@ -68,7 +72,7 @@ class VPNAPI:
         self.refreshLists()
         if self.primary_vpns[connection] == "": return False
         if self.getConnected() == self.primary_vpns[connection]: return True
-        xbmc.log(msg="VPN Mgr API : Connecting to " + self.primary_vpns[connection], level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Connecting to " + self.primary_vpns[connection], level=xbmc.LOGDEBUG)
         self.setAPICommand(self.primary_vpns[connection])
         if wait: return self.waitForConnection(self.primary_vpns[connection])
         return True
@@ -83,7 +87,7 @@ class VPNAPI:
         if not self.isVPNSetUp(): return False
         if connection_name == "": return False
         if self.getConnected() == connection_name: return True
-        xbmc.log(msg="VPN Mgr API : Connecting to " + connection_name, level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Connecting to " + connection_name, level=xbmc.LOGDEBUG)
         self.setAPICommand(connection_name)
         if wait: return self.waitForConnection(connection_name)
         return True
@@ -95,7 +99,7 @@ class VPNAPI:
         # once the connection has been made, or if it's fire and forget (in which case True will be returned regardless)
         if not self.isVPNSetUp(): return False
         if self.getConnected() == "": return True
-        xbmc.log(msg="VPN Mgr API : Disconnecting", level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Disconnecting", level=xbmc.LOGDEBUG)
         self.setAPICommand("Disconnect")
         if wait: return self.waitForConnection("")
         return True
@@ -105,7 +109,7 @@ class VPNAPI:
         # Recycle the active VPN connection.  Return False if VPN hasn't been setup, otherwise return true.  This call
         # does not wait for the connection to cycle before returning.  If the VPN is not connected no action will be taken
         if not self.isVPNSetUp(): return False
-        xbmc.log(msg="VPN Mgr API : Reconnecting", level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Reconnecting", level=xbmc.LOGDEBUG)
         self.setAPICommand("Reconnect")
         return True
 
@@ -114,7 +118,7 @@ class VPNAPI:
         # Pause the VPN filtering, preventing any automatic connection switching.  Return true unless the VPN is not set up
         if not self.isVPNSetUp(): return False
         if self.getConnected() == "": return True
-        xbmc.log(msg="VPN Mgr API : Pausing Filtering", level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Pausing Filtering", level=xbmc.LOGDEBUG)
         self.setAPICommand("Pause")
         return True        
 
@@ -123,7 +127,7 @@ class VPNAPI:
         # Restart the VPN filtering, preventing any automatic connection switching.  Return true unless the VPN is not set up
         if not self.isVPNSetUp(): return False
         if self.getConnected() == "": return True
-        xbmc.log(msg="VPN Mgr API : Pausing Filtering", level=xbmc.LOGDEBUG)
+        xbmc.log(msg="VPN API : Pausing Filtering", level=xbmc.LOGDEBUG)
         self.setAPICommand("Restart")
         return True   
 
@@ -150,18 +154,18 @@ class VPNAPI:
         connection = self.isFiltered(path, windowid)
         # Switch to the default connection if there's no filter
         if connection == -1 and default : 
-            xbmc.log(msg="VPN Mgr API : Reconnecting to the default", level=xbmc.LOGDEBUG)
+            xbmc.log(msg="VPN API : Reconnecting to the default", level=xbmc.LOGDEBUG)
             return self.defaultVPN(wait)
         if connection == 0:
             if self.getConnected() == "": return True
-            xbmc.log(msg="VPN Mgr API : Disconnecting due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
+            xbmc.log(msg="VPN API : Disconnecting due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
             self.setAPICommand("Disconnect")
             if wait: return self.waitForConnection("")
         if connection > 0:
             connection = connection - 1
             if self.primary_vpns[connection] == "": return False
             if self.getConnected() == self.primary_vpns[connection]: return True
-            xbmc.log(msg="VPN Mgr API : Connecting to " + self.primary_vpns[connection] + " due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
+            xbmc.log(msg="VPN API : Connecting to " + self.primary_vpns[connection] + " due to filter " + path + " or window ID " + str(windowid), level=xbmc.LOGDEBUG)
             self.setAPICommand(self.primary_vpns[connection])
             if wait: return self.waitForConnection(self.primary_vpns[connection])
         return True
@@ -277,7 +281,7 @@ class VPNAPI:
         if self.last_updated > changed:
             return
         # Get a handle to the VPN Mgr add-on to read the settings data
-        addon = xbmcaddon.Addon("service.vpn.manager")
+        addon = xbmcaddon.Addon(self.addon_name)
         del self.filtered_addons[:]
         del self.filtered_windows[:]
         del self.primary_vpns[:]

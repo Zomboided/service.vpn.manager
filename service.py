@@ -36,6 +36,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection, resumeStartStop
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, suspendStartStop, getVPNRequestedServer
+from libs.common import getVPNServer
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery
@@ -779,7 +780,7 @@ if __name__ == '__main__':
                             xbmcgui.Dialog().notification(addon_name, "Disconnected from VPN. Service Provider is " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, "/resources/disconnected.png"), 20000, False)
                         else:
                             xbmcgui.Dialog().notification(addon_name, "Disconnected", getAddonPath(True, "/resources/disconnected.png"), 3000, False)
-                        infoTrace("service.py", "Disconnect from VPN")
+                        infoTrace("service.py", "Disconnected from VPN")
                     else:
                         # Just incase we're in a weird unknown state, this should clear things up
                         stopVPNConnection()
@@ -790,7 +791,7 @@ if __name__ == '__main__':
                     # Don't reconnect if this is a disconnect request, or there is nothing to connect to (primary not set)
                     if not getVPNRequestedProfile() == "Disconnect":
                         if not getVPNRequestedProfile() == "":
-                            infoTrace("service.py", "Connecting to VPN profile " + getVPNRequestedProfile())
+                            debugTrace("Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
                             vpn_provider = addon.getSetting("vpn_provider_validated")
                             if isAlternative(vpn_provider):
@@ -874,8 +875,14 @@ if __name__ == '__main__':
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                                 else:
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly(), getAddonPath(True, icon), notification_time, False)
+                                if isAlternative(vpn_provider):
+                                    infoTrace("service.py", "VPN connected to " + getVPNProfileFriendly() + " using " + getVPNServer())
+                                else:
+                                    infoTrace("service.py", "VPN connected to " + getVPNProfileFriendly())
                         else:
-                            xbmcgui.Dialog().notification(addon_name, "Filtering " + current_name + " but no validated connection available.", getAddonPath(True, "/resources/warning.png"), 10000, False)
+                            # Don't whine about filtering unless there's a good connection
+                            if getVPNState() == "started":
+                                xbmcgui.Dialog().notification(addon_name, "Filtering " + current_name + " but no validated connection available.", getAddonPath(True, "/resources/warning.png"), 10000, False)
                     else:                                               
                         setConnectionErrorCount(0)
                         setVPNState("off")

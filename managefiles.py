@@ -29,8 +29,12 @@ from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refre
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN
-from libs.generation import generateAll
 from libs.ipinfo import resetIPServices
+try:
+    from libs.generation import generateAll
+except:
+    pass
+
 
 action = sys.argv[1]
 

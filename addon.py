@@ -79,11 +79,12 @@ def topLevel():
     li = xbmcgui.ListItem("Cycle through primary VPN connections", iconImage=getIconPath()+"cycle.png")
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     url = base_url + "?switch"
-    if isVPNMonitorRunning():
-        li = xbmcgui.ListItem("Pause add-on filtering", iconImage=getIconPath()+"paused.png")
-    else:
-        li = xbmcgui.ListItem("Restart add-on filtering", iconImage=getIconPath()+"play.png")
-    xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+    if not getVPNMonitorState() == "":
+        if isVPNMonitorRunning():
+            li = xbmcgui.ListItem("Pause add-on filtering", iconImage=getIconPath()+"paused.png")
+        else:
+            li = xbmcgui.ListItem("Restart add-on filtering", iconImage=getIconPath()+"play.png")
+        xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     xbmcplugin.endOfDirectory(addon_handle)
     return
 
@@ -232,7 +233,8 @@ elif not connectionValidated(addon) and action != "":
     if not addon.getSetting("vpn_wizard_run") == "true":
         wizard()
     else:
-        # FIXME warn user they've not set anything up before throwing them right into settings
+        if not action == "settings":
+            xbmcgui.Dialog().ok(addon_name, "A VPN hasn't been set up yet.  Click Ok to open the settings")
         command = "Addon.OpenSettings(" + addon_id + ")"
         xbmc.executebuiltin(command)   
 else:

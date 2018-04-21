@@ -679,6 +679,8 @@ def requestVPNCycle(immediate):
                     i=i+1
                 if not found_current:
                     profiles.append(getVPNProfile())
+                    if isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
+                        profiles.append("!" + getVPNProfile())
                       
                 # Work out where in the cycle we are and move to the next one
                 current_profile = 0

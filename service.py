@@ -913,6 +913,10 @@ if __name__ == '__main__':
                 infoTrace("service.py", "Abort received, shutting down service")
                 shutdown = True
                 break
+            if monitor.abortRequested():
+                # Disable and uninstall events aren't trapped so we need to check the monitor for aborts too
+                shutdown = True
+                break
             if not getAPICommand() == "": 
                 break
         if shutdown: break

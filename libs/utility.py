@@ -100,6 +100,16 @@ def setVery(very_short_name):
     return xbmcgui.Window(10000).setProperty("VPN_Addon_Very_Short_Name", very_short_name)     
     
     
+def running():
+    if xbmcgui.Window(10000).getProperty("VPN_Service_Running") == "": return False
+    return True
+    
+def setRunning(bool):
+    if bool: xbmcgui.Window(10000).setProperty("VPN_Service_Running", "true")
+    else: xbmcgui.Window(10000).setProperty("VPN_Service_Running", "")
+
+    
+    
 def isCustom():
     if getID() == "": return False
     if not xbmcaddon.Addon(getID()).getSetting("vpn_custom") == "": return True

@@ -1337,7 +1337,7 @@ def connectVPN(connection_order, vpn_profile):
             resetVPNConfig(addon, 1)
     
     # Check that we can authenticate with the VPN service if neccessary
-    if isAlternative(vpn_provider):
+    if not progress.iscanceled() and provider_download and isAlternative(vpn_provider):
         progress_message = "Authenticating user ID and password for " + vpn_username + "..."
         progress.update(7, progress_title, progress_message)
         # Reuse the provider_download to avoid more variables.  It's not used for alternative connections

@@ -182,6 +182,9 @@ if __name__ == '__main__' and not running():
 
     # This and the running() check above is to work around a Kodi 17 bug that starts a service twice after install
     setRunning(True)
+    
+    shutdown = False
+    stop_vpn = False
 
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
     infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
@@ -914,11 +917,13 @@ if __name__ == '__main__' and not running():
         
         # Take multiple second long naps, checking to see if there are any outstanding CLI commands
         shutdown = False
+        stop_vpn = False
         for i in range(0, delay):
             if waitForAbort(1000):
                 # Abort was requested while waiting. We should exit
                 infoTrace("service.py", "Abort received, shutting down service")
                 shutdown = True
+                stop_vpn = True
                 break
             if monitor.abortRequested():
                 # Disable and uninstall events aren't trapped so we need to check the monitor for aborts too
@@ -933,9 +938,7 @@ if __name__ == '__main__' and not running():
     
     # Work around Kodi 17 bug that starts a service twice in some cases...
     setRunning(False)
+    xbmc.sleep(500)
     
     # Stop the VPN connection before exiting as it could be running on a 'normal' PC, not a dedicated box
-    stopVPNConnection()
-    
-else:
-    errorTrace("service.py", "VPN service is already running")
+    if stop_vpn: stopVPNConnection()

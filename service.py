@@ -37,10 +37,10 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection, resumeStartStop
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, suspendStartStop, getVPNRequestedServer
-from libs.common import getVPNServer
+from libs.common import getVPNServer, setReconnectTime
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
-from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning
+from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
 from libs.vpnproviders import getUserDataPath
@@ -284,7 +284,7 @@ if __name__ == '__main__' and not running():
             
     # This will adjust the system time on Linux platforms if it's too far adrift from reality
     if getPlatform() == platforms.LINUX and addon.getSetting("fix_system_time") == "true":
-        curr_time = int(time.time())
+        curr_time = now()
         last_conn_time = getConnectTime(addon)
         if last_conn_time > curr_time:
             infoTrace("service.py", "System time was in the past, updating it to " + datetime.datetime.fromtimestamp(last_conn_time).strftime('%Y-%m-%d %H:%M:%S'))
@@ -426,7 +426,13 @@ if __name__ == '__main__' and not running():
 
 				# Flag that filter and VPN lists have changed
                 debugTrace("Flag lists have changed")
-                xbmcgui.Window(10000).setProperty("VPN_Manager_Lists_Last_Refreshed", str(int(time.time())))
+                xbmcgui.Window(10000).setProperty("VPN_Manager_Lists_Last_Refreshed", str(now()))
+                
+                # (Re)set the reconnect time of the existing connection
+                if getVPNState() == "started":
+                    r = int(addon.getSetting("auto_reconnect_vpn"))
+                    if r == 0 and getReconnectTime() > 0: setReconnectTime(addon, now())
+                    elif r > 0 and getReconnectTime() == 0: setReconnectTime(addon, now())
                 
 				# If the VPN is not deliberately disconnected, then connect it
                 if vpn_setup and not getVPNState() == "off":
@@ -521,9 +527,9 @@ if __name__ == '__main__' and not running():
             
             # Check to see if a reconnect is needed
             if (not playing): 
-                if vpn_setup and isVPNConnected() and not (getVPNState() == "off"):
+                if vpn_setup and isVPNConnected() and getVPNState() == "started":
                     rt = getReconnectTime()
-                    if rt > 0 and rt < int(time.time()):
+                    if rt > 0 and rt < now():
                         debugTrace("Reconnecting as connection has been alive for " + addon.getSetting("auto_reconnect_vpn") + " hours")
                         forceReconnect("True")
             

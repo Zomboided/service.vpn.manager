@@ -830,9 +830,12 @@ def getConnectTime(addon):
 
 def setReconnectTime(addon, t):
     reconnect = int(addon.getSetting("auto_reconnect_vpn"))
-    if reconnect > 0: reconnect = t + (reconnect * 3600)
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Reconnect_Time", str(reconnect))
-
+    if reconnect > 0: 
+        reconnect = t + (reconnect * 3600)
+        xbmcgui.Window(10000).setProperty("VPN_Manager_Reconnect_Time", str(reconnect))
+    else:
+        xbmcgui.Window(10000).setProperty("VPN_Manager_Reconnect_Time", "")
+    
     
 def getReconnectTime():
     t = xbmcgui.Window(10000).getProperty("VPN_Manager_Reconnect_Time")

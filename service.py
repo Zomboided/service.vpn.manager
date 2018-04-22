@@ -40,7 +40,7 @@ from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAP
 from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
-from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now
+from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
 from libs.vpnproviders import getUserDataPath
@@ -233,12 +233,12 @@ if __name__ == '__main__' and not running():
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
                 reset_everything = True
-            #if last_version < 500:
+            #if not isCustom() and last_version < 500:
             #    if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
             #        xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
-            #    if addon.getSetting("vpn_provider_validated") == "NordVPN":
-            #        xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
-            #        reset_everything = True
+            #     if addon.getSetting("vpn_provider_validated") == "NordVPN":
+            #         xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
+            #          reset_everything = True
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)

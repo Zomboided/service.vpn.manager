@@ -513,6 +513,9 @@ def fixKeymaps():
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response
+    
+    # Return true if the check should be bypassed
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if service is not already running (shouldn't be...)
     if not xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -540,6 +543,9 @@ def startRequested():
     
 def stopService():
     # Routine for config to call to request service stops and waits until that happens
+    
+    # Return true if the check should be bypassed
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if the service has stopped previously
     if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -565,6 +571,18 @@ def ackStop():
     xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "stopped")
 
 
+def suspendStartStop():
+    # This will stop any service checking from happening and return the current state
+    current = xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control")
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "ignore")
+    return current    
+    
+    
+def resumeStartStop(state):
+    # This can be used to resume service checking, returning to a previous known state (or pass in an empty string)
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", state)    
+    
+    
 def suspendConfigUpdate():
     # This will stop any config updates from happening
     xbmcgui.Window(10000).setProperty("VPN_Manager_Update_Suspend", "true")

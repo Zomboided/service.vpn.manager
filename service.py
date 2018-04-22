@@ -37,7 +37,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, getVPNRequestedServer
-from libs.common import getVPNServer, setReconnectTime, configUpdate
+from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now
@@ -357,7 +357,9 @@ if __name__ == '__main__' and not running():
     
     # If no connection has been set up, offer to run the wizard
     if not connectionValidated(addon) and not addon.getSetting("vpn_wizard_run") == "true":
+        state = suspendStartStop()
         wizard()
+        resumeStartStop(state)
     
     addon = xbmcaddon.Addon()
     while not abortRequested():

@@ -650,7 +650,10 @@ def getKeyMapsFileName():
 
     
 def getOldKeyMapsFileName():
-    return "vpn.manager.xml"
+    if isCustom():
+        return "zomboided.xml"
+    else:
+        return "vpn.manager.xml"
     
     
 def getLogPath():    

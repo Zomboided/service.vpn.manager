@@ -302,7 +302,7 @@ if __name__ == '__main__' and not running():
 
     # Check the keymaps for this add-on are intact
     if fixKeymaps():
-        xbmcgui.Dialog().ok(addon_name, "The keymap had been renamed.  This has been reverted to the correct name, but you must restart for the keymap to take effect.") 
+        xbmcgui.Dialog().ok(addon_name, "The keymap for this add-on had been renamed.  It's been fixed now but you must restart for the keymap to take effect.") 
         
     # Determine whether generation of VPN files is enabled
     if generateVPNs():

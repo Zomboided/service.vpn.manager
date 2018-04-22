@@ -26,7 +26,7 @@ import xbmcaddon
 import glob
 import urllib2
 import time
-from utility import ifHttpTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
+from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
 from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
@@ -1001,7 +1001,7 @@ def getGitMetaData(vpn_provider):
         debugTrace("Getting git metadata for " + vpn_provider)
         download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/METADATA.txt"
         download_url = download_url.replace(" ", "%20")
-        if ifHttpTrace(): debugTrace("Using " + download_url)
+        if ifHTTPTrace(): debugTrace("Using " + download_url)
         return urllib2.urlopen(download_url)
     except urllib2.HTTPError as e:
         errorTrace("vpnproviders.py", "Can't get the metadata from Github for " + vpn_provider)
@@ -1175,7 +1175,7 @@ def refreshFromGit(vpn_provider, progress):
                 progress.update(int(progress_count), progress_title, progress_message)
             download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
             download_url = download_url.replace(" ", "%20")
-            if ifHttpTrace(): debugTrace("Using " + download_url)
+            if ifHTTPTrace(): debugTrace("Using " + download_url)
             git_file = urllib2.urlopen(download_url)
             file = file.strip(' \n')
             output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')

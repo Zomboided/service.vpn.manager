@@ -22,7 +22,7 @@ import re
 import urllib2
 import xbmcaddon
 import xbmcgui
-from utility import ifHttpTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
+from utility import ifHTTPTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
 
 
 
@@ -46,7 +46,7 @@ def getIPInfoFrom(source):
         req = urllib2.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
         response = urllib2.urlopen(req, timeout = 10)
-        if ifHttpTrace(): debugTrace("Using " + url)
+        if ifHTTPTrace(): debugTrace("Using " + url)
         link = response.read()
         response.close()
         error = False

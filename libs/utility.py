@@ -31,8 +31,14 @@ def ifDebug():
     return False
 
     
-def ifHttpTrace():
+def ifHTTPTrace():
     if xbmcgui.Window(10000).getProperty("VPN_Manager_HTTP_Trace") == "true":
+        return True
+    return False
+
+
+def ifJSONTrace():
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_JSON_Trace") == "true":
         return True
     return False
     

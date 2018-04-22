@@ -102,7 +102,10 @@ def refreshPlatformInfo():
         xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "true")
     else:
         xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "")
-    
+    if xbmcvfs.exists(getUserDataPath("JSONTRACE.txt")):
+        xbmcgui.Window(10000).setProperty("VPN_Manager_JSON_Trace", "true")
+    else:
+        xbmcgui.Window(10000).setProperty("VPN_Manager_JSON_Trace", "")
 
 def checkConnections():
     # Check that all of the connections exist

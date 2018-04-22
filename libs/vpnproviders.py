@@ -122,21 +122,18 @@ def getVPNDisplay(vpn_provider):
 def getAddonList(vpn_provider, filter):
     # Return the list of ovpn files for a given provider (aka directory name...)
     path = getAddonPath(True, getVPNLocation(vpn_provider) + "/" + filter)
-    debugTrace("Getting list of profiles in " + path)
     return sorted(glob.glob(path))  
 
     
 def getUserDataList(vpn_provider, filter):    
     # Return all user files for a provider (aka directory name...)
     path = getUserDataPath(getVPNLocation(vpn_provider) + "/" + filter)
-    debugTrace("Getting list of files in " + path)
     return sorted(glob.glob(path))  
 
 
 def getDownloadList(vpn_provider, filter):    
     # Return all user files for a provider (aka directory name...)
     path = getUserDataPath("Downloads" + "/" + getVPNLocation(vpn_provider) + "/" + filter)
-    debugTrace("Getting list of files in " + path)
     return sorted(glob.glob(path))  
     
 
@@ -163,14 +160,12 @@ def usesMultipleKeys(vpn_provider):
 def getUserKeys(vpn_provider):
     # Return the list of key and cert files for a given provider (aka directory name...)
     path = getUserDataPath(getVPNLocation(vpn_provider)+"/*.key")
-    debugTrace("Getting key files " + path)
     return (glob.glob(path))         
 
     
 def getUserCerts(vpn_provider):
     # Return the list of key and cert files for a given provider (aka directory name...)
     path = getUserDataPath(getVPNLocation(vpn_provider)+"/*.crt")
-    debugTrace("Getting certificate files " + path)
     return (glob.glob(path))         
 
 

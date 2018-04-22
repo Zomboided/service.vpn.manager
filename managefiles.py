@@ -28,7 +28,7 @@ from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, u
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
-from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN
+from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -47,6 +47,7 @@ if not getID() == "":
     # Reset the ovpn files
     if action == "ovpn":
         if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
+            suspendConfigUpdate()
             # Disconnect so that live files are not being modified
             if isVPNConnected(): resetVPNConnections(addon)            
             debugTrace("Deleting all generated files")
@@ -56,6 +57,9 @@ if not getID() == "":
             if isAlternative(vpn_provider): resetAlternative(vpn_provider)
             # Reset the IP service error counts, etc
             resetIPServices()
+            # Re-enble the wizard
+            addon.setSetting("vpn_wizard_run", "false")
+            resumeConfigUpdate()
             xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
 
             

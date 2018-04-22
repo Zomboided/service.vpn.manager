@@ -513,8 +513,6 @@ def fixKeymaps():
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response
-    # Return true if the check should be bypassed
-    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if service is not already running (shouldn't be...)
     if not xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -542,8 +540,6 @@ def startRequested():
     
 def stopService():
     # Routine for config to call to request service stops and waits until that happens
-    # Return true if the check should be bypassed
-    if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "ignore": return True
     # Check to see if the service has stopped previously
     if xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control") == "stopped": return True
     
@@ -569,17 +565,20 @@ def ackStop():
     xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "stopped")
 
 
-def suspendStartStop():
-    # This will stop any service checking from happening and return the current state
-    current = xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Control")
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "ignore")
-    return current
+def suspendConfigUpdate():
+    # This will stop any config updates from happening
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Update_Suspend", "true")
     
     
-def resumeStartStop(state):
-    # This can be used to resume service checking, returning to a previous known state (or pass in an empty string)
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", state)
+def resumeConfigUpdate():
+    # This can be used to resume config updates
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Update_Suspend", "")
+    updateService("resumeConfigUpdate")
 
+    
+def configUpdate():
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Update_Suspend") == ""
+    
     
 def updateService(reason):
     # Set a windows property to tell the background service to update using the latest config data
@@ -995,6 +994,8 @@ def wizard():
     # Wizard or settings?
     if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", "", "", "Wizard", "Settings"):
 
+        suspendConfigUpdate()
+        
         success = True
     
         # Check everything is installed and working
@@ -1099,7 +1100,7 @@ def wizard():
         addon = xbmcaddon.Addon(getID())
         if success:
             # Offer to default the common options
-            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", "", "", "Yes", "No"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", None, None, "Yes", "No"):
                 # These options will connect and boot, reconnect during streaming or not playing, and reconnect after filtering
                 addon.setSetting("vpn_connect_at_boot", "true")
                 addon.setSetting("vpn_reconnect", "true")
@@ -1128,8 +1129,13 @@ def wizard():
                     xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
                 xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                
+        resumeConfigUpdate()
+        
     else:
         settings = True
+    
+    
     
     if settings:
         command = "Addon.OpenSettings(" + getID() + ")"

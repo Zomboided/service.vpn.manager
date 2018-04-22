@@ -186,9 +186,9 @@ if not getID() == "":
                         dialog = "VPN connection table is mapped to key ID " + cycle_key + "."
                         icon = "/resources/mapped.png"
                         if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
-                            addon.setSetting("table_display_type", "All Connections")
+                            addon.setSetting("table_display_type", "All connections")
                         else:
-                            addon.setSetting("table_display_type", "Validated Connections")
+                            addon.setSetting("table_display_type", "Validated connections")
                     xbmcgui.Dialog().notification(addon_name, dialog, getAddonPath(True, icon), 5000, False)
             else:
                 if not table_key == "": 

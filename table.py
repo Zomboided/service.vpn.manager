@@ -45,7 +45,7 @@ if not getID() == "":
         
             # Want to stop cycling whilst this menu is displayed, and clear any active cycle
             clearVPNCycle()
-            if addon.getSetting("table_display_type") == "All Connections":
+            if addon.getSetting("table_display_type") == "All connections":
                 # Build a list of all ovpn files using the current active filter
                 if not isAlternative(vpn_provider):
                     all_connections = getAddonList(addon.getSetting("vpn_provider_validated"), "*.ovpn")

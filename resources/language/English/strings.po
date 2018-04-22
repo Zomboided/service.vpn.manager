@@ -627,11 +627,11 @@ msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32176"
-msgid "All Connections"
+msgid "All connections"
 msgstr ""
 
 msgctxt "#32177"
-msgid "Validated Connections"
+msgid "Validated connections"
 msgstr ""
 
 msgctxt "#32178"

@@ -96,7 +96,7 @@ def supportSystemd():
         lines = os_info.readlines()
         os_info.close()
         for line in lines:
-            if "LibreELEC" in line:
+            if "LibreELEC" in line or "CoreELEC" in line:
                 # Shouldn't really need to check this as LibreELEC comes with systemd installed
                 return xbmcvfs.exists(getSystemdPath("system.d/"))
     return False

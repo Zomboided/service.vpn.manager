@@ -1,3 +1,8 @@
+v4.9.1
+- CoreELEC support matching LibreELEC
+- General bug fixes
+- Install/uninstall fixes
+
 v4.9.0
 - Improved setup wizard
 - Improved command checking (Linux)

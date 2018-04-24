@@ -166,7 +166,7 @@ msgid "Seventh VPN connection"
 msgstr ""
 
 msgctxt "#32037"
-msgid "Eigth VPN connection"
+msgid "Eighth VPN connection"
 msgstr ""
 
 msgctxt "#32038"

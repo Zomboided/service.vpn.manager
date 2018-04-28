@@ -1,3 +1,6 @@
+v4.9.2
+- Minor bug fixes
+
 v4.9.1
 - CoreELEC support matching LibreELEC
 - General bug fixes

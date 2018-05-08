@@ -245,7 +245,7 @@ def startVPN(vpn_profile):
     if not fakeConnection():
         p = getPlatform()
         if p == platforms.RPI or p == platforms.LINUX:
-            command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + getVPNLogFilePath() + " &"
+            command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + getVPNLogFilePath() + " 2>&1 &"
             if useSudo() : command = "sudo " + command            
             debugTrace("(Linux) Starting VPN with " + command)
             os.system(command)
@@ -347,7 +347,7 @@ def checkKillallCommand(addon):
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
-        command = getKillallPath() + " vpnmanagertest -v " + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        command = getKillallPath() + " vpnmanagertest > " + getTestFilePath() + " 2>&1 &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing killall with : " + command)
         os.system(command)
@@ -368,7 +368,7 @@ def checkKillallCommand(addon):
         # Look for a phrase we'd expect to see if the call
         # worked and a killall error message was displayed
         for line in log_file_lines:
-            if "killall" in line and "vpnmanagertest" in line:
+            if "no process" in line and "vpnmanagertest" in line:
                 deleteTestFile()
                 return True
         # Write the log file in case there's something in it
@@ -389,7 +389,7 @@ def checkPidofCommand(addon):
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:
         # Issue Linux command
-        command = getPidofPath() + " kodi.bin " + getTestFilePath() + ">&" + getTestFilePath() + " &"
+        command = getPidofPath() + " kodi.bin > " + getTestFilePath() + " 2>&1 &"
         if useSudo() : command = "sudo " + command
         infoTrace("platform.py", "Testing pidof with : " + command)
         os.system(command)
@@ -411,6 +411,7 @@ def checkPidofCommand(addon):
         for line in log_file_lines:
             line = line.strip()
             if line.isdigit():
+                deleteTestFile()
                 return True
         # Write the log file in case there's something in it
         errorTrace("platform.py", "Ran pidof command and it failed")            
@@ -432,7 +433,7 @@ def checkVPNCommand(addon):
         # Issue the openvpn command, expecting to get the options screen back
         if p == platforms.RPI or p == platforms.LINUX:
             # Issue Linux command
-            command = getOpenVPNPath() + " > " + getVPNLogFilePath() + " &"
+            command = getOpenVPNPath() + " > " + getVPNLogFilePath() + " 2>&1 &"
             if useSudo() : command = "sudo " + command
             infoTrace("platform.py", "Testing openvpn with : " + command)
             os.system(command)

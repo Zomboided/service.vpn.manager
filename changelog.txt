@@ -1,3 +1,6 @@
+v4.9.4
+- OSMC/general Linux fixes
+
 v4.9.3
 - Fix list of providers
 

@@ -1035,24 +1035,25 @@ def wizard():
                     addon.setSetting("openvpn_sudo", "true")
                     addon.setSetting("openvpn_log_location", "true")
 
+            xbmc.sleep(200)
             progress = xbmcgui.DialogProgress()
-            progress_title = "Checking dependencies..."
+            progress_title = "Checking dependencies"
             progress.create(addon_name, progress_title) 
             if getPlatform() == platforms.WINDOWS:
-                progress_message = "Checking OpenVPN"
+                progress_message = "Checking OpenVPN..."
             else:
-                progress_message = "Checking openvpn"
+                progress_message = "Checking openvpn..."
             progress.update(0, progress_title, progress_message)
             if not checkVPNCommand(addon):
                 success = False
             xbmc.sleep(1000)
             if not getPlatform() == platforms.WINDOWS:
-                progress_message = "Checking pidof"
+                progress_message = "Checking pidof..."
                 progress.update(33, progress_title, progress_message)    
                 if not checkPidofCommand(addon):
                     success = False
                 xbmc.sleep(1000)
-                progress_message = "Checking killall"
+                progress_message = "Checking killall..."
                 progress.update(66, progress_title, progress_message)  
                 if not getPlatform() == platforms.WINDOWS and not checkKillallCommand(addon): 
                     success = False
@@ -1060,12 +1061,13 @@ def wizard():
             
             if success == False:
                 progress.close()
+                xbmc.sleep(200)
                 if getPlatform() == platforms.WINDOWS:
                     xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed and available on the command path.  Review the add-on Windows installation instructions.")
                 else:
                     xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands all must be installed and available on the command path.  Review the add-on Linux installation instructions and check the log for more details.")
             else:
-                progress_message = "Dependecies checked"
+                progress_message = "No problems found"
                 progress.update(100, progress_title, progress_message)
                 xbmc.sleep(1000)
                 progress.close()
@@ -1179,8 +1181,7 @@ def wizard():
     else:
         settings = True
     
-    
-    
+    addon = xbmcaddon.Addon(getID())
     if settings:
         command = "Addon.OpenSettings(" + getID() + ")"
         xbmc.executebuiltin(command)

@@ -90,7 +90,6 @@ def refreshPlatformInfo():
     addon.setSetting("platform", str(getPlatform()))
     
     # Determine if systemd is available so that extra options appear in the settings menu
-    curr_sysd = addon.getSetting("show_preboot_connect")
     if supportSystemd():
         new_sysd = "true"
     else:

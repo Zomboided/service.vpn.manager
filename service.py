@@ -178,7 +178,7 @@ class KodiPlayer(xbmc.Player):
  
 # Probably don't need to do this, but I'm hoping it introduces an element of randomness so that 
 # the running() check isn't perfectly synced with another task running at the same time
-stopVPNConnection() 
+if not isVPNTaskRunning(): stopVPNConnection() 
 
 if __name__ == '__main__' and not running():   
 

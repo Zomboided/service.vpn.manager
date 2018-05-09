@@ -46,15 +46,6 @@ from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenera
 from libs.vpnproviders import getUserDataPath
 from libs.vpnapi import VPNAPI
 
-debugTrace("-- Entered service.py --")
-
-# Window property constants
-last_addon = 'VPN_Manager_Last_Addon'
-
-# Lists of primary VPNs and their friendly names (so we don't have to keep pattern matching it)
-primary_vpns = []
-primary_vpns_friendly = []
-
 # Set the addon name for use in the dialogs
 addon = xbmcaddon.Addon()
 addon_name = addon.getAddonInfo('name')
@@ -65,6 +56,16 @@ addon_short = addon.getSetting("vpn_short")
 setShort(addon_short)
 addon_very = addon.getSetting("vpn_very")
 setVery(addon_very)
+xbmc.sleep(100)
+
+debugTrace("-- Entered service.py --")
+
+# Window property constants
+last_addon = 'VPN_Manager_Last_Addon'
+
+# Lists of primary VPNs and their friendly names (so we don't have to keep pattern matching it)
+primary_vpns = []
+primary_vpns_friendly = []
 
 accepting_changes = False
 

@@ -82,28 +82,28 @@ def getID():
     return xbmcgui.Window(10000).getProperty("VPN_Addon_ID")
 
 def setID(id):
-    return xbmcgui.Window(10000).setProperty("VPN_Addon_ID", id)
+    xbmcgui.Window(10000).setProperty("VPN_Addon_ID", id)
 
     
 def getName():
     return xbmcgui.Window(10000).getProperty("VPN_Addon_Name")
     
 def setName(name):
-    return xbmcgui.Window(10000).setProperty("VPN_Addon_Name", name)
+    xbmcgui.Window(10000).setProperty("VPN_Addon_Name", name)
 
     
 def getShort():
     return xbmcgui.Window(10000).getProperty("VPN_Addon_Short_Name")
 
 def setShort(short_name):
-    return xbmcgui.Window(10000).setProperty("VPN_Addon_Short_Name", short_name)
+    xbmcgui.Window(10000).setProperty("VPN_Addon_Short_Name", short_name)
 
     
 def getVery():
     return xbmcgui.Window(10000).getProperty("VPN_Addon_Very_Short_Name")
       
 def setVery(very_short_name):
-    return xbmcgui.Window(10000).setProperty("VPN_Addon_Very_Short_Name", very_short_name)     
+    xbmcgui.Window(10000).setProperty("VPN_Addon_Very_Short_Name", very_short_name)     
     
     
 def running():

@@ -39,6 +39,10 @@ def getVPNRequestedServer():
     
 def authenticateNordVPN(userid, password):
     return False
+
+
+def getNordVPNUserPass(vpn_provider):
+    return "", ""
     
     
 def getNordVPNPreFetch(vpn_provider):

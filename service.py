@@ -816,10 +816,11 @@ if __name__ == '__main__' and not running():
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
                             vpn_provider = addon.getSetting("vpn_provider_validated")
                             if isAlternative(vpn_provider):
-                                # (Re)generate the ovpn file based on the latest server settings
-                                # These will both try and do the right thing with regards to existing files if there's
+                                # (Re)generate the ovpn file and user credentials based on the latest server settings
+                                # These will try and do the right thing with regards to existing files if there's
                                 # a problem generating new ones, so don't check returns and report problems below
                                 getAlternativeLocation(vpn_provider, getVPNRequestedProfileFriendly(), getConnectionErrorCount())
+                                writeCredentials(addon)
                                 updateVPNFile(getVPNRequestedProfile(), vpn_provider)
                             state = startVPNConnection(getVPNRequestedProfile(), addon)
                             if not state == connection_status.CONNECTED:

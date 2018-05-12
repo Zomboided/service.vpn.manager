@@ -38,7 +38,7 @@ from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLoc
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
 from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
-from vpnproviders import authenticateAlternative
+from vpnproviders import authenticateAlternative, getAlternativeUserPass
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -984,7 +984,6 @@ def getCredentialsPath(addon):
     
     
 def writeCredentials(addon): 
-       
     # Write the credentials file        
     try:
         credentials_path = getCredentialsPath(addon)
@@ -992,10 +991,20 @@ def writeCredentials(addon):
         credentials = open(credentials_path,'w')
         credentials.truncate()
         credentials.close()
-        credentials = open(credentials_path,'a')
-        credentials.write(addon.getSetting("vpn_username")+"\n")
-        credentials.write(addon.getSetting("vpn_password")+"\n")
-        credentials.close()
+        vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
+        if isAlternative(vpn_provider):
+            username, password = getAlternativeUserPass(vpn_provider)
+        else:
+            username = addon.getSetting("vpn_username")
+            password = addon.getSetting("vpn_password")
+        if not (username == "" or password == ""):
+            credentials = open(credentials_path,'a')
+            credentials.write(username + "\n")
+            credentials.write(password + "\n")
+            credentials.close()
+        else:
+            errorTrace("common.py", "User name or password were not found, couldn't create credentials file " + credentials_path)
+            return False
     except Exception as e:
         errorTrace("common.py", "Couldn't create credentials file " + credentials_path)
         errorTrace("common.py", str(e))
@@ -1553,7 +1562,9 @@ def connectVPN(connection_order, vpn_profile):
                                 ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, 0)
                             else:
                                 ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, 0)
-                            if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
+                            if not ovpn_name == "": 
+                                writeCredentials(addon)
+                                provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                             break
             else:
                 if not isAlternative(vpn_provider):
@@ -1564,7 +1575,9 @@ def connectVPN(connection_order, vpn_profile):
                         ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     else:
                         ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
-                    if not ovpn_name == "": provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
+                    if not ovpn_name == "": 
+                        writeCredentials(addon)
+                        provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                 
         if (not progress.iscanceled()) and (not ovpn_name == ""):
             # Fetch the key from the user if one is needed

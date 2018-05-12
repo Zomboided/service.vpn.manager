@@ -28,12 +28,12 @@ import urllib2
 import time
 from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
+from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName, getNordVPNUserPass
 from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN"] #,"NordVPN]"
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN"] #, "NordVPN"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
@@ -493,7 +493,10 @@ def resetAlternative(vpn_provider):
     
 def authenticateAlternative(vpn_provider, username, password):
     return globals()["authenticate" + vpn_provider](vpn_provider, username, password)
-    return globals()["authenticate" + vpn_provider](vpn_provider, username, password)
+
+
+def getAlternativeUserPass(vpn_provider):
+    return globals()["get" + vpn_provider + "UserPass"](vpn_provider)
     
     
 def getLocationFiles(vpn_provider):

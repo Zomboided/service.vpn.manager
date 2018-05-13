@@ -1,3 +1,6 @@
+v4.9.5
+- Reconnect timing fixes
+
 v4.9.4
 - OSMC/general Linux fixes
 

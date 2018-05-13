@@ -177,9 +177,9 @@ class KodiPlayer(xbmc.Player):
                 streaming = True
                 break
  
-# Probably don't need to do this, but I'm hoping it introduces an element of randomness so that 
-# the running() check isn't perfectly synced with another task running at the same time
-if not isVPNTaskRunning(): stopVPNConnection() 
+# Probably don't need to do this, but I'm hoping it introduces an element of randomness during install
+# so that the running() check isn't perfectly synced with another task running at the same time
+if xbmcvfs.exists(getAddonPath(True, "INSTALL.txt")): stopVPNConnection() 
 
 if __name__ == '__main__' and not running():   
 

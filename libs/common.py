@@ -251,10 +251,11 @@ def stopVPNConnection():
             i = i + 1
             
             # Send the kill command to end the openvpn process.
-            # After 10 seconds hit it with the -9 hammer
-            if i < 20:
+            # Try it again after 5 seconds if it's still not stopped
+            if i == 1 or i == 10:
                 stopVPN()
-            else:
+            # Send the big daddy kill after 10 seconds
+            if i == 20:
                 stopVPN9()
         
             # Wait half a second just to make sure the process has time to die

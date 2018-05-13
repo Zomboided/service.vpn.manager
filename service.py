@@ -794,7 +794,9 @@ if __name__ == '__main__' and not running():
                                 
                     # Stop any existing VPN
                     debugTrace("Stopping VPN before any new connection attempt")
+                    prev_connection = "Unknown"
                     if getVPNState() == "started":
+                        prev_connection = getVPNProfile()
                         stopVPNConnection()
                         if getVPNRequestedProfile() == "Disconnect" and addon.getSetting("display_location_on_connect") == "true":
                             _, ip, country, isp = getIPInfo(addon)
@@ -819,6 +821,10 @@ if __name__ == '__main__' and not running():
                                 # (Re)generate the ovpn file and user credentials based on the latest server settings
                                 # These will try and do the right thing with regards to existing files if there's
                                 # a problem generating new ones, so don't check returns and report problems below
+                                # If previous connection is empty then it means we're being asked to reconnect (otherwise
+                                # it would be a connection name or "Unknown").  Reconnects can be problematic so sleep
+                                # for 5 seconds before reconnecting
+                                if prev_connection == "": xbmc.sleep(5000)
                                 getAlternativeLocation(vpn_provider, getVPNRequestedProfileFriendly(), getConnectionErrorCount())
                                 writeCredentials(addon)
                                 updateVPNFile(getVPNRequestedProfile(), vpn_provider)

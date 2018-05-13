@@ -384,7 +384,9 @@ def checkKillallCommand(addon):
     return False
     
         
-def checkPidofCommand(addon):        
+def checkPidofCommand(addon):
+    # Disable this for now as kodi.bin may not exist on all systems
+    return True
     # Only necessary with Linux, sees if pidof is installed/working
     p = getPlatform()
     if p == platforms.RPI or p == platforms.LINUX:

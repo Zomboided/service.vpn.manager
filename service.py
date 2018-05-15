@@ -98,10 +98,6 @@ def refreshPlatformInfo():
     addon.setSetting("show_preboot_connect", new_sysd)
     
     # Some tracing that we might want to do
-    if xbmcvfs.exists(getUserDataPath("HTTPTRACE.txt")):
-        xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "true")
-    else:
-        xbmcgui.Window(10000).setProperty("VPN_Manager_HTTP_Trace", "")
     if xbmcvfs.exists(getUserDataPath("JSONTRACE.txt")):
         xbmcgui.Window(10000).setProperty("VPN_Manager_JSON_Trace", "true")
     else:

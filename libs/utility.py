@@ -32,7 +32,8 @@ def ifDebug():
 
     
 def ifHTTPTrace():
-    if xbmcgui.Window(10000).getProperty("VPN_Manager_HTTP_Trace") == "true":
+    if getID() == "": return False
+    if xbmcaddon.Addon(getID()).getSetting("vpn_enable_http") == "true":
         return True
     return False
 

@@ -33,12 +33,12 @@ from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN"] #, "NordVPN"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN"]#, "NordVPN"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "tigerVPN", "HMA", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac", "VPNArea", "VanishedVPN", "PrivateVPN", "blackbox", "BulletVPN"] #, "NordVPN"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "tigerVPN", "HMA", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac", "VPNArea", "VanishedVPN", "PrivateVPN", "blackbox", "BulletVPN"]#, "NordVPN"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
@@ -570,7 +570,10 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         errorTrace("vpnproviders.py", "Couldn't open the template file for " + vpn_provider)
         errorTrace("vpnproviders.py", str(e))
         return False
-
+    
+    # Append any additional user parameters to the end of the template
+    template = appendVPNFileExtension(template, vpn_provider)             
+    
     # Open a translate file
     try:
         debugTrace("Opening translate file for " + vpn_provider)
@@ -593,7 +596,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         template.append("script-security 2")
         template.append(getUpParam(vpn_provider))
         template.append(getDownParam(vpn_provider))
-        
+
     # Load locations file
     if not alternative_locations_name == "":
         if alternative_locations_name == "User":
@@ -804,8 +807,8 @@ def updateVPNFiles(vpn_provider):
         # Flag that the files have been generated            
         writeGeneratedFile(vpn_provider)  
     return success    
-
-
+    
+    
 def updateVPNFile(connection, vpn_provider):
 
     try:
@@ -817,6 +820,8 @@ def updateVPNFile(connection, vpn_provider):
         errorTrace("vpnproviders.py", "Couldn't open the ovpn file " + connection + " for " + vpn_provider)
         errorTrace("vpnproviders.py", str(e))
 
+    ovpn = appendVPNFileExtension(ovpn, vpn_provider)    
+        
     # See if there's a port override going on
     addon = xbmcaddon.Addon(getID())
     if addon.getSetting("default_udp") == "true":
@@ -952,6 +957,28 @@ def updateVPNFile(connection, vpn_provider):
         errorTrace("vpnproviders.py", str(e))
         return False, "", "", 0, ""
     
+
+def appendVPNFileExtension(ovpn, vpn_provider):
+    # Append some user text to the source file (might be template or actual ovpn file)
+    # This is an alternative to using TEMPLATE.txt that allows updates to the main template
+    ret_ovpn = ovpn
+    # See if the file exists and suck in the content
+    append_path = getUserDataPath(vpn_provider + "/APPEND.txt")
+    if xbmcvfs.exists(append_path):
+        try:
+            debugTrace("Opening append file " + append_path)
+            append_file = open(append_path, 'r')
+            append_text = append_file.readlines()
+            append_file.close()
+        except Exception as e:
+            errorTrace("vpnproviders.py", "Couldn't open the append file for " + vpn_provider)
+            errorTrace("vpnproviders.py", str(e))
+            return ret_ovpn
+        # Append the text to the end of the source file
+        for line in append_text:
+            ret_ovpn.append(line)
+    return ret_ovpn
+
     
 def copyUserDefinedFiles():    
     # Copy everything in the user directory to the addon directory

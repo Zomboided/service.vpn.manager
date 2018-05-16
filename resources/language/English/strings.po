@@ -511,158 +511,154 @@ msgid "Enable setup wizard"
 msgstr ""
 
 msgctxt "#32147"
-msgid "Enable start up check"
-msgstr ""
-
-msgctxt "#32148"
 msgid "OpenVPN"
 msgstr ""
 
-msgctxt "#32149"
+msgctxt "#32148"
 msgid "View OpenVPN log file"
 msgstr ""
 
-msgctxt "#32150"
+msgctxt "#32149"
 msgid "OpenVPN verb level (reset VPN after updating)"
 msgstr ""
 
-msgctxt "#32151"
+msgctxt "#32150"
 msgid "0"
 msgstr ""
 
-msgctxt "#32152"
+msgctxt "#32151"
 msgid "1"
 msgstr ""
 
-msgctxt "#32153"
+msgctxt "#32152"
 msgid "2"
 msgstr ""
 
-msgctxt "#32154"
+msgctxt "#32153"
 msgid "3"
 msgstr ""
 
-msgctxt "#32155"
+msgctxt "#32154"
 msgid "4"
 msgstr ""
 
-msgctxt "#32156"
+msgctxt "#32155"
 msgid "5"
 msgstr ""
 
-msgctxt "#32157"
+msgctxt "#32156"
 msgid "Force block-outside-dns (reset VPN after updating)"
 msgstr ""
 
-msgctxt "#32158"
+msgctxt "#32157"
 msgid "Use sudo with openvpn and killall"
 msgstr ""
 
-msgctxt "#32159"
+msgctxt "#32158"
 msgid "Platform default"
 msgstr ""
 
-msgctxt "#32160"
+msgctxt "#32159"
 msgid "Always"
 msgstr ""
 
-msgctxt "#32161"
+msgctxt "#32160"
 msgid "Never"
 msgstr ""
 
-msgctxt "#32162"
+msgctxt "#32161"
 msgid "Use openvpn with no path"
 msgstr ""
 
-msgctxt "#32163"
+msgctxt "#32162"
 msgid "openvpn path"
 msgstr ""
 
-msgctxt "#32164"
+msgctxt "#32163"
 msgid "killall path"
 msgstr ""
 
-msgctxt "#32165"
+msgctxt "#32164"
 msgid "pidof path"
 msgstr ""
 
-msgctxt "#32166"
+msgctxt "#32165"
 msgid "Stop openvpn with killall -9 instead of -15"
 msgstr ""
 
-msgctxt "#32167"
+msgctxt "#32166"
 msgid "Alternative running openvpn task detection"
 msgstr ""
 
-msgctxt "#32168"
+msgctxt "#32167"
 msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
-msgctxt "#32169"
+msgctxt "#32168"
 msgid "Enable up/down scripts (reset VPN after updating)"
 msgstr ""
 
-msgctxt "#32170"
+msgctxt "#32169"
 msgid "Use default up/down scripts (reset VPN after updating)"
 msgstr ""
 
-msgctxt "#32171"
+msgctxt "#32170"
 msgid "Check connection with ping (reset VPN after updating)"
 msgstr ""
 
-msgctxt "#32172"
+msgctxt "#32171"
 msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
-msgctxt "#32173"
+msgctxt "#32172"
 msgid "Evaluate and adjust system time"
 msgstr ""
 
-msgctxt "#32174"
+msgctxt "#32173"
 msgid "Information"
 msgstr ""
 
-msgctxt "#32175"
+msgctxt "#32174"
 msgid "Enable enhanced information menu option"
 msgstr ""
 
-msgctxt "#32176"
+msgctxt "#32175"
 msgid "View enhanced information window now"
 msgstr ""
 
-msgctxt "#32177"
+msgctxt "#32176"
 msgid "Popup connection table display"
 msgstr ""
 
-msgctxt "#32178"
+msgctxt "#32177"
 msgid "All connections"
 msgstr ""
 
-msgctxt "#32179"
+msgctxt "#32178"
 msgid "Validated connections"
 msgstr ""
 
-msgctxt "#32180"
+msgctxt "#32179"
 msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
-msgctxt "#32181"
+msgctxt "#32180"
 msgid "Change IP location service"
 msgstr ""
 
-msgctxt "#32182"
+msgctxt "#32181"
 msgid "Auto select"
 msgstr ""
 
-msgctxt "#32183"
+msgctxt "#32182"
 msgid "ipinfo.io"
 msgstr ""
 
-msgctxt "#32184"
+msgctxt "#32183"
 msgid "IP-API"
 msgstr ""
 
-msgctxt "#32185"
+msgctxt "#32184"
 msgid "freegeoip.net"
 msgstr ""
 

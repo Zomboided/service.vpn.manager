@@ -252,6 +252,9 @@ if __name__ == '__main__' and not running():
             if last_version < 430:
                 if not addon.getSetting("reboot_day") == "Off" or addon.getSetting("reboot_file_enabled") == "true":
                     xbmcgui.Dialog().ok(addon_name, "Thanks for installing v4.3.0! The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
+            if last_version < 497:
+                if addon.getSetting("vpn_wizard_run") == "false": addon.setSetting("vpn_wizard_enabled", "true")
+                if addon.getSetting("vpn_wizard_run") == "true": addon.setSetting("vpn_wizard_enabled", "false")
               
     addon.setSetting("version_number", addon.getAddonInfo("version"))
    
@@ -352,7 +355,7 @@ if __name__ == '__main__' and not running():
     accepting_changes = True
     
     # If no connection has been set up, offer to run the wizard
-    if not connectionValidated(addon) and addon.getSetting("startup_check") == "true" and addon.getSetting("vpn_wizard_enabled") == "true":
+    if not connectionValidated(addon) and addon.getSetting("vpn_wizard_enabled") == "true":
         state = suspendStartStop()
         wizard()
         resumeStartStop(state)

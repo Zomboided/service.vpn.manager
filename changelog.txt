@@ -1,5 +1,6 @@
 v4.9.7
-- Minor bug fixes
+- Useability fixes
+- Allow user options to be appended to ovpn files
 
 v4.9.5
 - Reconnect timing fixes

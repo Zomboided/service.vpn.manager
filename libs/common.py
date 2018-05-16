@@ -1688,7 +1688,7 @@ def connectVPN(connection_order, vpn_profile):
             addon.setSetting(connection_order + "_vpn_validated_friendly", ovpn_name)
         # Stop the wizard running once the first connection has been validated
         if connection_order == "1":
-            addon.setSetting("vpn_wizard_run", "true")
+            addon.setSetting("vpn_wizard_enabled", "false")
         setVPNState("started")
         setVPNRequestedProfile("")
         setVPNRequestedProfileFriendly("")

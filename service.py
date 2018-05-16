@@ -245,7 +245,7 @@ if __name__ == '__main__' and not running():
                 addon.setSetting("vpn_locations_list", "")
                 addon.setSetting("vpn_provider", "")
                 addon.setSetting("vpn_provider_validated", "")
-                addon.setSetting("vpn_wizard_run", "false")
+                addon.setSetting("vpn_wizard_enabled", "true")
                 removeSystemd()
             if last_version < 420:
                 fixKeymaps()
@@ -352,7 +352,7 @@ if __name__ == '__main__' and not running():
     accepting_changes = True
     
     # If no connection has been set up, offer to run the wizard
-    if not connectionValidated(addon) and not addon.getSetting("vpn_wizard_run") == "true":
+    if not connectionValidated(addon) and addon.getSetting("startup_check") == "true" and addon.getSetting("vpn_wizard_enabled") == "true":
         state = suspendStartStop()
         wizard()
         resumeStartStop(state)

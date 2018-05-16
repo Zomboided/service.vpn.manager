@@ -58,7 +58,7 @@ if not getID() == "":
             # Reset the IP service error counts, etc
             resetIPServices()
             # Re-enble the wizard
-            addon.setSetting("vpn_wizard_run", "false")
+            addon.setSetting("vpn_wizard_enabled", "true")
             resumeConfigUpdate()
             xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
 

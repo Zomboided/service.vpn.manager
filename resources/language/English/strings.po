@@ -495,170 +495,174 @@ msgid "Enable debug for just this add-on"
 msgstr ""
 
 msgctxt "#32143"
-msgid "Enable http tracing"
+msgid "Enable HTTP tracing"
 msgstr ""
 
 msgctxt "#32144"
-msgid "Disable setup wizard"
-msgstr ""
-
-msgctxt "#32145"
 msgid "View Kodi log file"
 msgstr ""
 
-msgctxt "#32146"
+msgctxt "#32145"
 msgid "Copy log files"
 msgstr ""
 
+msgctxt "#32146"
+msgid "Enable setup wizard"
+msgstr ""
+
 msgctxt "#32147"
-msgid "OpenVPN"
+msgid "Enable start up check"
 msgstr ""
 
 msgctxt "#32148"
-msgid "View OpenVPN log file"
+msgid "OpenVPN"
 msgstr ""
 
 msgctxt "#32149"
-msgid "OpenVPN verb level (reset VPN after updating)"
+msgid "View OpenVPN log file"
 msgstr ""
 
 msgctxt "#32150"
-msgid "0"
+msgid "OpenVPN verb level (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32151"
-msgid "1"
+msgid "0"
 msgstr ""
 
 msgctxt "#32152"
-msgid "2"
+msgid "1"
 msgstr ""
 
 msgctxt "#32153"
-msgid "3"
+msgid "2"
 msgstr ""
 
 msgctxt "#32154"
-msgid "4"
+msgid "3"
 msgstr ""
 
 msgctxt "#32155"
-msgid "5"
+msgid "4"
 msgstr ""
 
 msgctxt "#32156"
-msgid "Force block-outside-dns (reset VPN after updating)"
+msgid "5"
 msgstr ""
 
 msgctxt "#32157"
-msgid "Use sudo with openvpn and killall"
+msgid "Force block-outside-dns (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32158"
-msgid "Platform default"
+msgid "Use sudo with openvpn and killall"
 msgstr ""
 
 msgctxt "#32159"
-msgid "Always"
+msgid "Platform default"
 msgstr ""
 
 msgctxt "#32160"
-msgid "Never"
+msgid "Always"
 msgstr ""
 
 msgctxt "#32161"
-msgid "Use openvpn with no path"
+msgid "Never"
 msgstr ""
 
 msgctxt "#32162"
-msgid "openvpn path"
+msgid "Use openvpn with no path"
 msgstr ""
 
 msgctxt "#32163"
-msgid "killall path"
+msgid "openvpn path"
 msgstr ""
 
 msgctxt "#32164"
-msgid "pidof path"
+msgid "killall path"
 msgstr ""
 
 msgctxt "#32165"
-msgid "Stop openvpn with killall -9 instead of -15"
+msgid "pidof path"
 msgstr ""
 
 msgctxt "#32166"
-msgid "Alternative running openvpn task detection"
+msgid "Stop openvpn with killall -9 instead of -15"
 msgstr ""
 
 msgctxt "#32167"
-msgid "Click OK and reopen Settings to see platform specific options"
+msgid "Alternative running openvpn task detection"
 msgstr ""
 
 msgctxt "#32168"
-msgid "Enable up/down scripts (reset VPN after updating)"
+msgid "Click OK and reopen Settings to see platform specific options"
 msgstr ""
 
 msgctxt "#32169"
-msgid "Use default up/down scripts (reset VPN after updating)"
+msgid "Enable up/down scripts (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32170"
-msgid "Check connection with ping (reset VPN after updating)"
+msgid "Use default up/down scripts (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32171"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "Check connection with ping (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32172"
-msgid "Evaluate and adjust system time"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32173"
-msgid "Information Display"
+msgid "Evaluate and adjust system time"
 msgstr ""
 
 msgctxt "#32174"
-msgid "Enable enhanced information menu option"
+msgid "Information"
 msgstr ""
 
 msgctxt "#32175"
-msgid "View enhanced information window now"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32176"
-msgid "Popup connection table display"
+msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32177"
-msgid "All connections"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32178"
-msgid "Validated connections"
+msgid "All connections"
 msgstr ""
 
 msgctxt "#32179"
-msgid "Display IP, location and provider in cycle notification"
+msgid "Validated connections"
 msgstr ""
 
 msgctxt "#32180"
-msgid "Change IP location service"
+msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
 msgctxt "#32181"
-msgid "Auto select"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32182"
-msgid "ipinfo.io"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32183"
-msgid "IP-API"
+msgid "ipinfo.io"
 msgstr ""
 
 msgctxt "#32184"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32185"
 msgid "freegeoip.net"
 msgstr ""
 

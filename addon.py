@@ -230,7 +230,7 @@ elif action == "back" :
     back()
 elif not connectionValidated(addon) and action != "":
     # Haven't got a valid connection so force user into the wizard or the settings dialog
-    if not addon.getSetting("vpn_wizard_run") == "true":
+    if addon.getSetting("vpn_wizard_enabled") == "true":
         wizard()
     else:
         if not action == "settings":

@@ -1,6 +1,7 @@
 v4.9.7
 - Useability fixes
 - Allow user options to be appended to ovpn files
+- Stream identification updates
 
 v4.9.5
 - Reconnect timing fixes

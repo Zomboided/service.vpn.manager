@@ -166,12 +166,23 @@ class KodiPlayer(xbmc.Player):
         global streaming
         filename = self.getPlayingFile()
         addon = xbmcaddon.Addon()
-        stop_ids = addon.getSetting("vpn_stop_ids").split()
+        all_ids = addon.getSetting("vpn_stream_ids").split()
+        stream_ids = []
+        exclude_ids = []
+        for id in all_ids:
+            if id.startswith("!"):
+                exclude_ids.append(id[1:])
+            else:
+                stream_ids.append(id)
         streaming = False
-        for stop_id in stop_ids:
-            if filename.startswith(stop_id):
+        for stream_id in stream_ids:
+            if filename.startswith(stream_id):
                 streaming = True
+                for exclude_id in exclude_ids:
+                    if filename.startswith(exclude_id):
+                        streaming = False
                 break
+        if streaming: debugTrace("Starting streaming media " + filename)
  
 # Probably don't need to do this, but I'm hoping it introduces an element of randomness during install
 # so that the running() check isn't perfectly synced with another task running at the same time

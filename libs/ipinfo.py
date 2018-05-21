@@ -35,10 +35,8 @@ MAX_ERROR = 64
 def getIPInfoFrom(source):
     # Generate request to find out where this IP is based
     # Successful return is ip, country, region, city, isp 
-    # No info generated from call is "no info", "unknown", "unknown", "unknown", url response
-    # Or general error is "error", "error", "error", reason, url response
+    # Otherwise error strings are returned for the caller to parse
     link = ""
-    error = True
     try:
         # Determine the URL, make the call and read the response
         url = getIPSourceURL(source)
@@ -49,19 +47,19 @@ def getIPInfoFrom(source):
         if ifHTTPTrace(): debugTrace("Using " + url)
         link = response.read()
         response.close()
-        error = False
     except urllib2.HTTPError as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
         errorTrace("ipinfo.py", "API call was " + url)
         errorTrace("ipinfo.py", "Response was " + str(e.code) + " " + e.reason)
         errorTrace("ipinfo.py", e.read())
+        recordError(source)
+        return "error", "unknown location", "unknown location", "call failed", link
     except Exception as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
         errorTrace("ipinfo.py", "API call was " + url)
         errorTrace("ipinfo.py", "Response was " + str(type(e)) + " " + str(e))
-    if error:
         recordError(source)
-        return "error", "error", "error", "call failed", link
+        return "no response", "error", "error", "connection failed", link
         
     try:
         # This makes stupid regex easier

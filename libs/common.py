@@ -173,15 +173,14 @@ def getIPInfo(addon):
 
     retry = 0
     bad_response = False
+    services_used = 1
     while retry < 6:
         debugTrace("Getting IP info from " + source)
         start_time = int(time.time())
         ip, country, region, city, isp = getIPInfoFrom(source)
         end_time = int(time.time())
         response_time = end_time - start_time
-        debugTrace("Got response, IP is " + ip + " response time in seconds is " + str(response_time))
-        if response_time > 60:
-            errorTrace("common.py", "Response time from IP info was in excess of a minute (" + str(response_time) + " seconds), check connectivity.")
+        debugTrace("Got response, IP is " + ip + ", response time in seconds is " + str(response_time))
         
         if ip == "no info":
             # Got a response but couldn't format it.  No point retrying, move to next service or quit
@@ -191,13 +190,14 @@ def getIPInfo(addon):
             else:
                 errorTrace("common.py", "No location information was returned for IP using " + source)
                 break
-        elif ip == "error":
+        elif ip == "error" or ip == "no response":
             errorTrace("common.py", "Didn't get a good response from "  + source)
             if isAutoSelect(original_source):
                 # Only want to retry if this is the first time we've seen an error (recently) otherwise
                 # we assume it was broken before and it's still broken now and move to the next
                 if getErrorValue(getIndex(source)) > 1:
                     source = getNextSource(source)
+                    if ip == "no response": services_used += 1
                 else:
                     debugTrace("Retrying "  + source + ", in 3 seconds")
                     xbmc.sleep(3000)
@@ -210,8 +210,10 @@ def getIPInfo(addon):
         retry = retry + 1
         
     # Check to see if the call was good (after 5 retries)
-    if ip == "no info" or ip == "error":
-        return source, "no info", "unknown", "unknown"
+    if ip == "no info" or ip == "error" or ip == "no response":
+        if services_used > 3:
+            errorTrace("common.py", "All services failed with no response, could be a DNS issue")
+        return "", "no info", "unknown", "unknown"
 
     location = ""
     if not (region == "-" or region == "Not Available"): location = region
@@ -782,7 +784,7 @@ def updateAPITimer():
     
 
 def updateIPInfo(addon):
-    source, ip, location, isp = getIPInfo(addon)
+    _, ip, location, isp = getIPInfo(addon)
     connected = "False"
     if isVPNConnected(): connected = "True"
     xbmcgui.Window(10000).setProperty("VPN_Manager_API_State", connected)
@@ -1661,7 +1663,7 @@ def connectVPN(connection_order, vpn_profile):
         # Success, VPN connected! Display an updated progress window whilst we work out where we're connected to
         progress_message = "Connected, checking location info..."
         progress.update(96, progress_title, progress_message)
-        _, ip, country, isp = getIPInfo(addon)
+        source, ip, country, isp = getIPInfo(addon)
         # Indicate we're restarting the VPN monitor
         progress_message = "Connected, restarting VPN monitor..."
         progress.update(98, progress_title, progress_message)
@@ -1674,7 +1676,11 @@ def connectVPN(connection_order, vpn_profile):
             server = getVPNRequestedServer()
             if not server == "": server = ", " + server + "\n"
             else: server = "\n"
-            dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
+            # If a VPN location service can't be found, change the message
+            if source == "":
+                dialog_message = "Connected to a VPN using profile " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
+            else:
+                dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
         infoTrace("common.py", dialog_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used

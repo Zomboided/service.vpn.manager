@@ -368,7 +368,7 @@ def checkKillallCommand(addon):
         # Look for a phrase we'd expect to see if the call
         # worked and a killall error message was displayed
         for line in log_file_lines:
-            if "no process" in line and "vpnmanagertest" in line:
+            if "vpnmanagertest" in line:
                 deleteTestFile()
                 return True
         # Write the log file in case there's something in it

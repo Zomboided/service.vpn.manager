@@ -1257,7 +1257,7 @@ def dnsFix():
                         append_file.write("script-security 2\n")
                         append_file.write("up /etc/openvpn/update-resolv-conf\n")
                         append_file.write("down /etc/openvpn/update-resolv-conf\n")
-                    elif True or xbmcvfs.exists("/etc/openvpn/scripts/update-systemd-resolved"):
+                    elif xbmcvfs.exists("/etc/openvpn/scripts/update-systemd-resolved"):
                         infoTrace("common.py", "Found update-systemd-resolved and will call it when the connection goes up and down")
                         append_file.write("script-security 2\n")
                         append_file.write("setenv PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n")

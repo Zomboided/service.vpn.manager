@@ -1198,6 +1198,119 @@ def wizard():
         command = "Addon.OpenSettings(" + getID() + ")"
         xbmc.executebuiltin(command)
 
+
+def dnsFix():
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
+    
+    if getPlatform() == platforms.LINUX:
+        vpn_provider = addon.getSetting("vpn_provider")
+        if not xbmcgui.Dialog().yesno(addon_name, "Do you want to apply or remove the potential DNS fix for " + vpn_provider + "?", "", "", "Apply", "Remove"):
+            if xbmcgui.Dialog().yesno(addon_name, "Applying this fix will [I]attempt[/I] to fix any DNS issues that you might be experiencing.  [B]You should not do this if you're not having any connection problems![/B].", "", "", "Cancel", "Continue"):
+                infoTrace("common.py", "Creating a new APPEND.txt for " + vpn_provider + " to try and fix DNS issues")
+                files = False
+                # Rename any existing APPEND.txt
+                append_path = getUserDataPath(getVPNLocation(vpn_provider) + "/APPEND.txt")
+                if xbmcvfs.exists(append_path):
+                    files = True
+                    append_old = append_path.replace("APPEND.txt", "APPEND.old")
+                    debugTrace("Renaming existing APPEND.txt file to " + append_old)
+                    try:
+                        # Never over write the back up...the DNS wizard could be run a bunch of times and constantly
+                        # over writing the back up will mean there is no back up of any user originated file
+                        if not xbmcvfs.exists(append_old):
+                            xbmcvfs.rename(append_path, append_old)
+                        else:
+                            debugTrace("Didn't rename existing APPEND.txt as a backup already exists")
+                    except Exception as e:
+                        errorTrace("common.py", "Couldn't rename " + append_path + " to " + append_old)
+                        errorTrace("common.py", str(e))
+                        
+                # Remove or rename any existing user defined TEMPLATE.txt file            
+                template_path = getUserDataPath(getVPNLocation(vpn_provider) + "/TEMPLATE.txt")
+                if xbmcvfs.exists(template_path):
+                    files = True
+                    template_old = template_path.replace("TEMPLATE.txt", "TEMPLATE.old")
+                    debugTrace("Renaming existing TEMPLATE.txt file to " + template_old)
+                    try:
+                        # Never over write the back up
+                        if not xbmcvfs.exists(template_old):
+                            xbmcvfs.rename(template_path, template_old)
+                        else:
+                            debugTrace("Couldn't rename, but still need to delete the template to avoid it conflicting with the DNS fix")
+                            xbmcvfs.delete(template_path)
+                    except Exception as e:
+                        errorTrace("common.py", "Couldn't delete " + template_path + " or rename it to " + template_old)
+                        errorTrace("common.py", str(e))
+                        xbmcgui.Dialog().ok(addon_name, "Unexpected errors were found when attempting to fix DNS issues.  See the log for more details.")
+                        return
+                
+                # Write out the new APPEND.txt file
+                errors = False
+                try:            
+                    debugTrace("Writing new APPEND.txt file to " + append_path)
+                    append_file = open(append_path, 'w')
+                    if xbmcvfs.exists("/etc/openvpn/update-resolv-conf"):
+                        infoTrace("common.py", "Found update-resolv-conf and will call it when the connection goes up and down")
+                        append_file.write("dhcp-option DNSSEC allow-downgrade\n")
+                        append_file.write("dhcp-option DOMAIN-ROUTE .\n")
+                        append_file.write("script-security 2\n")
+                        append_file.write("up /etc/openvpn/update-resolv-conf\n")
+                        append_file.write("down /etc/openvpn/update-resolv-conf\n")
+                    elif True or xbmcvfs.exists("/etc/openvpn/scripts/update-systemd-resolved"):
+                        infoTrace("common.py", "Found update-systemd-resolved and will call it when the connection goes up and down")
+                        append_file.write("script-security 2\n")
+                        append_file.write("setenv PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n")
+                        append_file.write("up /etc/openvpn/scripts/update-systemd-resolved\n")
+                        append_file.write("down /etc/openvpn/scripts/update-systemd-resolved\n")
+                        append_file.write("down-pre\n")
+                    else:
+                        errorTrace("common.py", "To attempt a DNS fix, you need to install update-resolv-conf script in /etc/openvpn")
+                        errorTrace("common.py", "Alternatively for systemd enabled installations, install update-systemd-resolved in /etc/openvpn/scripts")
+                        errorTrace("common.py", "After installation of one of the scripts, apply the DNS fix again.")
+                        append_file.write("# No automatic DNS fix is possible.  Install update-resolv-conf in /etc/openvpn")
+                        append_file.write("# Alternatively for systemd, install update-systemd-resolved in /etc/openvpn/scripts")
+                        errors = True
+                    append_file.close()
+                except Exception as e:
+                    errorTrace("common.py", "Couldn't open or update " + append_path)
+                    errorTrace("common.py", str(e))
+                    xbmcgui.Dialog().ok(addon_name, "Unexpected errors were found when attempting to fix DNS issues.  See the log for more details.")
+                    return
+                
+                # Update settings to avoid up/down scripts being used
+                settings = False
+                if addon.getSetting("up_down_script") == "true" or addon.getSetting("use_default_up_down") == "true":
+                    settings = True
+                    addon.setSetting("up_down_script", "false")
+                    addon.setSetting("use_default_up_down", "false")
+                
+                if not errors:
+                    if xbmcgui.Dialog().yesno(addon_name, "A [I]potential[/I] fix has been created.  You should now use the [B]Reset VPN Provider[/B] option in the [B]Utilities[/B] tab to apply the fix, and then use the [B]VPN Connections[/B] tab to validate a connection.", "", "", "Ok", "Details"):
+                        t = ""
+                        if settings: t = t + "The OpenVPN up and down script options have been turned off.  "
+                        if files: t = t + "Existing user defined TEMPLATE.txt and APPEND.txt files for " + vpn_provider + " have been disabled.  "
+                        if t == "" : t = "A new user defined APPEND.txt has been created.  No other changes were necessary"
+                        else: t = t + "A new user defined APPEND.txt has been created."
+                        xbmcgui.Dialog().ok(addon_name, t)
+                    if not isCustom(): xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying this [I]potential[/I] fix, refer to the [B]Trouble Shooting[/B] page found on the [B]GitHub service.vpn.manager wiki.[/B]")
+                    else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation")
+                else:
+                    if not isCustom(): xbmcgui.Dialog().ok(addon_name, "A DNS fix was attempted [I]but will not work[/I].  Refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
+                    else: xbmcgui.Dialog().ok(addon_name, "A DNS fix was attempted [I]but likely will not work[/I].  Refer to the Kodi log and your VPN provider support documentation")
+        else:
+            append_path = getUserDataPath(getVPNLocation(vpn_provider) + "/APPEND.txt")
+            if xbmcvfs.exists(append_path):
+                try:
+                    xbmcvfs.delete(append_path)
+                    infoTrace("common.py", "Removing the APPEND.txt for " + vpn_provider)
+                    xbmcgui.Dialog().ok(addon_name, "The potential DNS fix has been removed for " + vpn_provider + ".  You should now use the [B]Reset VPN Provider[/B] option in the [B]Utilities[/B] tab to avoid using the fix with future connections.")
+                except Exception as e:
+                    errorTrace("common.py", "Couldn't remove " + append_path)
+                    errorTrace("common.py", str(e))
+                    xbmcgui.Dialog().ok(addon_name, "Unexpected errors were found when attempting remove the DNS fix for " + vpn_provider + ".  See the log for more details.")
+            else: xbmcgui.Dialog().ok(addon_name, "No potential DNS fix has been applied to " + vpn_provider)
+
             
 def removeUsedConnections(addon, connection_order, connections):
     # Filter out any used connections from the list given
@@ -1658,6 +1771,7 @@ def connectVPN(connection_order, vpn_profile):
     if fakeConnection() and not progress.iscanceled() and provider_gen and not ovpn_name == "" and got_keys and got_key_pass: state = connection_status.CONNECTED
     
     log_option = True
+    dns_error = False
     # Determine what happened during the connection attempt        
     if state == connection_status.CONNECTED:
         # Success, VPN connected! Display an updated progress window whilst we work out where we're connected to
@@ -1679,6 +1793,7 @@ def connectVPN(connection_order, vpn_profile):
             # If a VPN location service can't be found, change the message
             if source == "":
                 dialog_message = "Connected to a VPN using profile " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
+                dns_error = True
             else:
                 dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
         infoTrace("common.py", dialog_message)
@@ -1847,6 +1962,8 @@ def connectVPN(connection_order, vpn_profile):
             popupOpenVPNLog(getVPNLocation(vpn_provider))
     else:
         xbmcgui.Dialog().ok(progress_title, dialog_message)
+        
+    if dns_error: xbmcgui.Dialog().ok(progress_title, "If you experience network or connectivity issues, consider running the [B]Potential DNS fix[/B] option in the [B]Advanced[/B] settings tab.")
     
     # Refresh the screen if this is not being done on settings screen
     if connection_order == "0" : xbmc.executebuiltin('Container.Refresh')

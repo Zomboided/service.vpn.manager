@@ -1,3 +1,7 @@
+v4.9.8
+- Add potential DNS fix option
+- Fix some settings bugs
+
 v4.9.7
 - Useability fixes
 - Allow user options to be appended to ovpn files

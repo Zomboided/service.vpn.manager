@@ -28,7 +28,7 @@ from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, u
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
-from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate
+from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -44,6 +44,7 @@ if not getID() == "":
     addon = xbmcaddon.Addon(getID())
     addon_name = getName()
 
+    
     # Reset the ovpn files
     if action == "ovpn":
         if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
@@ -196,6 +197,12 @@ if not getID() == "":
             else:
                 xbmcgui.Dialog().ok(addon_name, "No key and certificate files exist for " + provider_display + ".")
 
+                
+    # Fix the user defined files with DNS goodness
+    if action == "dns":
+        dnsFix()
+      
+                
     command = "Addon.OpenSettings(" + getID() + ")"
     xbmc.executebuiltin(command)    
 else:

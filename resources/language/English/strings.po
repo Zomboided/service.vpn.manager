@@ -400,23 +400,23 @@ msgid "Delete user key, password and cert files"
 msgstr ""
 
 msgctxt "#32106"
-msgid "Key mappings"
+msgid "Delete user defined files"
 msgstr ""
 
 msgctxt "#32107"
-msgid "Map VPN connection cycle button"
+msgid "Key mappings"
 msgstr ""
 
 msgctxt "#32108"
-msgid "Map VPN connection table button"
+msgid "Map VPN connection cycle button"
 msgstr ""
 
 msgctxt "#32109"
-msgid "Map information display button"
+msgid "Map VPN connection table button"
 msgstr ""
 
 msgctxt "#32110"
-msgid "System reboot"
+msgid "Map information display button"
 msgstr ""
 
 msgctxt "#32111"
@@ -615,50 +615,54 @@ msgid "Evaluate and adjust system time"
 msgstr ""
 
 msgctxt "#32173"
-msgid "Information"
+msgid "Potential DNS fix"
 msgstr ""
 
 msgctxt "#32174"
-msgid "Enable enhanced information menu option"
+msgid "Information"
 msgstr ""
 
 msgctxt "#32175"
-msgid "View enhanced information window now"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32176"
-msgid "Popup connection table display"
+msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32177"
-msgid "All connections"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32178"
-msgid "Validated connections"
+msgid "All connections"
 msgstr ""
 
 msgctxt "#32179"
-msgid "Display IP, location and provider in cycle notification"
+msgid "Validated connections"
 msgstr ""
 
 msgctxt "#32180"
-msgid "Change IP location service"
+msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
 msgctxt "#32181"
-msgid "Auto select"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32182"
-msgid "ipinfo.io"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32183"
-msgid "IP-API"
+msgid "ipinfo.io"
 msgstr ""
 
 msgctxt "#32184"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32185"
 msgid "freegeoip.net"
 msgstr ""
 

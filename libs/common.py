@@ -1278,10 +1278,11 @@ def dnsFix():
                 
                 # Update settings to avoid up/down scripts being used
                 settings = False
-                if addon.getSetting("up_down_script") == "true" or addon.getSetting("use_default_up_down") == "true":
-                    settings = True
-                    addon.setSetting("up_down_script", "false")
-                    addon.setSetting("use_default_up_down", "false")
+                if not errors:
+                    if addon.getSetting("up_down_script") == "true" or addon.getSetting("use_default_up_down") == "true":
+                        settings = True
+                        addon.setSetting("up_down_script", "false")
+                        addon.setSetting("use_default_up_down", "false")
                 
                 if not errors:
                     if xbmcgui.Dialog().yesno(addon_name, "A [I]potential[/I] fix has been created.  You should now use the [B]Reset VPN Provider[/B] option in the [B]Utilities[/B] tab to apply the fix, and then use the [B]VPN Connections[/B] tab to validate a connection.", "", "", "Ok", "Details"):

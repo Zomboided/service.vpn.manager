@@ -1268,8 +1268,6 @@ def dnsFix():
                         errorTrace("common.py", "To attempt a DNS fix, you need to install update-resolv-conf script in /etc/openvpn")
                         errorTrace("common.py", "Alternatively for systemd enabled installations, install update-systemd-resolved in /etc/openvpn/scripts")
                         errorTrace("common.py", "After installation of one of the scripts, apply the DNS fix again.")
-                        append_file.write("# No automatic DNS fix is possible.  Install update-resolv-conf in /etc/openvpn")
-                        append_file.write("# Alternatively for systemd, install update-systemd-resolved in /etc/openvpn/scripts")
                         errors = True
                     append_file.close()
                 except Exception as e:
@@ -1296,8 +1294,14 @@ def dnsFix():
                     if not isCustom(): xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying this [I]potential[/I] fix, refer to the [B]Trouble Shooting[/B] page found on the [B]GitHub service.vpn.manager wiki.[/B]")
                     else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation")
                 else:
-                    if not isCustom(): xbmcgui.Dialog().ok(addon_name, "A DNS fix was attempted [I]but will not work[/I].  Refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
-                    else: xbmcgui.Dialog().ok(addon_name, "A DNS fix was attempted [I]but likely will not work[/I].  Refer to the Kodi log and your VPN provider support documentation")
+                    if not isCustom(): xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible.[/I]  Refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
+                    else: xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible.[/I]  Refer to the Kodi log and your VPN provider support documentation")
+                    try:
+                        if xbmcvfs.exists(append_path):
+                            xbmcvfs.delete(append_path)
+                    except Exception as e:
+                        errorTrace("common.py", "Couldn't remove " + append_path)
+                        errorTrace("common.py", str(e))
         else:
             append_path = getUserDataPath(getVPNLocation(vpn_provider) + "/APPEND.txt")
             if xbmcvfs.exists(append_path):

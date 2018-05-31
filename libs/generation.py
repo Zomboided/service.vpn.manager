@@ -40,19 +40,19 @@ def generateAll():
     #generateBlackbox
     #generateBTGuard()
     #generateBulletVPN()
-    #generateCelo()
+    generateCelo()
     #generateCyberGhost()
     #generateExpressVPN()
     #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
-    generateibVPN()
+    #generateibVPN()
     #generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
     #generatePerfectPrivacy()
-    #generatePIA()
+    generatePIA()
     #generatePrivateVPN()
     #generateproXPN()
     #generatePureVPN()
@@ -176,35 +176,30 @@ def generateCelo():
     location_file = getLocations("Celo", "")
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
-        geo = geo.replace("sw", "se")
+        geo = geo.replace("SW", "SE")
+        geo = geo.replace("JP-", "JP1-")
         geo = geo.replace(".celo.net", "")
+        if "TCP" in geo: proto = "tcp"
+        if "udp" in geo: proto = "udp"
         geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:3]
-        geo_key = (geo + "_ta.key").replace(" ", "_")
-        geo_cert = (geo + "_ca.crt").replace(" ", "_")
+        geo_key = (geo + "_" + proto + "_ta.key").replace(" ", "_")
+        geo_cert = (geo + "_" + proto + "_ca.crt").replace(" ", "_")
         geo_key_file = open(getProviderPath("Celo/" + geo_key), 'w')
         geo_cert_file = open(getProviderPath("Celo/" + geo_cert), 'w')
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
-        servers_udp = ""
-        servers_tcp = ""
-        ports_udp = ""
-        ports_tcp = ""
+        servers = ""
+        ports = ""
         writeline = ""
         for line in lines:
             if line.startswith("remote "):
                 _, server, port, proto = line.split()
                 proto = proto.lower()
-                if proto == "udp":
-                    if not servers_udp == "" : servers_udp = servers_udp + " "
-                    servers_udp = servers_udp + server
-                    if not ports_udp == "" : ports_udp = ports_udp + " "
-                    ports_udp = ports_udp + port
-                if proto == "tcp":
-                    if not servers_tcp == "" : servers_tcp = servers_tcp + " "
-                    servers_tcp = servers_tcp + server
-                    if not ports_tcp == "" : ports_tcp = ports_tcp + " "
-                    ports_tcp = ports_tcp + port
+                if not servers == "" : servers = servers + " "
+                servers = servers + server
+                if not ports == "" : ports = ports + " "
+                ports = ports + port
             if writeline == "ca":
                 if line.startswith("</ca>"):
                     writeline = ""
@@ -214,20 +209,17 @@ def generateCelo():
             if line.startswith("<ca>"):
                 writeline = "ca"
             if writeline == "tls":
-                if line.startswith("</tls-auth>"):
+                if line.startswith("</tls-crypt>"):
                     writeline = ""
                     geo_key_file.close()
                 else:
                     if not line.startswith("#"): geo_key_file.write(line)
-            if line.startswith("<tls-auth>"):
+            if line.startswith("<tls-crypt>"):
                 writeline = "tls"
-            
-        output_line_udp = geo + " (UDP)," + servers_udp + "," + "udp," + ports_udp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n" 
-        output_line_tcp = geo + " (TCP)," + servers_tcp + "," + "tcp," + ports_tcp + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n"         
-        location_file.write(output_line_udp)
-        location_file.write(output_line_tcp)
+        output_line = geo + " (" + proto.upper()[0:3] + ")," + servers + "," + proto + "," + ports + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n"          
+        location_file.write(output_line)
     location_file.close()
-    generateMetaData("Celo", MINIMUM_LEVEL)    
+    generateMetaData("Celo", "498")    
 
 
 def generateCyberGhost():

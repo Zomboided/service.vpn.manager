@@ -1,3 +1,6 @@
+v4.9.9
+- Celo update
+
 v4.9.8
 - Add potential DNS fix option
 - Fix some settings bugs

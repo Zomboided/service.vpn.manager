@@ -1206,7 +1206,7 @@ def dnsFix():
     if getPlatform() == platforms.LINUX:
         vpn_provider = addon.getSetting("vpn_provider")
         if not xbmcgui.Dialog().yesno(addon_name, "Do you want to apply or remove the potential DNS fix for " + vpn_provider + "?", "", "", "Apply", "Remove"):
-            if xbmcgui.Dialog().yesno(addon_name, "Applying this fix will [I]attempt[/I] to fix any DNS issues that you might be experiencing.  [B]You should not do this if you're not having any connection problems![/B].", "", "", "Cancel", "Continue"):
+            if xbmcgui.Dialog().yesno(addon_name, "Applying this fix will [I]attempt[/I] to fix any DNS issues that you might be experiencing.  [COLOR red]You should not do this if you're not having any connection problems![/COLOR]", "", "", "Cancel", "Continue"):
                 infoTrace("common.py", "Creating a new APPEND.txt for " + vpn_provider + " to try and fix DNS issues")
                 files = False
                 # Rename any existing APPEND.txt
@@ -1968,7 +1968,12 @@ def connectVPN(connection_order, vpn_profile):
     else:
         xbmcgui.Dialog().ok(progress_title, dialog_message)
         
-    if dns_error: xbmcgui.Dialog().ok(progress_title, "If you experience network or connectivity issues, consider running the [B]Potential DNS fix[/B] option in the [B]Advanced[/B] settings tab.")
+    if dns_error: 
+        if getPlatform() == platforms.LINUX:
+            xbmcgui.Dialog().ok(progress_title, "If you experience network or connectivity issues, consider running the [B]Potential DNS fix[/B] option in the [B]Advanced[/B] settings tab.")
+        else:
+            if not isCustom(): xbmcgui.Dialog().ok(addon_name, "If you experience network or connectivity issues, refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
+            else: xbmcgui.Dialog().ok(addon_name, "If you experience network or connectivity issues, refer to the Kodi log and your VPN provider support documentation.")            
     
     # Refresh the screen if this is not being done on settings screen
     if connection_order == "0" : xbmc.executebuiltin('Container.Refresh')

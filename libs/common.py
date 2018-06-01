@@ -1247,7 +1247,12 @@ def dnsFix():
                 
                 # Write out the new APPEND.txt file
                 errors = False
-                try:            
+                try:
+                    append_dir = getUserDataPath(getVPNLocation(vpn_provider) + "/")
+                    if not xbmcvfs.exists(append_dir):
+                        debugTrace("Creating user data directory " + append_dir)
+                        append_dir = getUserDataPath(getVPNLocation(vpn_provider))
+                        xbmcvfs.mkdir(append_dir)
                     debugTrace("Writing new APPEND.txt file to " + append_path)
                     append_file = open(append_path, 'w')
                     if xbmcvfs.exists("/etc/openvpn/update-resolv-conf"):

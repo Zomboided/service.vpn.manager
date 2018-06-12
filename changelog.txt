@@ -1,3 +1,6 @@
+v5.0.1
+- Add Mullvad
+
 v4.9.9
 - Celo update
 

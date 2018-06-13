@@ -1154,6 +1154,8 @@ def wizard():
                             break
             else:
                 xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses private key and cert authentication.  You'll be asked for these during the connection.")
+                vpn_username = ""
+                vpn_password = ""
         
         addon = xbmcaddon.Addon(getID())
         if success:

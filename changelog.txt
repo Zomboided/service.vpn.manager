@@ -1,5 +1,6 @@
 v5.0.1
 - Add Mullvad
+- Wizard fix for providers with no user/password
 
 v4.9.9
 - Celo update

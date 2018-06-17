@@ -53,11 +53,14 @@ def showLogBox(caption, text):
 
 def popupKodiLog():
     dialog_text = ""
-    log_file = open(getLogPath(), 'r')
-    log_output = log_file.readlines()
-    log_file.close()    
-    for line in log_output:
-        dialog_text = dialog_text + line
+    if xbmcvfs.exists(getLogPath()):
+        log_file = open(getLogPath(), 'r')
+        log_output = log_file.readlines()
+        log_file.close()    
+        for line in log_output:
+            dialog_text = dialog_text + line
+    else:
+        dialog_text = "Log file " + getLogPath() + " weirdly does not exist...maybe try rebooting?"
     showLogBox("Kodi Log", dialog_text)
 
   
@@ -85,5 +88,5 @@ def popupOpenVPNLog(provider):
         for line in log_output:
             dialog_text = dialog_text + line
     else:
-        dialog_text = dialog_text + "No openvpn log file available.  A log file is only available once an attempt has been made to start a VPN connection.\n"
+        dialog_text = "No openvpn log file available.  A log file is only available once an attempt has been made to start a VPN connection.\n"
     showLogBox("OpenVPN Log", dialog_text)    

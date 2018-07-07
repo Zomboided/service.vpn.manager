@@ -1020,6 +1020,8 @@ def wizard():
     addon = xbmcaddon.Addon(getID())
     addon_name = getName()    
     
+    debugTrace("Wizard offered, current VPN is " + addon.getSetting("vpn_provider") + ", user is " + addon.getSetting("vpn_username"))
+    
     settings = False
     # Wizard or settings?
     if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", "", "", "Wizard", "Settings"):
@@ -1027,7 +1029,7 @@ def wizard():
         suspendConfigUpdate()
         
         success = True
-    
+        debugTrace("Running wizard")    
         # Check everything is installed and working
         if not addon.getSetting("ran_openvpn") == "true":
             if getPlatform() == platforms.WINDOWS:
@@ -1197,6 +1199,7 @@ def wizard():
     
     addon = xbmcaddon.Addon(getID())
     if settings:
+        debugTrace("Opening settings, wizard declined")
         command = "Addon.OpenSettings(" + getID() + ")"
         xbmc.executebuiltin(command)
 

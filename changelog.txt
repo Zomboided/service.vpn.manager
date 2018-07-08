@@ -1,3 +1,6 @@
+v5.0.4
+- Allow userdata for DNS fixx
+
 v5.0.3
 - File playing name fix
 

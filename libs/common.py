@@ -1260,32 +1260,21 @@ def dnsFix():
                         xbmcvfs.mkdir(append_dir)
                     debugTrace("Writing new APPEND.txt file to " + append_path)
                     append_file = open(append_path, 'w')
+                    all_paths = []
+                    all_paths.append("/etc/openvpn/update-resolv-conf")
+                    all_paths.append(getUserDataPath("update-resolv-conf"))
+                    all_paths.append("/etc/openvpn/update-systemd-resolved")
+                    all_paths.append("/etc/openvpn/scripts/update-systemd-resolved")
+                    all_paths.append(getUserDataPath("update-systemd-resolved"))
                     path = ""
-                    try_path = "/etc/openvpn/update-resolv-conf"
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = "/etc/openvpn/update-resolv-conf.sh"
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = getUserDataPath("update-resolv-conf")
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = getUserDataPath("update-resolv-conf.sh")
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = "/etc/openvpn/scripts/update-systemd-resolved"
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = "/etc/openvpn/scripts/update-systemd-resolved.sh"
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = getUserDataPath("update-systemd-resolved")
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    try_path = getUserDataPath("update-systemd-resolved.sh")
-                    if xbmcvfs.exists(try_path):
-                        path = try_path
-                    # FIXME if path == "" and systemd, then copy the script to userdata?
+                    for try_path in all_paths:
+                        if xbmcvfs.exists(try_path):
+                            path = try_path
+                        if xbmcvfs.exists(try_path + ".sh"):
+                            path = try_path + ".sh"
+                        if not path == "":
+                            debugTrace("Found " + path + " to use as the up and down script")
+                            break
                     if "update-resolv-conf" in path:
                         infoTrace("common.py", "Found " + path + " and will call it when the connection goes up and down")
                         append_file.write("dhcp-option DNSSEC allow-downgrade\n")
@@ -1297,6 +1286,7 @@ def dnsFix():
                         append_file.write("down-pre\n")
                     elif "update-systemd-resolved" in path:
                         infoTrace("common.py", "Found update-systemd-resolved and will call it when the connection goes up and down")
+                        append_file.write("dhcp-option DOMAIN-ROUTE .\n")
                         append_file.write("script-security 2\n")
                         append_file.write("setenv PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n")
                         append_file.write("up " + path + "\n")
@@ -1304,7 +1294,7 @@ def dnsFix():
                         append_file.write("down-pre\n")
                     else:
                         errorTrace("common.py", "To attempt a DNS fix, you need to install update-resolv-conf script in /etc/openvpn")
-                        errorTrace("common.py", "For systemd enabled installations including LibreELEC, install update-systemd-resolved in /etc/openvpn/scripts")
+                        errorTrace("common.py", "For systemd enabled installations including LibreELEC, install update-systemd-resolved in /etc/openvpn or /etc/openvpn/scripts")
                         errorTrace("common.py", "Alternatively, you can place either of these scripts in " + getUserDataPath(""))
                         errorTrace("common.py", "Ensure the script you want to use has the right permissions set")
                         errorTrace("common.py", "After installation of one of the scripts, apply the DNS fix again.")

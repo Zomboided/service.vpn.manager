@@ -1261,11 +1261,11 @@ def dnsFix():
                     debugTrace("Writing new APPEND.txt file to " + append_path)
                     append_file = open(append_path, 'w')
                     all_paths = []
-                    all_paths.append("/etc/openvpn/update-resolv-conf")
-                    all_paths.append(getUserDataPath("update-resolv-conf"))
                     all_paths.append("/etc/openvpn/update-systemd-resolved")
                     all_paths.append("/etc/openvpn/scripts/update-systemd-resolved")
                     all_paths.append(getUserDataPath("update-systemd-resolved"))
+                    all_paths.append(getUserDataPath("update-resolv-conf"))
+                    all_paths.append("/etc/openvpn/update-resolv-conf")
                     path = ""
                     for try_path in all_paths:
                         if xbmcvfs.exists(try_path):

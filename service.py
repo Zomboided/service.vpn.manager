@@ -244,12 +244,12 @@ if __name__ == '__main__' and not running():
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
                 reset_everything = True
-            #if not isCustom() and last_version < 500:
-            #    if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
-            #        xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
-            #     if addon.getSetting("vpn_provider_validated") == "NordVPN":
-            #         xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
-            #          reset_everything = True
+            if not isCustom() and last_version < 500:
+                if addon.getSetting("vpn_provider_validated") == "UserDefined" and checkUserDefined("NordVPN"):
+                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been re-introduced to use the NordVPN API to dynamically manage connections.  Please consider using built in support.")
+                if addon.getSetting("vpn_provider_validated") == "NordVPN":
+                    xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
+                    reset_everything = True
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
@@ -323,7 +323,9 @@ if __name__ == '__main__' and not running():
         addon.setSetting("allow_vpn_generation", "true")
     else:
         addon.setSetting("allow_vpn_generation", "false")
-        
+    
+    addon = xbmcaddon.Addon()
+    
     # Need to go and request the main loop fetches the settings
     updateService("service initalisation")
     
@@ -370,7 +372,7 @@ if __name__ == '__main__' and not running():
     accepting_changes = True
     
     # If no connection has been set up, offer to run the wizard
-    if not connectionValidated(addon) and addon.getSetting("vpn_wizard_enabled") == "true":
+    if (not connectionValidated(addon)) and addon.getSetting("vpn_wizard_enabled") == "true":
         state = suspendStartStop()
         wizard()
         resumeStartStop(state)

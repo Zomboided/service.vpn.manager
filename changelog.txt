@@ -1,3 +1,7 @@
+v5.0.5
+- Alter order of DNS fix scripts
+- Reintroduce NordVPN support
+
 v5.0.4
 - Allow userdata for DNS fix
 

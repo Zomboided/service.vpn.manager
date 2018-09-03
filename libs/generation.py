@@ -40,14 +40,14 @@ def generateAll():
     #generateBlackbox
     #generateBTGuard()
     #generateBulletVPN()
-    #generateCelo()
+    generateCelo()
     #generateCyberGhost()
     #generateExpressVPN()
     #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
-    generateIPVanish()
+    #generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
@@ -176,49 +176,41 @@ def generateCelo():
     profiles = getProfileList("Celo")
     location_file = getLocations("Celo", "")
     for profile in profiles:
-        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
-        geo = geo.replace("SW", "SE")
-        geo = geo.replace("JP-", "JP1-")
-        geo = geo.replace(".celo.net", "")
-        if "TCP" in geo: proto = "tcp"
-        if "udp" in geo: proto = "udp"
-        geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:3]
-        geo_key = (geo + "_" + proto + "_ta.key").replace(" ", "_")
-        geo_cert = (geo + "_" + proto + "_ca.crt").replace(" ", "_")
-        geo_key_file = open(getProviderPath("Celo/" + geo_key), 'w')
-        geo_cert_file = open(getProviderPath("Celo/" + geo_cert), 'w')
-        profile_file = open(profile, 'r')
-        lines = profile_file.readlines()
-        profile_file.close()
-        servers = ""
-        ports = ""
-        writeline = ""
-        for line in lines:
-            if line.startswith("remote "):
-                _, server, port, proto = line.split()
-                proto = proto.lower()
-                if not servers == "" : servers = servers + " "
-                servers = servers + server
-                if not ports == "" : ports = ports + " "
-                ports = ports + port
-            if writeline == "ca":
-                if line.startswith("</ca>"):
-                    writeline = ""
-                    geo_cert_file.close()
-                else:
-                    if not line.startswith("#"): geo_cert_file.write(line)
-            if line.startswith("<ca>"):
-                writeline = "ca"
-            if writeline == "tls":
-                if line.startswith("</tls-crypt>"):
-                    writeline = ""
-                    geo_key_file.close()
-                else:
-                    if not line.startswith("#"): geo_key_file.write(line)
-            if line.startswith("<tls-crypt>"):
-                writeline = "tls"
-        output_line = geo + " (" + proto.upper()[0:3] + ")," + servers + "," + proto + "," + ports + ",#TLSKEY=" + geo_key + " #CERT=" + geo_cert + "\n"          
-        location_file.write(output_line)
+        if not "udp-53" in profile.lower():
+            geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+            geo = geo.replace("SW", "SE")
+            geo = geo.replace("JP-", "JP1-")
+            geo = geo.replace(".celo.net", "")
+            geo = geo.replace("-Stream", "Stream")
+            if "TCP" in geo: proto = "tcp"
+            if "udp" in geo: proto = "udp"
+            geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:geo.index("-")]
+            geo_key = (geo + "_" + proto + "_ta.key").replace(" ", "_")
+            geo_key_file = open(getProviderPath("Celo/" + geo_key), 'w')
+            profile_file = open(profile, 'r')
+            lines = profile_file.readlines()
+            profile_file.close()
+            servers = ""
+            ports = ""
+            writeline = ""
+            for line in lines:
+                if line.startswith("remote "):
+                    _, server, port, proto = line.split()
+                    proto = proto.lower()
+                    if not servers == "" : servers = servers + " "
+                    servers = servers + server
+                    if not ports == "" : ports = ports + " "
+                    ports = ports + port
+                if writeline == "tls":
+                    if line.startswith("</tls-crypt>"):
+                        writeline = ""
+                        geo_key_file.close()
+                    else:
+                        if not line.startswith("#"): geo_key_file.write(line)
+                if line.startswith("<tls-crypt>"):
+                    writeline = "tls"
+            output_line = geo + " (" + proto.upper()[0:3] + ")," + servers + "," + proto + "," + ports + ",#TLSKEY=" + geo_key + "\n"          
+            location_file.write(output_line)
     location_file.close()
     generateMetaData("Celo", "499")    
 
@@ -346,12 +338,7 @@ def generateHideIPVPN():
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         geo = geo.replace(".hideipvpn.com_"," ")
-        geo = geo.replace("pl", "Poland ")
-        geo = geo.replace("de", "Germany ")
-        geo = geo.replace("ca", "Canada ")
-        geo = geo.replace("nl", "Netherlands ")
-        geo = geo.replace("uk", "United Kingdom ")
-        geo = geo.replace("us", "United States ")
+        geo = geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
         geo = geo.replace("TCP", "(TCP)")
         geo = geo.replace("UDP", "(UDP)")
         profile_file = open(profile, 'r')

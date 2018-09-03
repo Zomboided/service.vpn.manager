@@ -1364,6 +1364,20 @@ def removeUsedConnections(addon, connection_order, connections):
     return unused
 
             
+def checkDirectory(vpn_provider):
+    # Check that the directory for the VPN provider exists
+    dir_path = getAddonPath(True, getVPNLocation(vpn_provider))
+    if xbmcvfs.exists(dir_path): return True
+    infoTrace("common.py", "Creating VPN provider directory " + dir_path)
+    try:
+        xbmcvfs.mkdir(dir_path)
+    except Exception as e:
+        errorTrace("common.py", "Couldn't create directory " + dir_path)
+        errorTrace("common.py", str(e))
+        return False
+    return True
+
+            
 def connectVPN(connection_order, vpn_profile):
 
     # Don't know where this was called from so using plugin name to get addon handle
@@ -1562,64 +1576,65 @@ def connectVPN(connection_order, vpn_profile):
     # Generate or fix the OVPN files if we've not done this previously
     provider_gen = False
     if not progress.iscanceled() and provider_download:
-        provider_gen = True
-        if not isAlternative(vpn_provider):
-            if not ovpnFilesAvailable(getVPNLocation(vpn_provider)):
-                # Generate the location files if this is a provider which uses generated file
-                
-                # Clear generated files
-                removeGeneratedFiles()
-                
-                # Copy non-ovpn files (ovpn files will be copied as they're fixed)
-                if populateSupportingFromGit(getVPNLocation(vpn_provider)):
+        provider_gen = checkDirectory(vpn_provider)
+        if provider_gen:
+            if not isAlternative(vpn_provider):
+                if not ovpnFilesAvailable(getVPNLocation(vpn_provider)):
+                    # Generate the location files if this is a provider which uses generated file
                     
-                    # Fetch the list of locations available.  If there are multiple, the user can select
-                    locations = getLocationFiles(getVPNLocation(vpn_provider))            
-                    default_label = "Default"
-                    i = 0            
-                    for location in locations:
-                        locations[i] = location[location.index("LOCATIONS")+10:location.index(".txt")]
-                        if locations[i] == "" : locations[i] = default_label
-                        i = i + 1
-                else:
-                    provider_gen = False
-
-                if provider_gen:
-                    cancel_text = "[I]Cancel connection attempt[/I]"
-                    selected_profile = ""
+                    # Clear generated files
+                    removeGeneratedFiles()
                     
-                    if len(locations) == 0 and not isUserDefined(vpn_provider) and ovpnGenerated(getVPNLocation(vpn_provider)):
-                        errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
-                    if len(locations) > 1:
-                        # Add the cancel option to the dialog box list
-                        locations.append(cancel_text)
-                        selected_location = xbmcgui.Dialog().select("Select connections profile", locations)
-                        selected_profile = locations[selected_location]
-                        if selected_profile == default_label : selected_profile = ""
-                    
-                    if not selected_profile == cancel_text:
-                        addon.setSetting("vpn_locations_list", selected_profile)
-                        progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)..."
-                        progress.update(11, progress_title, progress_message)
-                        debugTrace("Deleting all generated ovpn files")
-                        # Generate new ones
-                        try:
-                            provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
-                            progress_message = "Set up " + vpn_provider
-                            progress.update(15, progress_title, progress_message)
-                            xbmc.sleep(DIALOG_SPEED)
-                        except Exception as e:
-                            errorTrace("common.py", "Couldn't generate new .ovpn files")
-                            errorTrace("common.py", str(e))
-                            provider_gen = False
-                        xbmc.sleep(DIALOG_SPEED)
+                    # Copy non-ovpn files (ovpn files will be copied as they're fixed)
+                    if populateSupportingFromGit(getVPNLocation(vpn_provider)):
+                        
+                        # Fetch the list of locations available.  If there are multiple, the user can select
+                        locations = getLocationFiles(getVPNLocation(vpn_provider))            
+                        default_label = "Default"
+                        i = 0            
+                        for location in locations:
+                            locations[i] = location[location.index("LOCATIONS")+10:location.index(".txt")]
+                            if locations[i] == "" : locations[i] = default_label
+                            i = i + 1
                     else:
-                        # User selected cancel on dialog box
                         provider_gen = False
-                        cancel_attempt = True
-        else:
-            provider_gen = getAlternativePreFetch(vpn_provider)
-            addon.setSetting("vpn_locations_list", "")
+
+                    if provider_gen:
+                        cancel_text = "[I]Cancel connection attempt[/I]"
+                        selected_profile = ""
+                        
+                        if len(locations) == 0 and not isUserDefined(vpn_provider) and ovpnGenerated(getVPNLocation(vpn_provider)):
+                            errorTrace("common.py", "No LOCATIONS.txt files found in VPN directory.  Cannot generate ovpn files for " + vpn_provider + ".")
+                        if len(locations) > 1:
+                            # Add the cancel option to the dialog box list
+                            locations.append(cancel_text)
+                            selected_location = xbmcgui.Dialog().select("Select connections profile", locations)
+                            selected_profile = locations[selected_location]
+                            if selected_profile == default_label : selected_profile = ""
+                        
+                        if not selected_profile == cancel_text:
+                            addon.setSetting("vpn_locations_list", selected_profile)
+                            progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)..."
+                            progress.update(11, progress_title, progress_message)
+                            debugTrace("Deleting all generated ovpn files")
+                            # Generate new ones
+                            try:
+                                provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
+                                progress_message = "Set up " + vpn_provider
+                                progress.update(15, progress_title, progress_message)
+                                xbmc.sleep(DIALOG_SPEED)
+                            except Exception as e:
+                                errorTrace("common.py", "Couldn't generate new .ovpn files")
+                                errorTrace("common.py", str(e))
+                                provider_gen = False
+                            xbmc.sleep(DIALOG_SPEED)
+                        else:
+                            # User selected cancel on dialog box
+                            provider_gen = False
+                            cancel_attempt = True
+            else:
+                provider_gen = getAlternativePreFetch(vpn_provider)
+                addon.setSetting("vpn_locations_list", "")
         addon = xbmcaddon.Addon(getID())
                     
     if provider_gen:                            

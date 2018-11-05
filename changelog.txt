@@ -1,3 +1,6 @@
+v5.0.7
+- Fix some issues with paths that contain spaces within ovpn files
+
 v5.0.6
 - Create directories when needed
 

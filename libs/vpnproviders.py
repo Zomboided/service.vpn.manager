@@ -28,8 +28,8 @@ import urllib2
 import time
 from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-from alternative import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName, getNordVPNUserPass
-from alternative import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
+from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName, getNordVPNUserPass
+from alternativeNord import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)

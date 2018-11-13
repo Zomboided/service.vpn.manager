@@ -99,9 +99,9 @@ def refreshPlatformInfo():
     
     # Some tracing that we might want to do
     if xbmcvfs.exists(getUserDataPath("JSONTRACE.txt")):
-        xbmcgui.Window(10000).setProperty("VPN_Manager_JSON_Trace", "true")
+        addon.setSetting("vpn_enable_json", "true")
     else:
-        xbmcgui.Window(10000).setProperty("VPN_Manager_JSON_Trace", "")
+        addon.setSetting("vpn_enable_json", "false")
 
 def checkConnections():
     # Check that all of the connections exist

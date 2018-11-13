@@ -506,8 +506,8 @@ def resetAlternative(vpn_provider):
     return globals()["reset" + vpn_provider](vpn_provider)
     
     
-def authenticateAlternative(vpn_provider, username, password):
-    return globals()["authenticate" + vpn_provider](vpn_provider, username, password)
+def authenticateAlternative(vpn_provider, userid, password):
+    return globals()["authenticate" + vpn_provider](vpn_provider, userid, password)
 
 
 def getAlternativeUserPass(vpn_provider):

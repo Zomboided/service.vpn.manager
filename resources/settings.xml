@@ -142,6 +142,7 @@
     <setting label="32141" type="lsep"/>
     <setting label="32142" type="bool" id="vpn_enable_debug" default="false"/>
     <setting label="32143" type="bool" id="vpn_enable_http" visible="eq(-1,true)" default="false"/>
+    <setting label="32144" type="bool" id="vpn_enable_json" visible="false" default="false"/>
     <setting label="32145" type="action" action="RunScript(special://home/addons/service.vpn.manager/logpopup.py, kodi)"/>
     <setting label="32146" type="action" option="close" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, log)"/>
     <setting label="32147" type="bool" id="vpn_wizard_enabled" default="true"/>

@@ -39,7 +39,7 @@ def authenticateNordVPN(vpn_provider, userid, password):
 
     # If the same credentials have been used before, don't bother authenticating
     _,_,_, creds = getTokens()
-    if 1 == 0 and creds == vpn_provider + userid + password: 
+    if creds == vpn_provider + userid + password: 
         debugTrace("Previous authentication was good")
         return True
     

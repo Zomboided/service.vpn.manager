@@ -28,17 +28,22 @@ import urllib2
 import time
 from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName, getNordVPNUserPass
-from alternativeNord import getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, resetNordVPN, authenticateNordVPN
+from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
+from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
+from alternativeNord import resetNordVPN, authenticateNordVPN
+from alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
+from alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
+from alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire
+
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Display names for each of the providers (matching the guff in strings.po)
-provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN", "Mullvad", "NordVPN"]
+provider_display = ["Private Internet Access", "IPVanish", "VyperVPN", "Invisible Browsing VPN", "tigerVPN", "Hide My Ass", "LiquidVPN", "AirVPN", "CyberGhost", "Perfect Privacy", "TorGuard", "User Defined", "LimeVPN", "HideIPVPN", "VPN Unlimited", "Hide.Me", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN.to", "VPNSecure", "RA4W VPN", "Windscribe", "Smart DNS Proxy", "VPN.ac", "VPNArea", "VanishedVPN", "Private VPN", "black.box", "BulletVPN", "Mullvad", "NordVPN", "Shellfire"]
 
 # **** ADD MORE VPN PROVIDERS HERE ****
 # Directory names for each of the providers (in the root of the addon)
 # Must be in the same order as the provider display name above
-providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "tigerVPN", "HMA", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac", "VPNArea", "VanishedVPN", "PrivateVPN", "blackbox", "BulletVPN", "Mullvad", "NordVPN"]
+providers = ["PIA", "IPVanish", "VyprVPN", "ibVPN", "tigerVPN", "HMA", "LiquidVPN", "AirVPN", "CyberGhost", "PerfectPrivacy", "TorGuard", "UserDefined", "LimeVPN", "HideIPVPN", "VPNUnlimited", "HideMe", "BTGuard", "ExpressVPN", "SaferVPN", "Celo", "VPN.ht", "TotalVPN", "WiTopia", "proXPN", "IVPN", "SecureVPN", "VPNSecure", "RA4WVPN", "Windscribe", "SmartDNSProxy", "VPN.ac", "VPNArea", "VanishedVPN", "PrivateVPN", "blackbox", "BulletVPN", "Mullvad", "NordVPN", "Shellfire"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY ****
 # List of providers which use user keys and certs, either a single one, or one per connection
@@ -57,10 +62,10 @@ providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
 providers_with_single_key_pass = ["VPNSecure"]
 
 # List of providers that use an alternative to GitHub
-providers_alternative = ["NordVPN"]
+providers_alternative = ["NordVPN", "Shellfire"]
 
 # List of providers that only allow location based selection
-providers_single_view = ["NordVPN"]
+providers_single_view = ["NordVPN", "Shellfire"]
 
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
@@ -479,6 +484,10 @@ def getAlternativeLocationName(vpn_provider, location):
     
 def getAlternativeLocation(vpn_provider, location, server_count):
     return globals()["get" + vpn_provider + "Location"](vpn_provider, location, server_count)
+    
+    
+def getAlternativeServers(vpn_provider, exclude_used):
+    return globals()["get" + vpn_provider + "Servers"](vpn_provider, exclude_used)
     
     
 def getAlternativeFriendlyServers(vpn_provider, exclude_used):

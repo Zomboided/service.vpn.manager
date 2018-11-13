@@ -27,41 +27,11 @@ import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
 from libs.platform import getAddonPath
-
+from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens
 
 NORD_LOCATIONS = "COUNTRIES.txt"
 
 TIME_WARN = 10
-
-
-# These are duplicated here to avoid a circular reference in common.
-# Probably should break all the getters and setters out into a separate lib sometime
-def setVPNRequestedServer(server_name):
-    # Store server name
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Requested_Server_Name", server_name)
-    return
-
-def getVPNRequestedServer():
-    # Return server name
-    return xbmcgui.Window(10000).getProperty("VPN_Manager_Requested_Server_Name") 
-
-    
-# Manage the authentication tokens
-def resetTokens():
-    setTokens("", "", "")
-    
-def setTokens(token, renew, creds):
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Alternative_Token", token)
-    xbmcgui.Window(10000).setProperty("VPN_Manager_Alternative_Renew", renew)
-    # Renew time is a day after token creation
-    if not renew == "": 
-        xbmcgui.Window(10000).setProperty("VPN_Manager_Alternative_Expiry", str(now() + 86400))
-    else:
-        xbmcgui.Window(10000).setProperty("VPN_Manager_Alternative_Expiry", "")
-    if not creds == None : xbmcgui.Window(10000).setProperty("VPN_Manager_Alternative_Credentials", creds)
-    
-def getTokens():
-    return xbmcgui.Window(10000).getProperty("VPN_Manager_Alternative_Token"), xbmcgui.Window(10000).getProperty("VPN_Manager_Alternative_Renew"),            xbmcgui.Window(10000).getProperty("VPN_Manager_Alternative_Expiry"), xbmcgui.Window(10000).getProperty("VPN_Manager_Alternative_Credentials")
 
    
 def authenticateNordVPN(vpn_provider, userid, password):

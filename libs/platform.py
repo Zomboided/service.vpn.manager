@@ -632,7 +632,6 @@ def getAddonPath(this_addon, path):
     else:
         return xbmc.translatePath("special://home/addons/" + path)
         
-        
 def getSystemdPath(path):
     return "/storage/.config/" + path
     

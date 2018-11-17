@@ -176,7 +176,7 @@ def getNordVPNPreFetch(vpn_provider):
                 debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", fetching country data again")
             else:
                 debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", using existing data")
-                #return True
+                return True
         except Exception as e:
             errorTrace("alternativeNord.py", "List of countries exist but couldn't get the time stamp for " + filename)
             errorTrace("alternativeNord.py", str(e))

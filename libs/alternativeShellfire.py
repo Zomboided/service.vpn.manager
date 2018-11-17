@@ -38,6 +38,8 @@ REQUEST_HEADERS = {
 
 REQUEST_URL = "https://www.shellfire.de/webservice/json.php"
 
+SHELLFIRE_LOCATIONS = "COUNTRIES.txt"
+
 TIME_WARN = 10
 
 
@@ -45,10 +47,11 @@ def authenticateLogin(vpn_provider, userid, password):
     # Authenticate to get token
     try: 
         response = ""
+        api_data = ""
         rest_url = REQUEST_URL + "?action=login"
         rest_data = '{"email":"' + userid + '", "password":"' + password + '"}'
 
-        if ifHTTPTrace(): infoTrace("alternative.py", "Authenticating with VPN using " + rest_url + ", " + rest_data)     
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Authenticating with VPN using " + rest_url + ", " + rest_data)     
         else: debugTrace("Authenticating with VPN for user " + userid)
 
         req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
@@ -58,8 +61,8 @@ def authenticateLogin(vpn_provider, userid, password):
         t_after = now()
         response.close()
 
-        if ifJSONTrace(): infoTrace("alternative.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternative.py", "Authenticating with VPN for " + userid + " took " + str(t_after - t_before) + " seconds")
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Authenticating with VPN for " + userid + " took " + str(t_after - t_before) + " seconds")
 
         if not api_data["status"] == "success":
             raise Exception("Bad response authenticating with VPN, " + api_data["status"] + " check user ID and password")
@@ -68,16 +71,16 @@ def authenticateLogin(vpn_provider, userid, password):
         return api_data["data"]["token"]
 
     except urllib2.HTTPError as e:
-        errorTrace("alternative.py", "Couldn't authenticate with " + vpn_provider)
-        errorTrace("alternative.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
-        if not api_data == "": errorTrace("alternative.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternative.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternative.py", e.read())
+        errorTrace("alternativeShellfire.py", "Couldn't authenticate with " + vpn_provider)
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
     except Exception as e:
-        errorTrace("alternative.py", "Couldn't authenticate with " + vpn_provider)
-        errorTrace("alternative.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
-        if not api_data == "": errorTrace("alternative.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternative.py", "Response was " + str(type(e)) + " " + str(e))
+        errorTrace("alternativeShellfire.py", "Couldn't authenticate with " + vpn_provider)
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
 
     return None
     
@@ -86,9 +89,10 @@ def authenticateGetServices(auth_token):
     # Get the list of services  
     try:
         response = ""
+        api_data = ""
         rest_url = REQUEST_URL + "?action=getAllVpnDetails"
         
-        if ifHTTPTrace(): infoTrace("alternative.py", "Retrieving list of services " + rest_url)     
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving list of services " + rest_url)     
         else: debugTrace("Retrieving list of services")
         
         req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
@@ -99,8 +103,8 @@ def authenticateGetServices(auth_token):
         t_after = now()    
         response.close()
 
-        if ifJSONTrace(): infoTrace("alternative.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternative.py", "Retrieving list of services took " + str(t_after - t_before) + " seconds")
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of services took " + str(t_after - t_before) + " seconds")
         
         if not api_data["status"] == "success":
             raise Exception("Bad response getting services from VPN provider, " + api_data["status"])
@@ -114,16 +118,16 @@ def authenticateGetServices(auth_token):
         return services    
     
     except urllib2.HTTPError as e:
-        errorTrace("alternative.py", "Couldn't retrieve the list of services")
-        errorTrace("alternative.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternative.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternative.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternative.py", e.read())
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of services")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
     except Exception as e:
-        errorTrace("alternative.py", "Couldn't retrieve the list of services")
-        errorTrace("alternative.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternative.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternative.py", "Response was " + str(type(e)) + " " + str(e))
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of services")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
     
     return None
 
@@ -153,18 +157,109 @@ def authenticateShellfire(vpn_provider, userid, password):
 
 
 def getShellfirePreFetch(vpn_provider):
-    # <FIXME>
-    return True
+    # Fetch and store country info
+    filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
+    if xbmcvfs.exists(filename):
+        try:
+            st = xbmcvfs.Stat(filename)
+            create_time = int(st.st_ctime())
+            t = now()
+            # Fetch again if this is more than a day old otherwise use what there is
+            if create_time + 86400 < t:
+                debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", fetching country data again")
+            else:
+                debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", using existing data")
+                # <FIXME> Remove this after testing, this forces the list to always be downloaded
+                # return True
+        except Exception as e:
+            errorTrace("alternativeShellfire.py", "List of countries exist but couldn't get the time stamp for " + filename)
+            errorTrace("alternativeShellfire.py", str(e))
+            return False
+
+    # Download the list of countries
+    error = True
+    try:
+        response = ""
+        api_data = ""
+        rest_url = "https://www.shellfire.de/webservice/serverlist.php"
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Downloading list of countries using " + rest_url)
+        else: debugTrace("Downloading list of countries")
+        
+        # This is not a JSON call, a header and servers are returned in a ; separated list
+        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = response.read()
+        t_after = now()    
+        response.close()
+
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "Text received is \n" + api_data)
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of countries took " + str(t_after - t_before) + " seconds")
+        
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of countries")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of countries")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+            
+    # The first line has the headers, so find the position of the information that's interesting
+    api_table = api_data.split("\n") 
+    headers = api_table[0].split(";")
+    country_pos = headers.index("Country")
+    city_pos = headers.index("sCity")
+    host_pos = headers.index("sHost")
+    type_pos = headers.index("eServerType")    
+    debugTrace("Header decoded.  Country is " + str(country_pos) + ", City is " + str(city_pos) + ", Host is " + str(host_pos) + ", Type is " + str(type_pos))    
+
+    try:
+        line = ""
+        debugTrace("Parsing the text and writing the list of countries")
+        output = open(filename, 'w')
+        # Parse the data and create a file containing the stuff we care about
+        i = 0
+        for line in api_table:       
+            if i > 0:
+                server_data = line.split(";")
+                # Avoid parsing empty lines, or lines where there's not enough data and output the result
+                if len(server_data) > 4:
+                    output.write(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
+            i += 1
+        output.close()
+        return True
+    except Exception as e:
+        errorTrace("alternativeShellfire`.py", "Couldn't write the list of countries for " + vpn_provider + " to " + filename)
+        if not server_data == "": errorTrace("alternativeShellfire.py", "Processing server " + line)
+        errorTrace("alternativeShellfire.py", str(e))
     
+    # Delete the country file if the was a problem creating it.  This will force a download next time through
+    try:
+        if xbmcvfs.exists(filename): 
+            errorTrace("alternativeShellfire.py", "Deleting country file " + filename + " to clean up after previous error")
+            xbmcvfs.delete(filename)
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't delete the country file " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+    return False
+        
     
-def getShellfireFriendlyLocations(vpn_provider, exclude_used):
-    # <FIXME>
+def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly):
+    getShellfirePreFetch(vpn_provider)
     return []
+    
+
+def getShellfireFriendlyLocations(vpn_provider, exclude_used):
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, True)
 
 
 def getShellfireLocations(vpn_provider, exclude_used):
-    # <FIXME>
-    return []
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, False)
 
 
 def getShellfireLocationName(vpn_provider, location):

@@ -65,7 +65,7 @@ providers_with_single_key_pass = ["VPNSecure"]
 providers_alternative = ["NordVPN", "Shellfire"]
 
 # List of providers that only allow location based selection
-providers_single_view = ["NordVPN", "Shellfire"]
+providers_single_view = ["NordVPN"]
 
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"

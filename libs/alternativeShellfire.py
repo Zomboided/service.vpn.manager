@@ -40,7 +40,18 @@ REQUEST_URL = "https://www.shellfire.de/webservice/json.php"
 
 SHELLFIRE_LOCATIONS = "COUNTRIES.txt"
 
+ACCOUNT_TYPES = ["Free", "Premium", "PremiumPlus"]
+
 TIME_WARN = 10
+
+
+def getHighestService():
+    _,services,_,_ = getTokens()
+    highest = ACCOUNT_TYPES[0]
+    for t in ACCOUNT_TYPES:
+        if (t + " ") in services:
+            highest = t
+    return highest
 
 
 def authenticateLogin(vpn_provider, userid, password):
@@ -114,7 +125,6 @@ def authenticateGetServices(auth_token):
         for item in api_data["data"]:
             services = services + item["eAccountType"] + " "
         debugTrace("User has " + services + "active")
-        
         return services    
     
     except urllib2.HTTPError as e:
@@ -203,11 +213,13 @@ def getShellfirePreFetch(vpn_provider):
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
         errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
         errorTrace("alternativeShellfire.py", e.read())
+        return False
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of countries")
         errorTrace("alternativeShellfire.py", "API call was " + rest_url)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
         errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        return False
             
     # The first line has the headers, so find the position of the information that's interesting
     api_table = api_data.split("\n") 
@@ -216,28 +228,41 @@ def getShellfirePreFetch(vpn_provider):
     city_pos = headers.index("sCity")
     host_pos = headers.index("sHost")
     type_pos = headers.index("eServerType")    
-    debugTrace("Header decoded.  Country is " + str(country_pos) + ", City is " + str(city_pos) + ", Host is " + str(host_pos) + ", Type is " + str(type_pos))    
-
+    debugTrace("Header decoded.  Country is " + str(country_pos) + ", City is " + str(city_pos) + ", Host is " + str(host_pos) + ", Type is " + str(type_pos))
+    api_table[0] = ""
+    
+    try:
+        line = ""
+        cleaned_data = []
+        debugTrace("Parsing the text and extracting the country, server and type")
+        for line in api_table:       
+            server_data = line.split(";")
+            # Avoid parsing empty lines, or lines where there's not enough data
+            if len(server_data) > 4:
+                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
+    except Exception as e:
+        errorTrace("alternativeShellfire`.py", "Couldn't parse the list of countries for " + vpn_provider)
+        if not server_data == "": errorTrace("alternativeShellfire.py", "Processing line " + line)
+        errorTrace("alternativeShellfire.py", str(e))
+        return False
+        
+    # Sort the countries alphabetically
+    cleaned_data.sort()    
+        
     try:
         line = ""
         debugTrace("Parsing the text and writing the list of countries")
         output = open(filename, 'w')
-        # Parse the data and create a file containing the stuff we care about
-        i = 0
-        for line in api_table:       
-            if i > 0:
-                server_data = line.split(";")
-                # Avoid parsing empty lines, or lines where there's not enough data and output the result
-                if len(server_data) > 4:
-                    output.write(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
-            i += 1
+        # Parse the data and create list containing the stuff we care about
+        for line in cleaned_data:       
+            output.write(line)
         output.close()
         return True
     except Exception as e:
         errorTrace("alternativeShellfire`.py", "Couldn't write the list of countries for " + vpn_provider + " to " + filename)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing server " + line)
         errorTrace("alternativeShellfire.py", str(e))
-    
+
     # Delete the country file if the was a problem creating it.  This will force a download next time through
     try:
         if xbmcvfs.exists(filename): 
@@ -249,17 +274,78 @@ def getShellfirePreFetch(vpn_provider):
     return False
         
     
-def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly):
-    getShellfirePreFetch(vpn_provider)
+def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
+    # Return a list of all of the locations or location .ovpn files
+    addon = xbmcaddon.Addon(getID())
+    # Get the list of used, validated location file names
+    used = []
+    if exclude_used:
+        # Adjust the 11 below to change conn_max
+        for i in range(1, 11):
+            s = addon.getSetting(str(i) + "_vpn_validated_friendly")
+            if not s == "" : used.append(s)
+
+    filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
+    # If the list of countries doesn't exist (this can happen after a reinstall)
+    # then go and do the pre-fetch first.  Otherwise this shouldn't be necessary
+    try:
+        if not xbmcvfs.exists(filename):
+            getShellfirePreFetch(vpn_provider)
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't download the list of countries for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+        return [] 
+            
+    services = ACCOUNT_TYPES.index(getHighestService())
+    
+    try:
+        # Read the locations file find the locations valid for a user
+        locations_file = open(filename, 'r')
+        locations = locations_file.readlines()
+        locations_file.close()
+        return_locations = []
+        for l in locations:
+            country, server, type = l.split(",")
+            type = type.strip(" \n")
+            type_index = ACCOUNT_TYPES.index(type)
+            if type_index <= services:
+                if not exclude_used or not country in used:
+                    if friendly:
+                        return_locations.append(type + "! " + country)
+                    elif servers:
+                        return_locations.append(type + "! " + server)
+                    else:
+                        return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+        # Now find the locations that a user needs to upgrade to see
+        for t in ACCOUNT_TYPES:
+            newPrint("Account type is " + str(ACCOUNT_TYPES.index(t)) + " services is " + str(services))
+            if ACCOUNT_TYPES.index(t) > services:
+                for l in locations:
+                    country, server, type = l.split(",")
+                    type = type.strip(" \n")
+                    if type == t:
+                        if not exclude_used or not country in used:
+                            if friendly:
+                                return_locations.append(type + " " + country)
+                            elif servers:
+                                return_locations.append(type + " " + server)
+                            else:
+                                return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+        return return_locations    
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't read the list of countries for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+        return []
+        
     return []
     
 
 def getShellfireFriendlyLocations(vpn_provider, exclude_used):
-    return getShellfireLocationsCommon(vpn_provider, exclude_used, True)
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, True, False)
 
 
 def getShellfireLocations(vpn_provider, exclude_used):
-    return getShellfireLocationsCommon(vpn_provider, exclude_used, False)
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, False, False)
 
 
 def getShellfireLocationName(vpn_provider, location):
@@ -274,14 +360,12 @@ def getShellfireLocation(vpn_provider, location, server_count):
 
 def getShellfireServers(vpn_provider, exclude_used):
     # Return a list of all of the server files
-    # Not supported for this provider
-    return []
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, False, False)
 
     
 def getShellfireFriendlyServers(vpn_provider, exclude_used):
     # Return a list of all of the servers
-    # Not supported for this provider
-    return []
+    return getShellfireLocationsCommon(vpn_provider, exclude_used, False, True)
 
 
 def getShellfireServer(vpn_provider, server, server_count):

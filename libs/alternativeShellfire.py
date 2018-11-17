@@ -42,6 +42,15 @@ SHELLFIRE_LOCATIONS = "COUNTRIES.txt"
 
 ACCOUNT_TYPES = ["Free", "Premium", "PremiumPlus"]
 
+UPGRADE_START = "[I]  "
+UPGRADE_END = "[/I]"
+
+SERVER_START = "  "
+SERVER_END = ""
+
+TITLE_START = "[B]"
+TITLE_END = "[/B]"
+
 TIME_WARN = 10
 
 
@@ -125,6 +134,8 @@ def authenticateGetServices(auth_token):
         for item in api_data["data"]:
             services = services + item["eAccountType"] + " "
         debugTrace("User has " + services + "active")
+        # <FIXME>
+        #return "Free Premium "
         return services    
     
     except urllib2.HTTPError as e:
@@ -167,7 +178,7 @@ def authenticateShellfire(vpn_provider, userid, password):
 
 
 def getShellfirePreFetch(vpn_provider):
-    # Fetch and store country info
+    # Fetch and store location info
     filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
     if xbmcvfs.exists(filename):
         try:
@@ -176,7 +187,7 @@ def getShellfirePreFetch(vpn_provider):
             t = now()
             # Fetch again if this is more than a day old otherwise use what there is
             if create_time + 86400 < t:
-                debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", fetching country data again")
+                debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", fetching location data again")
             else:
                 debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", using existing data")
                 # <FIXME> Remove this after testing, this forces the list to always be downloaded
@@ -186,15 +197,15 @@ def getShellfirePreFetch(vpn_provider):
             errorTrace("alternativeShellfire.py", str(e))
             return False
 
-    # Download the list of countries
+    # Download the list of locations
     error = True
     try:
         response = ""
         api_data = ""
         rest_url = "https://www.shellfire.de/webservice/serverlist.php"
         
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Downloading list of countries using " + rest_url)
-        else: debugTrace("Downloading list of countries")
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Downloading list of locations using " + rest_url)
+        else: debugTrace("Downloading list of locations")
         
         # This is not a JSON call, a header and servers are returned in a ; separated list
         req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
@@ -205,17 +216,17 @@ def getShellfirePreFetch(vpn_provider):
         response.close()
 
         if ifJSONTrace(): infoTrace("alternativeShellfire.py", "Text received is \n" + api_data)
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of countries took " + str(t_after - t_before) + " seconds")
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of locations took " + str(t_after - t_before) + " seconds")
         
     except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of countries")
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of locations")
         errorTrace("alternativeShellfire.py", "API call was " + rest_url)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
         errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
         errorTrace("alternativeShellfire.py", e.read())
         return False
     except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of countries")
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of locations")
         errorTrace("alternativeShellfire.py", "API call was " + rest_url)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
         errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
@@ -241,17 +252,17 @@ def getShellfirePreFetch(vpn_provider):
             if len(server_data) > 4:
                 cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
     except Exception as e:
-        errorTrace("alternativeShellfire`.py", "Couldn't parse the list of countries for " + vpn_provider)
+        errorTrace("alternativeShellfire`.py", "Couldn't parse the list of locations for " + vpn_provider)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing line " + line)
         errorTrace("alternativeShellfire.py", str(e))
         return False
         
-    # Sort the countries alphabetically
+    # Sort the locations alphabetically
     cleaned_data.sort()    
         
     try:
         line = ""
-        debugTrace("Parsing the text and writing the list of countries")
+        debugTrace("Parsing the text and writing the list of locations")
         output = open(filename, 'w')
         # Parse the data and create list containing the stuff we care about
         for line in cleaned_data:       
@@ -259,23 +270,23 @@ def getShellfirePreFetch(vpn_provider):
         output.close()
         return True
     except Exception as e:
-        errorTrace("alternativeShellfire`.py", "Couldn't write the list of countries for " + vpn_provider + " to " + filename)
+        errorTrace("alternativeShellfire`.py", "Couldn't write the list of locations for " + vpn_provider + " to " + filename)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing server " + line)
         errorTrace("alternativeShellfire.py", str(e))
 
-    # Delete the country file if the was a problem creating it.  This will force a download next time through
+    # Delete the location file if the was a problem creating it.  This will force a download next time through
     try:
         if xbmcvfs.exists(filename): 
-            errorTrace("alternativeShellfire.py", "Deleting country file " + filename + " to clean up after previous error")
+            errorTrace("alternativeShellfire.py", "Deleting location file " + filename + " to clean up after previous error")
             xbmcvfs.delete(filename)
     except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't delete the country file " + filename)
+        errorTrace("alternativeShellfire.py", "Couldn't delete the location file " + filename)
         errorTrace("alternativeShellfire.py", str(e))
     return False
         
     
 def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
-    # Return a list of all of the locations or location .ovpn files
+    # Return a list of all of the locations
     addon = xbmcaddon.Addon(getID())
     # Get the list of used, validated location file names
     used = []
@@ -286,54 +297,47 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
             if not s == "" : used.append(s)
 
     filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
-    # If the list of countries doesn't exist (this can happen after a reinstall)
+    # If the list of locations doesn't exist (this can happen after a reinstall)
     # then go and do the pre-fetch first.  Otherwise this shouldn't be necessary
     try:
         if not xbmcvfs.exists(filename):
             getShellfirePreFetch(vpn_provider)
     except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't download the list of countries for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", "Couldn't download the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
         return [] 
-            
+    
     services = ACCOUNT_TYPES.index(getHighestService())
     
     try:
-        # Read the locations file find the locations valid for a user
+        # Read the locations from the file and list by account type
         locations_file = open(filename, 'r')
         locations = locations_file.readlines()
         locations_file.close()
         return_locations = []
-        for l in locations:
-            country, server, type = l.split(",")
-            type = type.strip(" \n")
-            type_index = ACCOUNT_TYPES.index(type)
-            if type_index <= services:
-                if not exclude_used or not country in used:
-                    if friendly:
-                        return_locations.append(type + "! " + country)
-                    elif servers:
-                        return_locations.append(type + "! " + server)
-                    else:
-                        return_locations.append(type + getShellfireLocationName(vpn_provider, country))
-        # Now find the locations that a user needs to upgrade to see
         for t in ACCOUNT_TYPES:
-            newPrint("Account type is " + str(ACCOUNT_TYPES.index(t)) + " services is " + str(services))
+            return_locations.append(TITLE_START + t + TITLE_END)
+            # Change the way a location is displayed depending whether if it's valid for the user or not
             if ACCOUNT_TYPES.index(t) > services:
-                for l in locations:
-                    country, server, type = l.split(",")
-                    type = type.strip(" \n")
-                    if type == t:
-                        if not exclude_used or not country in used:
-                            if friendly:
-                                return_locations.append(type + " " + country)
-                            elif servers:
-                                return_locations.append(type + " " + server)
-                            else:
-                                return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+                start = UPGRADE_START
+                end = UPGRADE_END
+            else:
+                start = SERVER_START
+                end = SERVER_END
+            for l in locations:
+                country, server, type = l.split(",")
+                type = type.strip(" \n")
+                if type == t:
+                    if not exclude_used or not country in used:
+                        if friendly:
+                            return_locations.append(start + country + end)
+                        elif servers:
+                            return_locations.append(start + server + end)
+                        else:
+                            return_locations.append(type + getShellfireLocationName(vpn_provider, country))
         return return_locations    
     except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't read the list of countries for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
         return []
         

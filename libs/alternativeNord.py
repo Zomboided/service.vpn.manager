@@ -311,7 +311,7 @@ def getNordVPNLocation(vpn_provider, location, server_count):
     except Exception as e:
         errorTrace("alternativeNord.py", "Couldn't download the list of countries to get ID for " + vpn_provider + " from " + filename)
         errorTrace("alternativeNord.py", str(e))
-        return "", ""      
+        return "", "", ""
     
     try:
         locations_file = open(filename, 'r')
@@ -325,11 +325,11 @@ def getNordVPNLocation(vpn_provider, location, server_count):
                 break
         if id == "":
             errorTrace("alternativeNord.py", "Couldn't retrieve location " + location + " for " + vpn_provider + " from " + filename)
-            return "", ""
+            return "", "", ""
     except Exception as e:
         errorTrace("alternativeNord.py", "Couldn't read the list of countries to get ID for " + vpn_provider + " from " + filename)
         errorTrace("alternativeNord.py", str(e))
-        return "", ""
+        return "", "", ""
     
     # Generate the file name from the location
     location_file = getNordVPNLocationName(vpn_provider, location)
@@ -369,9 +369,9 @@ def getNordVPNLocation(vpn_provider, location, server_count):
         # Won't have the latest best location in it though
         if xbmcvfs.exists(location_file):
             infoTrace("alternativeNord.py", "Using existing " + location + " file")
-            return location, location_file
+            return location, location_file, ""
         else:
-            return "", ""
+            return "", "", ""
     
     # First server is the best one, but if it didn't connect last time then skip it.  The last attempted server
     # will be cleared on a restart, or a successful connection.  If there are no more connections to try, then
@@ -405,10 +405,10 @@ def getNordVPNLocation(vpn_provider, location, server_count):
     if not server == "":
         if not getNordVPNOvpnFile(server, protocol, location_file):
             if not xbmcvfs.exists(location_file):
-                return "", ""
-        return location, location_file
+                return "", "", ""
+        return location, location_file, ""
     else:
-        return "", ""
+        return "", "", ""
 
         
 def getNordVPNOvpnFile(server, protocol, target_file):
@@ -468,7 +468,7 @@ def getNordVPNFriendlyServers(vpn_provider, exclude_used):
 def getNordVPNServer(vpn_provider, server, server_count):
     # Return friendly name and .ovpn file name
     # Not supported for this provider
-    return "", ""
+    return "", "", ""
     
     
 def regenerateNordVPN(vpn_provider):

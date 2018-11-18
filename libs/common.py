@@ -1676,7 +1676,7 @@ def connectVPN(connection_order, vpn_profile):
                 else:
                     location_connections = getAlternativeFriendlyLocations(vpn_provider, True)
                     server_connections = getAlternativeFriendlyServers(vpn_provider, True)
-                    
+                
                 switch_offset = 0
                 if allowViewSelection(vpn_provider):
                     switch_text = "[I]Switch between location and server views[/I]"
@@ -1701,9 +1701,10 @@ def connectVPN(connection_order, vpn_profile):
                         connections = location_connections
 
                     selected_connection = xbmcgui.Dialog().select("Select " + connection_title + " VPN profile", connections)                  
-                
+                    
                     # Based on the value selected, get the path name to the ovpn file
                     selected_name = connections[selected_connection]
+
                     if selected_name == cancel_text:
                         ovpn_name = ""
                         cancel_attempt = True
@@ -1725,22 +1726,33 @@ def connectVPN(connection_order, vpn_profile):
                             progress_message = "Selecting best server to use for " + selected_name + "..."
                             progress.update(18, progress_title, progress_message)
                             if server_view:
-                                ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, selected_name, 0)
+                                ovpn_name, ovpn_connection, user_text = getAlternativeServer(vpn_provider, selected_name, 0)
                             else:
-                                ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, selected_name, 0)
+                                ovpn_name, ovpn_connection, user_text = getAlternativeLocation(vpn_provider, selected_name, 0)
                             if not ovpn_name == "": 
                                 writeCredentials(addon)
                                 provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
-                            break
+                                break
+                            else:
+                                # If there's not location, then user_text might contain a user message to display
+                                # If it doesn't then something bad has happened identifying a location to use.
+                                if not user_text == "": 
+                                    # Display the text and then loop.  The user can cancel if there's a problem
+                                    xbmcgui.Dialog().ok(addon_name, user_text)                                    
+                                else:
+                                    # If there's not a location then continue, letting the rest
+                                    # of the code report an error to the user later on
+                                    break
             else:
                 if not isAlternative(vpn_provider):
                     ovpn_name = getFriendlyProfileName(vpn_profile)
                     ovpn_connection = vpn_profile
                 else:
+                    # <FIXME> NEED TO THINK ABOUT THIS, IF THIS IS IN THE NON SELECTION CASE, THEN DON'T NEED TO CHECK USER_TEXT
                     if server_view:
-                        ovpn_name, ovpn_connection = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
+                        ovpn_name, ovpn_connection, user_text = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     else:
-                        ovpn_name, ovpn_connection = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
+                        ovpn_name, ovpn_connection, user_text = getAlternativeLocation(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     if not ovpn_name == "": 
                         writeCredentials(addon)
                         provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)

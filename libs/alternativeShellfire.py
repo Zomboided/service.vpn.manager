@@ -135,7 +135,7 @@ def authenticateGetServices(auth_token):
             services = services + item["eAccountType"] + " "
         debugTrace("User has " + services + "active")
         # <FIXME>
-        #return "Free Premium "
+        return "Free Premium "
         return services    
     
     except urllib2.HTTPError as e:
@@ -358,8 +358,9 @@ def getShellfireLocationName(vpn_provider, location):
     
     
 def getShellfireLocation(vpn_provider, location, server_count):
-    # <FIXME>
-    return "", ""
+    if location.startswith(UPGRADE_START): return "", "", "Upgrade to use this [B]Premium Plus[/B] location\nGet access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
+    if location.startswith(TITLE_START): return "", "", "Select a location or server to use"
+    return "", "", ""
     
 
 def getShellfireServers(vpn_provider, exclude_used):
@@ -373,9 +374,9 @@ def getShellfireFriendlyServers(vpn_provider, exclude_used):
 
 
 def getShellfireServer(vpn_provider, server, server_count):
-    # Return friendly name and .ovpn file name
-    # Not supported for this provider
-    return "", ""
+    # <FIXME> This is the same logic as location
+    return getShellfireLocation(vpn_provider, server, server_count)
+    return "", "", ""
     
 
 def regenerateShellfire(vpn_provider):

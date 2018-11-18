@@ -1734,8 +1734,8 @@ def connectVPN(connection_order, vpn_profile):
                                 provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
                                 break
                             else:
-                                # If there's not location, then user_text might contain a user message to display
-                                # If it doesn't then something bad has happened identifying a location to use.
+                                # If there's no location, then user_text might contain a user message to display.
+                                # If it doesn't then something bad has happened identifying a location to use
                                 if not user_text == "": 
                                     # Display the text and then loop.  The user can cancel if there's a problem
                                     xbmcgui.Dialog().ok(addon_name, user_text)                                    

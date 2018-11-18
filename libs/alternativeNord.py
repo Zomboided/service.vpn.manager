@@ -471,6 +471,12 @@ def getNordVPNServer(vpn_provider, server, server_count):
     return "", "", ""
     
     
+def getNordVPNMessages(vpn_provider, last_time):   
+    # Return any message ID and message available from the provider
+    # Not supported for this provider
+    return "", ""
+    
+    
 def regenerateNordVPN(vpn_provider):
     # There's nothing to do here as everything is generated dynamically
     return True

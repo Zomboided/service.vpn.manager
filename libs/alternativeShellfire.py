@@ -61,8 +61,8 @@ def getHighestService():
         if (t + " ") in services:
             highest = t
     return highest
-
-
+    
+    
 def authenticateLogin(vpn_provider, userid, password):
     # Authenticate to get token
     try: 
@@ -251,7 +251,7 @@ def getShellfirePreFetch(vpn_provider):
             server_data = line.split(";")
             # Avoid parsing empty lines, or lines where there's not enough data
             if len(server_data) > 5:
-                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[id_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
+                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + " (S" + server_data[id_pos] + ")," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
     except Exception as e:
         errorTrace("alternativeShellfire`.py", "Couldn't parse the list of locations for " + vpn_provider)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing line " + line)
@@ -320,13 +320,12 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         # List the free servers
         return_locations.append(TITLE_START + "Free Locations" + TITLE_END)
         for l in locations:
-            country, id, server, type = l.split(",")
+            country, server, type = l.split(",")
             type = type.strip(" \n")    
             if type == ACCOUNT_TYPES[0]:
                 if not exclude_used or not country in used:
                     if friendly:
-                        newPrint("Adding " + country)
-                        return_locations.append(SERVER_START + country + " (S" + id + ")" + SERVER_END)
+                        return_locations.append(SERVER_START + country + SERVER_END)
                     elif servers:
                         return_locations.append(SERVER_START + server + SERVER_END)
                     else:
@@ -335,7 +334,7 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         # List the paid servers
         return_locations.append(TITLE_START + "Paid Locations" + TITLE_END)
         for l in locations:
-            country, id, server, type = l.split(",")
+            country, server, type = l.split(",")
             type = type.strip(" \n")
             if not type == ACCOUNT_TYPES[0]:
                 if ACCOUNT_TYPES.index(type) > services:
@@ -346,7 +345,7 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
                     end = SERVER_END
                 if not exclude_used or not country in used:
                     if friendly:
-                        return_locations.append(start + "S"+ id + " " + country + end)
+                        return_locations.append(start + country + end)
                     elif servers:
                         return_locations.append(start + server + end)
                     else:
@@ -375,10 +374,44 @@ def getShellfireLocationName(vpn_provider, location):
     
     
 def getShellfireLocation(vpn_provider, location, server_count):
-    if location.startswith(TITLE_START): return "", "", "Select a location or server to use.  "
-    if location.startswith(UPGRADE_START): return "", "", "Upgrade to use this [B]Premium Plus[/B] location\nGet access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
+    # Return the friendly and .ovpn name
+    if location.startswith(TITLE_START): return "", "", "Select a location or server"
+    # Remove all of the tagging
+    location = location.strip(" ")
+    location = location.replace(UPGRADE_START, "")
+    location = location.replace(UPGRADE_END, "")
     
-    return "", "", ""
+    try:
+        # Read the locations from the file and list by account type
+        filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
+        locations_file = open(filename, 'r')
+        locations = locations_file.readlines()
+        locations_file.close()
+        for l in locations:
+            if location in l:
+                country, server, type = l.split(",")
+                type = type.strip(" \n")
+                break
+        # Return an upgrade message if this server is not available to the user
+        if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getHighestService()):
+            _, message = getShellfireMessages(vpn_provider, 0)
+            if message == "": message = "Get access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
+            return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message
+        
+        # Generate the file name from the location
+        location_file = getShellfireLocationName(vpn_provider, country)
+        
+        
+        # FIXME
+        # Generate the ovpn file here!
+        
+        
+        return country, location_file, ""
+        
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+        return "", "", ""
     
 
 def getShellfireServers(vpn_provider, exclude_used):
@@ -392,9 +425,67 @@ def getShellfireFriendlyServers(vpn_provider, exclude_used):
 
 
 def getShellfireServer(vpn_provider, server, server_count):
-    # <FIXME> This is the same logic as location
+    # <FIXME> This is the same logic as location, but I think I should return the name.
+    # If I have to return the server then I can just use the server param passed in
     return getShellfireLocation(vpn_provider, server, server_count)
-    return "", "", ""
+    
+    
+def getShellfireMessages(vpn_provider, last_time):
+    # Return any message ID and message available from the provider
+    # <FIXME> Test with no message and with a valid message...
+    try:
+        response = ""
+        api_data = ""
+        auth_token,_,_,_ = getTokens()
+        rest_url = REQUEST_URL + "?action=getUrlPremiumInfo"
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving messages " + rest_url)     
+        else: debugTrace("Retrieving messages")
+        
+        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
+        req.add_header("x-authorization-token", auth_token)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = json.load(response)   
+        t_after = now()    
+        response.close()
+
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving messages took " + str(t_after - t_before) + " seconds")
+        
+        # A success status won't be returned if there are no messages
+        if not api_data["status"] == "success":
+            return "", ""
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve messages")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+        return "", ""
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't retrieve messages")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        return "", ""
+    
+    try:
+        id = api_data["data"]["pricingDealId"]
+        message = api_data["data"]["name"] + " - " + api_data["data"]["description"] + " - Only available until "
+        ts = int(api_data["data"]["validUntil"])
+        message = message + datetime.utcfromtimestamp(ts).strftime('%b %d')
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't format message returned")
+        errorTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        return "", ""
+    
+    # Don't return a message for a paid account, or if we've returned it within the week
+    # For callers that must always get the message back, return it if last_time is set to 0
+    if (not last_time == 0) and (getHighestService() > 0 or last_time + 604800 > now()):
+        return "", ""
+
+    return id, message
     
 
 def regenerateShellfire(vpn_provider):

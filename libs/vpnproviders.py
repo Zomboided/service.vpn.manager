@@ -512,6 +512,10 @@ def authenticateAlternative(vpn_provider, userid, password):
 
 def getAlternativeUserPass(vpn_provider):
     return globals()["get" + vpn_provider + "UserPass"](vpn_provider)
+
+
+def getAlternativeMessages(vpn_provider, last_time):
+    return globals()["get" + vpn_provider + "UserPass"](vpn_provider, last_time)    
     
     
 def getLocationFiles(vpn_provider):

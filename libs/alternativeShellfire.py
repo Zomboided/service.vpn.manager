@@ -235,11 +235,12 @@ def getShellfirePreFetch(vpn_provider):
     # The first line has the headers, so find the position of the information that's interesting
     api_table = api_data.split("\n") 
     headers = api_table[0].split(";")
+    id_pos = headers.index("iVpnServerId")
     country_pos = headers.index("Country")
     city_pos = headers.index("sCity")
     host_pos = headers.index("sHost")
     type_pos = headers.index("eServerType")    
-    debugTrace("Header decoded.  Country is " + str(country_pos) + ", City is " + str(city_pos) + ", Host is " + str(host_pos) + ", Type is " + str(type_pos))
+    debugTrace("Header decoded.  ID is " + str(id_pos) + ", Country is " + str(country_pos) + ", City is " + str(city_pos) + ", Host is " + str(host_pos) + ", Type is " + str(type_pos))
     api_table[0] = ""
     
     try:
@@ -249,8 +250,8 @@ def getShellfirePreFetch(vpn_provider):
         for line in api_table:       
             server_data = line.split(";")
             # Avoid parsing empty lines, or lines where there's not enough data
-            if len(server_data) > 4:
-                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
+            if len(server_data) > 5:
+                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + "," + server_data[id_pos] + "," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
     except Exception as e:
         errorTrace("alternativeShellfire`.py", "Couldn't parse the list of locations for " + vpn_provider)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing line " + line)
@@ -325,12 +326,12 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
                 start = SERVER_START
                 end = SERVER_END
             for l in locations:
-                country, server, type = l.split(",")
+                country, id, server, type = l.split(",")
                 type = type.strip(" \n")
                 if type == t:
                     if not exclude_used or not country in used:
                         if friendly:
-                            return_locations.append(start + country + end)
+                            return_locations.append(start + "S"+ id + " " + country + end)
                         elif servers:
                             return_locations.append(start + server + end)
                         else:
@@ -358,8 +359,9 @@ def getShellfireLocationName(vpn_provider, location):
     
     
 def getShellfireLocation(vpn_provider, location, server_count):
+    if location.startswith(TITLE_START): return "", "", "Select a location or server to use.  "
     if location.startswith(UPGRADE_START): return "", "", "Upgrade to use this [B]Premium Plus[/B] location\nGet access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
-    if location.startswith(TITLE_START): return "", "", "Select a location or server to use"
+    
     return "", "", ""
     
 

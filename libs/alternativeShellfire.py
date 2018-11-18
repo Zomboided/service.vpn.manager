@@ -316,26 +316,42 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         locations = locations_file.readlines()
         locations_file.close()
         return_locations = []
-        for t in ACCOUNT_TYPES:
-            return_locations.append(TITLE_START + t + TITLE_END)
-            # Change the way a location is displayed depending whether if it's valid for the user or not
-            if ACCOUNT_TYPES.index(t) > services:
-                start = UPGRADE_START
-                end = UPGRADE_END
-            else:
-                start = SERVER_START
-                end = SERVER_END
-            for l in locations:
-                country, id, server, type = l.split(",")
-                type = type.strip(" \n")
-                if type == t:
-                    if not exclude_used or not country in used:
-                        if friendly:
-                            return_locations.append(start + "S"+ id + " " + country + end)
-                        elif servers:
-                            return_locations.append(start + server + end)
-                        else:
-                            return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+        
+        # List the free servers
+        return_locations.append(TITLE_START + "Free Locations" + TITLE_END)
+        for l in locations:
+            country, id, server, type = l.split(",")
+            type = type.strip(" \n")    
+            if type == ACCOUNT_TYPES[0]:
+                if not exclude_used or not country in used:
+                    if friendly:
+                        newPrint("Adding " + country)
+                        return_locations.append(SERVER_START + country + " (S" + id + ")" + SERVER_END)
+                    elif servers:
+                        return_locations.append(SERVER_START + server + SERVER_END)
+                    else:
+                        return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+
+        # List the paid servers
+        return_locations.append(TITLE_START + "Paid Locations" + TITLE_END)
+        for l in locations:
+            country, id, server, type = l.split(",")
+            type = type.strip(" \n")
+            if not type == ACCOUNT_TYPES[0]:
+                if ACCOUNT_TYPES.index(type) > services:
+                    start = UPGRADE_START
+                    end = UPGRADE_END
+                else:
+                    start = SERVER_START
+                    end = SERVER_END
+                if not exclude_used or not country in used:
+                    if friendly:
+                        return_locations.append(start + "S"+ id + " " + country + end)
+                    elif servers:
+                        return_locations.append(start + server + end)
+                    else:
+                        return_locations.append(type + getShellfireLocationName(vpn_provider, country))
+
         return return_locations    
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)

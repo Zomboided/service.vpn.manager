@@ -432,12 +432,12 @@ def getShellfireServer(vpn_provider, server, server_count):
     
 def getShellfireMessages(vpn_provider, last_time):
     # Return any message ID and message available from the provider
-    # <FIXME> Test with no message and with a valid message...
     try:
         response = ""
         api_data = ""
         auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=getUrlPremiumInfo"
+        rest_url = REQUEST_URL + "?action=getAvailablePricingDeal"
+        # <FIXME> I can add 'Success' to the end of this for a test deal
         
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving messages " + rest_url)     
         else: debugTrace("Retrieving messages")
@@ -474,7 +474,8 @@ def getShellfireMessages(vpn_provider, last_time):
         id = api_data["data"]["pricingDealId"]
         message = api_data["data"]["name"] + " - " + api_data["data"]["description"] + " - Only available until "
         ts = int(api_data["data"]["validUntil"])
-        message = message + datetime.utcfromtimestamp(ts).strftime('%b %d')
+        message = message + time.strftime("%b %d", time.gmtime(ts))
+        message = message + " - " + api_data["data"]["url"]
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't format message returned")
         errorTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))

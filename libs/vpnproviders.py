@@ -838,6 +838,7 @@ def updateVPNFile(connection, vpn_provider):
     except Exception as e:
         errorTrace("vpnproviders.py", "Couldn't open the ovpn file " + connection + " for " + vpn_provider)
         errorTrace("vpnproviders.py", str(e))
+        return False, "", "", 0, ""
 
     ovpn = appendVPNFileExtension(ovpn, vpn_provider)    
         

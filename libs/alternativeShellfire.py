@@ -251,7 +251,7 @@ def getShellfirePreFetch(vpn_provider):
             server_data = line.split(";")
             # Avoid parsing empty lines, or lines where there's not enough data
             if len(server_data) > 5:
-                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + " (S" + server_data[id_pos] + ")," + server_data[host_pos] + "," + server_data[type_pos] + "\n")
+                cleaned_data.append(server_data[country_pos] + " - " + server_data[city_pos] + " (S" + server_data[id_pos] + ")," + server_data[host_pos] + "," + server_data[type_pos] + "," + server_data[id_pos] + "\n")
     except Exception as e:
         errorTrace("alternativeShellfire`.py", "Couldn't parse the list of locations for " + vpn_provider)
         if not server_data == "": errorTrace("alternativeShellfire.py", "Processing line " + line)
@@ -320,8 +320,8 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         # List the free servers
         return_locations.append(TITLE_START + "Free Locations" + TITLE_END)
         for l in locations:
-            country, server, type = l.split(",")
-            type = type.strip(" \n")    
+            country, server, type, server_id = l.split(",")
+            server_id = server_id.strip(" \n")    
             if type == ACCOUNT_TYPES[0]:
                 if not exclude_used or not country in used:
                     if friendly:
@@ -334,8 +334,8 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         # List the paid servers
         return_locations.append(TITLE_START + "Paid Locations" + TITLE_END)
         for l in locations:
-            country, server, type = l.split(",")
-            type = type.strip(" \n")
+            country, server, type, server_id = l.split(",")
+            server_id = server_id.strip(" \n")
             if not type == ACCOUNT_TYPES[0]:
                 if ACCOUNT_TYPES.index(type) > services:
                     start = UPGRADE_START
@@ -389,8 +389,9 @@ def getShellfireLocation(vpn_provider, location, server_count):
         locations_file.close()
         for l in locations:
             if location in l:
-                country, server, type = l.split(",")
-                type = type.strip(" \n")
+                country, server, type, server_id = l.split(",")
+                server_id = server_id.strip(" \n")
+                newPrint("Server >" + server_id + "<")
                 break
         # Return an upgrade message if this server is not available to the user
         if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getHighestService()):
@@ -401,6 +402,8 @@ def getShellfireLocation(vpn_provider, location, server_count):
         # Generate the file name from the location
         location_file = getShellfireLocationName(vpn_provider, country)
         
+        
+        setShellfireServer(server_id, "510829")
         
         # FIXME
         # Generate the ovpn file here!
@@ -429,6 +432,54 @@ def getShellfireServer(vpn_provider, server, server_count):
     # If I have to return the server then I can just use the server param passed in
     return getShellfireLocation(vpn_provider, server, server_count)
     
+
+def setShellfireServer(server_id, product_id):
+    # Set the server for the product for active ID
+    try:
+        response = ""
+        api_data = ""
+        auth_token,_,_,_ = getTokens()
+        rest_url = REQUEST_URL + "?action=setServerTo"
+        rest_data = '{"serverId": "' + server_id + '", "productId": "' + product_id + '"}'
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Setting server " + rest_url + ", " + rest_data)     
+        else: debugTrace("Setting server for server " + server_id)
+        
+        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
+        req.add_header("x-authorization-token", auth_token)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = json.load(response)   
+        t_after = now()    
+        response.close()
+
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Setting server took " + str(t_after - t_before) + " seconds")
+        
+        # A success status won't be returned if there are no messages
+        if not api_data["status"] == "success":
+            return "", ""
+            
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", "Couldn't set server")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+        return "", ""
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't set server")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        return "", ""
+    
+    
+def getShellfireProfiles(vpn_provider):
+    # Return selectable profiles, with alias to store and message
+    # <FIXME> List the accounts here, including the user ID
+    return [], [], ""    
+        
     
 def getShellfireMessages(vpn_provider, last_time):
     # Return any message ID and message available from the provider
@@ -436,7 +487,7 @@ def getShellfireMessages(vpn_provider, last_time):
         response = ""
         api_data = ""
         auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=getAvailablePricingDeal"
+        rest_url = REQUEST_URL + "?action=getAvailablePricingDealSuccess"
         # <FIXME> I can add 'Success' to the end of this for a test deal
         
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving messages " + rest_url)     

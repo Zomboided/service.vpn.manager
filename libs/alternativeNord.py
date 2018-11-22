@@ -476,6 +476,12 @@ def getNordVPNMessages(vpn_provider, last_time):
     # Not supported for this provider
     return "", ""
     
+
+def getNordVPNProfiles(vpn_provider):
+    # Return selectable profiles, with alias to store and message
+    # Not supported for this provider
+    return [], [], ""
+    
     
 def regenerateNordVPN(vpn_provider):
     # There's nothing to do here as everything is generated dynamically

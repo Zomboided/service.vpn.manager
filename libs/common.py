@@ -38,7 +38,7 @@ from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLoc
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
 from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
-from vpnproviders import authenticateAlternative, getAlternativeUserPass
+from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -1633,8 +1633,26 @@ def connectVPN(connection_order, vpn_profile):
                             provider_gen = False
                             cancel_attempt = True
             else:
-                provider_gen = getAlternativePreFetch(vpn_provider)
-                addon.setSetting("vpn_locations_list", "")
+                selections, alias, title_text = getAlternativeProfiles(vpn_provider)
+                selected_profile = ""
+                cancel_text = "[I]Cancel connection attempt[/I]"
+                if not len(selections) == 0:
+                    if len(selections) == 1:
+                        selected_profile = alias[0]
+                        debugTrace("Using account " + selected_profile + " as there was only one option")
+                    else:
+                        selections.append(cancel_text)
+                        alias.append(cancel_text)
+                        profile_index = xbmcgui.Dialog().select(title_text, selections)
+                        selected_profile = alias[profile_index]
+                        debugTrace("Using account " + selected_profile)
+                if not selected_profile == cancel_text:
+                    addon.setSetting("vpn_locations_list", selected_profile)
+                    provider_gen = getAlternativePreFetch(vpn_provider)
+                else:
+                    # User selected cancel on dialog box
+                    provider_gen = False
+                    cancel_attempt = True
         addon = xbmcaddon.Addon(getID())
                     
     if provider_gen:                            
@@ -1723,6 +1741,7 @@ def connectVPN(connection_order, vpn_profile):
                             ovpn_name = getFriendlyProfileName(ovpn_connection)
                             break
                         else:
+                            selected_name = selected_name.strip(" ")
                             progress_message = "Selecting best server to use for " + selected_name + "..."
                             progress.update(18, progress_title, progress_message)
                             if server_view:

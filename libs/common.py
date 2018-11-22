@@ -1742,7 +1742,7 @@ def connectVPN(connection_order, vpn_profile):
                             break
                         else:
                             selected_name = selected_name.strip(" ")
-                            progress_message = "Selecting best server to use for " + selected_name + "..."
+                            progress_message = "Getting profile for " + selected_name + "..."
                             progress.update(18, progress_title, progress_message)
                             if server_view:
                                 ovpn_name, ovpn_connection, user_text = getAlternativeServer(vpn_provider, selected_name, 0)

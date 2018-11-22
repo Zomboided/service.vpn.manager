@@ -416,6 +416,7 @@ def getShellfireLocation(vpn_provider, location, server_count):
         location_file = getShellfireLocationName(vpn_provider, country)
         
         setShellfireServer(server_id, getAccountID())
+        # <FIXME> I think I need the protocol in here too
         
         # FIXME
         # Generate the ovpn file here!
@@ -509,12 +510,12 @@ def getShellfireProfiles(vpn_provider):
         id = id.strip(" \n")
         userids.append(s)
         if display_userid:
-            services[i] = service + " (" + id + ")"
+            services[i] = "sf" + id + " (" + service + ")"
         else:
             services[i] = service
         i += 1
     
-    return services, userids, "Select account to use"    
+    return services, userids, "Select a VPN to use"    
         
     
 def getShellfireMessages(vpn_provider, last_time):

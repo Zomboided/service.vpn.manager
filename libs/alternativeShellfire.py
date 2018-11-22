@@ -54,13 +54,20 @@ TITLE_END = "[/B]"
 TIME_WARN = 10
 
 
-def getHighestService():
-    _,services,_,_ = getTokens()
-    highest = ACCOUNT_TYPES[0]
-    for t in ACCOUNT_TYPES:
-        if (t + " ") in services:
-            highest = t
-    return highest
+def getAccountType():
+    # This returns the account type that was selected
+    addon = xbmcaddon.Addon(getID())
+    service = addon.getSetting("vpn_locations_list")
+    type, id = service.split(";")
+    return type
+    
+    
+def getAccountID():
+    # This returns the ID of the account that was selected
+    addon = xbmcaddon.Addon(getID())
+    service = addon.getSetting("vpn_locations_list")
+    type, id = service.split(";")
+    return id
     
     
 def authenticateLogin(vpn_provider, userid, password):
@@ -105,11 +112,12 @@ def authenticateLogin(vpn_provider, userid, password):
     return None
     
     
-def authenticateGetServices(auth_token):
-    # Get the list of services  
+def getServices():
+    # Get the list of services
     try:
         response = ""
         api_data = ""
+        auth_token,_,_,_ = getTokens()
         rest_url = REQUEST_URL + "?action=getAllVpnDetails"
         
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving list of services " + rest_url)     
@@ -130,13 +138,15 @@ def authenticateGetServices(auth_token):
             raise Exception("Bad response getting services from VPN provider, " + api_data["status"])
         
         # Extract and return the list of service levels the user is entitled to
-        services = ""
+        services = []
+        service_list = ""
         for item in api_data["data"]:
-            services = services + item["eAccountType"] + " "
-        debugTrace("User has " + services + "active")
+            services.append(item["eAccountType"] +";" + str(item["iVpnId"]))
+            service_list = service_list + item["eAccountType"] + ", (" + str(item["iVpnId"]) + ") "
+        debugTrace("Found services " + service_list)
         # <FIXME>
-        return "Free Premium "
-        return services    
+        #return ["Free;12345","PremiumPlus;12345"]
+        return services
     
     except urllib2.HTTPError as e:
         errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of services")
@@ -166,11 +176,8 @@ def authenticateShellfire(vpn_provider, userid, password):
     # Get the authentication token to use on future calls
     auth_token = authenticateLogin(vpn_provider, userid, password)
     if not auth_token == None: 
-        services = authenticateGetServices(auth_token)
-        if not services == None:
-            # Store all of the authentication info
-            setTokens(auth_token, services, vpn_provider + userid + password)
-            return True
+        setTokens(auth_token, "", vpn_provider + userid + password)
+        return True
 
     # Authentication or retrieval of services failed so clean up
     resetTokens()
@@ -307,10 +314,16 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
         errorTrace("alternativeShellfire.py", "Couldn't download the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
         return [] 
-    
-    services = ACCOUNT_TYPES.index(getHighestService())
-    
+
     try:
+        service = ACCOUNT_TYPES.index(getAccountType())
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Don't have an account for " + vpn_provider)
+        errorTrace("alternativeShellfire.py", str(e))
+        return []
+        
+    try:
+            
         # Read the locations from the file and list by account type
         locations_file = open(filename, 'r')
         locations = locations_file.readlines()
@@ -337,7 +350,7 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
             country, server, type, server_id = l.split(",")
             server_id = server_id.strip(" \n")
             if not type == ACCOUNT_TYPES[0]:
-                if ACCOUNT_TYPES.index(type) > services:
+                if ACCOUNT_TYPES.index(type) > service:
                     start = UPGRADE_START
                     end = UPGRADE_END
                 else:
@@ -394,7 +407,7 @@ def getShellfireLocation(vpn_provider, location, server_count):
                 newPrint("Server >" + server_id + "<")
                 break
         # Return an upgrade message if this server is not available to the user
-        if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getHighestService()):
+        if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getAccountType()):
             _, message = getShellfireMessages(vpn_provider, 0)
             if message == "": message = "Get access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
             return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message
@@ -402,8 +415,7 @@ def getShellfireLocation(vpn_provider, location, server_count):
         # Generate the file name from the location
         location_file = getShellfireLocationName(vpn_provider, country)
         
-        
-        setShellfireServer(server_id, "510829")
+        setShellfireServer(server_id, getAccountID())
         
         # FIXME
         # Generate the ovpn file here!
@@ -477,8 +489,32 @@ def setShellfireServer(server_id, product_id):
     
 def getShellfireProfiles(vpn_provider):
     # Return selectable profiles, with alias to store and message
-    # <FIXME> List the accounts here, including the user ID
-    return [], [], ""    
+    # Get the list of services that are available to the user
+    services = getServices()
+    if services == None: return [], [], ""
+    services.sort()
+    display_userid = False
+    for t in ACCOUNT_TYPES:
+        count = 0
+        for s in services:
+            if s.startswith(t):
+                count = count + 1
+        if count > 1: display_userid = True
+    
+    # Create a list of those services
+    i = 0
+    userids = []
+    for s in services:
+        service, id = s.split(";")
+        id = id.strip(" \n")
+        userids.append(s)
+        if display_userid:
+            services[i] = service + " (" + id + ")"
+        else:
+            services[i] = service
+        i += 1
+    
+    return services, userids, "Select account to use"    
         
     
 def getShellfireMessages(vpn_provider, last_time):
@@ -527,16 +563,16 @@ def getShellfireMessages(vpn_provider, last_time):
         ts = int(api_data["data"]["validUntil"])
         message = message + time.strftime("%b %d", time.gmtime(ts))
         message = message + " - " + api_data["data"]["url"]
+        
+        # Don't return a message for a paid account, or if we've returned it within the week
+        # For callers that must always get the message back, return it if last_time is set to 0
+        if (not last_time == 0) and (getAccountType() > 0 or last_time + 604800 > now()):
+            return "", ""
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't format message returned")
         errorTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
         return "", ""
     
-    # Don't return a message for a paid account, or if we've returned it within the week
-    # For callers that must always get the message back, return it if last_time is set to 0
-    if (not last_time == 0) and (getHighestService() > 0 or last_time + 604800 > now()):
-        return "", ""
-
     return id, message
     
 

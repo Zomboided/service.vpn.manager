@@ -415,12 +415,15 @@ def getShellfireLocation(vpn_provider, location, server_count):
         # Generate the file name from the location
         location_file = getShellfireLocationName(vpn_provider, country)
         
-        setShellfireServer(server_id, getAccountID())
-        # <FIXME> I think I need the protocol in here too
+        # Set the selected server for the VPN being used
+        setShellfireServer(getAccountID(), server_id)
+        
+        # Set the protocol
+        setShellfireProtocol(getAccountID(), "TCP")
         
         # FIXME
         # Generate the ovpn file here!
-        
+        getShellfireOvpn(getAccountID())
         
         return country, location_file, ""
         
@@ -446,19 +449,19 @@ def getShellfireServer(vpn_provider, server, server_count):
     return getShellfireLocation(vpn_provider, server, server_count)
     
 
-def setShellfireServer(server_id, product_id):
+def setShellfireServer(product_id, server_id):
     # Set the server for the product for active ID
     try:
         response = ""
         api_data = ""
         auth_token,_,_,_ = getTokens()
         rest_url = REQUEST_URL + "?action=setServerTo"
-        rest_data = '{"serverId": "' + server_id + '", "productId": "' + product_id + '"}'
+        rest_data = '{"productId": "' + product_id + '", "serverId": ' + server_id + '}'
         
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Setting server " + rest_url + ", " + rest_data)     
         else: debugTrace("Setting server for server " + server_id)
         
-        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
+        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
         req.add_header("x-authorization-token", auth_token)
         t_before = now()
         response = urllib2.urlopen(req)
@@ -469,24 +472,111 @@ def setShellfireServer(server_id, product_id):
         if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
         if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Setting server took " + str(t_after - t_before) + " seconds")
         
-        # A success status won't be returned if there are no messages
+        # Check the response was good, otherwise raise an exception
         if not api_data["status"] == "success":
-            return "", ""
+            raise Exception("Bad response setting server, " + api_data["status"])
+        return True
             
     except urllib2.HTTPError as e:
         errorTrace("alternativeShellfire.py", "Couldn't set server")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
         errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
         errorTrace("alternativeShellfire.py", e.read())
-        return "", ""
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't set server")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
         errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-        return "", ""
+        
+    return False
     
+
+def setShellfireProtocol(product_id, protocol):
+    # Set the protocol for the product for active ID
+    try:
+        response = ""
+        api_data = ""
+        auth_token,_,_,_ = getTokens()
+        rest_url = REQUEST_URL + "?action=setProtocol"
+        rest_data = '{"productId": "' + product_id + '", "proto": "' + protocol + '"}'
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Setting protocol " + rest_url + ", " + rest_data)     
+        else: debugTrace("Setting protocol to " + protocol)
+        
+        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
+        req.add_header("x-authorization-token", auth_token)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = json.load(response)   
+        t_after = now()    
+        response.close()
+
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Setting protocol took " + str(t_after - t_before) + " seconds")
+        
+        # Check the response was good, otherwise raise an exception
+        if not api_data["status"] == "success":
+            raise Exception("Bad response setting protocol, " + api_data["status"])
+        return True
+            
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", "Couldn't set protocol")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+        return False
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't set protocol")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        return False
+    
+
+def getShellfireOvpn(product_id):
+    # Retrieve the ovpn file to be used
+    try:
+        response = ""
+        api_data = ""
+        auth_token,_,_,_ = getTokens()
+        rest_url = REQUEST_URL + "?action=getOpenVpnParams"
+        rest_data = '{"productId": "' + product_id + '"}'
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Getting ovpn " + rest_url + ", " + rest_data)     
+        else: debugTrace("Getting opvn file")
+        
+        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
+        req.add_header("x-authorization-token", auth_token)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = json.load(response)   
+        t_after = now()    
+        response.close()
+
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Getting ovpn " + str(t_after - t_before) + " seconds")
+        
+        # Check the response was good, otherwise raise an exception
+        if not api_data["status"] == "success":
+            raise Exception("Bad response getting ovpn, " + api_data["status"])
+        return True
+            
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", "Couldn't get ovpn")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+        return False
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't get ovpn")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        return False
+        
     
 def getShellfireProfiles(vpn_provider):
     # Return selectable profiles, with alias to store and message

@@ -72,95 +72,32 @@ def getAccountID():
     
 def authenticateLogin(vpn_provider, userid, password):
     # Authenticate to get token
-    try: 
-        response = ""
-        api_data = ""
-        rest_url = REQUEST_URL + "?action=login"
-        rest_data = '{"email":"' + userid + '", "password":"' + password + '"}'
-
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Authenticating with VPN using " + rest_url + ", " + rest_data)     
-        else: debugTrace("Authenticating with VPN for user " + userid)
-
-        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)
-        t_after = now()
-        response.close()
-
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Authenticating with VPN for " + userid + " took " + str(t_after - t_before) + " seconds")
-
-        if not api_data["status"] == "success":
-            raise Exception("Bad response authenticating with VPN, " + api_data["status"] + " check user ID and password")
+    resetTokens()
+    rc, api_data = sendAPI("?action=login", "Authenticating with VPN", '{"email":"' + userid + '", "password":"' + password + '"}', True)
+    if not rc: return None
         
-        # Return the token to use for this user on future API calls
-        return api_data["data"]["token"]
-
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't authenticate with " + vpn_provider)
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
-    except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't authenticate with " + vpn_provider)
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data[:rest_data.index("password")+10] + "********}")
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-
-    return None
+    # Return the token to use for this user on future API calls
+    return api_data["data"]["token"]
     
     
 def getServices():
     # Get the list of services
+    rc, api_data = sendAPI("?action=getAllVpnDetails", "Retrieving list of services", "", True)
+    if not rc: return None
+  
+    # Extract and return the list of service levels the user is entitled to
     try:
-        response = ""
-        api_data = ""
-        auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=getAllVpnDetails"
-        
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving list of services " + rest_url)     
-        else: debugTrace("Retrieving list of services")
-        
-        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
-        req.add_header("x-authorization-token", auth_token)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)   
-        t_after = now()    
-        response.close()
-
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of services took " + str(t_after - t_before) + " seconds")
-        
-        if not api_data["status"] == "success":
-            raise Exception("Bad response getting services from VPN provider, " + api_data["status"])
-        
-        # Extract and return the list of service levels the user is entitled to
         services = []
         service_list = ""
         for item in api_data["data"]:
             services.append(item["eAccountType"] +";" + str(item["iVpnId"]))
             service_list = service_list + item["eAccountType"] + ", (" + str(item["iVpnId"]) + ") "
         debugTrace("Found services " + service_list)
-        # <FIXME>
-        #return ["Free;12345","PremiumPlus;12345"]
         return services
-    
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of services")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
     except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of services")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-    
-    return None
+        errorTrace("alternativeShellfire.py", "Couldn't parse the data that came back when listing the serice levels")
+        errorTrace("alternativeShellfire.py", str(e))
+        return none
 
 
 def authenticateShellfire(vpn_provider, userid, password):
@@ -179,8 +116,6 @@ def authenticateShellfire(vpn_provider, userid, password):
         setTokens(auth_token, "", vpn_provider + userid + password)
         return True
 
-    # Authentication or retrieval of services failed so clean up
-    resetTokens()
     return False
 
 
@@ -404,7 +339,6 @@ def getShellfireLocation(vpn_provider, location, server_count):
             if location in l:
                 country, server, type, server_id = l.split(",")
                 server_id = server_id.strip(" \n")
-                newPrint("Server >" + server_id + "<")
                 break
         # Return an upgrade message if this server is not available to the user
         if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getAccountType()):
@@ -451,131 +385,24 @@ def getShellfireServer(vpn_provider, server, server_count):
 
 def setShellfireServer(product_id, server_id):
     # Set the server for the product for active ID
-    try:
-        response = ""
-        api_data = ""
-        auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=setServerTo"
-        rest_data = '{"productId": "' + product_id + '", "serverId": ' + server_id + '}'
-        
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Setting server " + rest_url + ", " + rest_data)     
-        else: debugTrace("Setting server for server " + server_id)
-        
-        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
-        req.add_header("x-authorization-token", auth_token)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)   
-        t_after = now()    
-        response.close()
+    rc, api_data = sendAPI("?action=setServerTo", "Setting server", '{"productId": "' + product_id + '", "serverId": ' + server_id + '}', True)
+    return rc
 
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Setting server took " + str(t_after - t_before) + " seconds")
-        
-        # Check the response was good, otherwise raise an exception
-        if not api_data["status"] == "success":
-            raise Exception("Bad response setting server, " + api_data["status"])
-        return True
-            
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't set server")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
-    except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't set server")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-        
-    return False
     
-
 def setShellfireProtocol(product_id, protocol):
     # Set the protocol for the product for active ID
-    try:
-        response = ""
-        api_data = ""
-        auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=setProtocol"
-        rest_data = '{"productId": "' + product_id + '", "proto": "' + protocol + '"}'
-        
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Setting protocol " + rest_url + ", " + rest_data)     
-        else: debugTrace("Setting protocol to " + protocol)
-        
-        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
-        req.add_header("x-authorization-token", auth_token)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)   
-        t_after = now()    
-        response.close()
-
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Setting protocol took " + str(t_after - t_before) + " seconds")
-        
-        # Check the response was good, otherwise raise an exception
-        if not api_data["status"] == "success":
-            raise Exception("Bad response setting protocol, " + api_data["status"])
-        return True
-            
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't set protocol")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
-        return False
-    except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't set protocol")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-        return False
+    rc, api_data = sendAPI("?action=setProtocol", "Setting protocol", '{"productId": "' + product_id + '", "proto": "' + protocol + '"}', True)
+    return rc
     
-
+    
 def getShellfireOvpn(product_id):
     # Retrieve the ovpn file to be used
-    try:
-        response = ""
-        api_data = ""
-        auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=getOpenVpnParams"
-        rest_data = '{"productId": "' + product_id + '"}'
-        
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Getting ovpn " + rest_url + ", " + rest_data)     
-        else: debugTrace("Getting opvn file")
-        
-        req = urllib2.Request(rest_url, rest_data, REQUEST_HEADERS)
-        req.add_header("x-authorization-token", auth_token)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)   
-        t_after = now()    
-        response.close()
 
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Getting ovpn " + str(t_after - t_before) + " seconds")
-        
-        # Check the response was good, otherwise raise an exception
-        if not api_data["status"] == "success":
-            raise Exception("Bad response getting ovpn, " + api_data["status"])
-        return True
-            
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't get ovpn")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
-        return False
-    except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't get ovpn")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url + ", " + rest_data)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-        return False
+    # Fetch the parameters using the API
+    rc, api_data = sendAPI("?action=getOpenVpnParams", "Retrieving messages", '{"productId": "' + product_id + '"}', True)
+    if not rc: return "", ""
+    
+    # FIXME write some code to use the api_data
         
     
 def getShellfireProfiles(vpn_provider):
@@ -610,45 +437,14 @@ def getShellfireProfiles(vpn_provider):
     
 def getShellfireMessages(vpn_provider, last_time):
     # Return any message ID and message available from the provider
-    try:
-        response = ""
-        api_data = ""
-        auth_token,_,_,_ = getTokens()
-        rest_url = REQUEST_URL + "?action=getAvailablePricingDealSuccess"
-        # <FIXME> I can add 'Success' to the end of this for a test deal
-        
-        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", "Retrieving messages " + rest_url)     
-        else: debugTrace("Retrieving messages")
-        
-        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
-        req.add_header("x-authorization-token", auth_token)
-        t_before = now()
-        response = urllib2.urlopen(req)
-        api_data = json.load(response)   
-        t_after = now()    
-        response.close()
+    rc, api_data = sendAPI("?action=getAvailablePricingDeal", "Retrieving messages", "", False)
+    # FIXME Adding 'Success' to the end of this line will return a test message
+    # Check the call worked and that it was successful.  If there's no message, a bad response is returned
+    if not rc: return "", ""
+    if not api_data["status"] == "success": return "", ""
 
-        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
-        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving messages took " + str(t_after - t_before) + " seconds")
-        
-        # A success status won't be returned if there are no messages
-        if not api_data["status"] == "success":
-            return "", ""
-    except urllib2.HTTPError as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve messages")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
-        errorTrace("alternativeShellfire.py", e.read())
-        return "", ""
-    except Exception as e:
-        errorTrace("alternativeShellfire.py", "Couldn't retrieve messages")
-        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
-        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
-        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
-        return "", ""
-    
     try:
+        # Extract and format the message
         id = api_data["data"]["pricingDealId"]
         message = api_data["data"]["name"] + " - " + api_data["data"]["description"] + " - Only available until "
         ts = int(api_data["data"]["validUntil"])
@@ -683,5 +479,49 @@ def getShellfireUserPass(vpn_provider):
     addon = xbmcaddon.Addon(getID())
     return addon.getSetting("vpn_username"), addon.getSetting("vpn_password")
     
+    
+def sendAPI(command, command_text, api_data, check_response):
+    # Common routine to send an API command
+    try:
+        response = ""
+        rc = True
+        auth_token,_,_,_ = getTokens()
+        rest_url = REQUEST_URL + command
+        
+        if ifHTTPTrace(): infoTrace("alternativeShellfire.py", command_text + " " + rest_url)     
+        else: debugTrace(command_text)
+        
+        req = urllib2.Request(rest_url, api_data, REQUEST_HEADERS)
+        if not auth_token == "": req.add_header("x-authorization-token", auth_token)
+        t_before = now()
+        response = urllib2.urlopen(req)
+        api_data = json.load(response)   
+        t_after = now()    
+        response.close()
+
+        # Trace if the command took a long time
+        if ifJSONTrace(): infoTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))
+        if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", command_text + " took " + str(t_after - t_before) + " seconds")
+        
+        # Check the response and fail if it's bad
+        if check_response:
+            if not api_data["status"] == "success":
+                raise Exception(command_text + " returned bad response, " + api_data["status"])
+        
+    except urllib2.HTTPError as e:
+        errorTrace("alternativeShellfire.py", command_text + " failed")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(e.code) + " " + e.reason)
+        errorTrace("alternativeShellfire.py", e.read())
+        rc = False
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", command_text + " failed")
+        errorTrace("alternativeShellfire.py", "API call was " + rest_url)
+        if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))
+        errorTrace("alternativeShellfire.py", "Response was " + str(type(e)) + " " + str(e))
+        rc = False
+    
+    return rc, api_data
 
 

@@ -26,7 +26,7 @@ import json
 import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
-from libs.platform import getAddonPath
+from libs.platform import getAddonPath, getPlatform, platforms
 from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens
 
 
@@ -52,6 +52,15 @@ TITLE_START = "[B]"
 TITLE_END = "[/B]"
 
 TIME_WARN = 10
+
+
+
+def getAddonPathWrapper(name):
+    # Return the fully qualified add-on path and file name
+    if getPlatform() == platforms.WINDOWS:
+        return getAddonPath(True, name).replace("\\", "\\\\")
+    else:
+        return getAddonPath(True, name)
 
 
 def getAccountType():
@@ -99,7 +108,7 @@ def getServices():
         errorTrace("alternativeShellfire.py", str(e))
         return none
 
-
+        
 def authenticateShellfire(vpn_provider, userid, password):
     # Authenticate with the API and store the tokens returned
 
@@ -111,7 +120,12 @@ def authenticateShellfire(vpn_provider, userid, password):
         return True
     
     # Get the authentication token to use on future calls
-    auth_token = authenticateLogin(vpn_provider, userid, password)
+    resetTokens()
+    rc, api_data = sendAPI("?action=login", "Authenticating with VPN", '{"email":"' + userid + '", "password":"' + password + '"}', True)
+    if not rc: return False
+        
+    # Extract the auth token and store it
+    auth_token = api_data["data"]["token"]
     if not auth_token == None: 
         setTokens(auth_token, "", vpn_provider + userid + password)
         return True
@@ -323,12 +337,15 @@ def getShellfireLocationName(vpn_provider, location):
     
 def getShellfireLocation(vpn_provider, location, server_count):
     # Return the friendly and .ovpn name
+    addon = xbmcaddon.Addon(getID())
     if location.startswith(TITLE_START): return "", "", "Select a location or server"
     # Remove all of the tagging
     location = location.strip(" ")
     location = location.replace(UPGRADE_START, "")
     location = location.replace(UPGRADE_END, "")
     
+    # FIXME check that the locations exist (like after a reinstall) and if they don't, prefetch again
+       
     try:
         # Read the locations from the file and list by account type
         filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
@@ -347,26 +364,39 @@ def getShellfireLocation(vpn_provider, location, server_count):
             return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message
         
         # Generate the file name from the location
-        location_file = getShellfireLocationName(vpn_provider, country)
-        
-        # Set the selected server for the VPN being used
-        setShellfireServer(getAccountID(), server_id)
-        
-        # Set the protocol
-        setShellfireProtocol(getAccountID(), "TCP")
-        
-        # FIXME
-        # Generate the ovpn file here!
-        getShellfireOvpn(getAccountID())
-        
-        return country, location_file, ""
+        location_filename = getShellfireLocationName(vpn_provider, country)
         
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
         return "", "", ""
-    
+        
+    # Set the selected server for the VPN being used
+    try:
+        setShellfireServer(getAccountID(), server_id)
+        
+        # Set the protocol.  If it's "UDP and TCP", choose UDP
+        proto = addon.getSetting("vpn_protocol")
+        if "UDP" in proto: proto = "UDP"
+        if not setShellfireProtocol(getAccountID(), proto):
+           raise Exception("Couldn't set the protocol") 
+        
+        # Get the parameters associated with this server and put them in a file
+        if not getShellfireOvpn(getAccountID(), vpn_provider, country):
+            raise Exception("Couldn't create an OVPN file") 
+        
+        # Get the certs associated with this server and put them in a file
+        if not getShellfireCerts(getAccountID(), vpn_provider, country):
+            raise Exception("Couldn't create the certificates") 
 
+        return country, location_filename, ""
+    except Exception as e:
+        errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+        return "", "", ""
+
+        
+        
 def getShellfireServers(vpn_provider, exclude_used):
     # Return a list of all of the server files
     return getShellfireLocationsCommon(vpn_provider, exclude_used, False, False)
@@ -395,15 +425,67 @@ def setShellfireProtocol(product_id, protocol):
     return rc
     
     
-def getShellfireOvpn(product_id):
+def getShellfireOvpn(product_id, vpn_provider, country):
     # Retrieve the ovpn file to be used
-
-    # Fetch the parameters using the API
-    rc, api_data = sendAPI("?action=getOpenVpnParams", "Retrieving messages", '{"productId": "' + product_id + '"}', True)
-    if not rc: return "", ""
     
-    # FIXME write some code to use the api_data
-        
+    # Fetch the parameters using the API
+    rc, api_data = sendAPI("?action=getOpenVpnParams", "Retrieving openvpn params", '{"productId": "' + product_id + '"}', True)
+    if not rc: return False
+    
+    # Parse the parameters and override some of them
+    params = api_data["data"]["params"].split("--")
+    filename = getAddonPath(True, vpn_provider + "/" + country + ".ovpn")
+    output = open(filename, 'w')
+    #country_cert = "user_" + country.replace(" ", "_")
+    country_cert = "sf" + getAccountID()
+    for p in params:
+        p = p.strip(" \n")
+        if p.startswith("service "): p = ""
+        if p.startswith("ca "): p = "ca " + getAddonPathWrapper(vpn_provider + "/ca.crt")
+        if p.startswith("cert "): p = "cert " + getAddonPathWrapper(vpn_provider + "/" + country_cert + ".crt")
+        if p.startswith("key "): p = "key " + getAddonPathWrapper(vpn_provider + "/" + country_cert + ".key")
+        if not p == "": output.write(p + "\n")
+    
+    output.close()
+    
+    return True
+    
+    
+def getShellfireCerts(product_id, vpn_provider, country):
+
+    # FIXME if the certs already exist, then just return
+
+    # Get the set of certificates that ar needed to connect
+    rc, api_data = sendAPI("?action=getCertificates", "Retrieving certificates", '{"productId": "' + product_id + '"}', True)
+    if not rc: return False
+    
+    # Write all of the certs to a file
+    for item in api_data["data"]:
+        cert_name = item["name"]
+        #if not cert_name == "ca.crt":
+        #    cert_name = "user_" + (country + cert_name[cert_name.index("."):]).replace(" ", "_")
+        if not writeCert(vpn_provider, cert_name, item["content"]): return False
+    
+    return True
+    
+
+def writeCert(vpn_provider, cert_name, content):
+    # Write out the certificate represented by the content
+    filename = getAddonPath(True, vpn_provider + "/" + cert_name)
+    try:
+        line = ""
+        debugTrace("Writing certificate " + cert_name)
+        output = open(filename, 'w')
+        # Output the content line by line
+        for line in content:       
+            output.write(line)
+        output.close()
+        return True
+    except Exception as e:
+        errorTrace("alternativeShellfire`.py", "Couldn't write certificate " + filename)
+        errorTrace("alternativeShellfire.py", str(e))
+        return False
+
     
 def getShellfireProfiles(vpn_provider):
     # Return selectable profiles, with alias to store and message
@@ -469,7 +551,9 @@ def regenerateShellfire(vpn_provider):
 
 
 def resetShellfire(vpn_provider):
-    # <FIXME>
+    # <FIXME> Maybe this is fixed now
+    addon = xbmcaddon.Addon(getID())
+    addon.setSetting("vpn_locations_list", "")
     return True
 
 
@@ -486,6 +570,14 @@ def sendAPI(command, command_text, api_data, check_response):
         response = ""
         rc = True
         auth_token,_,_,_ = getTokens()
+        # Login again if the token is blank and the command is not login anyway
+        if auth_token == "" and not "=login" in command:
+            debugTrace("Logging in again because auth token not valid")
+            rc = authenticateShellfire()
+            auth_token,_,_,_ = getTokens()
+            if auth_token == "" or not rc:
+                raise Exception(command_text + " was not authorized")
+        
         rest_url = REQUEST_URL + command
         
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", command_text + " " + rest_url)     

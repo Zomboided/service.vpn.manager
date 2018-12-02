@@ -56,8 +56,10 @@ if not getID() == "":
             removeGeneratedFiles()
             vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
             if isAlternative(vpn_provider): resetAlternative(vpn_provider)
+            addon = xbmcaddon.Addon(getID())
             # Reset the IP service error counts, etc
             resetIPServices()
+            addon = xbmcaddon.Addon(getID())
             # Re-enble the wizard
             addon.setSetting("vpn_wizard_enabled", "true")
             resumeConfigUpdate()

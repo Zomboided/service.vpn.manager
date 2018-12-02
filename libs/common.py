@@ -1635,7 +1635,7 @@ def connectVPN(connection_order, vpn_profile):
             else:
                 # Offer a list of profiles on the first connection attempt
                 # We'll use the same profile for all subsequent attempts
-                if connection_order == 1:
+                if connection_order == "1" and addon.getSetting("vpn_locations_list") == "":
                     selections, alias, title_text = getAlternativeProfiles(vpn_provider)
                     selected_profile = ""
                     cancel_text = "[I]Cancel connection attempt[/I]"

@@ -910,7 +910,7 @@ def updateVPNFile(connection, vpn_provider):
                             if not portUDP == "": port = portUDP
                             break
                 if not port == "":
-                    line = "remote " + tokens[1] + " " + port + "\n"
+                    line = "remote " + tokens[1] + " " + port
                 if translate_server == "": translate_server = tokens[1]
       
             # Update user cert and key                

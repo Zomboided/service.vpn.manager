@@ -462,6 +462,7 @@ def getShellfireCerts(product_id, vpn_provider, country):
     cert_name = getAddonPath(True, vpn_provider + "/" + "sf" + account_id + ".crt")
     key_name = getAddonPath(True, vpn_provider + "/" + "sf" + account_id + ".key")
     if xbmcvfs.exists(ca_name) and xbmcvfs.exists(cert_name) and xbmcvfs.exists(key_name): return True
+    # FIXME This will lead to the same certs and key being used for the account.  This appears to work but review through other testing
     
     # Get the set of certificates that ar needed to connect
     rc, api_data = sendAPI("?action=getCertificates", "Retrieving certificates", '{"productId": "' + product_id + '"}', True)

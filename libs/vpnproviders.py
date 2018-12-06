@@ -861,7 +861,7 @@ def updateVPNFile(connection, vpn_provider):
     # Get the logging level
     verb_value = addon.getSetting("openvpn_verb")
     if verb_value == "":
-        verb_value = "1"
+        verb_value = "3"
         addon.setSetting("openvpn_verb", verb_value)
 
     try:

@@ -1770,7 +1770,8 @@ def connectVPN(connection_order, vpn_profile):
                     ovpn_name = getFriendlyProfileName(vpn_profile)
                     ovpn_connection = vpn_profile
                 else:
-                    # <FIXME> NEED TO THINK ABOUT THIS, IF THIS IS IN THE NON SELECTION CASE, THEN DON'T NEED TO CHECK USER_TEXT
+                    # Get the friendly and ovpn names.  If the server view is active then it's up to the
+                    # alternative provider code as to whether it returns a readable name or a URL/address
                     if server_view:
                         ovpn_name, ovpn_connection, user_text = getAlternativeServer(vpn_provider, getFriendlyProfileName(vpn_profile), 0)
                     else:

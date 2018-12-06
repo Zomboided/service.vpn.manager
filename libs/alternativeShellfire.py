@@ -146,8 +146,8 @@ def getShellfirePreFetch(vpn_provider):
                 debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", fetching location data again")
             else:
                 debugTrace("Create time of " + filename + " is " + str(create_time) + " time now is " + str(t) + ", using existing data")
-                # <FIXME> Remove this after testing, this forces the list to always be downloaded
-                # return True
+                # Less than a day old, so using the existing file
+                return True
         except Exception as e:
             errorTrace("alternativeShellfire.py", "List of countries exist but couldn't get the time stamp for " + filename)
             errorTrace("alternativeShellfire.py", str(e))
@@ -323,15 +323,17 @@ def getShellfireLocationsCommon(vpn_provider, exclude_used, friendly, servers):
     
 
 def getShellfireFriendlyLocations(vpn_provider, exclude_used):
+    # Return the list of friendly location names
     return getShellfireLocationsCommon(vpn_provider, exclude_used, True, False)
 
 
 def getShellfireLocations(vpn_provider, exclude_used):
+    # Return the list of ovpn file names
     return getShellfireLocationsCommon(vpn_provider, exclude_used, False, False)
 
 
 def getShellfireLocationName(vpn_provider, location):
-    # <FIXME> although this is probably right
+    # Return the ovpn file name
     return getAddonPath(True, vpn_provider + "/" + location + ".ovpn")
     
     
@@ -413,8 +415,8 @@ def getShellfireFriendlyServers(vpn_provider, exclude_used):
 
 
 def getShellfireServer(vpn_provider, server, server_count):
-    # <FIXME> This is the same logic as location, but I think I should return the name.
-    # If I have to return the server then I can just use the server param passed in
+    # Return the server and ovpn name
+    # For Shellfire this is just returning the location name rather than the server URL
     return getShellfireLocation(vpn_provider, server, server_count)
     
 
@@ -553,12 +555,14 @@ def getShellfireMessages(vpn_provider, last_time):
     
 
 def regenerateShellfire(vpn_provider):
-    # <FIXME>
+    # Regenerate any files required to connect
+    # Nothing to do for Shellfire as it'll get what it needs during connection
     return True
 
 
 def resetShellfire(vpn_provider):
-    # <FIXME> Maybe this is fixed now
+    # Clear up any provider specific settings after deleting all files
+    # For Shellfire, it's just removing the VPN that's being used so it can be selected again
     addon = xbmcaddon.Addon(getID())
     addon.setSetting("vpn_locations_list", "")
     return True

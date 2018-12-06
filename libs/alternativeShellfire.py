@@ -562,9 +562,6 @@ def regenerateShellfire(vpn_provider):
 
 def resetShellfire(vpn_provider):
     # Clear up any provider specific settings after deleting all files
-    # For Shellfire, it's just removing the VPN that's being used so it can be selected again
-    addon = xbmcaddon.Addon(getID())
-    addon.setSetting("vpn_locations_list", "")
     return True
 
 

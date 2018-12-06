@@ -1575,6 +1575,7 @@ def connectVPN(connection_order, vpn_profile):
     
     # Generate or fix the OVPN files if we've not done this previously
     provider_gen = False
+    select_location = False
     if not progress.iscanceled() and provider_download:
         provider_gen = checkDirectory(vpn_provider)
         if provider_gen:
@@ -1613,6 +1614,7 @@ def connectVPN(connection_order, vpn_profile):
                             if selected_profile == default_label : selected_profile = ""
                         
                         if not selected_profile == cancel_text:
+                            select_location = True
                             addon.setSetting("vpn_locations_list", selected_profile)
                             progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)..."
                             progress.update(11, progress_title, progress_message)
@@ -1650,14 +1652,15 @@ def connectVPN(connection_order, vpn_profile):
                             selected_profile = alias[profile_index]
                             debugTrace("Using account " + selected_profile)
                     if not selected_profile == cancel_text:
+                        select_location = True
                         addon.setSetting("vpn_locations_list", selected_profile)
                         provider_gen = getAlternativePreFetch(vpn_provider)
                     else:
                         # User selected cancel on dialog box
                         provider_gen = False
                         cancel_attempt = True
-        addon = xbmcaddon.Addon(getID())
-                    
+    
+    addon = xbmcaddon.Addon(getID())                
     if provider_gen:                            
         # Set up user credentials file
         if (not progress.iscanceled()) and usesPassAuth(getVPNLocation(vpn_provider)):
@@ -1779,7 +1782,8 @@ def connectVPN(connection_order, vpn_profile):
                     if not ovpn_name == "": 
                         writeCredentials(addon)
                         provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
-                
+        
+        addon = xbmcaddon.Addon(getID())        
         if (not progress.iscanceled()) and (not ovpn_name == ""):
             # Fetch the key from the user if one is needed
             if usesUserKeys(getVPNLocation(vpn_provider)):                
@@ -1855,6 +1859,7 @@ def connectVPN(connection_order, vpn_profile):
     # Mess with the state to make it look as if we've connected to a VPN
     if fakeConnection() and not progress.iscanceled() and provider_gen and not ovpn_name == "" and got_keys and got_key_pass: state = connection_status.CONNECTED
     
+    addon = xbmcaddon.Addon(getID())
     log_option = True
     dns_error = False
     # Determine what happened during the connection attempt        
@@ -1928,6 +1933,9 @@ def connectVPN(connection_order, vpn_profile):
         else:
             dialog_message = dialog_message + "Please reconnect"
             
+        # If we selected the location, reset this so it can be selected next time
+        if select_location: addon.setSetting("vpn_locations_list","")
+        
         # Don't know how far we got, if we were trying to connect and then got cancelled,
         # there might still be an instance of openvpn running we need to kill
         stopVPN9()
@@ -2017,7 +2025,10 @@ def connectVPN(connection_order, vpn_profile):
             resetVPNConfig(addon, int(connection_order))
         
         errorTrace("common.py", dialog_message)
-
+        
+        # If we selected the location, reset this so it can be selected next time
+        if select_location: addon.setSetting("vpn_locations_list","")
+        
         # The VPN might be having a spaz still so we want to ensure it's stopped
         stopVPN9()
         # We should also stop the service from trying to do a reconnect, if it's confused

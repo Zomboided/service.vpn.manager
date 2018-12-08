@@ -844,7 +844,7 @@ if __name__ == '__main__' and not running():
                                 # it would be a connection name or "Unknown").  Reconnects can be problematic so sleep
                                 # for 5 seconds before reconnecting
                                 if prev_connection == "": xbmc.sleep(5000)
-                                getAlternativeLocation(vpn_provider, getVPNRequestedProfileFriendly(), getConnectionErrorCount())
+                                getAlternativeLocation(vpn_provider, getVPNRequestedProfileFriendly(), getConnectionErrorCount(), False)
                                 writeCredentials(addon)
                                 updateVPNFile(getVPNRequestedProfile(), vpn_provider)
                             state = startVPNConnection(getVPNRequestedProfile(), addon)

@@ -51,6 +51,8 @@ SERVER_END = ""
 TITLE_START = "[B]"
 TITLE_END = "[/B]"
 
+EMPTY = ""
+
 TIME_WARN = 10
 
 
@@ -337,14 +339,17 @@ def getShellfireLocationName(vpn_provider, location):
     return getAddonPath(True, vpn_provider + "/" + location + ".ovpn")
     
     
-def getShellfireLocation(vpn_provider, location, server_count):
+def getShellfireLocation(vpn_provider, location, server_count, just_name):
     # Return the friendly and .ovpn name
     addon = xbmcaddon.Addon(getID())
-    if location.startswith(TITLE_START): return "", "", "Select a location or server"
+    # Just return if this is a title that's been passed in
+    if location.startswith(TITLE_START): return "", "", "Select a location or server", True
     # Remove all of the tagging
-    location = location.strip(" ")
+    # There's some escaping of the UPGRADE_END characters when passed in via the add-on menu
+    # This is why the command below searches for the end of the upgrade and strips it
     location = location.replace(UPGRADE_START, "")
-    location = location.replace(UPGRADE_END, "")
+    if "I]" in location: location = location[:(location.index("I]")-2)]
+    location = location.strip(" ")
     
     filename = getAddonPath(True, vpn_provider + "/" + SHELLFIRE_LOCATIONS)
     try:
@@ -353,8 +358,8 @@ def getShellfireLocation(vpn_provider, location, server_count):
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't download the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
-        return "", "", "" 
-       
+        return "", "", "", False
+           
     try:
         # Read the locations from the file and list by account type
         locations_file = open(filename, 'r')
@@ -369,15 +374,17 @@ def getShellfireLocation(vpn_provider, location, server_count):
         if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getAccountType()):
             _, message = getShellfireMessages(vpn_provider, 0)
             if message == "": message = "Get access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
-            return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message
+            return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message, False
         
         # Generate the file name from the location
         location_filename = getShellfireLocationName(vpn_provider, country)
         
+        if just_name: return location, location_filename, "", False
+        
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
-        return "", "", ""
+        return "", "", "", False
         
     # Set the selected server for the VPN being used
     try:
@@ -397,11 +404,11 @@ def getShellfireLocation(vpn_provider, location, server_count):
         if not getShellfireCerts(getAccountID(), vpn_provider, country):
             raise Exception("Couldn't create the certificates") 
 
-        return country, location_filename, ""
+        return country, location_filename, "", False
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't read the list of locations for " + vpn_provider + " from " + filename)
         errorTrace("alternativeShellfire.py", str(e))
-        return "", "", ""
+        return "", "", "", False
 
         
 def getShellfireServers(vpn_provider, exclude_used):
@@ -414,10 +421,10 @@ def getShellfireFriendlyServers(vpn_provider, exclude_used):
     return getShellfireLocationsCommon(vpn_provider, exclude_used, False, True)
 
 
-def getShellfireServer(vpn_provider, server, server_count):
+def getShellfireServer(vpn_provider, server, server_count, just_name):
     # Return the server and ovpn name
     # For Shellfire this is just returning the location name rather than the server URL
-    return getShellfireLocation(vpn_provider, server, server_count)
+    return getShellfireLocation(vpn_provider, server, server_count, just_name)
     
 
 def setShellfireServer(product_id, server_id):

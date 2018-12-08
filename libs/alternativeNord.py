@@ -297,7 +297,7 @@ def getNordVPNLocationName(vpn_provider, location):
     return getAddonPath(True, vpn_provider + "/" + location + ".ovpn")
     
     
-def getNordVPNLocation(vpn_provider, location, server_count):
+def getNordVPNLocation(vpn_provider, location, server_count, just_name):
     # Return friendly name and .ovpn file name
     # Given the location, find the country ID of the servers
     addon = xbmcaddon.Addon(getID())
@@ -311,7 +311,7 @@ def getNordVPNLocation(vpn_provider, location, server_count):
     except Exception as e:
         errorTrace("alternativeNord.py", "Couldn't download the list of countries to get ID for " + vpn_provider + " from " + filename)
         errorTrace("alternativeNord.py", str(e))
-        return "", "", ""
+        return "", "", "", False
     
     try:
         locations_file = open(filename, 'r')
@@ -325,14 +325,16 @@ def getNordVPNLocation(vpn_provider, location, server_count):
                 break
         if id == "":
             errorTrace("alternativeNord.py", "Couldn't retrieve location " + location + " for " + vpn_provider + " from " + filename)
-            return "", "", ""
+            return "", "", "", False
     except Exception as e:
         errorTrace("alternativeNord.py", "Couldn't read the list of countries to get ID for " + vpn_provider + " from " + filename)
         errorTrace("alternativeNord.py", str(e))
-        return "", "", ""
+        return "", "", "", False
     
     # Generate the file name from the location
-    location_file = getNordVPNLocationName(vpn_provider, location)
+    location_filename = getNordVPNLocationName(vpn_provider, location)
+    
+    if just_name: return location, location_filename, "", False
     
     # Download the JSON object of servers
     response = ""
@@ -367,11 +369,11 @@ def getNordVPNLocation(vpn_provider, location, server_count):
     if error:
         # If there's an API connectivity issue but a location file exists then use that
         # Won't have the latest best location in it though
-        if xbmcvfs.exists(location_file):
+        if xbmcvfs.exists(location_filename):
             infoTrace("alternativeNord.py", "Using existing " + location + " file")
-            return location, location_file, ""
+            return location, location_filename, "", False
         else:
-            return "", "", ""
+            return "", "", "", False
     
     # First server is the best one, but if it didn't connect last time then skip it.  The last attempted server
     # will be cleared on a restart, or a successful connection.  If there are no more connections to try, then
@@ -403,12 +405,12 @@ def getNordVPNLocation(vpn_provider, location, server_count):
     
     # Fetch the ovpn file for the server
     if not server == "":
-        if not getNordVPNOvpnFile(server, protocol, location_file):
-            if not xbmcvfs.exists(location_file):
-                return "", "", ""
-        return location, location_file, ""
+        if not getNordVPNOvpnFile(server, protocol, location_filename):
+            if not xbmcvfs.exists(location_filename):
+                return "", "", "", False
+        return location, location_filename, "", False
     else:
-        return "", "", ""
+        return "", "", "", False
 
         
 def getNordVPNOvpnFile(server, protocol, target_file):
@@ -465,10 +467,10 @@ def getNordVPNFriendlyServers(vpn_provider, exclude_used):
     return []
 
     
-def getNordVPNServer(vpn_provider, server, server_count):
+def getNordVPNServer(vpn_provider, server, server_count, just_name):
     # Return friendly name and .ovpn file name
     # Not supported for this provider
-    return "", "", ""
+    return "", "", "", False
     
     
 def getNordVPNMessages(vpn_provider, last_time):   

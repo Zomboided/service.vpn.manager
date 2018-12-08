@@ -28,8 +28,8 @@ from libs.common import getFriendlyProfileList, connectVPN, disconnectVPN, setVP
 from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorState, wizard
 from libs.common import getIconPath, getSystemData, getVPNServer
 from libs.platform import getPlatform, platforms, getPlatformString, fakeConnection
-from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations
-from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.sysbox import popupSysBox
 
 
@@ -138,7 +138,7 @@ def listConnections():
     # We should have a VPN set up by now, but don't list if we haven't.
     vpn_provider = addon.getSetting("vpn_provider")
     debugTrace("Listing the connections available for " + vpn_provider)
-    if vpn_provider != "":
+    if not vpn_provider == "":
         # Get the list of connections and add them to the directory
         if not isAlternative(vpn_provider):
             all_connections = getAddonList(vpn_provider, "*.ovpn")
@@ -149,18 +149,23 @@ def listConnections():
             connections = getAlternativeFriendlyLocations(vpn_provider, False)
         inc = 0
         for connection in ovpn_connections:
-            url = base_url + "?change?" + ovpn_connections[inc]
+            if not isAlternative(vpn_provider):
+                # Regular connections have the ovpn filename added ot the URL
+                url = base_url + "?change?" + ovpn_connections[inc]
+            else:
+                # Alternative connections use the friendly name which can then be resolved later
+                url = base_url + "?change?" + connections[inc]
             conn_text = ""
             conn_primary = ""
             i=1
             # Adjust 10 and 11 below if changing number of conn_max
             while (i < 11):
-                if addon.getSetting(str(i) + "_vpn_validated_friendly") == connections[inc] :
+                if addon.getSetting(str(i) + "_vpn_validated_friendly") == connections[inc].strip(" ") :
                     conn_primary = " (" + str(i) + ")"
                     i = 10
                 i=i+1
 
-            if getVPNProfileFriendly() == connections[inc] and isVPNConnected(): 
+            if getVPNProfileFriendly() == connections[inc].strip(" ") and isVPNConnected(): 
                 conn_text = "[COLOR ff00ff00]" + connections[inc] + conn_primary + " (Connected)[/COLOR]"
                 if fakeConnection():
                     icon = getIconPath()+"faked.png"
@@ -192,11 +197,26 @@ def disconnect():
     
 def changeConnection():
     # Connect, or display status if we're already using selected VPN profile
+    # If there is no profile, then skip this as the user has selected something non-selectable
     debugTrace("Changing connection to " + params + " from " + getVPNProfile() + ", connected:" + str(isVPNConnected()))
-    if isVPNConnected() and params == getVPNProfile() and not isAlternative(addon.getSetting("vpn_provider")) and not addon.getSetting("allow_cycle_reconnect") == "true":
-        displayStatus()
-    else:        
-        connectVPN("0", params)
+    addon = xbmcaddon.Addon(getID())
+    ignore = False
+    user_text = ""
+    vpn_provider = addon.getSetting("vpn_provider")
+    if isAlternative(vpn_provider):
+        # Convert the friendly name to a file name, or an error message
+        _, ovpn_connection, user_text, ignore = getAlternativeLocation(vpn_provider, params, 0, True)
+    else:
+        # Just extract the ovpn name from the URL for regular providers
+        ovpn_connection = params
+    # Try and connect if we've got a connection name.  If we're already connection, display the status
+    if not ignore:
+        if not user_text == "":
+            xbmcgui.Dialog().ok(addon_name, user_text)
+        elif isVPNConnected() and ovpn_connection == getVPNProfile() and not isAlternative(vpn_provider) and not addon.getSetting("allow_cycle_reconnect") == "true":
+            displayStatus()
+        else:        
+            connectVPN("0", ovpn_connection)
     return
 
 

@@ -43,7 +43,7 @@ from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fa
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForGitUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
-from libs.vpnproviders import getUserDataPath
+from libs.vpnproviders import getUserDataPath, getAlternativeMessages
 from libs.vpnapi import VPNAPI
 
 # Set the addon name for use in the dialogs
@@ -914,6 +914,19 @@ if __name__ == '__main__' and not running():
                                 vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
                                 if isAlternative(vpn_provider) or not checkForGitUpdates(vpn_provider, True):
                                     notification_title = addon_name
+                                    str_last_time = addon.getSetting("alternative_message_time")
+                                    try:
+                                        if str_last_time == "": last_time = 1
+                                        else: last_time = int(str_last_time)
+                                    except:
+                                        errorTrace("service.py", "Looked at last message time and found " + str_last_time + ", resetting to 1")
+                                        last_time = 1
+                                    last_id = addon.getSetting("alternative_message_token")
+                                    new_id, new_message = getAlternativeMessages(vpn_provider, last_time, last_id)
+                                    if not new_message == "":
+                                        xbmcgui.Dialog().ok(addon_name, new_message) 
+                                        addon.setSetting("alternative_message_time", str(now()))
+                                        addon.setSetting("alternative_message_token", new_id)
                                 else:
                                     notification_title = addon_short + ", update available"
                                     icon = "/resources/update.png"

@@ -210,6 +210,8 @@
     <setting label=""      type="text" id="ip_service_errors" enable="false" visible="false" default=""/>
     <setting label=""      type="text" id="ip_service_last_vpn" enable="false" visible="false" default=""/>
     <setting label=""      type="bool" id="location_server_view" enable="false" visible="false" default="false"/>
+    <setting label=""      type="text" id="alternative_message_token" enable="false" visible="false" default=""/>
+    <setting label=""      type="text" id="alternative_message_time" enable="false" visible="false" default="1"/>
     <setting label=""      type="text" id="last_connect_time" enable="false" visible="false" default=""/>
     <setting label=""      type="text" id="vpn_custom" visible="false" enable="false" default=""/>
     <setting label=""      type="text" id="vpn_short" enable="false" visible="false" default="VPN Manager"/>

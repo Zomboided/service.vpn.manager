@@ -30,10 +30,11 @@ from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, ge
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
 from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
-from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles
+from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages
 from alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
 from alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
 from alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire, getShellfireProfiles
+from alternativeShellfire import getShellfireMessages
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****
@@ -514,8 +515,8 @@ def getAlternativeUserPass(vpn_provider):
     return globals()["get" + vpn_provider + "UserPass"](vpn_provider)
 
 
-def getAlternativeMessages(vpn_provider, last_time):
-    return globals()["get" + vpn_provider + "Message"](vpn_provider, last_time)    
+def getAlternativeMessages(vpn_provider, last_time, last_id):
+    return globals()["get" + vpn_provider + "Messages"](vpn_provider, last_time, last_id)    
     
     
 def getAlternativeProfiles(vpn_provider):

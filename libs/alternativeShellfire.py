@@ -51,10 +51,7 @@ SERVER_END = ""
 TITLE_START = "[B]"
 TITLE_END = "[/B]"
 
-EMPTY = ""
-
 TIME_WARN = 10
-
 
 
 def getAddonPathWrapper(name):
@@ -372,7 +369,7 @@ def getShellfireLocation(vpn_provider, location, server_count, just_name):
                 break
         # Return an upgrade message if this server is not available to the user
         if ACCOUNT_TYPES.index(type) > ACCOUNT_TYPES.index(getAccountType()):
-            _, message = getShellfireMessages(vpn_provider, 0)
+            _, message = getShellfireMessages(vpn_provider, 0, "")
             if message == "": message = "Get access to servers in over 30 countries with unlimited speed at shellfire.net/kodi"
             return "", "", "Upgrade to use this [B]" + type + "[/B] location.\n" + message, False
         
@@ -533,9 +530,14 @@ def getShellfireProfiles(vpn_provider):
     return services, userids, "Select a VPN to use"    
         
     
-def getShellfireMessages(vpn_provider, last_time):
+def getShellfireMessages(vpn_provider, last_time, last_id):
     # Return any message ID and message available from the provider
-    rc, api_data = sendAPI("?action=getAvailablePricingDeal", "Retrieving messages", "", False)
+    
+    # Never return a message for a paid account unless a last_time of 0 is being used to force it
+    if getAccountType() > 0 and not last_time == 0: return "", ""
+    
+    # Fetch any available deal
+    rc, api_data = sendAPI("?action=getAvailablePricingDealSuccess", "Retrieving messages", "", False)
     # FIXME Adding 'Success' to the end of this line will return a test message
     # Check the call worked and that it was successful.  If there's no message, a bad response is returned
     if not rc: return "", ""
@@ -549,10 +551,10 @@ def getShellfireMessages(vpn_provider, last_time):
         message = message + time.strftime("%b %d", time.gmtime(ts))
         message = message + " - " + api_data["data"]["url"]
         
-        # Don't return a message for a paid account, or if we've returned it within the week
-        # For callers that must always get the message back, return it if last_time is set to 0
-        if (not last_time == 0) and (getAccountType() > 0 or last_time + 604800 > now()):
+        # Don't return a message if the same message was displayed < 1 week ago 
+        if (not last_time == 0) and (last_time + 604800 > now()) and last_id == id:
             return "", ""
+            
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't format message returned")
         errorTrace("alternativeShellfire.py", "JSON received is \n" + json.dumps(api_data, indent=4))

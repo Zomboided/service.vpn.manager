@@ -51,7 +51,7 @@ if not getID() == "":
             suspendConfigUpdate()
             # Disconnect so that live files are not being modified
             if isVPNConnected(): resetVPNConnections(addon)            
-            debugTrace("Deleting all generated files")
+            infoTrace("managefiles.py", "Resetting the VPN provider")
             # Delete the generated files, and reset the locations so it can be selected again
             removeGeneratedFiles()
             # Delete any values that have previously been validated
@@ -62,9 +62,11 @@ if not getID() == "":
             addon = xbmcaddon.Addon(getID())
             # Reset values that would have been stored as part of validation
             addon.setSetting("vpn_provider_validated", "")
-            addon.setSetting("vpn_locations_list", "")
             addon.setSetting("vpn_username_validated", "")
             addon.setSetting("vpn_password_validated", "")
+            # Reset the values used during the connection validation
+            addon.setSetting("location_server_view", "false")
+            addon.setSetting("vpn_locations_list", "")
             # Re-enble the wizard
             addon.setSetting("vpn_wizard_enabled", "true")
             resumeConfigUpdate()

@@ -113,8 +113,7 @@ def authenticateShellfire(vpn_provider, userid, password):
 
     # If the same credentials have been used before, don't bother authenticating
     _,_,_, creds = getTokens()
-    # FIXME REMOVE THIS AFTER TESTING
-    if 1==0 and creds == vpn_provider + userid + password: 
+    if creds == vpn_provider + userid + password: 
         debugTrace("Previous authentication was good")
         return True
     
@@ -468,7 +467,6 @@ def getShellfireCerts(product_id, vpn_provider, country):
     cert_name = getAddonPath(True, vpn_provider + "/" + "sf" + account_id + ".crt")
     key_name = getAddonPath(True, vpn_provider + "/" + "sf" + account_id + ".key")
     if xbmcvfs.exists(ca_name) and xbmcvfs.exists(cert_name) and xbmcvfs.exists(key_name): return True
-    # FIXME This will lead to the same certs and key being used for the account.  This appears to work but review through other testing
     
     # Get the set of certificates that ar needed to connect
     rc, api_data = sendAPI("?action=getCertificates", "Retrieving certificates", '{"productId": "' + product_id + '"}', True)

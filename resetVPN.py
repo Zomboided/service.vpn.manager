@@ -56,6 +56,10 @@ if not getID() == "":
             progress.update(40, progress_title, "Stopping any active VPN connection...")
             xbmc.sleep(100)
             resetVPNConnections(addon)
+            # Reset any validated values
+            addon.setSetting("vpn_provider_validated", "")
+            addon.setSetting("vpn_username_validated", "")
+            addon.setSetting("vpn_password_validated", "")
         
         # Restart the VPN monitor
         if success:

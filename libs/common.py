@@ -370,8 +370,8 @@ def setVPNProfile(profile_name):
     # Store full profile path name
     xbmcgui.Window(10000).setProperty("VPN_Manager_Connected_Profile_Name", profile_name)
     # Update the server name if this is a connection
-    if not profile_name == "": 
-        setVPNServer(getVPNRequestedServer())
+    if not profile_name == "":
+        setVPNServer(profile_name)
         setVPNRequestedServer("")
     else:
         setVPNServer("")
@@ -1480,6 +1480,11 @@ def connectVPN(connection_order, vpn_profile):
 
     if isCustom(): addon.setSetting("vpn_provider", getCustom())
     vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
+        
+    # If the provider has not been validated, then reset some values
+    if not connection_order == "0" and addon.getSetting("vpn_provider_validated") == "":
+        addon.setSetting("location_server_view", "false")
+        addon.setSetting("vpn_locations_list", "")
         
     # Check to see if there are new ovpn files
     provider_download = True

@@ -527,7 +527,7 @@ def isVPNTaskRunning():
     return False
 
 
-connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, OPTIONS_ERROR=7, FILE_ERROR=8, ERROR=9) 
+connection_status = enum(UNKNOWN=0, CONNECTED=1, AUTH_FAILED=2, NETWORK_FAILED=3, TIMEOUT=4, ROUTE_FAILED=5, ACCESS_DENIED=6, OPTIONS_ERROR=7, FILE_ERROR=8, CONNECTIVITY_ERROR=9, ERROR=10) 
     
 def getVPNConnectionStatus():
     # Open the openvpn output file and parse it for known phrases

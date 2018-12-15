@@ -301,6 +301,9 @@ def startVPNConnection(vpn_profile, addon):
     if fakeConnection(): state = connection_status.CONNECTED
     
     if state == connection_status.CONNECTED:
+        state = connectivityTest(addon)
+        
+    if state == connection_status.CONNECTED:
         setVPNProfile(getVPNRequestedProfile())
         setVPNProfileFriendly(getVPNRequestedProfileFriendly())        
         setVPNState("started")
@@ -311,6 +314,18 @@ def startVPNConnection(vpn_profile, addon):
     return state
     
 
+def connectivityTest(addon):
+    # Use the function to determine where the external location is to estabilish whether there's connectivity
+    if not addon.getSetting("vpn_connectivity_test") == "true": return connection_status.CONNECTED
+    debugTrace("Checking network connectivity")
+    source, ip, country, isp = getIPInfo(addon)
+    if source == "": 
+        errorTrace("common.py", "VPN connected but could not verify location so it's likely there's a connectivity or DNS issue")
+        return connection_status.CONNECTIVITY_ERROR
+    else:
+        return connection_status.CONNECTED
+    
+    
 def isVPNConnected():
     # Return True if the VPN task is still running, or the VPN connection is still active
     # Return False if the VPN task is no longer running and the connection is not active

@@ -890,8 +890,14 @@ if __name__ == '__main__' and not running():
                                             connection_retry_time = 3600
                                         else:
                                             # Try to reconnect increasing frequency (a minute longer each time)
-                                            connection_retry_time = 60 * connection_errors                                    
-                                        xbmcgui.Dialog().notification(addon_name, "Error connecting to VPN, retrying in " + str((connection_retry_time/60)) + " minutes.", getAddonPath(True, "/resources/warning.png"), 10000, True)
+                                            connection_retry_time = 60 * connection_errors
+                                        if not state == connection_status.CONNECTIVITY_ERROR:
+                                            dialog_text = "Error connecting to VPN"
+                                        else:
+                                            dialog_text = "Bad connectivity with VPN"
+                                        dialog_text = dialog_text + ", retrying in " + str((connection_retry_time/60)) + " minutes."
+                                        xbmcgui.Dialog().notification(addon_name, dialog_text, getAddonPath(True, "/resources/warning.png"), 10000, True)
+                                            
                                     setConnectionErrorCount(connection_errors)
                                     timer = 1
                                 # Want to kill any running process if it's not completed successfully
@@ -900,7 +906,7 @@ if __name__ == '__main__' and not running():
                                     # Stop any reconnect attempt if there's no point
                                     setVPNState("off")
                                 errorTrace("service.py", "VPN connect to " + getVPNRequestedProfile() + " has failed, VPN error was " + str(state))
-                                if isAlternative(vpn_provider):
+                                if isAlternative(vpn_provider) and not server_tried == "":
                                     errorTrace("service.py", "Server was " + server_tried)
                                 writeVPNLog()
                                 debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
@@ -938,7 +944,7 @@ if __name__ == '__main__' and not running():
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                                 else:
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly(), getAddonPath(True, icon), notification_time, False)
-                                if isAlternative(vpn_provider):
+                                if isAlternative(vpn_provider) and not getVPNServer() == "":
                                     infoTrace("service.py", "VPN connected to " + getVPNProfileFriendly() + " using " + getVPNServer())
                                 else:
                                     infoTrace("service.py", "VPN connected to " + getVPNProfileFriendly())

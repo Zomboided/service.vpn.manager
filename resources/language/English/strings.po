@@ -229,26 +229,30 @@ msgid "Connection validation frequency (seconds)"
 msgstr ""
 
 msgctxt "#32052"
-msgid "Try next connection if first connect fails"
+msgid "Check connectivity after VPN connection"
 msgstr ""
 
 msgctxt "#32053"
-msgid "Ask to reboot if reconnect fails 10 times"
+msgid "Try next connection if first connect fails"
 msgstr ""
 
 msgctxt "#32054"
-msgid "Revert to previous VPN state for non-filtered add-ons"
+msgid "Ask to reboot if reconnect fails 10 times"
 msgstr ""
 
 msgctxt "#32055"
-msgid "Allow re-connection of existing connection"
+msgid "Revert to previous VPN state for non-filtered add-ons"
 msgstr ""
 
 msgctxt "#32056"
-msgid "Periodically reconnect (hours, 0 is off)"
+msgid "Allow re-connection of existing connection"
 msgstr ""
 
 msgctxt "#32057"
+msgid "Periodically reconnect (hours, 0 is off)"
+msgstr ""
+
+msgctxt "#32058"
 msgid "Include disconnect option in VPN cycle"
 msgstr ""
 

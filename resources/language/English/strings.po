@@ -671,7 +671,7 @@ msgid "IP-API"
 msgstr ""
 
 msgctxt "#32186"
-msgid "freegeoip.net"
+msgid "ipstack"
 msgstr ""
 
 

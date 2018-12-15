@@ -26,8 +26,8 @@ from utility import ifHTTPTrace, debugTrace, infoTrace, errorTrace, ifDebug, new
 
 
 
-ip_sources = ["Auto select", "ipinfo.io", "IP-API", "freegeoip.net"]
-ip_urls = ["", "http://ipinfo.io/json", "http://ip-api.com/json", "http://freegeoip.net/json/"] 
+ip_sources = ["Auto select", "ipinfo.io", "IP-API", "ipstack"]
+ip_urls = ["", "http://ipinfo.io/json", "http://ip-api.com/json", "http://api.ipstack.com/check?access_key=8a0ac323ba3036f3b4d0555de7527970"] 
 LIST_DEFAULT = "0,0,0"
 
 MAX_ERROR = 64
@@ -69,7 +69,7 @@ def getIPInfoFrom(source):
         # These all return JSON so probably a JSON parser should really be used
         if source == "ipinfo.io": match = getipinfo(link)
         if source == "IP-API": match = getIPAPI(link)
-        if source == "freegeoip.net": match = getFreeGeoIP(link)
+        if source == "ipstack": match = getipstack(link)
         
         if not match == None:
             recordWorking(source)
@@ -104,7 +104,7 @@ def getIPAPI(link):
         return None           
         
         
-def getFreeGeoIP(link):
+def getipstack(link):
     match = re.compile(ur'"ip":"(.*?)".*"country_name":"(.*?)".*"region_name":"(.*?).*"city":"(.*?)".*').findall(link)
     if len(match) > 0:
         for ip, country, region, city in match:

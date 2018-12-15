@@ -1,3 +1,8 @@
+v5.1.0
+- Add Shellfire API support
+- Replace FreeGeoIP with ipstack
+- Add connectivity checking after establishing a VPN
+
 v5.0.7
 - Fix some issues with paths that contain spaces within ovpn files
 

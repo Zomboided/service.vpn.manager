@@ -38,7 +38,7 @@ from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLoc
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshFromGit
 from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
-from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles
+from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
 from userdefined import importWizard
@@ -709,12 +709,12 @@ def requestVPNCycle(immediate):
                         profiles.append(next_profile)
                         if next_profile == getVPNProfile() : 
                             found_current = True
-                            if isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
+                            if allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
                                 profiles.append("!" + next_profile)
                     i=i+1
                 if not found_current:
                     profiles.append(getVPNProfile())
-                    if isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
+                    if allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
                         profiles.append("!" + getVPNProfile())
                       
                 # Work out where in the cycle we are and move to the next one

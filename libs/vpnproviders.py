@@ -68,6 +68,9 @@ providers_alternative = ["NordVPN", "Shellfire"]
 # List of providers that only allow location based selection
 providers_single_view = ["NordVPN"]
 
+# List of providers that allow reconnection
+providers_reconnect = ["NordVPN"]
+
 # Leave this alone...it must match the text in providers
 user_def_disp_str = "User Defined"
 user_def_str = "UserDefined"
@@ -466,7 +469,12 @@ def allowViewSelection(vpn_provider):
     if vpn_provider in providers_single_view: return False
     return True
     
+    
+def allowReconnection(vpn_provider):
+    if vpn_provider in providers_reconnect: return True
+    return False
 
+    
 def getAlternativePreFetch(vpn_provider):
     return globals()["get" + vpn_provider + "PreFetch"](vpn_provider)
     

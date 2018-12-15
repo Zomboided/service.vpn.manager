@@ -21,7 +21,7 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocationName
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocationName, allowReconnection
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
 from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
@@ -71,7 +71,7 @@ if not getID() == "":
             if connections[i] == disconnect_text or connections[i] == disconnected_text:
                 setAPICommand("Disconnect")
             elif not connections[i] == cancel_text:
-                if getVPNProfile() == location_connections[i-1] and (isAlternative(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true"):
+                if getVPNProfile() == location_connections[i-1] and (allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true"):
                     setAPICommand("Reconnect")
                 else:
                     if isAlternative(vpn_provider):

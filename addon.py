@@ -29,6 +29,7 @@ from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorSt
 from libs.common import getIconPath, getSystemData, getVPNServer
 from libs.platform import getPlatform, platforms, getPlatformString, fakeConnection
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
+from libs.vpnproviders import allowReconnection
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.sysbox import popupSysBox
 
@@ -213,7 +214,7 @@ def changeConnection():
     if not ignore:
         if not user_text == "":
             xbmcgui.Dialog().ok(addon_name, user_text)
-        elif isVPNConnected() and ovpn_connection == getVPNProfile() and not isAlternative(vpn_provider) and not addon.getSetting("allow_cycle_reconnect") == "true":
+        elif isVPNConnected() and ovpn_connection == getVPNProfile() and not allowReconnection(vpn_provider) and not addon.getSetting("allow_cycle_reconnect") == "true":
             displayStatus()
         else:        
             connectVPN("0", ovpn_connection)

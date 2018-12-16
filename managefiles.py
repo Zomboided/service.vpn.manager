@@ -28,7 +28,7 @@ from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, u
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
-from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix
+from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -47,31 +47,33 @@ if not getID() == "":
     
     # Reset the ovpn files
     if action == "ovpn":
-        if addon.getSetting("1_vpn_validated") == "" or xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
-            suspendConfigUpdate()
-            # Disconnect so that live files are not being modified
-            if isVPNConnected(): resetVPNConnections(addon)            
-            infoTrace("managefiles.py", "Resetting the VPN provider")
-            # Delete the generated files, and reset the locations so it can be selected again
-            removeGeneratedFiles()
-            # Delete any values that have previously been validated
-            vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
-            if isAlternative(vpn_provider): resetAlternative(vpn_provider)          
-            # Reset the IP service error counts, etc
-            resetIPServices()
-            addon = xbmcaddon.Addon(getID())
-            # Reset values that would have been stored as part of validation
-            addon.setSetting("vpn_provider_validated", "")
-            addon.setSetting("vpn_username_validated", "")
-            addon.setSetting("vpn_password_validated", "")
-            # Reset the values used during the connection validation
-            addon.setSetting("location_server_view", "false")
-            addon.setSetting("vpn_locations_list", "")
-            # Re-enble the wizard
-            addon.setSetting("vpn_wizard_enabled", "true")
-            resumeConfigUpdate()
-            xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
-
+        if getVPNRequestedProfile() == "":                
+            if xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
+                suspendConfigUpdate()
+                # Disconnect so that live files are not being modified
+                if isVPNConnected(): resetVPNConnections(addon)            
+                infoTrace("managefiles.py", "Resetting the VPN provider")
+                # Delete the generated files, and reset the locations so it can be selected again
+                removeGeneratedFiles()
+                # Delete any values that have previously been validated
+                vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
+                if isAlternative(vpn_provider): resetAlternative(vpn_provider)          
+                # Reset the IP service error counts, etc
+                resetIPServices()
+                addon = xbmcaddon.Addon(getID())
+                # Reset values that would have been stored as part of validation
+                addon.setSetting("vpn_provider_validated", "")
+                addon.setSetting("vpn_username_validated", "")
+                addon.setSetting("vpn_password_validated", "")
+                # Reset the values used during the connection validation
+                addon.setSetting("location_server_view", "false")
+                addon.setSetting("vpn_locations_list", "")
+                # Re-enble the wizard
+                addon.setSetting("vpn_wizard_enabled", "true")
+                resumeConfigUpdate()
+                xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
+        else:
+            xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted.  Try again when connection is completed.")
             
     # Generate the VPN provider files
     if action == "generate":

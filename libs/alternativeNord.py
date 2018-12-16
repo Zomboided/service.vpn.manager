@@ -473,7 +473,7 @@ def getNordVPNServer(vpn_provider, server, server_count, just_name):
     return "", "", "", False
     
     
-def getNordVPNMessages(vpn_provider, last_time):   
+def getNordVPNMessages(vpn_provider, last_time, last_id):   
     # Return any message ID and message available from the provider
     # Not supported for this provider
     return "", ""

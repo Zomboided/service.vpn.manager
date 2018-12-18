@@ -157,7 +157,6 @@ def getFriendlyProfileName(ovpn_connection):
         errorTrace("common.py", str(e))
         raise
     
-    
 
 def getIPInfo(addon):
     # Generate request to find out where this IP is based
@@ -181,7 +180,7 @@ def getIPInfo(addon):
         end_time = int(time.time())
         response_time = end_time - start_time
         debugTrace("Got response, IP is " + ip + ", response time in seconds is " + str(response_time))
-        
+
         if ip == "no info":
             # Got a response but couldn't format it.  No point retrying, move to next service or quit
             if isAutoSelect(original_source):
@@ -1077,13 +1076,14 @@ def wizard():
                 success = False
             xbmc.sleep(1000)
             if not getPlatform() == platforms.WINDOWS:
-                progress_message = "Checking pidof..."
-                progress.update(33, progress_title, progress_message)    
-                if not checkPidofCommand(addon):
-                    success = False
-                xbmc.sleep(1000)
+                # Removing pidof check because most/all Linux platforms should have it, especially those that can run Kodi
+                #progress_message = "Checking pidof..."
+                #progress.update(33, progress_title, progress_message)    
+                #if not checkPidofCommand(addon):
+                #    success = False
+                #xbmc.sleep(1000)
                 progress_message = "Checking killall..."
-                progress.update(66, progress_title, progress_message)  
+                progress.update(50, progress_title, progress_message)  
                 if not getPlatform() == platforms.WINDOWS and not checkKillallCommand(addon): 
                     success = False
                 xbmc.sleep(1000)

@@ -18,12 +18,11 @@
 #
 #    Shared code to return info about an IP connection.
 
-import re
 import urllib2
 import xbmcaddon
 import xbmcgui
-from utility import ifHTTPTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
-
+import json
+from utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
 
 
 ip_sources = ["Auto select", "ipinfo.io", "IP-API", "ipstack"]
@@ -32,85 +31,94 @@ LIST_DEFAULT = "0,0,0"
 
 MAX_ERROR = 64
 
+
 def getIPInfoFrom(source):
     # Generate request to find out where this IP is based
     # Successful return is ip, country, region, city, isp 
     # Otherwise error strings are returned for the caller to parse
-    link = ""
     try:
         # Determine the URL, make the call and read the response
         url = getIPSourceURL(source)
         if url == "": return "error", "error", "error", "unknown source", ""
+        if ifHTTPTrace(): debugTrace("Using " + url)
         req = urllib2.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
         response = urllib2.urlopen(req, timeout = 10)
-        if ifHTTPTrace(): debugTrace("Using " + url)
-        link = response.read()
+        json_data = json.load(response)   
         response.close()
+        if ifJSONTrace(): infoTrace("ipinfo.py", "JSON received is \n" + json.dumps(json_data, indent=4))
     except urllib2.HTTPError as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
         errorTrace("ipinfo.py", "API call was " + url)
         errorTrace("ipinfo.py", "Response was " + str(e.code) + " " + e.reason)
         errorTrace("ipinfo.py", e.read())
         recordError(source)
-        return "error", "unknown location", "unknown location", "call failed", link
+        return "error", "unknown location", "unknown location", "call failed", "unknown ISP"
     except Exception as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
         errorTrace("ipinfo.py", "API call was " + url)
         errorTrace("ipinfo.py", "Response was " + str(type(e)) + " " + str(e))
         recordError(source)
-        return "no response", "error", "error", "connection failed", link
+        return "no response", "error", "error", "connection failed", "unknown ISP"
         
     try:
-        # This makes stupid regex easier
-        link = link.replace("\n","")
-        debugTrace("IP provider " + source + " returned " + link)
-        # Call the right routine to parse the reply using regex
-        # These all return JSON so probably a JSON parser should really be used
-        if source == "ipinfo.io": match = getipinfo(link)
-        if source == "IP-API": match = getIPAPI(link)
-        if source == "ipstack": match = getipstack(link)
+        if source == "ipinfo.io": ip, country, region, city, isp = getipinfo(json_data)
+        if source == "IP-API": ip, country, region, city, isp = getIPAPI(json_data)
+        if source == "ipstack": ip, country, region, city, isp = getipstack(json_data)
         
-        if not match == None:
+        if not ip == None:
             recordWorking(source)
-            for ip, country, region, city, isp in match:
-                return ip, country, region, city, isp
+            return ip, country, region, city, isp
         else:
-            errorTrace("ipinfo.py", "No matches found for IP provider " + "source" + " " + link)
+            errorTrace("ipinfo.py", "Couldn't get data from " + "source")
             recordError(source)
-            return "no info", "unknown location", "unknown location", "no matches", link
+            return "no info", "unknown location", "unknown location", "no matches", "unknown ISP"
     except Exception as e:
-        errorTrace("ipinfo.py", "Couldn't parse response from IP provider " + source + " " + link)
+        errorTrace("ipinfo.py", "Couldn't parse response from IP provider " + source)
         errorTrace("ipinfo.py", str(e))
         recordError(source)
-        return "error", "error", "error", "parse failed", link
+        return "error", "error", "error", "parse failed", "unknown ISP"
 
         
-def getipinfo(link):
-    match = re.compile(ur'"ip": "(.*?)".*"city": "(.*?)".*"region": "(.*?)".*"country": "(.*?)".*"org": "(.*?)"').findall(link)
-    if len(match) > 0:
-        for ip, city, region, country, isp in match:
-            return [(ip, country, region, city, isp)]
-    else:
-        return None               
+def getipinfo(json_data):
+    try:
+        ip = json_data["ip"]
+        country = json_data["country"]
+        region = json_data["region"]
+        city = json_data["city"]
+        isp = json_data["org"]        
+        return ip, country, region, city, isp
+    except Exception as e:
+        errorTrace("ipinfo.py", "Couldn't parse JSON data " + str(json_data))
+        errorTrace("ipinfo.py", str(e))
+        return None, None, None, None, None               
         
 
-def getIPAPI(link):
-    match = re.compile(ur'"city":"(.*?)".*"country":"(.*?)".*"isp":"(.*?)".*"query":"(.*?)".*"regionName":"(.*?)"').findall(link)
-    if len(match) > 0:
-        for city, country, isp, ip, region in match:
-            return [(ip, country, region, city, isp)]
-    else:
-        return None           
+def getIPAPI(json_data):
+    try:
+        ip = json_data["query"]
+        country = json_data["country"]
+        region = json_data["regionName"]
+        city = json_data["city"]
+        isp = json_data["isp"]        
+        return ip, country, region, city, isp
+    except Exception as e:
+        errorTrace("ipinfo.py", "Couldn't parse JSON data " + str(json_data))
+        errorTrace("ipinfo.py", str(e))
+        return None, None, None, None, None               
         
         
-def getipstack(link):
-    match = re.compile(ur'"ip":"(.*?)".*"country_name":"(.*?)".*"region_name":"(.*?).*"city":"(.*?)".*').findall(link)
-    if len(match) > 0:
-        for ip, country, region, city in match:
-            return [(ip, country, region, city, "Unknown")]
-    else:
-        return None
+def getipstack(json_data):
+    try:
+        ip = json_data["ip"]
+        country = json_data["country_name"]
+        region = json_data["region_name"]
+        city = json_data["city"]       
+        return ip, country, region, city, "Unknown"
+    except Exception as e:
+        errorTrace("ipinfo.py", "Couldn't parse JSON data " + str(json_data))
+        errorTrace("ipinfo.py", str(e))
+        return None, None, None, None, None 
 
 
 def isAutoSelect(source):
@@ -191,6 +199,7 @@ def resetIPServices():
 
 def getIndex(source):
     return ip_sources.index(source)
+    
     
 def getErrorValue(index):
     index -= 1

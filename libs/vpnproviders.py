@@ -68,7 +68,7 @@ providers_alternative = ["NordVPN", "Shellfire"]
 # List of providers that only allow location based selection
 providers_single_view = ["NordVPN"]
 
-# List of providers that allow reconnection
+# List of providers that always allow reconnection regardless of Settings
 providers_reconnect = ["NordVPN"]
 
 # Leave this alone...it must match the text in providers

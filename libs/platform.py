@@ -558,9 +558,15 @@ def getVPNConnectionStatus():
                     state = connection_status.NETWORK_FAILED
                 if "Connection timed out" in line:
                     state = connection_status.TIMEOUT
+                if "Inactivity timeout" in line:
+                    state = connection_status.TIMEOUT
                 if "Error opening configuration file" in line:
                     state = connection_status.FILE_ERROR
                 if p == platforms.WINDOWS and "ROUTE" in line and "Access is denied" in line:
+                    # This is a Windows, not running Kodi as administrator error
+                    state = connection_status.ACCESS_DENIED
+                    break
+                if p == platforms.WINDOWS and "FlushIpNetTable" in line and "Access is denied" in line:
                     # This is a Windows, not running Kodi as administrator error
                     state = connection_status.ACCESS_DENIED
                     break

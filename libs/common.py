@@ -2025,7 +2025,7 @@ def connectVPN(connection_order, vpn_profile):
             elif state == connection_status.NETWORK_FAILED: 
                 dialog_message = "Error connecting to VPN, could not establish connection. Check your user name, password and network connectivity and retry."
             elif state == connection_status.TIMEOUT:
-                dialog_message = "Error connecting to VPN, connection has timed out. Retry or try using a different VPN profile."
+                dialog_message = "Error connecting to VPN, connection has timed out or VPN could not be reached. Retry, or try using a different port or VPN profile."
             elif state == connection_status.ROUTE_FAILED:
                 dialog_message = "Error connecting to VPN, could not update routing table. Retry and then check log."
             elif state == connection_status.ACCESS_DENIED:

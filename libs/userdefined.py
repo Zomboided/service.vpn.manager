@@ -226,7 +226,7 @@ def importWizard():
                                 path, name = os.path.split(fname)
                                 if not line.startswith("#"):
                                     params = line.split()
-                                    if len(params) == 2:
+                                    if len(params) > 2:
                                         # Remove the separator in order to get any fully qualified filename as space delimited
                                         params[1].replace(getSeparator(), " ")
                                         # Add in a leading space for unqualified filenames
@@ -234,6 +234,10 @@ def importWizard():
                                         if params[1].endswith(" " + name):
                                             old_line = line
                                             line = params[0] + " " + "#PATH" + getSeparatorOutput() + name
+                                            # Add any trailing parameters back in
+                                            if len(params) > 2:
+                                                for i in range(2, len(params)):
+                                                    line = line + " " + params[i]
                                             detail.append("  Found " + name + ", old line was : " + old_line + "\n")
                                             detail.append("  New line is " + line + "\n")
                                             other_files_count[i] += 1

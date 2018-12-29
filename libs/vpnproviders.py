@@ -1105,21 +1105,30 @@ def parseGitMetaData(metadata):
 
     
 def checkForVPNUpdates(vpn_provider, cached):
+    # Can't update something we're clueless about
+    if vpn_provider == "" or isUserDefined(vpn_provider): return False
+    
+    t = int(time.time())
+    if getVPNProviderUpdateTime() == 0:
+        # Reset the cached values as we've not been through here before
+        setVPNProviderUpdate("false")
+        setVPNProviderUpdateTime(t)
+    else:
+        # Return the value from cache if it's less than a day old
+        if cached and t - getVPNProviderUpdateTime() < 86400:
+            if getVPNProviderUpdate() == "true": return True
+            else: return False
+            
+    setVPNProviderUpdate("false")
     if isAlternative(vpn_provider):
-        return checkForAlternativeUpdates(vpn_provider)
+        # Check for updates for alternative providers
+        update_available = checkForAlternativeUpdates(vpn_provider)
+        if update_available:
+            setVPNProviderUpdate("true")
+            setVPNProviderUpdateTime(t)
+        return update_available
     else:
         # Download the metadata file, compare it to the existing timestamp and return True if there's an update
-        t = int(time.time())
-        if getVPNProviderUpdateTime() == 0:
-            setVPNProviderUpdate("false")
-            setVPNProviderUpdateTime(t)
-        else:
-            # Return the value from cache if it's less than a day old
-            if cached and t - getVPNProviderUpdateTime() < 86400:
-                if getVPNProviderUpdate() == "true": return True
-                else: return False
-        setVPNProviderUpdate("false")
-        if vpn_provider == "" or isUserDefined(vpn_provider): return False
         metadata = getGitMetaData(vpn_provider)
         if metadata is None:
             # Can't get to github, trace it but pretend there's no update
@@ -1160,16 +1169,19 @@ def getVPNProviderUpdateTime():
 
     
 def setVPNProviderUpdateTime(t):
-    # Storei time of when a provider was last checked to see if there was an update
+    # Store time of when a provider was last checked to see if there was an update
     xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Update_Time", str(t))
     return     
     
 
 def refreshVPNFiles(vpn_provider, progress):
+    # Do what's required to fetch updated VPN files, either download
+    # from Github or from an alternative provider
+    addon = xbmcaddon.Addon(getID())
+    result = True
     if isAlternative(vpn_provider):
-        return refreshFromAlternative(vpn_provider)
+        result = refreshFromAlternative(vpn_provider)
     else:
-        addon = xbmcaddon.Addon(getID())
         infoTrace("vpnproviders.py", "Checking downloaded ovpn files for " + vpn_provider + " with GitHub files")
         progress_title = "Updating files for " + vpn_provider
         try:
@@ -1290,14 +1302,17 @@ def refreshVPNFiles(vpn_provider, progress):
             progress.update(10, progress_title, progress_message)
             # Delete any generated files and reset the connection
             removeGeneratedFiles()
-            # Adjust 11 below if changing number of conn_max
-            i = 1
-            while i < 11:
-                addon.setSetting(str(i) + "_vpn_validated", "")
-                addon.setSetting(str(i) + "_vpn_validated_friendly", "")
-                i = i + 1
             xbmc.sleep(500)
-        return True
+            
+    # Now everything has been reset, finally clear out the settings
+    if result:
+        # Adjust 11 below if changing number of conn_max
+        i = 1
+        while i < 11:
+            addon.setSetting(str(i) + "_vpn_validated", "")
+            addon.setSetting(str(i) + "_vpn_validated_friendly", "")
+            i = i + 1
+    return result
     
 
 def populateSupportingFromGit(vpn_provider):

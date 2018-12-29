@@ -70,7 +70,7 @@
     <setting label="32049" type="text" id="vpn_stream_ids" visible="eq(-1,true)+eq(-11,)" default="http: !http://192.168 https: !https://192.168"/>
     <setting label="32050" type="bool" id="vpn_force_reconnect_after_wake" default="false"/>
     <setting label="32051" type="slider" id="vpn_reconnect_freq" default="60" range="10,10,3600" option="int" />
-    <setting label="32052" type="bool" id="vpn_connectivity_test" visible="true" default="true"/>
+    <setting label="32052" type="bool" id="vpn_connectivity_test" visible="true" default="false"/>
     <setting label="32053" type="bool" id="vpn_reconnect_next" visible="eq(-15,)" default="false"/>
     <setting label="32054" type="bool" id="vpn_reconnect_reboot" default="true"/>
     <setting label="32055" type="bool" id="vpn_reconnect_filtering" default="true"/>

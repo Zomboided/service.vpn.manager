@@ -1505,16 +1505,16 @@ def connectVPN(connection_order, vpn_profile):
     provider_download = True
     reset_connections = False
     if not progress.iscanceled() and not isUserDefined(vpn_provider):    
-        progress_message = "Checking for latest VPN files..."
+        progress_message = "Checking for latest VPN locations..."
         progress.update(7, progress_title, progress_message)
         xbmc.sleep(DIALOG_SPEED)
         if checkForVPNUpdates(vpn_provider, False):
             addon = xbmcaddon.Addon(getID())
-            if not isAlternative(vpn_provider) and not connection_order == "0":
+            if not connection_order == "0":
                 # Offer to download the files if this is part of the validation process
                 # If it's an alternative provider, this is dealt with when everything is reset
                 if (connection_order == "1" and addon.getSetting("2_vpn_validated") == ""):
-                    # Is this provider able to update via the interweb?
+                    # Just update if this is the first time a connection is being done
                     provider_download = refreshVPNFiles(vpn_provider, progress)
                 else:
                     progress_message = "New VPN locations found! Click OK to download. [I]If you use existing locations they may not continue to work.[/I]"
@@ -1522,7 +1522,7 @@ def connectVPN(connection_order, vpn_profile):
                         provider_download = refreshVPNFiles(vpn_provider, progress)
                         # This is horrible code to avoid adding more booleans.  It'll pretend that the files
                         # didn't download and skip to the end, but it'll indicate that connections need resetting
-                        if provider_download == True:
+                        if provider_download:
                             progress_title = "Downloaded new VPN files"
                             reset_connections = True
                             provider_download = False
@@ -1535,7 +1535,7 @@ def connectVPN(connection_order, vpn_profile):
                 progress.update(7, progress_title, progress_message)
                 xbmc.sleep(5000)
         else:
-            progress_message = "Using latest VPN files"
+            progress_message = "Using latest VPN locations"
             progress.update(7, progress_title, progress_message)
             xbmc.sleep(DIALOG_SPEED)
         addon = xbmcaddon.Addon(getID())
@@ -1991,12 +1991,12 @@ def connectVPN(connection_order, vpn_profile):
         # First set of errors happened prior to trying to connect
         if not provider_download:
             if reset_connections:
-                dialog_message = "Update VPN connections to start using new VPN locations"
+                dialog_message = "Validate VPN connections to start using new locations"
             else:
                 if not isAlternative(vpn_provider):
                     dialog_message = "Unable to download the VPN provider files. Check network and then try again. Additional information can be found in the log."
                 else:
-                    dialog_message = "Could not authenticate with VPN provider.  Please check user name and password and try again."
+                    dialog_message = "Could not authenticate with VPN provider. Please check user name and password and try again."
             log_option = False
         elif not provider_gen:
             if isAlternative(vpn_provider):
@@ -2054,8 +2054,8 @@ def connectVPN(connection_order, vpn_profile):
         
         errorTrace("common.py", dialog_message)
         
-        # If we selected the location, reset this so it can be selected next time
-        if select_location: addon.setSetting("vpn_locations_list","")
+        # If we selected the location, or reset the connections, clear the locations list for selecting next time
+        if select_location or reset_connections: addon.setSetting("vpn_locations_list","")
         
         # The VPN might be having a spaz still so we want to ensure it's stopped
         stopVPN9()

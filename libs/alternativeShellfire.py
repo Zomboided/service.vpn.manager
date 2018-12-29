@@ -535,8 +535,8 @@ def getShellfireMessages(vpn_provider, last_time, last_id):
     if getAccountType() > 0 and not last_time == 0: return "", ""
     
     # Fetch any available deal
-    rc, api_data = sendAPI("?action=getAvailablePricingDealSuccess", "Retrieving messages", "", False)
-    # FIXME Adding 'Success' to the end of this line will return a test message
+    rc, api_data = sendAPI("?action=getAvailablePricingDeal", "Retrieving messages", "", False)
+    # Adding 'Success' to the end of this line will return a test message
     # Check the call worked and that it was successful.  If there's no message, a bad response is returned
     if not rc: return "", ""
     if not api_data["status"] == "success": return "", ""
@@ -563,13 +563,24 @@ def getShellfireMessages(vpn_provider, last_time, last_id):
     
 def checkForShellfireUpdates(vpn_provider):
     # See if the current stored tokens have changed
-    # FIXME, check to see if the tokens have changed
-    return False
+    addon = xbmcaddon.Addon(getID())
+    current = addon.getSetting("vpn_locations_list")
+    # If nothing has been selected/validated, then it doesn't matter if there's updates or not
+    if current == "": return False
+    debugTrace("Checking for updates for " + current)
+    # Get the list of services and see if the current ID is still the same
+    services = getServices()
+    if services == None: return False
+    for s in services:
+        # Look for the current service/id. If it's found nothing has been updated
+        if s == current: return False
+    # If we didn't find the service/id, then it's changed, so there are updates
+    return True
     
 
 def refreshFromShellfire(vpn_provider):
     # Force a refresh of the data from the VPN provider
-    # Nothing to do for this provider
+    # Nothing to do for this provider, the caller will reset the validated connections
     return True
 
 

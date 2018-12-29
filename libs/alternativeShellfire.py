@@ -560,6 +560,18 @@ def getShellfireMessages(vpn_provider, last_time, last_id):
     
     return id, message
     
+    
+def checkForShellfireUpdates(vpn_provider):
+    # See if the current stored tokens have changed
+    # FIXME, check to see if the tokens have changed
+    return False
+    
+
+def refreshFromShellfire(vpn_provider):
+    # Force a refresh of the data from the VPN provider
+    # Nothing to do for this provider
+    return True
+
 
 def regenerateShellfire(vpn_provider):
     # Regenerate any files required to connect

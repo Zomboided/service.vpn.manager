@@ -25,7 +25,7 @@ import xbmcvfs
 import datetime
 import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
-from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, refreshFromGit, removeDownloadedFiles, isAlternative, resetAlternative
+from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile

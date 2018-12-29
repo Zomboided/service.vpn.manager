@@ -477,7 +477,19 @@ def getNordVPNMessages(vpn_provider, last_time, last_id):
     # Return any message ID and message available from the provider
     # Not supported for this provider
     return "", ""
+
+
+def checkForNordVPNUpdates(vpn_provider):
+    # See if the current stored tokens have changed
+    # Nothing to do for this provider so report there are no updates
+    return False
     
+
+def refreshFromNordVPN(vpn_provider):
+    # Force a refresh of the data from the VPN provider
+    # Nothing to do for this provider
+    return True
+
 
 def getNordVPNProfiles(vpn_provider):
     # Return selectable profiles, with alias to store and message

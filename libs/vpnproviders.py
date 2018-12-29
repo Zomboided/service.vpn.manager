@@ -30,11 +30,11 @@ from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, ge
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
 from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
-from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages
+from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages, checkForNordVPNUpdates, refreshFromNordVPN
 from alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
 from alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
 from alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire, getShellfireProfiles
-from alternativeShellfire import getShellfireMessages
+from alternativeShellfire import getShellfireMessages, checkForShellfireUpdates, refreshFromShellfire
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****
@@ -530,6 +530,14 @@ def getAlternativeMessages(vpn_provider, last_time, last_id):
 def getAlternativeProfiles(vpn_provider):
     return globals()["get" + vpn_provider + "Profiles"](vpn_provider)    
     
+    
+def checkForAlternativeUpdates(vpn_provider):
+    return globals()["checkFor" + vpn_provider + "Updates"](vpn_provider)    
+    
+
+def refreshFromAlternative(vpn_provider):
+    return globals()["refreshFrom" + vpn_provider](vpn_provider)    
+        
     
 def getLocationFiles(vpn_provider):
     # Return the locations files, add any user version to the end of the list
@@ -1096,37 +1104,40 @@ def parseGitMetaData(metadata):
     return timestamp, version, total_files, file_list
 
     
-def checkForGitUpdates(vpn_provider, cached):
-    # Download the metadata file, compare it to the existing timestamp and return True if there's an update
-    t = int(time.time())
-    if getVPNProviderUpdateTime() == 0:
-        setVPNProviderUpdate("false")
-        setVPNProviderUpdateTime(t)
+def checkForVPNUpdates(vpn_provider, cached):
+    if isAlternative(vpn_provider):
+        return checkForAlternativeUpdates(vpn_provider)
     else:
-        # Return the value from cache if it's less than a day old
-        if cached and t - getVPNProviderUpdateTime() < 86400:
-            if getVPNProviderUpdate() == "true": return True
-            else: return False
-    setVPNProviderUpdate("false")
-    if vpn_provider == "" or isUserDefined(vpn_provider): return False
-    metadata = getGitMetaData(vpn_provider)
-    if metadata is None:
-        # Can't get to github, trace it but pretend there's no update
-        errorTrace("vpnproviders.py", "No metadata was returned for " + vpn_provider)
-        return False
-    git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
-    try:
-        last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
-        last = last_file.readlines()
-        last_file.close()
-        if last[0] == git_timestamp: return False
-        setVPNProviderUpdate("true")
-        setVPNProviderUpdateTime(t)
-        return True
-    except:
-        # Tried to read the existing file and it likely didn't exist
-        # Return true as this means nothing has been downloaded
-        return True
+        # Download the metadata file, compare it to the existing timestamp and return True if there's an update
+        t = int(time.time())
+        if getVPNProviderUpdateTime() == 0:
+            setVPNProviderUpdate("false")
+            setVPNProviderUpdateTime(t)
+        else:
+            # Return the value from cache if it's less than a day old
+            if cached and t - getVPNProviderUpdateTime() < 86400:
+                if getVPNProviderUpdate() == "true": return True
+                else: return False
+        setVPNProviderUpdate("false")
+        if vpn_provider == "" or isUserDefined(vpn_provider): return False
+        metadata = getGitMetaData(vpn_provider)
+        if metadata is None:
+            # Can't get to github, trace it but pretend there's no update
+            errorTrace("vpnproviders.py", "No metadata was returned for " + vpn_provider)
+            return False
+        git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
+        try:
+            last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
+            last = last_file.readlines()
+            last_file.close()
+            if last[0] == git_timestamp: return False
+            setVPNProviderUpdate("true")
+            setVPNProviderUpdateTime(t)
+            return True
+        except:
+            # Tried to read the existing file and it likely didn't exist
+            # Return true as this means nothing has been downloaded
+            return True
 
 
 def getVPNProviderUpdate():
@@ -1154,136 +1165,139 @@ def setVPNProviderUpdateTime(t):
     return     
     
 
-def refreshFromGit(vpn_provider, progress):
-    addon = xbmcaddon.Addon(getID())
-    infoTrace("vpnproviders.py", "Checking downloaded ovpn files for " + vpn_provider + " with GitHub files")
-    progress_title = "Updating files for " + vpn_provider
-    try:
-        # Create the download directories if required
-        path = getUserDataPath("Downloads/")
-        if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
-        path = getUserDataPath("Downloads/" + vpn_provider + "/")
-        if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
-    except Exception as e:
-        # Can't create the download directory
-        errorTrace("vpnproviders.py", "Can't create the download directory " + path)
-        errorTrace("vpnproviders.py", str(e))
-        return False
-    
-    # Download the metadata file
-    metadata = getGitMetaData(vpn_provider)
-    if metadata == None: return False
-    git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
-    timestamp = ""
-
-    try:
-        addon_version = int(addon.getSetting("version_number").replace(".",""))
-    except:
-        addon_version = int(addon.getAddonInfo("version").replace(".", ""))
-    if addon_version < int(version):
-        errorTrace("vpnproviders.py", getShort() + " version is " + str(addon_version) + " and version " + version + " is needed for this VPN.")
-        return False  
-    
-    try:
-        # Get the timestamp from the previous update
-        last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
-        last = last_file.readlines()
-        last_file.close()
-        # If there's a metadata file in the user directory but we had a problem with Github, just
-        # return True as there's a likelihood that there's something interesting to work with
-        if file_list is None: 
-            if progress is not None:
-                progress_message = "Unable to download files, using existing files."
-                progress.update(10, progress_title, progress_message)
-                infoTrace("vpnproviders.py", "Couldn't download files so using existing files for " + vpn_provider)
-                xbmc.sleep(1000)
-            return True
-        timestamp = last[0]
-    except Exception as e:
-        # If the metadata can't be read and there's nothing we can get from Github, return
-        # badness, otherwise we can read from Github and should just carry on.
-        if file_list is None: 
-            errorTrace("vpnproviders.py", "Couldn't download any files from Github for " + vpn_provider)
+def refreshVPNFiles(vpn_provider, progress):
+    if isAlternative(vpn_provider):
+        return refreshFromAlternative(vpn_provider)
+    else:
+        addon = xbmcaddon.Addon(getID())
+        infoTrace("vpnproviders.py", "Checking downloaded ovpn files for " + vpn_provider + " with GitHub files")
+        progress_title = "Updating files for " + vpn_provider
+        try:
+            # Create the download directories if required
+            path = getUserDataPath("Downloads/")
+            if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
+            path = getUserDataPath("Downloads/" + vpn_provider + "/")
+            if not xbmcvfs.exists(path): xbmcvfs.mkdir(path)
+        except Exception as e:
+            # Can't create the download directory
+            errorTrace("vpnproviders.py", "Can't create the download directory " + path)
+            errorTrace("vpnproviders.py", str(e))
             return False
         
-    # Check the timestamp and if it's not the same clear out the directory for new files
-    if timestamp == git_timestamp:                
-        debugTrace("VPN provider " + vpn_provider + " up to date, timestamp is " + git_timestamp)
+        # Download the metadata file
+        metadata = getGitMetaData(vpn_provider)
+        if metadata == None: return False
+        git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
+        timestamp = ""
+
+        try:
+            addon_version = int(addon.getSetting("version_number").replace(".",""))
+        except:
+            addon_version = int(addon.getAddonInfo("version").replace(".", ""))
+        if addon_version < int(version):
+            errorTrace("vpnproviders.py", getShort() + " version is " + str(addon_version) + " and version " + version + " is needed for this VPN.")
+            return False  
+        
+        try:
+            # Get the timestamp from the previous update
+            last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
+            last = last_file.readlines()
+            last_file.close()
+            # If there's a metadata file in the user directory but we had a problem with Github, just
+            # return True as there's a likelihood that there's something interesting to work with
+            if file_list is None: 
+                if progress is not None:
+                    progress_message = "Unable to download files, using existing files."
+                    progress.update(10, progress_title, progress_message)
+                    infoTrace("vpnproviders.py", "Couldn't download files so using existing files for " + vpn_provider)
+                    xbmc.sleep(1000)
+                return True
+            timestamp = last[0]
+        except Exception as e:
+            # If the metadata can't be read and there's nothing we can get from Github, return
+            # badness, otherwise we can read from Github and should just carry on.
+            if file_list is None: 
+                errorTrace("vpnproviders.py", "Couldn't download any files from Github for " + vpn_provider)
+                return False
+            
+        # Check the timestamp and if it's not the same clear out the directory for new files
+        if timestamp == git_timestamp:                
+            debugTrace("VPN provider " + vpn_provider + " up to date, timestamp is " + git_timestamp)
+            if progress is not None:
+                progress_message = "VPN provider files don't need updating"
+                progress.update(10, progress_title, progress_message)
+                xbmc.sleep(500)
+            return True
+        else: timestamp = git_timestamp
+        debugTrace("VPN provider " + vpn_provider + " needs updating, deleting existing files")
+        # Clear download files for this VPN
+        existing = glob.glob(getUserDataPath("Downloads" + "/" + vpn_provider + "/*.*"))
+        for file in existing:
+            try: xbmcvfs.delete(file)
+            except: pass
+
+        # Download and store the updated files        
+        error_count = 0
+        file_count = 0
+        progress_count = float(1)
+        progress_inc = float(99/float(total_files))
+        for file in file_list:
+            try:
+                error = True
+                #debugTrace("Downloading " + file)
+                if progress is not None:
+                    progress_count += progress_inc
+                    if progress.iscanceled(): return False
+                    progress_message = "Downloading " + file
+                    progress.update(int(progress_count), progress_title, progress_message)
+                download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
+                download_url = download_url.replace(" ", "%20")
+                if ifHTTPTrace(): debugTrace("Using " + download_url)
+                git_file = urllib2.urlopen(download_url)
+                file = file.strip(' \n')
+                output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')
+                for line in git_file:
+                    output.write(line)
+                output.close()
+                error = False
+            except urllib2.HTTPError as e:
+                errorTrace("vpnproviders.py", "Can't download " + file)
+                errorTrace("vpnproviders.py", "API call was " + download_url)
+                errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
+                errorTrace("vpnproviders.py", e.read())
+            except Exception as e:
+                errorTrace("vpnproviders.py", "Can't download " + file)
+                errorTrace("vpnproviders.py", "API call was " + download_url)
+                errorTrace("vpnproviders.py", "Response was " + str(type(e)) + " " + str(e))           
+            if error:
+                error_count += 1
+                # Bail after 5 failures as it's likely something bad is happening.  Don't fail
+                # immediately because it could just be an error with one or two locations
+                if error_count > 5: return False            
+                
+            # Uncomment the next line to make testing larger downloads easier....
+            # if file_count == 20: break
+            file_count += 1
+        debugTrace("Processed " + str(file_count) + " files for " + vpn_provider)
+                    
+        # Write the update timestamp
+        debugTrace("Updated VPN provider " + vpn_provider + " new timestamp is " + timestamp)
+        output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'w')
+        output.write(timestamp + "\n")
+        output.close()
         if progress is not None:
-            progress_message = "VPN provider files don't need updating"
+            progress_message = "VPN provider files updated, removing old ones"
             progress.update(10, progress_title, progress_message)
+            # Delete any generated files and reset the connection
+            removeGeneratedFiles()
+            # Adjust 11 below if changing number of conn_max
+            i = 1
+            while i < 11:
+                addon.setSetting(str(i) + "_vpn_validated", "")
+                addon.setSetting(str(i) + "_vpn_validated_friendly", "")
+                i = i + 1
             xbmc.sleep(500)
         return True
-    else: timestamp = git_timestamp
-    debugTrace("VPN provider " + vpn_provider + " needs updating, deleting existing files")
-    # Clear download files for this VPN
-    existing = glob.glob(getUserDataPath("Downloads" + "/" + vpn_provider + "/*.*"))
-    for file in existing:
-        try: xbmcvfs.delete(file)
-        except: pass
-
-    # Download and store the updated files        
-    error_count = 0
-    file_count = 0
-    progress_count = float(1)
-    progress_inc = float(99/float(total_files))
-    for file in file_list:
-        try:
-            error = True
-            #debugTrace("Downloading " + file)
-            if progress is not None:
-                progress_count += progress_inc
-                if progress.iscanceled(): return False
-                progress_message = "Downloading " + file
-                progress.update(int(progress_count), progress_title, progress_message)
-            download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
-            download_url = download_url.replace(" ", "%20")
-            if ifHTTPTrace(): debugTrace("Using " + download_url)
-            git_file = urllib2.urlopen(download_url)
-            file = file.strip(' \n')
-            output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')
-            for line in git_file:
-                output.write(line)
-            output.close()
-            error = False
-        except urllib2.HTTPError as e:
-            errorTrace("vpnproviders.py", "Can't download " + file)
-            errorTrace("vpnproviders.py", "API call was " + download_url)
-            errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
-            errorTrace("vpnproviders.py", e.read())
-        except Exception as e:
-            errorTrace("vpnproviders.py", "Can't download " + file)
-            errorTrace("vpnproviders.py", "API call was " + download_url)
-            errorTrace("vpnproviders.py", "Response was " + str(type(e)) + " " + str(e))           
-        if error:
-            error_count += 1
-            # Bail after 5 failures as it's likely something bad is happening.  Don't fail
-            # immediately because it could just be an error with one or two locations
-            if error_count > 5: return False            
-            
-        # Uncomment the next line to make testing larger downloads easier....
-        # if file_count == 20: break
-        file_count += 1
-    debugTrace("Processed " + str(file_count) + " files for " + vpn_provider)
-                
-    # Write the update timestamp
-    debugTrace("Updated VPN provider " + vpn_provider + " new timestamp is " + timestamp)
-    output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'w')
-    output.write(timestamp + "\n")
-    output.close()
-    if progress is not None:
-        progress_message = "VPN provider files updated, removing old ones"
-        progress.update(10, progress_title, progress_message)
-        # Delete any generated files and reset the connection
-        removeGeneratedFiles()
-        # Adjust 11 below if changing number of conn_max
-        i = 1
-        while i < 11:
-            addon.setSetting(str(i) + "_vpn_validated", "")
-            addon.setSetting(str(i) + "_vpn_validated_friendly", "")
-            i = i + 1
-        xbmc.sleep(500)
-    return True
     
 
 def populateSupportingFromGit(vpn_provider):

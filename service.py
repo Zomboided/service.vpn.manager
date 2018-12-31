@@ -532,9 +532,9 @@ if __name__ == '__main__' and not running():
             # no playback but there's an option to suppress this during playback
             addon = xbmcaddon.Addon()
             if (not playing) or (addon.getSetting("vpn_reconnect_while_playing") == "true" or (addon.getSetting("vpn_reconnect_while_streaming") == "true" and streaming)):
-                if vpn_setup and timer > connection_retry_time:
+                if vpn_setup and (timer > connection_retry_time or not playing):
                     if addon.getSetting("vpn_reconnect") == "true":
-                        if not isVPNConnected() and not (getVPNState() == "off"):
+                        if not (getVPNState() == "off") and not isVPNConnected():
                             # Don't know why we're disconnected, but reconnect to the last known VPN
                             errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
                             writeVPNLog()
@@ -548,10 +548,10 @@ if __name__ == '__main__' and not running():
                     timer = 0
             
             # Check to see if a reconnect is needed
-            if (not playing): 
-                if vpn_setup and isVPNConnected() and getVPNState() == "started":
-                    rt = getReconnectTime()
-                    if rt > 0 and rt < now():
+            if (not playing) and vpn_setup: 
+                rt = getReconnectTime()                
+                if rt > 0 
+                    if getVPNState() == "started" and isVPNConnected() and rt < now():
                         debugTrace("Reconnecting as connection has been alive for " + addon.getSetting("auto_reconnect_vpn") + " hours")
                         forceReconnect("True")
             

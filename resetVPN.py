@@ -20,7 +20,7 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.common import resetVPNConnections, stopService, startService, DIALOG_SPEED, getVPNRequestedProfile
+from libs.common import resetVPNConnections, stopService, startService, DIALOG_SPEED, getVPNRequestedProfile, setAPICommand
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 
 debugTrace("-- Entered resetVPN.py --")
@@ -40,7 +40,8 @@ if not getID() == "":
 
         if not getVPNRequestedProfile() == "":
             progress.close()
-            xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted.  Try again when connection is completed.")
+            xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted and will be aborted.  Try again in a few seconds.")
+            setAPICommand("Disconnect")
             success = False
         
         if success:

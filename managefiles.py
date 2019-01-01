@@ -29,7 +29,7 @@ from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, remov
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile
-from libs.common import resetVPNProvider
+from libs.common import resetVPNProvider, setAPICommand
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -52,7 +52,7 @@ if not getID() == "":
             if xbmcgui.Dialog().yesno(addon_name, "Resetting the VPN provider will disconnect and reset all VPN connections, and then remove any files that have been created. Continue?"):
                 suspendConfigUpdate()
                 # Disconnect so that live files are not being modified
-                if isVPNConnected(): resetVPNConnections(addon)            
+                resetVPNConnections(addon)            
                 infoTrace("managefiles.py", "Resetting the VPN provider")
                 # Delete the generated files, and reset the locations so it can be selected again
                 removeGeneratedFiles()
@@ -63,10 +63,12 @@ if not getID() == "":
                 resetIPServices()
                 addon = xbmcaddon.Addon(getID())
                 resetVPNProvider(addon)
+                addon = xbmcaddon.Addon(getID())
                 resumeConfigUpdate()
                 xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
         else:
-            xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted.  Try again when connection is completed.")
+            xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted and has been aborted.  Try again in a few seconds.")
+            setAPICommand("Disconnect")
             
     # Generate the VPN provider files
     if action == "generate":

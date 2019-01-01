@@ -1507,7 +1507,7 @@ def connectVPN(connection_order, vpn_profile):
     vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
         
     # If the provider has not been validated or has changed, then reset some values
-    if not connection_order == "0" and (addon.getSetting("vpn_provider_validated") == "" or not (getVPNLocation(addon.getSetting("vpn_provider_validated")) == vpn_provider):
+    if not connection_order == "0" and (addon.getSetting("vpn_provider_validated") == "" or not (getVPNLocation(addon.getSetting("vpn_provider_validated")) == vpn_provider)):
         addon.setSetting("location_server_view", "false")
         addon.setSetting("vpn_locations_list", "")
         

@@ -532,7 +532,7 @@ if __name__ == '__main__' and not running():
             # no playback but there's an option to suppress this during playback
             addon = xbmcaddon.Addon()
             if (not playing) or (addon.getSetting("vpn_reconnect_while_playing") == "true" or (addon.getSetting("vpn_reconnect_while_streaming") == "true" and streaming)):
-                if vpn_setup and (timer > connection_retry_time or not playing):
+                if vpn_setup and (timer > connection_retry_time or (not playing and getConnectionErrorCount() == 0)):
                     if addon.getSetting("vpn_reconnect") == "true":
                         if not (getVPNState() == "off") and not isVPNConnected():
                             # Don't know why we're disconnected, but reconnect to the last known VPN

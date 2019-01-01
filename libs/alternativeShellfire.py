@@ -567,6 +567,8 @@ def checkForShellfireUpdates(vpn_provider):
     current = addon.getSetting("vpn_locations_list")
     # If nothing has been selected/validated, then it doesn't matter if there's updates or not
     if current == "": return False
+    # Likewise, if nothing is connected, then it doesn't matter yet
+    if addon.getSetting("1_vpn_validated") == "": return False
     debugTrace("Checking for updates for " + current)
     # Get the list of services and see if the current ID is still the same
     services = getServices()

@@ -105,7 +105,7 @@ def getServices():
     except Exception as e:
         errorTrace("alternativeShellfire.py", "Couldn't parse the data that came back when listing the serice levels")
         errorTrace("alternativeShellfire.py", str(e))
-        return none
+        return None
 
         
 def authenticateShellfire(vpn_provider, userid, password):

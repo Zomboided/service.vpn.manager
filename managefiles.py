@@ -29,6 +29,7 @@ from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, remov
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile
+from libs.common import resetVPNProvider
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -61,15 +62,7 @@ if not getID() == "":
                 # Reset the IP service error counts, etc
                 resetIPServices()
                 addon = xbmcaddon.Addon(getID())
-                # Reset values that would have been stored as part of validation
-                addon.setSetting("vpn_provider_validated", "")
-                addon.setSetting("vpn_username_validated", "")
-                addon.setSetting("vpn_password_validated", "")
-                # Reset the values used during the connection validation
-                addon.setSetting("location_server_view", "false")
-                addon.setSetting("vpn_locations_list", "")
-                # Re-enble the wizard
-                addon.setSetting("vpn_wizard_enabled", "true")
+                resetVPNProvider(addon)
                 resumeConfigUpdate()
                 xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
         else:

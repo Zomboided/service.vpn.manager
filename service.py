@@ -550,7 +550,7 @@ if __name__ == '__main__' and not running():
             # Check to see if a reconnect is needed
             if (not playing) and vpn_setup: 
                 rt = getReconnectTime()                
-                if rt > 0 
+                if rt > 0:
                     if getVPNState() == "started" and isVPNConnected() and rt < now():
                         debugTrace("Reconnecting as connection has been alive for " + addon.getSetting("auto_reconnect_vpn") + " hours")
                         forceReconnect("True")

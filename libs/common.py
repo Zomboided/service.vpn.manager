@@ -930,6 +930,16 @@ def resetVPNConnections(addon):
     xbmcgui.Dialog().notification(addon.getAddonInfo("name"), "Disconnected", getIconPath()+"disconnected.png", 5000, False)
     
     
+def resetVPNProvider(addon):
+    # Reset a bunch of provider information to make the user set it up again
+    addon.setSetting("vpn_provider_validated", "")
+    addon.setSetting("vpn_username_validated", "")
+    addon.setSetting("vpn_password_validated", "")
+    addon.setSetting("location_server_view", "false")
+    addon.setSetting("vpn_locations_list", "")
+    addon.setSetting("vpn_wizard_enabled", "true")
+    
+    
 def disconnectVPN(display_result):
     # Don't know where this was called from so using plugin name to get addon handle
     addon = xbmcaddon.Addon(getID())
@@ -1496,8 +1506,8 @@ def connectVPN(connection_order, vpn_profile):
     if isCustom(): addon.setSetting("vpn_provider", getCustom())
     vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
         
-    # If the provider has not been validated, then reset some values
-    if not connection_order == "0" and addon.getSetting("vpn_provider_validated") == "":
+    # If the provider has not been validated or has changed, then reset some values
+    if not connection_order == "0" and (addon.getSetting("vpn_provider_validated") == "" or not (getVPNLocation(addon.getSetting("vpn_provider_validated")) == vpn_provider):
         addon.setSetting("location_server_view", "false")
         addon.setSetting("vpn_locations_list", "")
         

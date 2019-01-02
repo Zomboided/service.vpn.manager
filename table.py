@@ -21,9 +21,10 @@
 
 import xbmcgui
 import xbmcaddon
-from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeLocationName, allowReconnection
+from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations
+from libs.vpnproviders import getAlternativeLocationName, allowReconnection, getAlternativeLocation
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
-from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock
+from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock, getAlternativeFriendlyProfileList
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 
 debugTrace("-- Entered table.py --")
@@ -53,11 +54,15 @@ if not getID() == "":
                     location_connections.sort()
                 else:
                     location_connections = getAlternativeLocations(vpn_provider, False)
+                    connections = getAlternativeFriendlyLocations(vpn_provider, False)
             else:
                 # Build a list of all validated connections
                 location_connections = getValidatedList(addon, "")
             # Build the friendly list, displaying any active connection in blue
-            connections = getFriendlyProfileList(location_connections, getVPNProfile(), "ff00ff00")
+            if isAlternative(vpn_provider) and addon.getSetting("table_display_type") == "All connections":
+                connections = getAlternativeFriendlyProfileList(connections, getVPNProfileFriendly(), "ff00ff00")
+            else:
+                connections = getFriendlyProfileList(location_connections, getVPNProfile(), "ff00ff00")
             if getVPNState() == "started":
                 title = "Connected - " + getVPNProfileFriendly()
                 connections.insert(0, disconnect_text)
@@ -74,10 +79,10 @@ if not getID() == "":
                 if getVPNProfile() == location_connections[i-1] and (allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true"):
                     setAPICommand("Reconnect")
                 else:
-                    if isAlternative(vpn_provider):
-                        connection = getAlternativeLocationName(vpn_provider, connections[i])
-                        if connection == "":
-                            errorTrace("table.py", "Could not find a location for the selected item " + connection[i])
+                    if isAlternative(vpn_provider) and addon.getSetting("table_display_type") == "All connections":
+                        _, connection, user_text, ignore = getAlternativeLocation(vpn_provider, connections[i], 0, True)
+                        if not ignore and not user_text == "":
+                            xbmcgui.Dialog().ok(addon_name, user_text)
                     else:
                         connection = location_connections[i-1]
                     if not connection == "":

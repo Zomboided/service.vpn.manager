@@ -103,8 +103,19 @@ def getFriendlyProfileList(ovpn_connections, highlight, colour):
         else:
             connections.append(pattern.search(connection).group(1))        
     return connections
-    
 
+
+def getAlternativeFriendlyProfileList(ovpn_connections, highlight, colour):
+    # Format the active connection
+    connections = []
+    for connection in ovpn_connections:
+        if not highlight == "" and highlight in connection and not colour == "":
+            connections.append("[COLOR " + colour + "]" + connection + "[/COLOR]")
+        else:
+            connections.append(connection)
+    return connections
+
+    
 def getTranslatedProfileList(ovpn_connections, vpn_provider):
     connections = list(ovpn_connections)
     try:
@@ -710,7 +721,7 @@ def requestVPNCycle(immediate):
                             found_current = True
                             if allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
                                 profiles.append("!" + next_profile)
-                    i=i+1
+                    i = i + 1
                 if not found_current:
                     profiles.append(getVPNProfile())
                     if allowReconnection(vpn_provider) or addon.getSetting("allow_cycle_reconnect") == "true":
@@ -890,7 +901,7 @@ def failoverConnection(addon, current_profile):
             if next_profile == current_profile: found = True
         else:
             break
-        i=i+1
+        i = i + 1
     if found and i>2:
         return 1
     else:

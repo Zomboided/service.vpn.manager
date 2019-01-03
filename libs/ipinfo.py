@@ -65,7 +65,6 @@ def getIPInfoFrom(source):
         if source == "ipinfo.io": ip, country, region, city, isp = getipinfo(json_data)
         if source == "IP-API": ip, country, region, city, isp = getIPAPI(json_data)
         if source == "ipstack": ip, country, region, city, isp = getipstack(json_data)
-        
         if not ip == None:
             recordWorking(source)
             return ip, country, region, city, isp

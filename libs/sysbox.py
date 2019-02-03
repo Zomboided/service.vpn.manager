@@ -69,5 +69,5 @@ def popupSysBox():
             dialog_text_r = dialog_text_r + line + "\n"    
         showInfoBox("System Information", dialog_text_l, dialog_text_r)
     else:
-        errorTrace("infopopup.py", "VPN service is not ready")
+        errorTrace("sysbox.py", "VPN service is not ready")
     

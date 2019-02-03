@@ -247,6 +247,8 @@ def resetVPNConfig(addon, starting):
     while i < 11:
         addon.setSetting(str(i) + "_vpn_validated", "")
         addon.setSetting(str(i) + "_vpn_validated_friendly", "")
+        # Kodi18 bug, remove this condition if the use of the same ID multiple times is fixed
+        if i == 1: addon.setSetting("vpn_validated", "false")
         i = i + 1
     
     
@@ -1607,6 +1609,9 @@ def connectVPN(connection_order, vpn_profile):
             existing_connection = addon.getSetting(connection_order + "_vpn_validated")
             addon.setSetting(connection_order + "_vpn_validated", "")
             addon.setSetting(connection_order + "_vpn_validated_friendly", "")
+            # Kodi18 bug, remove this condition if the use of the same ID multiple times is fixed
+            if connection_order == "1": addon.setSetting("vpn_validated", "false")
+            
         last_provider = addon.getSetting("vpn_provider_validated")
         last_credentials = addon.getSetting("vpn_username_validated") + " " + addon.getSetting("vpn_password_validated")
         if last_provider == "" : last_provider = "?"
@@ -1948,6 +1953,9 @@ def connectVPN(connection_order, vpn_profile):
             addon.setSetting("vpn_provider_validated", vpn_provider)
             addon.setSetting("vpn_username_validated", vpn_username)
             addon.setSetting("vpn_password_validated", vpn_password)
+            # Kodi18 bug, remove this line if the use of the same ID multiple times is fixed
+            # and change settings.xml back to checking if 1_vpn_validated_friendly is empty
+            addon.setSetting("vpn_validated", "true")
             addon.setSetting(connection_order + "_vpn_validated", ovpn_connection)
             addon.setSetting(connection_order + "_vpn_validated_friendly", ovpn_name)
         # Stop the wizard running once the first connection has been validated

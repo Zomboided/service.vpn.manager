@@ -1158,6 +1158,8 @@ def setVPNProviderUpdate(update):
     # Store indication of whether a provider has an updated set of files
     xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Update", update)
     xbmcaddon.Addon(getID()).setSetting("vpn_provider_update", update)
+    # Horrible hack to work around a Kodi18 bug where I can't reuse ids in settings.xml
+    xbmcaddon.Addon(getID()).setSetting("vpn_provider_update_2", update)
     return     
 
     
@@ -1311,6 +1313,8 @@ def refreshVPNFiles(vpn_provider, progress):
         while i < 11:
             addon.setSetting(str(i) + "_vpn_validated", "")
             addon.setSetting(str(i) + "_vpn_validated_friendly", "")
+            # Kodi18 bug, remove this condition if the use of the same ID multiple times is fixed
+            if i == 1: addon.setSetting("vpn_validated", "false")
             i = i + 1
     return result
     

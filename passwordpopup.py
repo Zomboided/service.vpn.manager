@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-#    Copyright (C) 2016 Zomboided
+#    Copyright (C) 2019 Zomboided
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,27 +16,23 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    This module pops up a screen with some log info.
+#    This module displays the current entered password
 
 import xbmcaddon
 import xbmcgui
-from libs.utility import debugTrace, errorTrace, infoTrace, getID
-from libs.logbox import popupOpenVPNLog, popupKodiLog, popupImportLog
+from libs.sysbox import popupSysBox
+from libs.utility import debugTrace, errorTrace, infoTrace, getID, getName
 
-action = sys.argv[1]
-
-debugTrace("-- Entered logpopup.py with parameter " + action + " --")
-
-if not getID() == "":
-    if action == "kodi":
-        popupKodiLog()
-
-    if action == "openvpn":
-        popupOpenVPNLog("")
-        
-    if action == "import":
-        popupImportLog()
-else:
-    errorTrace("logpopup.py", "VPN service is not ready")
+debugTrace("-- Entered passwordpopup.py")
     
-debugTrace("-- Exit logpopup.py --")
+if not getID() == "":
+    addon = xbmcaddon.Addon(getID())
+    addon_name = getName()
+    pw = addon.getSetting("vpn_password")
+    xbmcgui.Dialog().ok(addon_name, "Your password is '[B]" + pw + "[/B]'")
+    command = "Addon.OpenSettings(" + getID() + ")"
+    xbmc.executebuiltin(command)
+else:
+    errorTrace("passwordpopup.py", "VPN service is not ready")
+    
+debugTrace("-- Exit passwordpopup.py --")

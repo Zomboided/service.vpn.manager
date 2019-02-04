@@ -24,11 +24,11 @@ msgid "VPN Configuration"
 msgstr ""
 
 msgctxt "#32001"
-msgid "Set up VPN provider, then validate VPN connections"
+msgid "Enter details, then validate VPN connections"
 msgstr ""
 
 msgctxt "#32002"
-msgid "Enter details, then validate VPN connections"
+msgid "Set up VPN provider, then validate VPN connections"
 msgstr ""
 
 msgctxt "#32003"

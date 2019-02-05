@@ -113,23 +113,25 @@ def back():
 def displayStatus():
     # Create a busy dialog whilst the data is retrieved.  It
     # could take a while to deduce that the network is bad...
-    dialog = xbmcgui.DialogBusy()
-    dialog.create()
-    _, ip, country, isp = getIPInfo(addon)
-    if isVPNConnected():
-        debugTrace("VPN is connected, displaying the connection info")
-        dialog.close()
-        if fakeConnection():
-            xbmcgui.Dialog().ok(addon_name, "Faked connection to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + "\nExternal IP address is " + ip + "\nService Provider is " + isp)
+    xbmc.executebuiltin('ActivateWindow(busydialognocancel)')
+    try:
+        _, ip, country, isp = getIPInfo(addon)
+        if isVPNConnected():
+            debugTrace("VPN is connected, displaying the connection info")
+            xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
+            if fakeConnection():
+                xbmcgui.Dialog().ok(addon_name, "Faked connection to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + "\nExternal IP address is " + ip + "\nService Provider is " + isp)
+            else:
+                server = getVPNServer()
+                if not server == "": server = ", " + server + "\n"
+                else: server = "\n"
+                xbmcgui.Dialog().ok(addon_name, "Connected to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + "\nExternal IP address is " + ip + "\nService Provider is " + isp)
         else:
-            server = getVPNServer()
-            if not server == "": server = ", " + server + "\n"
-            else: server = "\n"
-            xbmcgui.Dialog().ok(addon_name, "Connected to a VPN in " + country + "\nUsing profile " + getVPNProfileFriendly() + "\nExternal IP address is " + ip + "\nService Provider is " + isp)
-    else:
-        debugTrace("VPN is not connected, displaying the connection info")
-        dialog.close()
-        xbmcgui.Dialog().ok(addon_name, "Disconnected from VPN.\nNetwork location is " + country + ".\nIP address is " + ip + ".\nService Provider is " + isp)
+            debugTrace("VPN is not connected, displaying the connection info")
+            xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
+            xbmcgui.Dialog().ok(addon_name, "Disconnected from VPN.\nNetwork location is " + country + ".\nIP address is " + ip + ".\nService Provider is " + isp)
+    except Exception:
+        xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
     return
 
     

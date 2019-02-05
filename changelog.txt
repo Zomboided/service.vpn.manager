@@ -1,3 +1,6 @@
+v6.0.1
+- Kodi 18 fixes
+
 v6.0.0
 - Kodi 18 support
 - Add Shellfire API support

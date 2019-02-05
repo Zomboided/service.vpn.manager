@@ -263,7 +263,7 @@ elif not connectionValidated(addon) and action != "":
         wizard()
     else:
         if not action == "settings":
-            xbmcgui.Dialog().ok(addon_name, "A VPN hasn't been set up yet.  Click Ok to open the settings")
+            xbmcgui.Dialog().ok(addon_name, "A VPN hasn't been set up yet.  Click Ok to open the settings.")
         command = "Addon.OpenSettings(" + addon_id + ")"
         xbmc.executebuiltin(command)   
 else:

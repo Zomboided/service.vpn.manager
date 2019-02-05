@@ -978,7 +978,7 @@ def disconnectVPN(display_result):
         progress.close()
         # Display error in an ok dialog, user will need to do something...
         errorTrace("common.py", "VPN monitor service is not running, can't stop VPN")
-        xbmcgui.Dialog().ok(progress_title, "Error, Service not running.\nCheck log and reboot.")
+        xbmcgui.Dialog().ok(progress_title, "Error, Service not running.  Check log and reboot.")
         freeCycleLock()
         return
     
@@ -1002,7 +1002,7 @@ def disconnectVPN(display_result):
     if not startService():
         progress.close()
         errorTrace("common.py", "VPN monitor service is not running, VPN has stopped")
-        dialog_message = "Error, Service not running.\nCheck log and reboot."        
+        dialog_message = "Error, Service not running.  Check log and reboot."        
     else:
         # Close out the final progress dialog
         progress.update(100, progress_title, progress_message)
@@ -1153,7 +1153,7 @@ def wizard():
                 else:
                     vpn_provider = ""
                     success = False
-                    xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                    xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
                 vpn_provider = addon.getSetting("vpn_custom")
                 current = vpn_provider
@@ -1162,7 +1162,7 @@ def wizard():
         addon = xbmcaddon.Addon(getID())
         if success and isUserDefined(vpn_provider):
             success = importWizard()
-            if not success: xbmcgui.Dialog().ok(addon_name, "Setup stopped because it could not import any user files.  You can run the wizard again by selecting 'Settings' in the add-on menu")            
+            if not success: xbmcgui.Dialog().ok(addon_name, "Setup stopped because it could not import any user files.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
         
         addon = xbmcaddon.Addon(getID())        
         if success:
@@ -1180,7 +1180,7 @@ def wizard():
                     vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " user name", vpn_username, type=xbmcgui.INPUT_ALPHANUM)
                     if vpn_username == "":
                         if xbmcgui.Dialog().yesno(addon_name, "You must enter the user name supplied by " + vpn_provider + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
-                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                             success = False
                             break
                     else:
@@ -1191,7 +1191,7 @@ def wizard():
                         vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password", vpn_password, type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
                         if vpn_password == "":
                             if xbmcgui.Dialog().yesno(addon_name, "You must enter the password supplied by " + vpn_provider + " for user name " + vpn_username + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
-                                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                                 success = False
                                 break
                         else:
@@ -1232,7 +1232,7 @@ def wizard():
                 else:
                     xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
-                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                 
         resumeConfigUpdate()
         
@@ -1361,14 +1361,14 @@ def dnsFix():
                         t = ""
                         if settings: t = t + "The OpenVPN up and down script options have been turned off.  "
                         if files: t = t + "Existing user defined TEMPLATE.txt and APPEND.txt files for " + vpn_provider + " have been disabled.  "
-                        if t == "" : t = "A new user defined APPEND.txt has been created.  No other changes were necessary"
+                        if t == "" : t = "A new user defined APPEND.txt has been created.  No other changes were necessary."
                         else: t = t + "A new user defined APPEND.txt has been created."
                         xbmcgui.Dialog().ok(addon_name, t)
                     if not isCustom(): xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying this [I]potential[/I] fix, refer to the [B]Trouble Shooting[/B] page found on the [B]GitHub service.vpn.manager wiki.[/B]")
-                    else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation")
+                    else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation.")
                 else:
                     if not isCustom(): xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
-                    else: xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and your VPN provider support documentation")
+                    else: xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and your VPN provider support documentation.")
                     try:
                         if xbmcvfs.exists(append_path):
                             xbmcvfs.delete(append_path)
@@ -1386,7 +1386,7 @@ def dnsFix():
                     errorTrace("common.py", "Couldn't remove " + append_path)
                     errorTrace("common.py", str(e))
                     xbmcgui.Dialog().ok(addon_name, "Unexpected errors were found when attempting remove the DNS fix for " + vpn_provider + ".  See the log for more details.")
-            else: xbmcgui.Dialog().ok(addon_name, "No potential DNS fix has been applied to " + vpn_provider)
+            else: xbmcgui.Dialog().ok(addon_name, "No potential DNS fix has been applied to " + vpn_provider + ".")
 
             
 def removeUsedConnections(addon, connection_order, connections):

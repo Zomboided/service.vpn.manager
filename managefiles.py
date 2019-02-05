@@ -65,7 +65,7 @@ if not getID() == "":
                 resetVPNProvider(addon)
                 addon = xbmcaddon.Addon(getID())
                 resumeConfigUpdate()
-                xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.\n")
+                xbmcgui.Dialog().ok(addon_name, "Reset the VPN provider. Validate a connection to start using a VPN again.")
         else:
             xbmcgui.Dialog().ok(addon_name, "Connection to VPN being attempted and has been aborted.  Try again in a few seconds.")
             setAPICommand("Disconnect")
@@ -74,14 +74,14 @@ if not getID() == "":
     if action == "generate":
         # Only used during development to create location files
         generateAll()
-        xbmcgui.Dialog().ok(addon_name, "Regenerated some or all of the VPN location files.\n")        
+        xbmcgui.Dialog().ok(addon_name, "Regenerated some or all of the VPN location files.")        
            
 
     # Delete all of the downloaded VPN files
     if action == "downloads":
         debugTrace("Deleting all downloaded VPN files")
         removeDownloadedFiles()
-        xbmcgui.Dialog().ok(addon_name, "Deleted all of the downloaded VPN files. They'll be downloaded again if required.\n")
+        xbmcgui.Dialog().ok(addon_name, "Deleted all of the downloaded VPN files. They'll be downloaded again if required.")
 
             
     # Copy the log file        
@@ -101,7 +101,7 @@ if not getID() == "":
             infoTrace("managefiles.py", "Copying log file to " + dest_path + ".  Using version " + addon.getSetting("version_number"))
             xbmcvfs.copy(log_path, dest_path)
             if not xbmcvfs.exists(dest_path): raise IOError('Failed to copy log ' + log_path + " to " + dest_path)
-            dialog_message = "Copied log file to:\n" + dest_path
+            dialog_message = "Copied log file to: " + dest_path
         except:
             errorTrace("managefiles.py", "Failed to copy log from " + log_path + " to " + dest_path)
             if xbmcvfs.exists(log_path):
@@ -180,7 +180,7 @@ if not getID() == "":
                                                 if xbmcvfs.exists(path + ".crt"):
                                                     xbmcvfs.delete(path + ".crt")
                                             except:
-                                                xbmcgui.Dialog().ok(addon_name, "Couldn't delete one of the key or certificate files:\n" + path)
+                                                xbmcgui.Dialog().ok(addon_name, "Couldn't delete one of the key or certificate files: " + path)
                             else:
                                 path = getUserDataPath(provider + "/" + all_user[index])
                                 try:
@@ -191,7 +191,7 @@ if not getID() == "":
                                     if xbmcvfs.exists(path + ".crt"):
                                         xbmcvfs.delete(path + ".crt")
                                 except:
-                                    xbmcgui.Dialog().ok(addon_name, "Couldn't delete one of the key or certificate files:\n" + path)
+                                    xbmcgui.Dialog().ok(addon_name, "Couldn't delete one of the key or certificate files: " + path)
                                 
                             # Fetch the directory list again
                             user_keys = getUserKeys(provider)

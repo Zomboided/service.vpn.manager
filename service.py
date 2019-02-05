@@ -213,7 +213,7 @@ if __name__ == '__main__' and not running():
     filters = VPNAPI()
     
     if not xbmcvfs.exists(getAddonPath(True, "connect.py")):
-        xbmcgui.Dialog().ok(addon_name, "You've installed " + addon_short + " incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository")
+        xbmcgui.Dialog().ok(addon_name, "You've installed " + addon_short + " incorrectly and the add-on won't work.  Check the log, install a Github released build or install from the repository.")
         errorTrace("service.py", "Install is in the wrong place, expecting to find the add-on installed in " + getAddonPath(True,""))
     
     # See if this is a new install...we might want to do things here
@@ -239,7 +239,7 @@ if __name__ == '__main__' and not running():
             if last_version < 400:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
-                xbmcgui.Dialog().ok(addon_name, "Thanks for using " + addon_short + "! V4.0 downloads and updates VPN files separately, making updates quicker. Please re-validate your connections to download the files for your VPN provider.")
+                xbmcgui.Dialog().ok(addon_name, "Thanks for using " + addon_short + "! V4.0 downloads and updates VPN files separately, making updates quicker.  Please re-validate your connections to download the files for your VPN provider.")
             reset_everything = False
             if addon.getSetting("vpn_provider_validated") == "PureVPN" or addon.getSetting("vpn_provider") == "PureVPN":
                 xbmcgui.Dialog().ok(addon_name, "Support for PureVPN has been removed as they now support their own add-on.  See https://www.purevpn.com/blog/kodi-vpn/")
@@ -266,7 +266,7 @@ if __name__ == '__main__' and not running():
                 fixKeymaps()
             if last_version < 430:
                 if not addon.getSetting("reboot_day") == "Off" or addon.getSetting("reboot_file_enabled") == "true":
-                    xbmcgui.Dialog().ok(addon_name, "Thanks for installing v4.3.0! The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
+                    xbmcgui.Dialog().ok(addon_name, "Thanks for installing v4.3.0!  The system reboot function has been improved and moved to the Zomboided Tools add-on, also in the Zomboided repository.  This add-on will no longer reboot your system.")
             if last_version < 497:
                 if addon.getSetting("vpn_wizard_run") == "false": addon.setSetting("vpn_wizard_enabled", "true")
                 if addon.getSetting("vpn_wizard_run") == "true": addon.setSetting("vpn_wizard_enabled", "false")

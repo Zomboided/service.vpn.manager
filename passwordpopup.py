@@ -30,9 +30,9 @@ if not getID() == "":
     addon_name = getName()
     pw = addon.getSetting("vpn_password")
     if not pw == "":
-        xbmcgui.Dialog().ok(addon_name, "Your password is '[B]" + pw + "[/B]'")
+        xbmcgui.Dialog().ok(addon_name, "Your password is '[B]" + pw + "[/B]'.")
     else:
-        xbmcgui.Dialog().ok(addon_name, "No password has been entered")
+        xbmcgui.Dialog().ok(addon_name, "No password has been entered.")
     command = "Addon.OpenSettings(" + getID() + ")"
     xbmc.executebuiltin(command)
 else:

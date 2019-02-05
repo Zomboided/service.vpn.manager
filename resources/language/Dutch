@@ -1,0 +1,820 @@
+# Addon language file
+msgid ""
+msgstr ""
+"Project-Id-Version: service.vpn.manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-02-05 12:38+0100\n"
+"Last-Translator: Jurien (French77) <Jurien@protonmail.com>\n"
+"Language-Team: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+
+# Config Screen
+# VPN Provider Settings
+msgctxt "#32000"
+msgid "VPN Configuration"
+msgstr "VPN Configuratie"
+
+msgctxt "#32001"
+msgid "Enter details, then validate VPN connections"
+msgstr "Voer details in en valideer vervolgens VPN-verbindingen"
+
+msgctxt "#32002"
+msgid "Set up VPN provider, then validate VPN connections"
+msgstr "Stel een VPN-provider in en valideer vervolgens VPN-verbindingen"
+
+msgctxt "#32003"
+msgid "[I]*** VPN provider update available, revalidate connections[/I] ***"
+msgstr "[I] *** VPN-provider update beschikbaar, verbindingen opnieuw valideren [/ I] ***"
+
+msgctxt "#32004"
+msgid "Click here to update VPN settings"
+msgstr "Klik hier om de VPN-instellingen bij te werken"
+
+msgctxt "#32005"
+msgid "VPN Provider"
+msgstr "VPN Provider"
+
+msgctxt "#32006"
+msgid "User name"
+msgstr "Gebruikersnaam"
+
+msgctxt "#32007"
+msgid "Password"
+msgstr "Wachtwoord"
+
+msgctxt "#32008"
+msgid "Show password"
+msgstr "Laat wachtwoord zien"
+
+msgctxt "#32009"
+msgid "Advanced settings (leave as default if in doubt)"
+msgstr "Geavanceerde instellingen (bij twijfel als standaard laten staan)"
+
+msgctxt "#32010"
+msgid "Protocol (UDP recommended)"
+msgstr "Protocol (aanbevolen UDP)"
+
+msgctxt "#32011"
+msgid "UDP"
+msgstr "UDP"
+
+msgctxt "#32012"
+msgid "TCP"
+msgstr "TCP"
+
+msgctxt "#32013"
+msgid "UDP and TCP"
+msgstr "UDP en TCP"
+
+msgctxt "#32014"
+msgid "Use VPN provider default UDP port"
+msgstr "Gebruik de standaard UDP-poort van de VPN-provider"
+
+msgctxt "#32015"
+msgid "  Alternative UDP port"
+msgstr " Alternatieve UDP-poort"
+
+msgctxt "#32016"
+msgid "Use VPN provider default TCP port"
+msgstr "Gebruik de standaard TCP-poort van de VPN-provider"
+
+msgctxt "#32017"
+msgid "  Alternative TCP port"
+msgstr " Alternatieve TCP-poort"
+
+msgctxt "#32018"
+msgid "[I]User Defined[/I]  provider"
+msgstr "[I] Door de gebruiker gedefinieerde [/ I] provider"
+
+msgctxt "#32019"
+msgid "User Defined import wizard"
+msgstr "Door de gebruiker gedefinieerde import-wizard"
+
+msgctxt "#32020"
+msgid "View last User Defined import wizard log"
+msgstr "Bekijk het laatste door de gebruiker gedefinieerde importassistentielogboek"
+
+msgctxt "#32021"
+msgid "Manage user name and password"
+msgstr "Beheer gebruikersnaam en wachtwoord"
+
+msgctxt "#32022"
+msgid "Manage client or user key and cert files"
+msgstr "Beheer klant of gebruiker sleutel en cert bestanden"
+
+msgctxt "#32023"
+msgid "None"
+msgstr "Geen"
+
+msgctxt "#32024"
+msgid "Single"
+msgstr "Enkel"
+
+msgctxt "#32025"
+msgid "Multiple"
+msgstr "Meerdere"
+
+msgctxt "#32026"
+msgid "Manage key password"
+msgstr "Beheer sleutelwachtwoord"
+
+# VPN Connection Settings
+msgctxt "#32028"
+msgid "VPN Connections"
+msgstr "VPN-verbindingen"
+
+msgctxt "#32029"
+msgid "Click the boxes below to validate primary VPN connections"
+msgstr "Klik op de onderstaande vakjes om primaire VPN-verbindingen te valideren"
+
+msgctxt "#32030"
+msgid "First VPN connection (used to auto connect at start up)"
+msgstr "Eerste VPN-verbinding (gebruikt om automatisch verbinding te maken bij opstarten)"
+
+msgctxt "#32031"
+msgid "Second VPN connection"
+msgstr "Tweede VPN-verbinding"
+
+msgctxt "#32032"
+msgid "Third VPN connection"
+msgstr "Derde VPN-verbinding"
+
+msgctxt "#32033"
+msgid "Fourth VPN connection"
+msgstr "Vierde VPN-verbinding"
+
+msgctxt "#32034"
+msgid "Fifth VPN connection"
+msgstr "Vijfde VPN-verbinding"
+
+msgctxt "#32035"
+msgid "Sixth VPN connection"
+msgstr "Zesde VPN-verbinding"
+
+msgctxt "#32036"
+msgid "Seventh VPN connection"
+msgstr "Zevende VPN-verbinding"
+
+msgctxt "#32037"
+msgid "Eighth VPN connection"
+msgstr "Achtste VPN-verbinding"
+
+msgctxt "#32038"
+msgid "Ninth VPN connection"
+msgstr "Negende VPN-verbinding"
+
+msgctxt "#32039"
+msgid "Tenth VPN connection"
+msgstr "Tiende VPN-verbinding"
+
+# Monitor Settings
+msgctxt "#32040"
+msgid "Monitor"
+msgstr "Monitor"
+
+msgctxt "#32041"
+msgid "VPN monitor (runs as a background service)"
+msgstr "VPN-monitor (werkt als een achtergrondservice)"
+
+msgctxt "#32042"
+msgid "Automatically connect to first VPN"
+msgstr "Automatisch verbinding maken met eerste VPN"
+
+msgctxt "#32043"
+msgid "Connect VPN before Kodi starts"
+msgstr "Verbind met VPN voordat Kodi start"
+
+msgctxt "#32044"
+msgid "Delay all connections starting (seconds)"
+msgstr "Start alle verbindingen vertragend (seconden)"
+
+msgctxt "#32045"
+msgid "Reconnect if connection unexpectedly lost"
+msgstr "Verbind opnieuw wanneer de verbinding onverwacht is verbroken"
+
+msgctxt "#32046"
+msgid "Reconnect if connection lost during playback"
+msgstr "Maak opnieuw verbinding wanneer de verbinding tijdens het afspelen is verbroken"
+
+msgctxt "#32047"
+msgid "Reconnect if connection lost during streaming"
+msgstr "Maak opnieuw verbinding wanneer de verbinding tijdens het streamen verloren is gegaan"
+
+msgctxt "#32048"
+msgid "Stop streaming media when changing VPN"
+msgstr "Stop met het streamen van media tijdens wijzigen van VPN"
+
+msgctxt "#32049"
+msgid "Stream IDs"
+msgstr "Stream IDs"
+
+msgctxt "#32050"
+msgid "Force reconnect on wake"
+msgstr "Forceer opnieuw verbinden bij ontwaken"
+
+msgctxt "#32051"
+msgid "Connection validation frequency (seconds)"
+msgstr "Verbindingsvalidatiefrequentie (seconden)"
+
+msgctxt "#32052"
+msgid "Check connectivity after VPN connection"
+msgstr "Controleer de connectiviteit na de VPN-verbinding"
+
+msgctxt "#32053"
+msgid "Try next connection if first connect fails"
+msgstr "Probeer de volgende verbinding als de eerste verbinding mislukt"
+
+msgctxt "#32054"
+msgid "Ask to reboot if reconnect fails 10 times"
+msgstr "Vraag om opnieuw op te starten als opnieuw verbinden 10 keer is mislukt"
+
+msgctxt "#32055"
+msgid "Revert to previous VPN state for non-filtered add-ons"
+msgstr "Keer terug naar de vorige VPN-status voor niet-gefilterde add-ons"
+
+msgctxt "#32056"
+msgid "Allow re-connection of existing connection"
+msgstr "Sta herverbinding van de bestaande verbinding toe"
+
+msgctxt "#32057"
+msgid "Periodically reconnect (hours, 0 is off)"
+msgstr "Periodiek opnieuw verbinden (uren, 0 is uit)"
+
+msgctxt "#32058"
+msgid "Include disconnect option in VPN cycle"
+msgstr "Optie voor het verbreken van de verbinding in de VPN-cyclus"
+
+# Add-on Filter Settings
+msgctxt "#32060"
+msgid "Add-on Filter"
+msgstr "Invoegtoepassingen Filter"
+
+msgctxt "#32061"
+msgid "Select add-ons that don't use a VPN"
+msgstr "Selecteer invoegtoepassingen die geen VPN gebruiken"
+
+msgctxt "#32062"
+msgid "Excluded"
+msgstr "Uitgesloten"
+
+msgctxt "#32063"
+msgid "Select add-ons that use a specific VPN connection"
+msgstr "Selecteer invoegtoepassingen die een specifieke VPN-verbinding gebruiken"
+
+msgctxt "#32064"
+msgid "First"
+msgstr "Eerste"
+
+msgctxt "#32065"
+msgid "Second"
+msgstr "Tweede"
+
+msgctxt "#32066"
+msgid "Third"
+msgstr "Derde"
+
+msgctxt "#32067"
+msgid "Fourth"
+msgstr "Vierde"
+
+msgctxt "#32068"
+msgid "Fifth"
+msgstr "Vijfde"
+
+msgctxt "#32069"
+msgid "Sixth"
+msgstr "Zesde"
+
+msgctxt "#32070"
+msgid "Seventh"
+msgstr "Zevende"
+
+msgctxt "#32071"
+msgid "Eighth"
+msgstr "Achtste"
+
+msgctxt "#32072"
+msgid "Ninth"
+msgstr "Negende"
+
+msgctxt "#32073"
+msgid "Tenth"
+msgstr "Tiende"
+
+# Window Filter
+msgctxt "#32080"
+msgid "Window Filter"
+msgstr "Vensterfilter"
+
+msgctxt "#32081"
+msgid "Display window IDs as a notification"
+msgstr "Display venster-ID's als een melding"
+
+msgctxt "#32082"
+msgid "Select window IDs that won't use a VPN"
+msgstr "Selecteer venster-ID's die geen VPN gebruiken"
+
+msgctxt "#32083"
+msgid "Excluded"
+msgstr "Uitgesloten"
+
+msgctxt "#32084"
+msgid "Select window IDs that use a specific VPN connection."
+msgstr "Selecteer venster-ID's die een specifieke VPN-verbinding gebruiken."
+
+msgctxt "#32085"
+msgid "First"
+msgstr "Eerste"
+
+msgctxt "#32086"
+msgid "Second"
+msgstr "Tweede"
+
+msgctxt "#32087"
+msgid "Third"
+msgstr "Derde"
+
+msgctxt "#32088"
+msgid "Fourth"
+msgstr "Vierde"
+
+msgctxt "#32089"
+msgid "Fifth"
+msgstr "Vijfde"
+
+msgctxt "#32090"
+msgid "Sixth"
+msgstr "Zesde"
+
+msgctxt "#32091"
+msgid "Seventh"
+msgstr "Zevende"
+
+msgctxt "#32092"
+msgid "Eighth"
+msgstr "Achtste"
+
+msgctxt "#32093"
+msgid "Ninth"
+msgstr "Negende"
+
+msgctxt "#32094"
+msgid "Tenth"
+msgstr "Tiende"
+
+# Utilities Settings
+msgctxt "#32100"
+msgid "Utilities"
+msgstr "Hulpprogramma's"
+
+msgctxt "#32101"
+msgid "Manage VPN provider"
+msgstr "Beheer VPN-provider"
+
+msgctxt "#32102"
+msgid "Reset VPN provider"
+msgstr "Reset VPN provider"
+
+msgctxt "#32103"
+msgid "Remove all downloaded VPN provider files"
+msgstr "Verwijder alle gedownloade VPN-providerbestanden"
+
+msgctxt "#32104"
+msgid "Regenerate VPN provider files"
+msgstr "Regenereer de VPN-providerbestanden"
+
+msgctxt "#32105"
+msgid "Delete user key, password and cert files"
+msgstr "Verwijder gebruikerssleutel, wachtwoord en cert-bestanden"
+
+msgctxt "#32106"
+msgid "Delete user defined files"
+msgstr "Verwijder door de gebruiker gedefinieerde bestanden"
+
+msgctxt "#32107"
+msgid "Key mappings"
+msgstr "Sleuteltoewijzingen"
+
+msgctxt "#32108"
+msgid "Map VPN connection cycle button"
+msgstr "VPN-verbindingscyclus weergaveknop"
+
+msgctxt "#32109"
+msgid "Map VPN connection table button"
+msgstr "VPN-verbindingstabel-weergaveknop"
+
+msgctxt "#32110"
+msgid "Map information display button"
+msgstr "Kaartinformatie-weergaveknop"
+
+msgctxt "#32111"
+msgid "Weekly reboot day"
+msgstr "Wekelijkse herstart dag"
+
+msgctxt "#32112"
+msgid "Off"
+msgstr "Uit"
+
+msgctxt "#32113"
+msgid "Monday"
+msgstr "Maandag"
+
+msgctxt "#32114"
+msgid "Tuesday"
+msgstr "Dinsdag"
+
+msgctxt "#32115"
+msgid "Wednesday"
+msgstr "Woensdag"
+
+msgctxt "#32116"
+msgid "Thursday"
+msgstr "Donderdag"
+
+msgctxt "#32117"
+msgid "Friday"
+msgstr "Vrijdag"
+
+msgctxt "#32118"
+msgid "Saturday"
+msgstr "Zaterdag"
+
+msgctxt "#32119"
+msgid "Sunday"
+msgstr "Zondag"
+
+msgctxt "#32120"
+msgid "Weekly reboot time (24h)"
+msgstr "Wekelijkse herstarttijd (24 uur)"
+
+msgctxt "#32121"
+msgid "Reboot if a remote server file changes"
+msgstr "Start opnieuw op als een serverbestand op afstand verandert"
+
+msgctxt "#32122"
+msgid "Remote server file"
+msgstr "Extern serverbestand"
+
+msgctxt "#32123"
+msgid "Local file read speed test"
+msgstr "Lokaal bestand leessnelheid-test"
+
+msgctxt "#32124"
+msgid "Source file (>50MB)"
+msgstr "Bronbestand (> 50MB)"
+
+msgctxt "#32125"
+msgid "Run speed test"
+msgstr "Snelheidstest uitvoeren"
+
+# Advanced Settings
+msgctxt "#32140"
+msgid "Advanced"
+msgstr "Gevorderd"
+
+msgctxt "#32141"
+msgid "General"
+msgstr "Algemeen"
+
+msgctxt "#32142"
+msgid "Enable debug for just this add-on"
+msgstr "Schakel debug in voor deze invoegtoepassing"
+
+msgctxt "#32143"
+msgid "Enable HTTP tracing"
+msgstr "Schakel HTTP-tracering in"
+
+msgctxt "#32144"
+msgid "Enable JSON tracing"
+msgstr "Schakel JSON-tracering in"
+
+msgctxt "#32145"
+msgid "View Kodi log file"
+msgstr "Bekijk Kodi-logbestand"
+
+msgctxt "#32146"
+msgid "Copy log files"
+msgstr "Logbestanden kopiëren"
+
+msgctxt "#32147"
+msgid "Enable setup wizard"
+msgstr "Schakel setup-wizard in"
+
+msgctxt "#32148"
+msgid "OpenVPN"
+msgstr "OpenVPN"
+
+msgctxt "#32149"
+msgid "View OpenVPN log file"
+msgstr "Bekijk OpenVPN-logbestand"
+
+msgctxt "#32150"
+msgid "OpenVPN verb level (reset VPN after updating)"
+msgstr "OpenVPN (reset VPN na updaten)"
+
+msgctxt "#32151"
+msgid "0"
+msgstr "0"
+
+msgctxt "#32152"
+msgid "1"
+msgstr "1"
+
+msgctxt "#32153"
+msgid "2"
+msgstr "2"
+
+msgctxt "#32154"
+msgid "3"
+msgstr "3"
+
+msgctxt "#32155"
+msgid "4"
+msgstr "4"
+
+msgctxt "#32156"
+msgid "5"
+msgstr "5"
+
+msgctxt "#32157"
+msgid "Force block-outside-dns (reset VPN after updating)"
+msgstr "Forceer blokkeren dns (reset VPN na update)"
+
+msgctxt "#32158"
+msgid "Use sudo with openvpn and killall"
+msgstr "Gebruik sudo i.c.m openvpn en killall"
+
+msgctxt "#32159"
+msgid "Platform default"
+msgstr "Platform standaard"
+
+msgctxt "#32160"
+msgid "Always"
+msgstr "Altijd"
+
+msgctxt "#32161"
+msgid "Never"
+msgstr "Nooit"
+
+msgctxt "#32162"
+msgid "Use openvpn with no path"
+msgstr "Gebruik openvpn zonder pad"
+
+msgctxt "#32163"
+msgid "openvpn path"
+msgstr "openvpn pad"
+
+msgctxt "#32164"
+msgid "killall path"
+msgstr "killall pad"
+
+msgctxt "#32165"
+msgid "pidof path"
+msgstr "pidof pad"
+
+msgctxt "#32166"
+msgid "Stop openvpn with killall -9 instead of -15"
+msgstr "Stop openvpn met killall -9 in plaats van -15"
+
+msgctxt "#32167"
+msgid "Alternative running openvpn task detection"
+msgstr "Alternatieve lopende openvpn-taakdetectie"
+
+msgctxt "#32168"
+msgid "Click OK and reopen Settings to see platform specific options"
+msgstr "Klik op OK en heropen Instellingen om platformspecifieke opties te bekijken"
+
+msgctxt "#32169"
+msgid "Enable up/down scripts (reset VPN after updating)"
+msgstr "Up/down-scripts inschakelen (reset VPN na update)"
+
+msgctxt "#32170"
+msgid "Use default up/down scripts (reset VPN after updating)"
+msgstr "Gebruik standaard up/down-scripts (reset VPN na het updaten)"
+
+msgctxt "#32171"
+msgid "Check connection with ping (reset VPN after updating)"
+msgstr "Controleer verbinding m.b.v ping (reset VPN na update)"
+
+msgctxt "#32172"
+msgid "Always use Kodi log directory for OpenVPN log"
+msgstr "Gebruik altijd Kodi-logdirectory voor OpenVPN-logboek"
+
+msgctxt "#32173"
+msgid "Evaluate and adjust system time"
+msgstr "Evalueer en pas de systeemtijd aan"
+
+msgctxt "#32174"
+msgid "Potential DNS fix"
+msgstr "Potentiële DNS-fix"
+
+msgctxt "#32175"
+msgid "Information"
+msgstr "Informatie"
+
+msgctxt "#32176"
+msgid "Enable enhanced information menu option"
+msgstr "Schakel uitgebreide informatie menu-optie in"
+
+msgctxt "#32177"
+msgid "View enhanced information window now"
+msgstr "Bekijk nu het verbeterde informatievenster"
+
+msgctxt "#32178"
+msgid "Popup connection table display"
+msgstr "Popup-verbindingstabelweergave"
+
+msgctxt "#32179"
+msgid "All connections"
+msgstr "Alle verbindingen"
+
+msgctxt "#32180"
+msgid "Validated connections"
+msgstr "Gevalideerde verbindingen"
+
+msgctxt "#32181"
+msgid "Display IP, location and provider in cycle notification"
+msgstr "Geef IP, locatie en provider weer in melding cyclus"
+
+msgctxt "#32182"
+msgid "Change IP location service"
+msgstr "IP-locatieservice wijzigen"
+
+msgctxt "#32183"
+msgid "Auto select"
+msgstr "Automatische selectie"
+
+msgctxt "#32184"
+msgid "ipinfo.io"
+msgstr "ipinfo.io"
+
+msgctxt "#32185"
+msgid "IP-API"
+msgstr "IP-API"
+
+msgctxt "#32186"
+msgid "ipstack"
+msgstr "ipstack"
+
+# List of VPN providers
+msgctxt "#32201"
+msgid "AirVPN"
+msgstr "AirVPN"
+
+msgctxt "#32202"
+msgid "black.box"
+msgstr "black.box"
+
+msgctxt "#32203"
+msgid "BTGuard"
+msgstr "BTGuard"
+
+msgctxt "#32204"
+msgid "BulletVPN"
+msgstr "BulletVPN"
+
+msgctxt "#32205"
+msgid "Celo"
+msgstr "Celo"
+
+msgctxt "#32206"
+msgid "CyberGhost"
+msgstr "CyberGhost"
+
+msgctxt "#32207"
+msgid "ExpressVPN"
+msgstr "ExpressVPN"
+
+msgctxt "#32208"
+msgid "Hide.Me"
+msgstr "Hide.Me"
+
+msgctxt "#32209"
+msgid "Hide My Ass"
+msgstr "Hide My Ass"
+
+msgctxt "#32210"
+msgid "HideIPVPN"
+msgstr "HideIPVPN"
+
+msgctxt "#32211"
+msgid "Invisible Browsing VPN"
+msgstr "Invisible Browsing VPN"
+
+msgctxt "#32212"
+msgid "IPVanish"
+msgstr "IPVanish"
+
+msgctxt "#32213"
+msgid "IVPN"
+msgstr "IVPN"
+
+msgctxt "#32214"
+msgid "LimeVPN"
+msgstr "LimeVPN"
+
+msgctxt "#32215"
+msgid "LiquidVPN"
+msgstr "LiquidVPN"
+
+msgctxt "#32216"
+msgid "Mullvad"
+msgstr "Mullvad"
+
+msgctxt "#32217"
+msgid "NordVPN"
+msgstr "NordVPN"
+
+msgctxt "#32218"
+msgid "Perfect Privacy"
+msgstr "Perfect Privacy"
+
+msgctxt "#32219"
+msgid "Private Internet Access"
+msgstr "Private Internet Access"
+
+msgctxt "#32220"
+msgid "PrivateVPN"
+msgstr "PrivateVPN"
+
+msgctxt "#32221"
+msgid "proXPN"
+msgstr "proXPN"
+
+msgctxt "#32222"
+msgid "RA4W VPN"
+msgstr "RA4W VPN"
+
+msgctxt "#32223"
+msgid "SaferVPN"
+msgstr "SaferVPN"
+
+msgctxt "#32224"
+msgid "SecureVPN.to"
+msgstr "SecureVPN.to"
+
+msgctxt "#32225"
+msgid "Shellfire"
+msgstr "Shellfire"
+
+msgctxt "#32226"
+msgid "Smart DNS Proxy"
+msgstr "Smart DNS Proxy"
+
+msgctxt "#32227"
+msgid "tigerVPN"
+msgstr "tigerVPN"
+
+msgctxt "#32228"
+msgid "TorGuard"
+msgstr "TorGuard"
+
+msgctxt "#32229"
+msgid "TotalVPN"
+msgstr "TotalVPN"
+
+msgctxt "#32230"
+msgid "User Defined"
+msgstr "User Defined"
+
+msgctxt "#32231"
+msgid "VanishedVPN"
+msgstr "VanishedVPN"
+
+msgctxt "#32232"
+msgid "VPN.ac"
+msgstr "VPN.ac"
+
+msgctxt "#32233"
+msgid "VPN.ht"
+msgstr "VPN.ht"
+
+msgctxt "#32234"
+msgid "VPN Unlimited"
+msgstr "VPN Unlimited"
+
+msgctxt "#32235"
+msgid "VPNArea"
+msgstr "VPNArea"
+
+msgctxt "#32236"
+msgid "VPNSecure"
+msgstr "VPNSecure"
+
+msgctxt "#32237"
+msgid "VyprVPN"
+msgstr "VyprVPN"
+
+msgctxt "#32238"
+msgid "WiTopia"
+msgstr "WiTopia"
+
+msgctxt "#32239"
+msgid "Windscribe"
+msgstr "Windscribe"

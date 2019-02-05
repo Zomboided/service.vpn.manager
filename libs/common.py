@@ -477,8 +477,6 @@ def getSystemData(addon, vpn, network, vpnm, system):
         site, ip, country, isp = getIPInfo(addon)
         if isVPNConnected(): 
             lines.append("[COLOR ff00ff00]Connected using profile " + getVPNProfileFriendly() + "[/COLOR]")
-            server = getVPNServer()
-            if not server == "": lines.append("Server is " + server)
             lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
         else:
             lines.append("[COLOR ffff0000]Not connected to a VPN[/COLOR]")
@@ -492,7 +490,8 @@ def getSystemData(addon, vpn, network, vpnm, system):
         lines.append("Gateway is " + xbmc.getInfoLabel("Network.GatewayAddress"))
         lines.append("Subnet mask is " + xbmc.getInfoLabel("Network.SubnetMask"))
         lines.append("Primary DNS is " + xbmc.getInfoLabel("Network.DNS1Address"))
-        lines.append("Secondary DNS is " + xbmc.getInfoLabel("Network.DNS2Address"))
+        sdns = xbmc.getInfoLabel("Network.DNS2Address")
+        if not sdns == "": lines.append("Secondary DNS is " + sdns)
     if vpnm:
         lines.append("[B][COLOR ff0099ff]" + getShort() + "[/COLOR][/B]")
         lines.append(getShort() + " verison is " + addon.getAddonInfo("version"))

@@ -997,7 +997,10 @@ def disconnectVPN(display_result):
         setVPNState("off")
     else:
         progress_message = "Disconnect cancelled, restarting VPN monitor..."
-        
+    
+    dialog_message = ""
+    dialog_message_2 = ""
+    dialog_message_3 = ""
     # Restart service
     if not startService():
         progress.close()
@@ -1012,15 +1015,18 @@ def disconnectVPN(display_result):
         # Update screen and display result in an ok dialog
         xbmc.executebuiltin('Container.Refresh')
         if display_result:
-            _, ip, country, isp = getIPInfo(addon)       
-            dialog_message = "Disconnected from VPN\nNetwork location is " + country + "\nExternal IP address is " + ip + "\nService Provider is " + isp
+            _, ip, country, isp = getIPInfo(addon)
+            # Kodi18 bug, these should be one string with a \n between them
+            dialog_message = "[B]Disconnected from VPN[/B]"
+            dialog_message_2 = "Using " + ip + ", located in " + country
+            dialog_message_3 = "Service Provider is " + isp
         
         infoTrace("common.py", "Disconnected from the VPN")
 
     freeCycleLock()
     
     if display_result:
-        xbmcgui.Dialog().ok(addon_name, dialog_message)
+        xbmcgui.Dialog().ok(addon_name, dialog_message, dialog_message_2, dialog_message_3)
 
     
 def getCredentialsPath(addon):
@@ -1933,17 +1939,17 @@ def connectVPN(connection_order, vpn_profile):
         # Set up final message
         progress_message = "Connected, VPN monitor restarted"
         if fakeConnection():
-            dialog_message = "Faked connection to a VPN in " + country + "\nUsing profile " + ovpn_name + "\nExternal IP address is " + ip + "\nService Provider is " + isp
+            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + "\nUsing " + ip + ", located in " + country + "\nService Provider is " + isp
         else:
             server = getVPNRequestedServer()
             if not server == "": server = ", " + server + "\n"
             else: server = "\n"
             # If a VPN location service can't be found, change the message
             if source == "":
-                dialog_message = "Connected to a VPN using profile " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
+                dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
                 dns_error = True
             else:
-                dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
+                dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
         infoTrace("common.py", dialog_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used

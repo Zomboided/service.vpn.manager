@@ -880,7 +880,7 @@ if __name__ == '__main__' and not running():
                                         if connection_retry_time == 5: connection_errors = 1
                                         if connection_errors > 9:
                                             if addon.getSetting("vpn_reconnect_reboot") == "true" and connection_errors == 10:
-                                                if not xbmcgui.Dialog().yesno(addon_name, "Cannot connect to VPN, rebooting system.\nClick cancel within 30 seconds to abort.", "", "", "Reboot", "Cancel", 30000):
+                                                if not xbmcgui.Dialog().yesno(addon_name, "Cannot connect to VPN, rebooting system.\nClick cancel within 30 seconds to abort.", nolabel="Reboot", yeslabel="Cancel", autoclose=30000):
                                                     infoTrace("service.py", "Reboot because of VPN connection errors.")
                                                     addon.setSetting("boot_reason", "VPN errors")
                                                     xbmc.executebuiltin("Reboot")

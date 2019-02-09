@@ -265,6 +265,8 @@ if __name__ == '__main__' and not running():
                 if addon.getSetting("vpn_provider_validated") == "NordVPN":
                     xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
                     reset_everything = True
+            if last_version < 602:
+			    if not addon.getSetting("vpn_provider_validated") == "": addon.setSetting("vpn_validated", "true")
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)

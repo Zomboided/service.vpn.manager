@@ -37,7 +37,7 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, getVPNRequestedServer
-from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory
+from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory, clearServiceState
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
@@ -292,9 +292,10 @@ if __name__ == '__main__' and not running():
     # then regenerate the OVPNs for the validated provider.
     primary_path = addon.getSetting("1_vpn_validated")
 
-    # During an upgrade, the VPN state stored on the window will be wrong so reset it as if it were a restart
+    # During an upgrade, some states stored on the window will be wrong so reset them as if it were a restart
     setVPNState("")
-    
+    clearServiceState()
+
     if not primary_path == "" and not xbmcvfs.exists(primary_path):
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider_validated"))
         infoTrace("service.py", "New install, but was using good VPN previously (" + vpn_provider + ", " + primary_path + ").  Regenerate OVPNs")
@@ -545,7 +546,11 @@ if __name__ == '__main__' and not running():
                                         
             # This checks the connection is still good.  It will always do it whilst there's 
             # no playback but there's an option to suppress this during playback
-            addon = xbmcaddon.Addon()
+            try:
+                addon = xbmcaddon.Addon()
+            except:
+                errorTrace("service.vpn", "Failed to get addon ID hopefully because of an upgrade.  Quitting service")
+                break
             if (not playing) or (addon.getSetting("vpn_reconnect_while_playing") == "true" or (addon.getSetting("vpn_reconnect_while_streaming") == "true" and streaming)):
                 if vpn_setup and (timer > connection_retry_time or (not playing and getConnectionErrorCount() == 0)):
                     if addon.getSetting("vpn_reconnect") == "true":

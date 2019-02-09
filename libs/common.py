@@ -542,7 +542,12 @@ def fixKeymaps():
         errorTrace("common.py", "Problem fixing the keymap filename.")
         errorTrace("common.py", str(e))
     return False
+
  
+def clearServiceState():
+    # Clear the service state during initialisation.  It can get funky on an upgrade
+	xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "start")
+
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response

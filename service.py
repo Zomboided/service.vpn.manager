@@ -265,9 +265,6 @@ if __name__ == '__main__' and not running():
                 if addon.getSetting("vpn_provider_validated") == "NordVPN":
                     xbmcgui.Dialog().ok(addon_name, "Support for NordVPN has been improved to use the NordVPN API to dynamically manage connections.  Please re-validate your connections to continue to use NordVPN.")
                     reset_everything = True
-            if last_version < 602:
-                if not addon.getSetting("vpn_provider_validated") == "":
-                    addon.setSetting("vpn_validated", "true")
             if reset_everything:
                 removeGeneratedFiles()
                 resetVPNConfig(addon, 1)
@@ -288,8 +285,15 @@ if __name__ == '__main__' and not running():
             if last_version < 497:
                 if addon.getSetting("vpn_wizard_run") == "false": addon.setSetting("vpn_wizard_enabled", "true")
                 if addon.getSetting("vpn_wizard_run") == "true": addon.setSetting("vpn_wizard_enabled", "false")
-              
-    addon.setSetting("version_number", addon.getAddonInfo("version"))
+            if last_version < 602:
+                if not addon.getSetting("vpn_provider_validated") == "":
+                    addon.setSetting("vpn_validated", "true")
+            if last_version < 610:
+                if getPlatform() == platforms.WINDOWS or addon.getSetting("openvpn_no_path") == "true":
+                    addon.setSetting("openvpn_no_path", "true")
+                    addon.setSetting("openvpn_path", "")
+                    
+        addon.setSetting("version_number", addon.getAddonInfo("version"))
    
     # If the addon was running happily previously (like before an uninstall/reinstall or update)
     # then regenerate the OVPNs for the validated provider.

@@ -1084,14 +1084,27 @@ def wizard():
         # Check everything is installed and working
         if not addon.getSetting("ran_openvpn") == "true":
             if getPlatform() == platforms.WINDOWS:
-                xbmcgui.Dialog().ok(addon_name, "This add-on uses OpenVPN to make the VPN connection.  You can download this from openvpn.net/index.php/open-source/downloads.html.  Click ok to check that openvpn is working.")
+                xbmcgui.Dialog().ok(addon_name, "This add-on uses OpenVPN to make the VPN connection.  You can download this from openvpn.net.  Click ok to check that openvpn is installed and working.")
+                # Don't mess with anything if openvpn can be found using the path in the settings
+                if not (addon.getSetting("openvpn_no_path") == "false" and xbmcvfs.exists(addon.getSetting("openvpn_path")+"openvpn.exe")):
+                    # Settings aren't valid so look in the default place
+                    if xbmcvfs.exists("c:\\Program Files\\OpenVPN\\bin\\openvpn.exe"):
+                        addon.setSetting("openvpn_path", "c:\\Program Files\\OpenVPN\\bin\\")
+                        addon.setSetting("openvpn_no_path", "false")
+                    else:
+                        # Last resort default to class path
+                        addon.setSetting("openvpn_path", "")
+                        addon.setSetting("openvpn_no_path", "true")
             else:
                 xbmcgui.Dialog().ok(addon_name, "This add-on uses the openvpn, killall and pidof commands to make and manage the VPN connections.  You will need to install these if your system doesn't have them.  Click ok to set some system defaults and check everything is working.")
-                # If openvpn is not where it's expected, set the option to call it without a path
-                if xbmcvfs.exists("/usr/sbin/openvpn"):
-                    addon.setSetting("openvpn_no_path", "false")
-                else:
-                    addon.setSetting("openvpn_no_path", "true")
+                # Same logic as above, check the settings, check the default path and if all else fails, use the class path
+                if not (addon.getSetting("openvpn_no_path") == "false" and xbmcvfs.exists(addon.getSetting("openvpn_path")+"openvpn.exe")):
+                    if xbmcvfs.exists("/usr/sbin/openvpn"):
+                        addon.setSetting("openvpn_path", "/usr/sbin/")
+                        addon.setSetting("openvpn_no_path", "false")
+                    else:
+                        addon.setSetting("openvpn_path", "")
+                        addon.setSetting("openvpn_no_path", "true")
                 # If this is an LE install, don't need sudo and can use the /run directory for the logs, etc
                 if getAddonPath(True, "").startswith("/storage/.kodi/"):
                     addon.setSetting("openvpn_sudo", "false")
@@ -1129,9 +1142,10 @@ def wizard():
                 progress.close()
                 xbmc.sleep(200)
                 if getPlatform() == platforms.WINDOWS:
-                    xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed and available on the command path.  Review the add-on Windows installation instructions.")
+                    # Could be a bit more helpful here and ask the user if they want to locate the path...looping until the find it or cancel
+                    xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed.  Set the path to the OpenVPN bin directory in the Advanced tab in Settings or review the add-on Windows installation instructions.")
                 else:
-                    xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands all must be installed and available on the command path.  Review the add-on Linux installation instructions and check the log for more details.")
+                    xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands must be installed.  Set the path in the Advanced tab in Settings or check the log for more details and review the add-on Linux installation instructions.")
             else:
                 progress_message = "No problems found"
                 progress.update(100, progress_title, progress_message)

@@ -1137,21 +1137,29 @@ def wizard():
                 if not getPlatform() == platforms.WINDOWS and not checkKillallCommand(addon): 
                     success = False
                 xbmc.sleep(1000)
-            
+
             if success == False:
                 progress.close()
                 xbmc.sleep(200)
                 if getPlatform() == platforms.WINDOWS:
-                    # Could be a bit more helpful here and ask the user if they want to locate the path...looping until the find it or cancel
-                    xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed.  Set the path to the OpenVPN bin directory in the Advanced tab in Settings or review the add-on Windows installation instructions.")
+                    # Give the user a chance to locate the openvpn directory
+                    if xbmcgui.Dialog().yesno(addon_name, "OpenVPN cannot be found.  If you've already installed it, do you want to locate the OpenVPN\\bin directory?", nolabel="No", yeslabel="Yes"):
+                        vpn_path = xbmcgui.Dialog().browseSingle(0, "Locate ..\\OpenVPN\\bin\\", "local", "", False, False, "")
+                        if xbmcvfs.exists(vpn_path + "openvpn.exe"):
+                            addon.setSetting("openvpn_path", vpn_path)
+                            addon.setSetting("openvpn_no_path", "false")
+                            success = checkVPNCommand(addon)
+                    if success == False:                  
+                        xbmcgui.Dialog().ok(addon_name, "OpenVPN must be installed.  Run the wizard again after installing it or review the Windows installation instructions.")
                 else:
-                    xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands must be installed.  Set the path in the Advanced tab in Settings or check the log for more details and review the add-on Linux installation instructions.")
+                    xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands must be installed.  Check the log for more details and review the Linux installation instructions.")
             else:
                 progress_message = "No problems found"
                 progress.update(100, progress_title, progress_message)
                 xbmc.sleep(1000)
                 progress.close()
-                addon.setSetting("ran_openvpn", "true")
+                
+            if success: addon.setSetting("ran_openvpn", "true")
         
         addon = xbmcaddon.Addon(getID())
         if success:

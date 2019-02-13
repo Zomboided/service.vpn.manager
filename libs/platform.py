@@ -428,7 +428,7 @@ def checkPidofCommand(addon):
         
 def checkVPNCommand(addon):
     # Issue the openvpn command and see if the output is a bunch of commands
-    if 1 == 1 or not fakeConnection():
+    if not fakeConnection():
         p = getPlatform()
         # Issue the openvpn command, expecting to get the options screen back
         if p == platforms.RPI or p == platforms.LINUX:

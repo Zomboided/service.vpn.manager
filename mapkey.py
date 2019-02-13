@@ -150,7 +150,7 @@ if not getID() == "":
                 msg = "Key ID " + cycle_key + " is mapped to the VPN cycle function.  Remap or clear current mapping?"
                 y = "Clear"
                 n = "Remap"
-            if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
+            if not xbmcgui.Dialog().yesno(addon_name, msg, nolabel=n, yeslabel=y):
                 cycle_key = KeyListener().record_key()
                 if cycle_key == "": 
                     dialog = "VPN cycle is not mapped to a key."
@@ -172,8 +172,8 @@ if not getID() == "":
                 msg = "Key ID " + table_key + " is mapped to the VPN connection table function.  Remap or clear current mapping?"
                 y = "Clear"
                 n = "Remap"
-            if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
-                if not cycle_key == "" and xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of the current cycle key to bring up a list of connections?. [I]This is only recommended for keyboard usage, not remote controls.[/I]", "", "", "No", "Yes"):
+            if not xbmcgui.Dialog().yesno(addon_name, msg, nolabel=n, yeslabel=y):
+                if not cycle_key == "" and xbmcgui.Dialog().yesno(addon_name, "Do you want to map a long press of the current cycle key to bring up a list of connections?. [I]This is only recommended for keyboard usage, not remote controls.[/I]", nolabel="No", yeslabel="Yes"):
                     table_key = cycle_key
                     table_long = True
                 else:
@@ -185,7 +185,7 @@ if not getID() == "":
                     else: 
                         dialog = "VPN connection table is mapped to key ID " + cycle_key + "."
                         icon = "/resources/mapped.png"
-                        if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", "", "", "Validated", "All"):
+                        if xbmcgui.Dialog().yesno(addon_name, "Do you want display the list of all connections (with protocol filter applied) or just those validated?.  You can change this later in the Settings/Monitor menu.", nolabel="Validated", yeslabel="All"):
                             addon.setSetting("table_display_type", "All connections")
                         else:
                             addon.setSetting("table_display_type", "Validated connections")
@@ -203,7 +203,7 @@ if not getID() == "":
                 msg = "Key ID " + info_key + " is mapped to the information display function.  Remap or clear current mapping?"
                 y = "Clear"
                 n = "Remap"
-            if not xbmcgui.Dialog().yesno(addon_name, msg, "", "", n, y):
+            if not xbmcgui.Dialog().yesno(addon_name, msg, nolabel=n, yeslabel=y):
                 info_key = KeyListener().record_key()
                 if info_key == "": 
                     dialog = "Info display is not mapped to a key."

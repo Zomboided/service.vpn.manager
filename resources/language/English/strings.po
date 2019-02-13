@@ -134,7 +134,7 @@ msgid "VPN Connections"
 msgstr ""
 
 msgctxt "#32029"
-msgid "Click the boxes below to validate primary VPN connections"
+msgid "Validate the primary VPN connections"
 msgstr ""
 
 msgctxt "#32030"
@@ -185,7 +185,7 @@ msgid "Monitor"
 msgstr ""
 
 msgctxt "#32041"
-msgid "VPN monitor (runs as a background service)"
+msgid "VPN monitoring options"
 msgstr ""
 
 msgctxt "#32042"

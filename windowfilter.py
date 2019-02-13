@@ -133,7 +133,7 @@ if not getID() == "":
             if not new_filter == "": filters.insert(len(filters)-5, new_filter)
         else:
             # Edit or delete an existing filter
-            if not xbmcgui.Dialog().yesno(addon_name, "Edit or delete window ID filter " + filters[i] + "?", "", "", "Edit", "Delete"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Edit or delete window ID filter " + filters[i] + "?", nolabel="Edit", yeslabel="Delete"):
                 if "-" in filters[i]:
                     new_filter = editRange(filters[i])
                 else:

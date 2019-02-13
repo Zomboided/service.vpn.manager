@@ -69,7 +69,7 @@ def importWizard():
     xbmcgui.Dialog().ok(addon_name, "The User Defined import wizard helps you set up an unsupported VPN provider.  It may not work without additional user intervention.  You should review the import log and subsequent VPN logs to debug any problems.")
 
     # Warn the user that files will be deleted and kittens will be harmed
-    if xbmcgui.Dialog().yesno(addon_name, "Any existing User Defined settings and files will be deleted. Do you want to continue?", "", ""):
+    if xbmcgui.Dialog().yesno(addon_name, "Any existing User Defined settings and files will be deleted. Do you want to continue?"):
         removeGeneratedFiles()
         success = clearUserData()
         addon.setSetting("vpn_provider", "User Defined")
@@ -80,7 +80,7 @@ def importWizard():
 
     # Get the list of files to be used
     if success:
-        if xbmcgui.Dialog().yesno(addon_name, "Select ALL files needed to connect to the VPN provider, including .ovpn, .key and .crt files.  Select a directory (sub directories are ignored) or select multiple files within a directory?.", "", "", "Directory", "Files"):
+        if xbmcgui.Dialog().yesno(addon_name, "Select ALL files needed to connect to the VPN provider, including .ovpn, .key and .crt files.  Select a directory (sub directories are ignored) or select multiple files within a directory?.", nolabel="Directory", yeslabel="Files"):
             directory_input = False
             files = xbmcgui.Dialog().browse(1, "Select all VPN provider files", "files", "", False, False, "", True)
         else:
@@ -117,10 +117,10 @@ def importWizard():
         
         update = False
         rename = False
-        if not xbmcgui.Dialog().yesno(addon_name, "Update the .ovpn files to best guess values and determine the best User Defined provider settings [I](recommended)[/I]?", "", "", "Yes", "No"):
+        if not xbmcgui.Dialog().yesno(addon_name, "Update the .ovpn files to best guess values and determine the best User Defined provider settings [I](recommended)[/I]?", nolabel="Yes", yeslabel="No"):
             update = True
             detail.append("Updating the .ovpn files to best guess settings\n")
-            if not xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections [I](recommended)[/I]?", "", "", "Yes", "No"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Rename the .ovpn files to indicate either a UDP or TCP connection type to allow filtering of connections [I](recommended)[/I]?", nolabel="Yes", yeslabel="No"):
                 rename = True
                 detail.append("Files will be renamed to indicate UDP or TCP\n")        
             
@@ -429,7 +429,7 @@ def importWizard():
         xbmc.sleep(100)
         
     if success:
-        if xbmcgui.Dialog().yesno(addon_name, "Import wizard finished.  You should view the import log to review any issues, enter your user ID and password (if necessary) and then try and validate a VPN connection.", "", "", "OK", "Import Log"):
+        if xbmcgui.Dialog().yesno(addon_name, "Import wizard finished.  You should view the import log to review any issues, enter your user ID and password (if necessary) and then try and validate a VPN connection.", nolabel="OK", yeslabel="Import Log"):
             popupImportLog()
     else:
         xbmcgui.Dialog().ok(addon_name, errorMessage)

@@ -477,8 +477,6 @@ def getSystemData(addon, vpn, network, vpnm, system):
         site, ip, country, isp = getIPInfo(addon)
         if isVPNConnected(): 
             lines.append("[COLOR ff00ff00]Connected using profile " + getVPNProfileFriendly() + "[/COLOR]")
-            server = getVPNServer()
-            if not server == "": lines.append("Server is " + server)
             lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
         else:
             lines.append("[COLOR ffff0000]Not connected to a VPN[/COLOR]")
@@ -492,7 +490,8 @@ def getSystemData(addon, vpn, network, vpnm, system):
         lines.append("Gateway is " + xbmc.getInfoLabel("Network.GatewayAddress"))
         lines.append("Subnet mask is " + xbmc.getInfoLabel("Network.SubnetMask"))
         lines.append("Primary DNS is " + xbmc.getInfoLabel("Network.DNS1Address"))
-        lines.append("Secondary DNS is " + xbmc.getInfoLabel("Network.DNS2Address"))
+        sdns = xbmc.getInfoLabel("Network.DNS2Address")
+        if not sdns == "": lines.append("Secondary DNS is " + sdns)
     if vpnm:
         lines.append("[B][COLOR ff0099ff]" + getShort() + "[/COLOR][/B]")
         lines.append(getShort() + " verison is " + addon.getAddonInfo("version"))
@@ -543,7 +542,12 @@ def fixKeymaps():
         errorTrace("common.py", "Problem fixing the keymap filename.")
         errorTrace("common.py", str(e))
     return False
+
  
+def clearServiceState():
+    # Clear the service state during initialisation.  It can get funky on an upgrade
+	xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "start")
+
 
 def startService():
     # Routine for config to call to request that service starts.  Can time out if there's no response
@@ -978,7 +982,7 @@ def disconnectVPN(display_result):
         progress.close()
         # Display error in an ok dialog, user will need to do something...
         errorTrace("common.py", "VPN monitor service is not running, can't stop VPN")
-        xbmcgui.Dialog().ok(progress_title, "Error, Service not running.\nCheck log and reboot.")
+        xbmcgui.Dialog().ok(progress_title, "Error, Service not running.  Check log and reboot.")
         freeCycleLock()
         return
     
@@ -997,12 +1001,15 @@ def disconnectVPN(display_result):
         setVPNState("off")
     else:
         progress_message = "Disconnect cancelled, restarting VPN monitor..."
-        
+    
+    dialog_message = ""
+    dialog_message_2 = ""
+    dialog_message_3 = ""
     # Restart service
     if not startService():
         progress.close()
         errorTrace("common.py", "VPN monitor service is not running, VPN has stopped")
-        dialog_message = "Error, Service not running.\nCheck log and reboot."        
+        dialog_message = "Error, Service not running.  Check log and reboot."        
     else:
         # Close out the final progress dialog
         progress.update(100, progress_title, progress_message)
@@ -1012,15 +1019,18 @@ def disconnectVPN(display_result):
         # Update screen and display result in an ok dialog
         xbmc.executebuiltin('Container.Refresh')
         if display_result:
-            _, ip, country, isp = getIPInfo(addon)       
-            dialog_message = "Disconnected from VPN\nNetwork location is " + country + "\nExternal IP address is " + ip + "\nService Provider is " + isp
+            _, ip, country, isp = getIPInfo(addon)
+            # Kodi18 bug, these should be one string with a \n between them
+            dialog_message = "[B]Disconnected from VPN[/B]"
+            dialog_message_2 = "Using " + ip + ", located in " + country
+            dialog_message_3 = "Service Provider is " + isp
         
         infoTrace("common.py", "Disconnected from the VPN")
 
     freeCycleLock()
     
     if display_result:
-        xbmcgui.Dialog().ok(addon_name, dialog_message)
+        xbmcgui.Dialog().ok(addon_name, dialog_message, dialog_message_2, dialog_message_3)
 
     
 def getCredentialsPath(addon):
@@ -1065,7 +1075,7 @@ def wizard():
     
     settings = False
     # Wizard or settings?
-    if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", "", "", "Wizard", "Settings"):
+    if not xbmcgui.Dialog().yesno(addon_name, "A VPN hasn't been set up yet.  Would you like to run the setup wizard or go to the settings?", nolabel="Wizard", yeslabel="Settings"):
 
         suspendConfigUpdate()
         
@@ -1153,7 +1163,7 @@ def wizard():
                 else:
                     vpn_provider = ""
                     success = False
-                    xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                    xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
                 vpn_provider = addon.getSetting("vpn_custom")
                 current = vpn_provider
@@ -1162,7 +1172,7 @@ def wizard():
         addon = xbmcaddon.Addon(getID())
         if success and isUserDefined(vpn_provider):
             success = importWizard()
-            if not success: xbmcgui.Dialog().ok(addon_name, "Setup stopped because it could not import any user files.  You can run the wizard again by selecting 'Settings' in the add-on menu")            
+            if not success: xbmcgui.Dialog().ok(addon_name, "Setup stopped because it could not import any user files.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
         
         addon = xbmcaddon.Addon(getID())        
         if success:
@@ -1179,8 +1189,8 @@ def wizard():
                 while True:
                     vpn_username = xbmcgui.Dialog().input("Enter your " + vpn_provider + " user name", vpn_username, type=xbmcgui.INPUT_ALPHANUM)
                     if vpn_username == "":
-                        if xbmcgui.Dialog().yesno(addon_name, "You must enter the user name supplied by " + vpn_provider + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
-                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                        if xbmcgui.Dialog().yesno(addon_name, "You must enter the user name supplied by " + vpn_provider + ".  Try again or cancel setup?", nolabel="Try again", yeslabel="Cancel"):
+                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                             success = False
                             break
                     else:
@@ -1190,8 +1200,8 @@ def wizard():
                     while True:
                         vpn_password = xbmcgui.Dialog().input("Enter your " + vpn_provider + " password", vpn_password, type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
                         if vpn_password == "":
-                            if xbmcgui.Dialog().yesno(addon_name, "You must enter the password supplied by " + vpn_provider + " for user name " + vpn_username + ".  Try again or cancel setup?", "", "", "Try again", "Cancel"):
-                                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                            if xbmcgui.Dialog().yesno(addon_name, "You must enter the password supplied by " + vpn_provider + " for user name " + vpn_username + ".  Try again or cancel setup?", nolabel="Try again", yeslabel="Cancel"):
+                                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                                 success = False
                                 break
                         else:
@@ -1204,7 +1214,7 @@ def wizard():
         addon = xbmcaddon.Addon(getID())
         if success:
             # Offer to default the common options
-            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", None, None, "Yes", "No"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Do you want the VPN to connect at start up and be reconnected if necessary [I](recommended)[/I]?  You can set these options later in the 'Monitor' tab on the 'Settings' screen available in the add-on menu", nolabel="Yes", yeslabel="No"):
                 # These options will connect and boot, reconnect during streaming or not playing, and reconnect after filtering
                 addon.setSetting("vpn_connect_at_boot", "true")
                 addon.setSetting("vpn_reconnect", "true")
@@ -1222,17 +1232,17 @@ def wizard():
             addon.setSetting("vpn_provider", vpn_provider)
             addon.setSetting("vpn_username", vpn_username)
             addon.setSetting("vpn_password", vpn_password)
-            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection or country you want to use during the connection process.", "", "", "Ok", "Cancel"):
+            if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection or country you want to use during the connection process.", nolabel="Ok", yeslabel="Cancel"):
                 connectVPN("1", vpn_provider)
                 addon = xbmcaddon.Addon(getID())
                 if connectionValidated(addon):
                     xbmcgui.Dialog().ok(addon_name, "The wizard has set up " + vpn_provider + " and has connected to " + addon.getSetting("1_vpn_validated_friendly") + ". This is the primary connection and will be used when Kodi starts.")
-                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections or countries and define filters to automatically change the VPN connection being used with each add-on.  Do this now?", "", "", "Yes", "No"):
+                    if not xbmcgui.Dialog().yesno(addon_name, "You can use 'Settings' in the add-on menu to optionally validate additional VPN connections or countries and define filters to automatically change the VPN connection being used with each add-on.  Do this now?", nolabel="Yes", yeslabel="No"):
                         settings = True
                 else:
                     xbmcgui.Dialog().ok(addon_name, "Could not connect to " + vpn_provider + ".  Correct any issues that were reported during the connection attempt and run the wizard again by selecting 'Settings' in the add-on menu.")
             else:
-                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu")
+                xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
                 
         resumeConfigUpdate()
         
@@ -1252,8 +1262,8 @@ def dnsFix():
     
     if getPlatform() == platforms.LINUX:
         vpn_provider = addon.getSetting("vpn_provider")
-        if not xbmcgui.Dialog().yesno(addon_name, "Do you want to apply or remove the potential DNS fix for " + vpn_provider + "?", "", "", "Apply", "Remove"):
-            if xbmcgui.Dialog().yesno(addon_name, "Applying this fix will [I]attempt[/I] to fix any DNS issues that you might be experiencing.  [COLOR red]You should not do this if you're not having any connection problems![/COLOR]", "", "", "Cancel", "Continue"):
+        if not xbmcgui.Dialog().yesno(addon_name, "Do you want to apply or remove the potential DNS fix for " + vpn_provider + "?", nolabel="Apply", yeslabel="Remove"):
+            if xbmcgui.Dialog().yesno(addon_name, "Applying this fix will [I]attempt[/I] to fix any DNS issues that you might be experiencing.  [COLOR red]You should not do this if you're not having any connection problems![/COLOR]", nolabel="Cancel", yeslabel="Continue"):
                 infoTrace("common.py", "Creating a new APPEND.txt for " + vpn_provider + " to try and fix DNS issues")
                 files = False
                 # Rename any existing APPEND.txt
@@ -1357,18 +1367,18 @@ def dnsFix():
                         addon.setSetting("use_default_up_down", "false")
                 
                 if not errors:
-                    if xbmcgui.Dialog().yesno(addon_name, "A [I]potential[/I] fix has been created.  You should now use the [B]Reset VPN Provider[/B] option in the [B]Utilities[/B] tab to apply the fix, and then use the [B]VPN Connections[/B] tab to validate a connection.", "", "", "Ok", "Details"):
+                    if xbmcgui.Dialog().yesno(addon_name, "A [I]potential[/I] fix has been created.  You should now use the [B]Reset VPN Provider[/B] option in the [B]Utilities[/B] tab to apply the fix, and then use the [B]VPN Connections[/B] tab to validate a connection.", nolabel="Ok", yeslabel="Details"):
                         t = ""
                         if settings: t = t + "The OpenVPN up and down script options have been turned off.  "
                         if files: t = t + "Existing user defined TEMPLATE.txt and APPEND.txt files for " + vpn_provider + " have been disabled.  "
-                        if t == "" : t = "A new user defined APPEND.txt has been created.  No other changes were necessary"
+                        if t == "" : t = "A new user defined APPEND.txt has been created.  No other changes were necessary."
                         else: t = t + "A new user defined APPEND.txt has been created."
                         xbmcgui.Dialog().ok(addon_name, t)
                     if not isCustom(): xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying this [I]potential[/I] fix, refer to the [B]Trouble Shooting[/B] page found on the [B]GitHub service.vpn.manager wiki.[/B]")
-                    else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation")
+                    else: xbmcgui.Dialog().ok(addon_name, "If you still have issues after applying the [I]potential[/I] fix, refer to your VPN provider support documentation.")
                 else:
                     if not isCustom(): xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and the [B]Trouble Shooting[/B] page found on the GitHub service.vpn.manager wiki.")
-                    else: xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and your VPN provider support documentation")
+                    else: xbmcgui.Dialog().ok(addon_name, "[I]A DNS fix was not possible because the required DNS resolution scripts are not available.[/I]  Refer to the Kodi log and your VPN provider support documentation.")
                     try:
                         if xbmcvfs.exists(append_path):
                             xbmcvfs.delete(append_path)
@@ -1386,7 +1396,7 @@ def dnsFix():
                     errorTrace("common.py", "Couldn't remove " + append_path)
                     errorTrace("common.py", str(e))
                     xbmcgui.Dialog().ok(addon_name, "Unexpected errors were found when attempting remove the DNS fix for " + vpn_provider + ".  See the log for more details.")
-            else: xbmcgui.Dialog().ok(addon_name, "No potential DNS fix has been applied to " + vpn_provider)
+            else: xbmcgui.Dialog().ok(addon_name, "No potential DNS fix has been applied to " + vpn_provider + ".")
 
             
 def removeUsedConnections(addon, connection_order, connections):
@@ -1545,7 +1555,7 @@ def connectVPN(connection_order, vpn_profile):
                     provider_download = refreshVPNFiles(vpn_provider, progress)
                 else:
                     progress_message = "New VPN locations found! Click OK to download. [I]If you use existing locations they may not continue to work.[/I]"
-                    if not xbmcgui.Dialog().yesno(progress_title, progress_message, "", "", "OK", "Use Existing"):
+                    if not xbmcgui.Dialog().yesno(progress_title, progress_message, nolabel="OK", yeslabel="Use Existing"):
                         provider_download = refreshVPNFiles(vpn_provider, progress)
                         # This is horrible code to avoid adding more booleans.  It'll pretend that the files
                         # didn't download and skip to the end, but it'll indicate that connections need resetting
@@ -1596,11 +1606,11 @@ def connectVPN(connection_order, vpn_profile):
         # Check for formatting characters first time through
         if connection_order == "1":
             vpn_username_stripped = vpn_username.strip(' \t\n\r')
-            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your user name starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", "", "", "No", "Yes"):
+            if (not vpn_username == vpn_username_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your user name starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", nolabel="No", yeslabel="Yes"):
                 vpn_username = vpn_username_stripped
                 addon.setSetting("vpn_username", vpn_username)
             vpn_password_stripped = vpn_password.strip(' \t\n\r')
-            if (not vpn_password == vpn_password_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your password starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", "", "", "No", "Yes"):
+            if (not vpn_password == vpn_password_stripped) and xbmcgui.Dialog().yesno(progress_title, "Your password starts or ends with formatting characters (space, tab, new line or return).  Remove them [I](recommended)[/I]?", nolabel="No", yeslabel="Yes"):
                 vpn_password = vpn_password_stripped
                 addon.setSetting("vpn_password", vpn_password)
         
@@ -1933,17 +1943,17 @@ def connectVPN(connection_order, vpn_profile):
         # Set up final message
         progress_message = "Connected, VPN monitor restarted"
         if fakeConnection():
-            dialog_message = "Faked connection to a VPN in " + country + "\nUsing profile " + ovpn_name + "\nExternal IP address is " + ip + "\nService Provider is " + isp
+            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + "\nUsing " + ip + ", located in " + country + "\nService Provider is " + isp
         else:
             server = getVPNRequestedServer()
             if not server == "": server = ", " + server + "\n"
             else: server = "\n"
             # If a VPN location service can't be found, change the message
             if source == "":
-                dialog_message = "Connected to a VPN using profile " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
+                dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
                 dns_error = True
             else:
-                dialog_message = "Connected to a VPN in " + country + "\nUsing profile " + ovpn_name + server + "External IP address is " + ip + "\nService Provider is " + isp
+                dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
         infoTrace("common.py", dialog_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used
@@ -2115,7 +2125,7 @@ def connectVPN(connection_order, vpn_profile):
 
     # Display connection result in an ok dialog
     if log_option:
-        if xbmcgui.Dialog().yesno(progress_title, dialog_message, "", "", "OK", "VPN Log"):
+        if xbmcgui.Dialog().yesno(progress_title, dialog_message, nolabel="OK", yeslabel="VPN Log"):
             popupOpenVPNLog(getVPNLocation(vpn_provider))
     else:
         xbmcgui.Dialog().ok(progress_title, dialog_message)

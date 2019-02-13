@@ -50,7 +50,10 @@ if not getID() == "":
     if not usesPassAuth(getVPNLocation(vpn_provider)) or (not vpn_username == "" and not vpn_provider == ""):
         connectVPN(str(connection_order), "")
     else:
-        xbmcgui.Dialog().ok(addon_name, "Please enter a user name and password.  " + vpn_provider + " requires them for authentication.")
+        if vpn_provider == "":
+            xbmcgui.Dialog().ok(addon_name, "Please select a VPN provider and enter a user name and password.")
+        else:
+            xbmcgui.Dialog().ok(addon_name, "Please enter a user name and password.  " + vpn_provider + " requires them for authentication.")
 
     # Finally return to the settings screen if that's where we came from
     if connection_order > 0:

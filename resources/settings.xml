@@ -162,8 +162,8 @@
     <setting               type="text" id="platform" enable="false" visible="false" default="0"/>     
     <setting label="32157" type="bool" id="block_outside_dns" visible="eq(-1,1)" default="true"/>
     <setting label="32158" type="labelenum" id="openvpn_sudo" visible="eq(-2,2)" lvalues="32159|32160|32161"/>
-    <setting label="32162" type="bool" id="openvpn_no_path" visible="eq(-3,2)" default="false"/>
-    <setting label="32163" type="text" id="openvpn_path" enable="eq(-13,true)" visible="eq(-4,2)+eq(-1,false)" default="/usr/sbin/"/>
+    <setting label="32162" type="bool" id="openvpn_no_path" visible="true" default="false"/>
+    <setting label="32163" type="folder" id="openvpn_path" source="local" enable="true" visible="!eq(-1,true)" default=""/>
     <setting label="32164" type="text" id="killall_path" enable="false" visible="false" default=""/>
     <setting label="32165" type="text" id="pidof_path" enable="false" visible="false" default=""/>
     <setting label="32166" type="bool" id="openvpn_killall" visible="eq(-7,2)" default="false"/>

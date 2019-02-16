@@ -279,15 +279,13 @@ def updateSystemTime(newtime):
     
 def getOpenVPNPath():
     # Return the path to openvpn
-    p = getPlatform()   
+    p = getPlatform()
     if p == platforms.RPI:
         return getAddonPath(False, "network.openvpn/bin/openvpn")
-    if p == platforms.LINUX:
-        if xbmcaddon.Addon(getID()).getSetting("openvpn_no_path") == "true": return "openvpn"
-        return xbmcaddon.Addon(getID()).getSetting("openvpn_path") + "openvpn"
-    if p == platforms.WINDOWS:
-        # No path specified as install will update command path
-        return "openvpn"
+    if p == platforms.LINUX or p == platforms.WINDOWS:
+        addon = xbmcaddon.Addon(getID())
+        if addon.getSetting("openvpn_no_path") == "true" or addon.getSetting("openvpn_path") == "": return "openvpn"
+        return '"' + addon.getSetting("openvpn_path") + "openvpn" + '"'
         
     # **** ADD MORE PLATFORMS HERE ****
     

@@ -35,7 +35,16 @@ def getVPNRequestedServer():
     # Return server name
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Requested_Server_Name") 
 
+
+def setVPNURL(address):
+    # Store the server name or URL being used
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Connected_Server_URL", address)
+
+def getVPNURL():
+    # Return the server name or URL being used
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Server_URL")
     
+        
 # Manage the authentication tokens
 def resetTokens():
     setTokens("", "", "")

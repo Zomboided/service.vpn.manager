@@ -13,7 +13,7 @@
             <posx>0</posx>
             <posy>0</posy>
             <width>1000</width>
-            <height>470</height>
+            <height>550</height>
             <texture border="20">DialogBackTranslucent.png</texture>
         </control>
         <control type="label" id="100">
@@ -65,7 +65,7 @@
         <control type="button" id="3002">
 			<description>Ok button</description>
 			<posx>450</posx>
-			<posy>400</posy>
+			<posy>480</posy>
 			<width>140</width>
 			<height>40</height>
 			<label>OK</label>

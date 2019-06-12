@@ -27,7 +27,7 @@ import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
 from libs.platform import getAddonPath
-from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens
+from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL
 
 NORD_LOCATIONS = "COUNTRIES.txt"
 
@@ -402,6 +402,7 @@ def getNordVPNLocation(vpn_provider, location, server_count, just_name):
         server = ""
     if server == "": server = first_server
     setVPNRequestedServer(server)
+    setVPNURL(server)
     
     # Fetch the ovpn file for the server
     if not server == "":

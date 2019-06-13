@@ -639,38 +639,42 @@ msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32178"
-msgid "Popup connection table display"
+msgid "Enable enhanced VPN server information"
 msgstr ""
 
 msgctxt "#32179"
-msgid "All connections"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32180"
-msgid "Validated connections"
+msgid "All connections"
 msgstr ""
 
 msgctxt "#32181"
-msgid "Display IP, location and provider in cycle notification"
+msgid "Validated connections"
 msgstr ""
 
 msgctxt "#32182"
-msgid "Change IP location service"
+msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
 msgctxt "#32183"
-msgid "Auto select"
+msgid "Change IP location service"
 msgstr ""
 
 msgctxt "#32184"
-msgid "ipinfo.io"
+msgid "Auto select"
 msgstr ""
 
 msgctxt "#32185"
-msgid "IP-API"
+msgid "ipinfo.io"
 msgstr ""
 
 msgctxt "#32186"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32187"
 msgid "ipstack"
 msgstr ""
 

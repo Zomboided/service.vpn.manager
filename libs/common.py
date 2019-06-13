@@ -1999,12 +1999,15 @@ def connectVPN(connection_order, vpn_profile):
         xbmc.sleep(DIALOG_SPEED)
         # Set up final message
         progress_message = "Connected, VPN monitor restarted"
+        server = ""
+        # Display the server if enhanced server info is switched on
+        if addon.getSetting("vpn_server_info") == "true":
+            server = getVPNURL()
+        if not server == "": server = "\nServer is " + server + "\n"
+        else: server = "\n"
         if fakeConnection():
-            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + "\nUsing " + ip + ", located in " + country + "\nService Provider is " + isp
+            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
         else:
-            server = getVPNRequestedServer()
-            if not server == "": server = ", " + server + "\n"
-            else: server = "\n"
             # If a VPN location service can't be found, change the message
             if source == "":
                 dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."

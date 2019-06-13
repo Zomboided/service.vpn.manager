@@ -26,7 +26,7 @@ from utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace,
 
 
 ip_sources = ["Auto select", "ipinfo.io", "IP-API", "ipstack"]
-ip_urls = ["", "http://ipinfo.io/json", "http://ip-api.com/json", "http://api.ipstack.com/check?access_key=8a0ac323ba3036f3b4d0555de7527970"] 
+ip_urls = ["", "http://ipinfo.io/json", "http://ip-api.com/json", "http://api.ipstack.com/check?access_key=bb652555791d46c20bd3672e16d03ecb"] 
 LIST_DEFAULT = "0,0,0"
 
 MAX_ERROR = 64

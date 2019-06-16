@@ -509,7 +509,7 @@ if __name__ == '__main__' and not running():
                                     setVPNRequestedProfileFriendly("")
                                     setVPNLastConnectedProfile("")
                                     setVPNLastConnectedProfileFriendly("")
-                                    setVPNURL(getVPNServerFile(getVPNProfile()))
+                                    setVPNURL(getVPNServerFromFile(getVPNProfile()))
                                     setConnectionErrorCount(0)
                                     notification_time = 5000
                                     if fakeConnection():

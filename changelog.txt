@@ -1,3 +1,10 @@
+v6.2.1
+- Bug fix for 6.2.0 function
+
+v6.2.0
+- Display VPN server URL
+- Improve VPN log file handling
+
 v6.1.0
 - Improve defaulting of paths for openvpn
 

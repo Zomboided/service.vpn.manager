@@ -37,13 +37,14 @@ from libs.common import getVPNCycle, clearVPNCycle, writeCredentials, getCredent
 from libs.common import getConnectionErrorCount, setConnectionErrorCount, getAddonPath, isVPNConnected, resetVPNConfig, forceCycleLock, freeCycleLock
 from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTime, getConnectTime, requestVPNCycle, failoverConnection
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, getVPNRequestedServer
-from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory, clearServiceState
+from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory, clearServiceState, getVPNServerFromFile
 from libs.platform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForVPNUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
 from libs.vpnproviders import getUserDataPath, getAlternativeMessages
+from libs.access import getVPNURL, setVPNURL
 from libs.vpnapi import VPNAPI
 
 # Set the addon name for use in the dialogs
@@ -366,6 +367,9 @@ if __name__ == '__main__' and not running():
     connect_on_boot_setting = addon.getSetting("vpn_connect_before_boot")
     connect_on_boot_ovpn = addon.getSetting("1_vpn_validated")
 
+    # Clear the URL variable so that it'll get reset if/when needed
+    setVPNURL("")
+
     # Delay start up if required
     connect_delay = addon.getSetting("vpn_connect_delay")
     if connect_delay.isdigit(): connect_delay = int(connect_delay)
@@ -505,6 +509,7 @@ if __name__ == '__main__' and not running():
                                     setVPNRequestedProfileFriendly("")
                                     setVPNLastConnectedProfile("")
                                     setVPNLastConnectedProfileFriendly("")
+                                    setVPNURL(getVPNServerFromFile(getVPNProfile()))
                                     setConnectionErrorCount(0)
                                     notification_time = 5000
                                     if fakeConnection():
@@ -863,6 +868,8 @@ if __name__ == '__main__' and not running():
                             debugTrace("Connecting to VPN profile " + getVPNRequestedProfile())
                             xbmcgui.Dialog().notification(addon_name, "Connecting to "+ getVPNRequestedProfileFriendly(), getAddonPath(True, "/resources/locked.png"), 10000, False)
                             vpn_provider = addon.getSetting("vpn_provider_validated")
+                            # Clear the server name so that the alternative 
+                            setVPNURL("")
                             if isAlternative(vpn_provider):
                                 # (Re)generate the ovpn file and user credentials based on the latest server settings
                                 # These will try and do the right thing with regards to existing files if there's
@@ -940,6 +947,8 @@ if __name__ == '__main__' and not running():
                             else:
                                 notification_time = 5000
                                 if ifDebug(): writeVPNLog()
+                                if getVPNURL() == "":
+                                    setVPNURL(getVPNServerFromFile(getVPNProfile()))
                                 if fakeConnection():
                                     icon = "/resources/faked.png"
                                 else:

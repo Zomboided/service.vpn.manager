@@ -31,6 +31,7 @@ from libs.platform import getPlatform, platforms, getPlatformString, fakeConnect
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
 from libs.vpnproviders import allowReconnection
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
+from libs.access import getVPNURL
 from libs.sysbox import popupSysBox
 
 
@@ -119,20 +120,21 @@ def displayStatus():
         if isVPNConnected():
             debugTrace("VPN is connected, displaying the connection info")
             xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
+            # Display the server if enhanced system info is switched on
+            server = ""
+            if addon.getSetting("vpn_server_info") == "true":
+                server = getVPNURL()
+            if not server == "": server = "\nServer is " + server + "\n"
+            else: server = "\n"
+            ovpn_name = getVPNProfileFriendly()
             if fakeConnection():
-                # Kodi18 bug, this should be a single multi line call, but \n doesn't work
-                xbmcgui.Dialog().ok(addon_name, "[B]Faked connection to a VPN[/B]", "Using " + ip + ", located in " + country,"Service Provider is " + isp)
+                xbmcgui.Dialog().ok(addon_name, "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
             else:
-                server = getVPNServer()
-                if not server == "": server = ", " + server + "\n"
-                else: server = "\n"
-                # Kodi18 bug, this should be a single multi line call, but \n doesn't work
-                xbmcgui.Dialog().ok(addon_name, "[B]Connected to a VPN[/B]", "Using " + ip + ", located in " + country,"Service Provider is " + isp)
+                xbmcgui.Dialog().ok(addon_name, "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
         else:
             debugTrace("VPN is not connected, displaying the connection info")
             xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
-            # Kodi18 bug, this should be a single multi line call, but \n doesn't work
-            xbmcgui.Dialog().ok(addon_name, "[B]Disconnected from VPN[/B]",  "Using " + ip + ", located in " + country,"Service Provider is " + isp)
+            xbmcgui.Dialog().ok(addon_name, "[B]Disconnected from VPN[/B]\nUsing " + ip + ", located in " + country +"+\nService Provider is " + isp)
     except Exception:
         xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
     return

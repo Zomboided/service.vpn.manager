@@ -242,10 +242,32 @@ def stopVPNn(n):
     
 def startVPN(vpn_profile):
     # Call the platform VPN to start the VPN
+    
+    # Remove the log file to avoid reading out of date info
+    log_file = getVPNLogFilePath()
+    try:
+        if xbmcvfs.exists(log_file):
+            xbmcvfs.delete(log_file)
+            xbmc.sleep(500);
+            i = 0
+            while xbmcvfs.exists(log_file) and i < 10:
+                xbmc.sleep(1000)
+                i = i + 1
+            if i == 10:
+                errorTrace("platform.py", "Tried to delete VPN log file " + log_file + " and it didn't go after 10 seconds")
+            else:
+                debugTrace("Deleted the VPN log file " + log_file + " before starting a new connection")
+        else:
+            debugTrace("No VPN log file " + log_file + " exists to be deleted before starting connection")
+    except Exception as e:
+        errorTrace("platform.py", "Something bad happened trying to delete the existing VPN log file");
+        errorTrace("common.py", str(e))
+        
+    # Even if something bad has happened with the log file, we're going to try to start the VPN anyway...
     if not fakeConnection():
         p = getPlatform()
         if p == platforms.RPI or p == platforms.LINUX:
-            command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + getVPNLogFilePath() + " 2>&1 &"
+            command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + log_file + " 2>&1 &"
             if useSudo() : command = "sudo " + command            
             debugTrace("(Linux) Starting VPN with " + command)
             os.system(command)
@@ -253,14 +275,14 @@ def startVPN(vpn_profile):
             command=getOpenVPNPath() + " \"" + vpn_profile + "\""
             debugTrace("(Windows) Starting VPN with " + command)
             args = shlex.split(command)
-            outfile = open(getVPNLogFilePath(),'w')
+            outfile = open(log_file,'w')
             proc = subprocess.Popen(args, stdout=outfile, creationflags=subprocess.SW_HIDE, shell=True)
             
         # **** ADD MORE PLATFORMS HERE ****
         
     else:
         # This bit is just to help with debug during development.
-        command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + getVPNLogFilePath()
+        command=getOpenVPNPath() + " \"" + vpn_profile + "\" > " + log_file
         debugTrace("Faking starting VPN with " + command)
     return
 
@@ -586,13 +608,16 @@ def getVPNConnectionStatus():
 def writeVPNLog():
     # Write the openvpn output log to the error file
     try:
-        log_file = open(getVPNLogFilePath(), 'r')
-        log_output = log_file.readlines()
-        log_file.close()
-        infoTrace("platform.py", "VPN log file start >>>")
-        for line in log_output:
-            infoPrint(line)
-        infoTrace("platform.py", "<<< VPN log file end")
+        if xbmcvfs.exists(getVPNLogFilePath()):
+            log_file = open(getVPNLogFilePath(), 'r')
+            log_output = log_file.readlines()
+            log_file.close()
+            infoTrace("platform.py", "VPN log file start >>>")
+            for line in log_output:
+                infoPrint(line)
+            infoTrace("platform.py", "<<< VPN log file end")
+        else:
+            infoTrace("platform.py", "No VPN log file exists to write")
     except Exception as e:
         errorTrace("platform.py", "Couldn't write VPN error log")
         errorTrace("platform.py", str(e))

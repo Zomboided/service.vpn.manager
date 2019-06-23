@@ -27,7 +27,7 @@ import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
 from libs.platform import getAddonPath, getPlatform, platforms
-from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens
+from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL
 
 
 REQUEST_HEADERS = {

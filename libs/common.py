@@ -41,6 +41,7 @@ from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations
 from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
+from access import setVPNURL, getVPNURL
 from userdefined import importWizard
 
 
@@ -168,7 +169,30 @@ def getFriendlyProfileName(ovpn_connection):
         errorTrace("common.py", str(e))
         raise
     
-
+    
+def getVPNServerFromFile(ovpn_name):
+    # Extract the server from the ovpn file
+    try:
+        debugTrace("Opening ovpn file to get server name " + ovpn_name)
+        ovpn_file = open((ovpn_name), 'r')
+        ovpn = ovpn_file.readlines()
+        ovpn_file.close()
+    except Exception as e:
+        errorTrace("common.py", "Couldn't open the ovpn file " + ovpn_name)
+        errorTrace("common.py", str(e))
+        return ""
+    
+    for param in ovpn:
+        if param.startswith("remote"):
+            param = param.strip(" \n")
+            remote_params = param.split()
+            if len(remote_params) > 1:
+                return remote_params[1]
+    
+    errorTrace("common.py", "Couldn't find a server in the ovpn file " + ovpn_name)
+    return ""
+    
+    
 def getIPInfo(addon):
     # Generate request to find out where this IP is based
     # Return ip info source, ip, location, isp
@@ -289,7 +313,8 @@ def stopVPNConnection():
             if i > 40: raise RuntimeError("Cannot stop the VPN task after 20 seconds of trying.")
             
         setVPNProfile("")
-        setVPNProfileFriendly("")        
+        setVPNProfileFriendly("")
+        setVPNURL("")
         setVPNState("stopped")
         setConnectChange()
         return True
@@ -435,7 +460,7 @@ def getVPNServer():
     # Return server name
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Server_Name")
 
-    
+
 def setVPNRequestedServer(server_name):
     # Store server name
     xbmcgui.Window(10000).setProperty("VPN_Manager_Requested_Server_Name", server_name)
@@ -478,6 +503,8 @@ def getSystemData(addon, vpn, network, vpnm, system):
         if isVPNConnected(): 
             lines.append("[COLOR ff00ff00]Connected using profile " + getVPNProfileFriendly() + "[/COLOR]")
             lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
+            server = getVPNURL()
+            if not server == "": lines.append("Server is " + server)
         else:
             lines.append("[COLOR ffff0000]Not connected to a VPN[/COLOR]")
         lines.append("Connection location is " + country)
@@ -1768,6 +1795,10 @@ def connectVPN(connection_order, vpn_profile):
         # Display the list of connections
         if not progress.iscanceled():
             
+            # Clear the server in use so it can be set by one of the alternative calls
+            # or can be fetched from the ovpn after the ovpn has been chosen and created
+            setVPNURL("")
+            
             if addon.getSetting("location_server_view") == "true": server_view = True
             else: server_view = False
             if not connection_order == "0":
@@ -1872,6 +1903,10 @@ def connectVPN(connection_order, vpn_profile):
                     if not ovpn_name == "": 
                         writeCredentials(addon)
                         provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
+            
+            # Get the server name from the ovpn if it's not been filled in already
+            if getVPNURL() == "":
+                setVPNURL(getVPNServerFromFile(ovpn_connection))
         
         addon = xbmcaddon.Addon(getID())        
         if (not progress.iscanceled()) and (not ovpn_name == ""):
@@ -1964,12 +1999,15 @@ def connectVPN(connection_order, vpn_profile):
         xbmc.sleep(DIALOG_SPEED)
         # Set up final message
         progress_message = "Connected, VPN monitor restarted"
+        server = ""
+        # Display the server if enhanced server info is switched on
+        if addon.getSetting("vpn_server_info") == "true":
+            server = getVPNURL()
+        if not server == "": server = "\nServer is " + server + "\n"
+        else: server = "\n"
         if fakeConnection():
-            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + "\nUsing " + ip + ", located in " + country + "\nService Provider is " + isp
+            dialog_message = "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
         else:
-            server = getVPNRequestedServer()
-            if not server == "": server = ", " + server + "\n"
-            else: server = "\n"
             # If a VPN location service can't be found, change the message
             if source == "":
                 dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
@@ -2037,6 +2075,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNRequestedProfileFriendly("")
         setVPNLastConnectedProfile("")
         setVPNLastConnectedProfileFriendly("")
+        setVPNURL("")
         setConnectChange()
         setVPNState("off")
     else:
@@ -2129,6 +2168,7 @@ def connectVPN(connection_order, vpn_profile):
         setVPNRequestedProfileFriendly("")
         setVPNLastConnectedProfile("")
         setVPNLastConnectedProfileFriendly("")
+        setVPNURL("")
         setConnectChange()
         setVPNState("off")
 

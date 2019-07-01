@@ -23,6 +23,8 @@ import xbmcaddon
 import xbmcgui
 import time
 
+DEC_ERR = "*** DECODE ERROR *** : "
+
 
 def ifDebug():
     if getID() == "": return False
@@ -44,28 +46,44 @@ def ifJSONTrace():
     return False
     
     
-def debugTrace(data):    
-    if ifDebug():
-        log = getVery() + " : " + data
-        xbmc.log(msg=log, level=xbmc.LOGNONE)       
-    else:
-        log = getVery() + " : " + data
+def debugTrace(data):
+    try:
+        if ifDebug():
+            log = getVery() + " : " + data
+            xbmc.log(msg=log, level=xbmc.LOGNONE)       
+        else:
+            log = getVery() + " : " + data
+            xbmc.log(msg=log, level=xbmc.LOGDEBUG)
+    except Exception as e:
+        log = DEC_ERR + getVery() + data
+        log = log.encode('ascii', 'ignore')
         xbmc.log(msg=log, level=xbmc.LOGDEBUG)
-    
     
 def errorTrace(module, data):
     log = getVery() + " : (" + module + ") " + data
-    xbmc.log(msg=log, level=xbmc.LOGERROR)
-    
+    try:
+        xbmc.log(msg=log, level=xbmc.LOGERROR)
+    except Exception as e:
+        log = DEC_ERR + log
+        log = log.encode('ascii', 'ignore')
+        xbmc.log(msg=log, level=xbmc.LOGNOTICE)
     
 def infoTrace(module, data):
     log = getVery() + " : (" + module + ") " + data
-    xbmc.log(msg=log, level=xbmc.LOGNOTICE)
-
+    try:
+        xbmc.log(msg=log, level=xbmc.LOGNOTICE)
+    except Exception as e:
+        log = DEC_ERR + log
+        log = log.encode('ascii', 'ignore')
+        xbmc.log(msg=log, level=xbmc.LOGNOTICE)
     
 def infoPrint(data):
-    xbmc.log(msg=data, level=xbmc.LOGNOTICE)
-
+    try:
+        xbmc.log(msg=data, level=xbmc.LOGNOTICE)
+    except Exception as e:
+        log = DEC_ERR + data
+        log = log.encode('ascii', 'ignore')
+        xbmc.log(msg=log, level=xbmc.LOGNOTICE)
 
 def newPrint(data):
     xbmc.log(msg=data, level=xbmc.LOGERROR)

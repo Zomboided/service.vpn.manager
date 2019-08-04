@@ -2014,7 +2014,9 @@ def connectVPN(connection_order, vpn_profile):
                 dns_error = True
             else:
                 dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
-        infoTrace("common.py", dialog_message)
+        # Have to dumb down the trace string to ASCII to avoid errors caused by foreign characters
+        trace_message = dialog_message.encode('ascii', 'ignore')
+        infoTrace("common.py", trace_message)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used
         setVPNProfile(ovpn_connection)

@@ -26,8 +26,8 @@ import json
 import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
-from libs.platform import getAddonPath
-from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL
+from libs.platform import getAddonPath, getSystemdPath, copySystemdFiles, fakeSystemd
+from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL, getVPNProfile
 
 NORD_LOCATIONS = "COUNTRIES.txt"
 
@@ -508,4 +508,13 @@ def resetNordVPN(vpn_provider):
     # Elsewhere the ovpn and location downloads will be deleted
     resetTokens()
     return True    
+    
+    
+def postConnectNordVPN(vpn_provider):
+    # Post connect, might need to update the systemd config
+    addon = xbmcaddon.Addon(getID())
+    if ((addon.getSetting("1_vpn_validated") == getVPNProfile()) and (addon.getSetting("vpn_connect_before_boot") == "true")):
+        if xbmcvfs.exists(getSystemdPath("openvpn.config")) or fakeSystemd():
+            copySystemdFiles()
+    return    
     

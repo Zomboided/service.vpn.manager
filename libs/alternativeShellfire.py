@@ -657,3 +657,7 @@ def sendAPI(command, command_text, api_data, check_response):
     return rc, api_data
 
 
+def postConnectShellfire(vpn_provider):
+    # Post connect, nothing special to do for Shellfire
+    return
+

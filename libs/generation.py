@@ -40,14 +40,14 @@ def generateAll():
     #generateBlackbox
     #generateBTGuard()
     #generateBulletVPN()
-    generateCelo()
+    #generateCelo()
     #generateCyberGhost()
-    #generateExpressVPN()
+    generateExpressVPN()
     #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
-    #generateIPVanish()
+    generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
@@ -62,7 +62,7 @@ def generateAll():
     #generateSecureVPN()
     #generateSmartDNSProxy()
     #generatetigerVPN() 
-    #generateTorGuard()
+    generateTorGuard()
     #generateTotalVPN()
     #generateVanishedVPN()
     #generateVPNac()
@@ -72,7 +72,7 @@ def generateAll():
     #generateVPNUnlimited()
     #generateVyprVPN()
     #generateWiTopia()
-    #generateWindscribe()
+    generateWindscribe()
     return
     
     
@@ -219,7 +219,7 @@ def generateCyberGhost():
     # Data is stored as a bunch of ovpn files
     # File name has location but needs mapping.  File has the server
     profiles = getProfileList("CyberGhost")
-    location_file = getLocations("CyberGhost", "Premium and Premium Plus Account")
+    location_file = getLocations("CyberGhost", "")
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         geo = resolveCountry(geo[0:2]) + geo[2:]
@@ -1223,6 +1223,9 @@ def generateWindscribe():
         line = line.strip(" \t\n\r")
         server = line
         geo = line.replace(".windscribe.com", "")
+        if geo.startswith("wf-"):
+            geo = geo.replace("wf-", "")
+            geo = geo + "-Windflix"
         if "-" in geo:
             geo, rest = geo.split("-")
             rest = " " + string.capwords(rest)

@@ -40,9 +40,15 @@ def setVPNURL(address):
     # Store the server name or URL being used
     xbmcgui.Window(10000).setProperty("VPN_Manager_Connected_Server_URL", address)
 
+
 def getVPNURL():
     # Return the server name or URL being used
     return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Server_URL")
+    
+    
+def getVPNProfile():
+    # Return full profile path name
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Name")    
     
         
 # Manage the authentication tokens

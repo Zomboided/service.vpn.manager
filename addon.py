@@ -23,7 +23,7 @@ import xbmcaddon
 import xbmcplugin
 import xbmcgui
 import os
-from libs.common import connectionValidated, getIPInfo, isVPNConnected, getVPNProfile, getVPNProfileFriendly
+from libs.common import connectionValidated, getIPInfo, isVPNConnected, getVPNProfileFriendly
 from libs.common import getFriendlyProfileList, connectVPN, disconnectVPN, setVPNState, requestVPNCycle, getFilteredProfileList
 from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorState, wizard
 from libs.common import getIconPath, getSystemData, getVPNServer
@@ -31,7 +31,7 @@ from libs.platform import getPlatform, platforms, getPlatformString, fakeConnect
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
 from libs.vpnproviders import allowReconnection
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
-from libs.access import getVPNURL
+from libs.access import getVPNURL, getVPNProfile
 from libs.sysbox import popupSysBox
 
 

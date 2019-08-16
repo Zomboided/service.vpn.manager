@@ -24,8 +24,9 @@ import xbmcaddon
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations
 from libs.vpnproviders import getAlternativeLocationName, allowReconnection, getAlternativeLocation
 from libs.common import requestVPNCycle, getFilteredProfileList, getFriendlyProfileList, setAPICommand, connectionValidated, getValidatedList
-from libs.common import getVPNProfile, getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock, getAlternativeFriendlyProfileList
+from libs.common import getVPNProfileFriendly, getVPNState, clearVPNCycle, getCycleLock, freeCycleLock, getAlternativeFriendlyProfileList
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
+from libs.access import getVPNProfile
 
 debugTrace("-- Entered table.py --")
 

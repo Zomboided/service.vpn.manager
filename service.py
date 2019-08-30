@@ -29,7 +29,7 @@ import datetime
 import urllib2
 import re
 import string
-from libs.common import updateServiceRequested, ackUpdate, getVPNProfile, setVPNProfile, getVPNProfileFriendly, setVPNProfileFriendly, getReconnectTime
+from libs.common import updateServiceRequested, ackUpdate, setVPNProfile, getVPNProfileFriendly, setVPNProfileFriendly, getReconnectTime
 from libs.common import getVPNRequestedProfile, setVPNRequestedProfile, getVPNRequestedProfileFriendly, setVPNRequestedProfileFriendly, getIPInfo
 from libs.common import setVPNState, getVPNState, stopRequested, ackStop, startRequested, ackStart, updateService, stopVPNConnection, startVPNConnection
 from libs.common import getVPNLastConnectedProfile, setVPNLastConnectedProfile, getVPNLastConnectedProfileFriendly, setVPNLastConnectedProfileFriendly
@@ -43,8 +43,8 @@ from libs.platform import isVPNTaskRunning, updateSystemTime, fakeConnection, fa
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForVPNUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
-from libs.vpnproviders import getUserDataPath, getAlternativeMessages
-from libs.access import getVPNURL, setVPNURL
+from libs.vpnproviders import getUserDataPath, getAlternativeMessages, postConnectAlternative
+from libs.access import getVPNURL, setVPNURL, getVPNProfile
 from libs.vpnapi import VPNAPI
 
 # Set the addon name for use in the dialogs
@@ -974,6 +974,8 @@ if __name__ == '__main__' and not running():
                                         addon.setSetting("alternative_message_time", str(now()))
                                         addon.setSetting("alternative_message_token", new_id)
                                 addon = xbmcaddon.Addon()
+                                if isAlternative(vpn_provider):
+                                    postConnectAlternative(vpn_provider)
                                 if addon.getSetting("display_location_on_connect") == "true":
                                     _, ip, country, isp = getIPInfo(addon)
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)

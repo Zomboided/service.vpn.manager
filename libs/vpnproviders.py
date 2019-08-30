@@ -29,12 +29,12 @@ import time
 from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
 from platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
-from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN
+from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, postConnectNordVPN
 from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages, checkForNordVPNUpdates, refreshFromNordVPN
 from alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
 from alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
 from alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire, getShellfireProfiles
-from alternativeShellfire import getShellfireMessages, checkForShellfireUpdates, refreshFromShellfire
+from alternativeShellfire import getShellfireMessages, checkForShellfireUpdates, refreshFromShellfire, postConnectShellfire
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****
@@ -538,6 +538,10 @@ def checkForAlternativeUpdates(vpn_provider):
 def refreshFromAlternative(vpn_provider):
     return globals()["refreshFrom" + vpn_provider](vpn_provider)    
         
+        
+def postConnectAlternative(vpn_provider):
+    return globals()["postConnect" + vpn_provider](vpn_provider)      
+    
     
 def getLocationFiles(vpn_provider):
     # Return the locations files, add any user version to the end of the list

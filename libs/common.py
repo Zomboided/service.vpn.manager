@@ -38,10 +38,10 @@ from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLoc
 from vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshVPNFiles
 from vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
-from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection
+from vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection, postConnectAlternative
 from ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
 from logbox import popupOpenVPNLog
-from access import setVPNURL, getVPNURL
+from access import setVPNURL, getVPNURL, getVPNProfile
 from userdefined import importWizard
 
 
@@ -432,11 +432,6 @@ def setVPNProfile(profile_name):
     else:
         setVPNServer("")
     return
-
-    
-def getVPNProfile():
-    # Return full profile path name
-    return xbmcgui.Window(10000).getProperty("VPN_Manager_Connected_Profile_Name")
 
     
 def setVPNProfileFriendly(profile_name):
@@ -2040,6 +2035,8 @@ def connectVPN(connection_order, vpn_profile):
         setVPNLastConnectedProfileFriendly("")
         setConnectionErrorCount(0)
         setConnectTime(addon)
+        if isAlternative(vpn_provider):
+            postConnectAlternative(vpn_provider)
         # Indicate to the service that it should update its settings
         updateService("connectVPN")
     elif progress.iscanceled() or cancel_attempt:

@@ -28,7 +28,7 @@ import time
 import glob
 from utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from vpnproviders import getUserDataPathWrapper, removeGeneratedFiles, cleanPassFiles, getGitMetaData
-from platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
+from svm_platform import getUserDataPath, getPlatform, platforms, getSeparator, getImportLogPath
 from logbox import popupImportLog
 
 # Delete any existing files

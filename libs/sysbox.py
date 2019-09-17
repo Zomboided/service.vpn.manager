@@ -22,7 +22,7 @@ import xbmcaddon
 import xbmcgui
 from libs.common import getSystemData
 from utility import debugTrace, errorTrace, infoTrace, getID
-from platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
+from svm_platform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
 
 ACTION_PREVIOUS_MENU = 10
 ACTION_NAV_BACK = 92

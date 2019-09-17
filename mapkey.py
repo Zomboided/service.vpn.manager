@@ -28,7 +28,7 @@ import os
 import glob
 from threading import Timer
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
-from libs.svm_platform import getKeyMapsPath, getKeyMapsFileName, getAddonPath
+from libs.vpnplatform import getKeyMapsPath, getKeyMapsFileName, getAddonPath
 from libs.common import fixKeymaps, getCycleLock, freeCycleLock, clearVPNCycle
 
 

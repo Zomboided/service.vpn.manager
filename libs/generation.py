@@ -29,7 +29,7 @@ import string
 import os.path
 import time
 from utility import debugTrace, errorTrace, infoTrace, newPrint
-from svm_platform import getUserDataPath, fakeConnection
+from vpnplatform import getUserDataPath, fakeConnection
 from common import getFriendlyProfileName
 
 MINIMUM_LEVEL = "400"

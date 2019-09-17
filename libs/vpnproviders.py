@@ -27,7 +27,7 @@ import glob
 import urllib2
 import time
 from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
-from svm_platform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
+from vpnplatform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
 from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
 from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, postConnectNordVPN
 from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages, checkForNordVPNUpdates, refreshFromNordVPN

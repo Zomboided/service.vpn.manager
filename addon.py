@@ -27,7 +27,7 @@ from libs.common import connectionValidated, getIPInfo, isVPNConnected, getVPNPr
 from libs.common import getFriendlyProfileList, connectVPN, disconnectVPN, setVPNState, requestVPNCycle, getFilteredProfileList
 from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorState, wizard
 from libs.common import getIconPath, getSystemData, getVPNServer
-from libs.svm_platform import getPlatform, platforms, getPlatformString, fakeConnection
+from libs.vpnplatform import getPlatform, platforms, getPlatformString, fakeConnection
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
 from libs.vpnproviders import allowReconnection
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName

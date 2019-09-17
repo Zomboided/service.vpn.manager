@@ -52,8 +52,8 @@ def fakeItTillYouMakeIt(fake):
             if fakeConnection():
                 xbmcvfs.delete(getUserDataPath(fake_name))
     except Exception as e:
-        errorTrace("platform.py", "fakeItTillYouMakeIt " + str(fake) + " failed")
-        errorTrace("platform.py", str(e))
+        errorTrace("vpnplatform.py", "fakeItTillYouMakeIt " + str(fake) + " failed")
+        errorTrace("vpnplatform.py", str(e))
                 
     
 def fakeSystemd():
@@ -114,7 +114,7 @@ def copySystemdFiles():
     
     # Delete any existing openvpn.config and copy first VPN to openvpn.config
     config_source = sudo_setting = xbmcaddon.Addon(getID()).getSetting("1_vpn_validated")
-    if service_source == "": errorTrace("platform.py", "Nothing has been validated")
+    if service_source == "": errorTrace("vpnplatform.py", "Nothing has been validated")
     config_dest = getSystemdPath("openvpn.config")
     debugTrace("Copying openvpn.config " + config_source + " to " + config_dest)
     if not fakeSystemd():
@@ -128,7 +128,7 @@ def addSystemd():
     if not getPlatform() == platforms.LINUX: return
     command = "systemctl enable openvpn.service"
     if useSudo(): command = "sudo " + command
-    infoTrace("platform.py", "Enabling systemd service with " + command)
+    infoTrace("vpnplatform.py", "Enabling systemd service with " + command)
     if not fakeSystemd(): os.system(command)
     return
 
@@ -138,7 +138,7 @@ def removeSystemd():
     if not getPlatform() == platforms.LINUX: return
     command = "systemctl disable openvpn.service"
     if useSudo(): command = "sudo " + command
-    infoTrace("platform.py", "Disabling systemd service with " + command)
+    infoTrace("vpnplatform.py", "Disabling systemd service with " + command)
     if not fakeSystemd(): os.system(command)
     return
     
@@ -254,13 +254,13 @@ def startVPN(vpn_profile):
                 xbmc.sleep(1000)
                 i = i + 1
             if i == 10:
-                errorTrace("platform.py", "Tried to delete VPN log file " + log_file + " and it didn't go after 10 seconds")
+                errorTrace("vpnplatform.py", "Tried to delete VPN log file " + log_file + " and it didn't go after 10 seconds")
             else:
                 debugTrace("Deleted the VPN log file " + log_file + " before starting a new connection")
         else:
             debugTrace("No VPN log file " + log_file + " exists to be deleted before starting connection")
     except Exception as e:
-        errorTrace("platform.py", "Something bad happened trying to delete the existing VPN log file");
+        errorTrace("vpnplatform.py", "Something bad happened trying to delete the existing VPN log file");
         errorTrace("common.py", str(e))
         
     # Even if something bad has happened with the log file, we're going to try to start the VPN anyway...
@@ -333,7 +333,7 @@ def getPidofPath():
 def checkPlatform(addon):
     if not fakeConnection():
         p = getPlatform()
-        infoTrace("platform.py", "Checking platform, found " + str(p) + ", " + sys.platform)
+        infoTrace("vpnplatform.py", "Checking platform, found " + str(p) + ", " + sys.platform)
         dialog_msg = ""
         if p == platforms.UNKNOWN or "Android" in getAddonPath(True, ""):
             dialog_msg = addon.getAddonInfo("name") + " is not supported on this hardware platform."
@@ -369,7 +369,7 @@ def checkKillallCommand(addon):
         # Issue Linux command
         command = getKillallPath() + " vpnmanagertest > " + getTestFilePath() + " 2>&1 &"
         if useSudo() : command = "sudo " + command
-        infoTrace("platform.py", "Testing killall with : " + command)
+        infoTrace("vpnplatform.py", "Testing killall with : " + command)
         os.system(command)
     else:
         return True
@@ -392,11 +392,11 @@ def checkKillallCommand(addon):
                 deleteTestFile()
                 return True
         # Write the log file in case there's something in it
-        errorTrace("platform.py", "Ran killall command and it failed")            
+        errorTrace("vpnplatform.py", "Ran killall command and it failed")            
         writeTestFile()
         dialog_msg = "The command 'killall' is required to run this add-on.  Please install it and ensure it's available on the command path."
     else:
-        errorTrace("platform.py", "Ran killall command and the log didn't appear")
+        errorTrace("vpnplatform.py", "Ran killall command and the log didn't appear")
         dialog_msg = "The 'killall' command isn't writing out a response.  Try changing the Kodi log directory setting in Settings-Debug menu and retry."
     
     # Display an error message
@@ -413,7 +413,7 @@ def checkPidofCommand(addon):
         # Issue Linux command
         command = getPidofPath() + " kodi.bin > " + getTestFilePath() + " 2>&1 &"
         if useSudo() : command = "sudo " + command
-        infoTrace("platform.py", "Testing pidof with : " + command)
+        infoTrace("vpnplatform.py", "Testing pidof with : " + command)
         os.system(command)
     else:
         return True
@@ -436,11 +436,11 @@ def checkPidofCommand(addon):
                 deleteTestFile()
                 return True
         # Write the log file in case there's something in it
-        errorTrace("platform.py", "Ran pidof command and it failed")            
+        errorTrace("vpnplatform.py", "Ran pidof command and it failed")            
         writeTestFile()
         dialog_msg = "The command 'pidof' is required to run this add-on.  Please install it and ensure it's available on the command path."
     else:
-        errorTrace("platform.py", "Ran pidof command and the log didn't appear")
+        errorTrace("vpnplatform.py", "Ran pidof command and the log didn't appear")
         dialog_msg = "The 'pidof' command isn't writing out a response.  Try changing the Kodi log directory setting in Settings-Debug menu and retry."
     
     # Display an error message
@@ -457,17 +457,17 @@ def checkVPNCommand(addon):
             # Issue Linux command
             command = getOpenVPNPath() + " > " + getVPNLogFilePath() + " 2>&1 &"
             if useSudo() : command = "sudo " + command
-            infoTrace("platform.py", "Testing openvpn with : " + command)
+            infoTrace("vpnplatform.py", "Testing openvpn with : " + command)
             os.system(command)
         elif p == platforms.WINDOWS:
             # Issue Windows command
             command=getOpenVPNPath()
-            infoTrace("platform.py", "Testing openvpn with : " + command)
+            infoTrace("vpnplatform.py", "Testing openvpn with : " + command)
             args = shlex.split(command)
             outfile = open(getVPNLogFilePath(),'w')
             proc = subprocess.Popen(args, stdout=outfile, creationflags=subprocess.SW_HIDE, shell=True)
         else:
-            errorTrace("platform.py", "Unsupported platform " + str(p))
+            errorTrace("vpnplatform.py", "Unsupported platform " + str(p))
             
         # **** ADD MORE PLATFORMS HERE ****
                 
@@ -488,11 +488,11 @@ def checkVPNCommand(addon):
                 if "General Options" in line:
                     return True
             # Write the log file in case there's something in it
-            errorTrace("platform.py", "Ran openvpn command and it failed")            
+            errorTrace("vpnplatform.py", "Ran openvpn command and it failed")            
             writeVPNLog()
             dialog_msg = "The OpenVPN executable isn't working.  Check the log, then from a command line prompt type 'openvpn' and fix any problems reported."
         else:
-            errorTrace("platform.py", "Ran openvpn command and VPN log didn't appear")
+            errorTrace("vpnplatform.py", "Ran openvpn command and VPN log didn't appear")
             dialog_msg = "The OpenVPN executable isn't writing out a log.  Try changing the Kodi log directory setting in Settings-Debug menu and retry."
         
         # Display an error message
@@ -523,8 +523,8 @@ def isVPNTaskRunning():
             debugTrace("(Linux) Didn't find a running process")
             return False
         except Exception as e:
-            errorTrace("platform.py", "VPN task list failed")
-            errorTrace("platform.py", str(e))
+            errorTrace("vpnplatform.py", "VPN task list failed")
+            errorTrace("vpnplatform.py", str(e))
             return False
     if p == platforms.WINDOWS:
         try:
@@ -538,8 +538,8 @@ def isVPNTaskRunning():
                 debugTrace("(Windows) Didn't find a running process")
                 return False
         except Exception as e:
-            errorTrace("platform.py", "VPN task list failed")
-            errorTrace("platform.py", str(e))
+            errorTrace("vpnplatform.py", "VPN task list failed")
+            errorTrace("vpnplatform.py", str(e))
             return False
 
     # **** ADD MORE PLATFORMS HERE ****
@@ -601,7 +601,7 @@ def getVPNConnectionStatus():
             if not state == connection_status.UNKNOWN: debugTrace("VPN connection status is " + str(state))
             return state
         else:
-            errorTrace("platform.py", "Tried to get VPN connection status but log file didn't exist")
+            errorTrace("vpnplatform.py", "Tried to get VPN connection status but log file didn't exist")
             return connection_status.ERROR
 
             
@@ -612,15 +612,15 @@ def writeVPNLog():
             log_file = open(getVPNLogFilePath(), 'r')
             log_output = log_file.readlines()
             log_file.close()
-            infoTrace("platform.py", "VPN log file start >>>")
+            infoTrace("vpnplatform.py", "VPN log file start >>>")
             for line in log_output:
                 infoPrint(line)
-            infoTrace("platform.py", "<<< VPN log file end")
+            infoTrace("vpnplatform.py", "<<< VPN log file end")
         else:
-            infoTrace("platform.py", "No VPN log file exists to write")
+            infoTrace("vpnplatform.py", "No VPN log file exists to write")
     except Exception as e:
-        errorTrace("platform.py", "Couldn't write VPN error log")
-        errorTrace("platform.py", str(e))
+        errorTrace("vpnplatform.py", "Couldn't write VPN error log")
+        errorTrace("vpnplatform.py", str(e))
 
         
 def writeTestFile():
@@ -629,13 +629,13 @@ def writeTestFile():
         log_file = open(getTestFilePath(), 'r')
         log_output = log_file.readlines()
         log_file.close()
-        infoTrace("platform.py", "Command test file start >>>")
+        infoTrace("vpnplatform.py", "Command test file start >>>")
         for line in log_output:
             infoPrint(line)
-        infoTrace("platform.py", "<<< Command test file end")
+        infoTrace("vpnplatform.py", "<<< Command test file end")
     except Exception as e:
-        errorTrace("platform.py", "Couldn't write test file")
-        errorTrace("platform.py", str(e))        
+        errorTrace("vpnplatform.py", "Couldn't write test file")
+        errorTrace("vpnplatform.py", str(e))        
         
 
 def deleteTestFile():
@@ -643,8 +643,8 @@ def deleteTestFile():
         if xbmcvfs.exists(getTestFilePath()):
             xbmcvfs.delete(getTestFilePath())
     except Exception as e:
-        errorTrace("platform.py", "Couldn't delete test file")
-        errorTrace("platform.py", str(e))
+        errorTrace("vpnplatform.py", "Couldn't delete test file")
+        errorTrace("vpnplatform.py", str(e))
 
         
 def getSeparator():

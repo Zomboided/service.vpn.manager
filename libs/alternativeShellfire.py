@@ -26,7 +26,7 @@ import json
 import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
-from libs.svm_platform import getAddonPath, getPlatform, platforms
+from libs.vpnplatform import getAddonPath, getPlatform, platforms
 from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL
 
 

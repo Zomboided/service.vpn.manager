@@ -26,7 +26,7 @@ import sys
 from libs.common import connectVPN
 from libs.utility import debugTrace, errorTrace, infoTrace, getID, getName
 from libs.vpnproviders import usesPassAuth, getVPNLocation, getUserDataPath
-from libs.platform import getAddonPath
+from libs.vpnplatform import getAddonPath
 
 # Get the first argument which will indicate the connection that's being dealt with
 connection_order = sys.argv[1]

@@ -26,7 +26,7 @@ import json
 import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
-from libs.platform import getAddonPath, getSystemdPath, copySystemdFiles, fakeSystemd
+from libs.vpnplatform import getAddonPath, getSystemdPath, copySystemdFiles, fakeSystemd
 from libs.access import setVPNRequestedServer, getVPNRequestedServer, resetTokens, setTokens, getTokens, setVPNURL, getVPNURL, getVPNProfile
 
 NORD_LOCATIONS = "COUNTRIES.txt"

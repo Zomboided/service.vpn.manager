@@ -27,7 +27,7 @@ import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
-from libs.platform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
+from libs.vpnplatform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile
 from libs.common import resetVPNProvider, setAPICommand
 from libs.ipinfo import resetIPServices

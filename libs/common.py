@@ -1900,7 +1900,7 @@ def connectVPN(connection_order, vpn_profile):
                         provider_gen, _, _, _, _ = updateVPNFile(ovpn_connection, vpn_provider)
             
             # Get the server name from the ovpn if it's not been filled in already
-            if getVPNURL() == "":
+            if getVPNURL() == "" and not ovpn_name == "" :
                 setVPNURL(getVPNServerFromFile(ovpn_connection))
         
         addon = xbmcaddon.Addon(getID())        

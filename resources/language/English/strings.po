@@ -615,66 +615,82 @@ msgid "Check connection with ping (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32172"
-msgid "Always use Kodi log directory for OpenVPN log"
+msgid "Network down (reset VPN after updating)"
 msgstr ""
 
 msgctxt "#32173"
-msgid "Evaluate and adjust system time"
+msgid "Default"
 msgstr ""
 
 msgctxt "#32174"
-msgid "Potential DNS fix"
+msgid "SIGHUP"
 msgstr ""
 
 msgctxt "#32175"
-msgid "Information"
+msgid "SIGTERM"
 msgstr ""
 
 msgctxt "#32176"
-msgid "Enable enhanced information menu option"
+msgid "Always use Kodi log directory for OpenVPN log"
 msgstr ""
 
 msgctxt "#32177"
-msgid "View enhanced information window now"
+msgid "Evaluate and adjust system time"
 msgstr ""
 
 msgctxt "#32178"
-msgid "Enable enhanced VPN server information"
+msgid "Potential DNS fix"
 msgstr ""
 
 msgctxt "#32179"
-msgid "Popup connection table display"
+msgid "Information"
 msgstr ""
 
 msgctxt "#32180"
-msgid "All connections"
+msgid "Enable enhanced information menu option"
 msgstr ""
 
 msgctxt "#32181"
-msgid "Validated connections"
+msgid "View enhanced information window now"
 msgstr ""
 
 msgctxt "#32182"
-msgid "Display IP, location and provider in cycle notification"
+msgid "Enable enhanced VPN server information"
 msgstr ""
 
 msgctxt "#32183"
-msgid "Change IP location service"
+msgid "Popup connection table display"
 msgstr ""
 
 msgctxt "#32184"
-msgid "Auto select"
+msgid "All connections"
 msgstr ""
 
 msgctxt "#32185"
-msgid "ipinfo.io"
+msgid "Validated connections"
 msgstr ""
 
 msgctxt "#32186"
-msgid "IP-API"
+msgid "Display IP, location and provider in cycle notification"
 msgstr ""
 
 msgctxt "#32187"
+msgid "Change IP location service"
+msgstr ""
+
+msgctxt "#32188"
+msgid "Auto select"
+msgstr ""
+
+msgctxt "#32189"
+msgid "ipinfo.io"
+msgstr ""
+
+msgctxt "#32190"
+msgid "IP-API"
+msgstr ""
+
+msgctxt "#32191"
 msgid "ipstack"
 msgstr ""
 

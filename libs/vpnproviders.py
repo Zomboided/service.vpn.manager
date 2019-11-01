@@ -642,7 +642,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
         template.append(getDownParam(vpn_provider))
 
     if not getPlatform() == platforms.WINDOWS and not addon.getSetting("network_drop") == "Default":
-        template.append("remap_usr1 " + addon.getSetting("network_drop"));
+        template.append("remap-usr1 " + addon.getSetting("network_drop"));
 
     # Load locations file
     if not alternative_locations_name == "":
@@ -971,7 +971,7 @@ def updateVPNFile(connection, vpn_provider):
                 found_script_sec = True
             if line.startswith("block-outside-dns"):
                 found_block_dns = True
-            if line.startswith("remap_usr1"):
+            if line.startswith("remap-usr1"):
                 found_remap = True        
             if line.startswith("ping"):
                 found_ping = True
@@ -997,7 +997,7 @@ def updateVPNFile(connection, vpn_provider):
         
         if not found_remap and not getPlatform() == platforms.WINDOWS:
             if not addon.getSetting("network_drop") == "Default":
-                f.write("remap_usr1 " + addon.getSetting("network_drop") + "\n");
+                f.write("remap-usr1 " + addon.getSetting("network_drop") + "\n");
         
         if not found_verb:
             f.write("verb " + verb_value + "\n")

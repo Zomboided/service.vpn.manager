@@ -172,7 +172,7 @@
     <setting label="32169" type="bool" id="up_down_script" default="true"/>
     <setting label="32170" type="bool" id="use_default_up_down" visible="eq(-11,2)|eq(-11,3)" enable="true" default="false"/>
     <setting label="32171" type="bool" id="force_ping" visible="true" default="true"/>
-    <setting label="32172" type="labelenum" id="network_drop" visible="!eq(-13,2)|eq(-13,3)" lvalues="32173|32174|32175" default="SIGTERM"/> 
+    <setting label="32172" type="labelenum" id="network_drop" visible="eq(-13,2)|eq(-13,3)" lvalues="32173|32174|32175" default="SIGTERM"/> 
     <setting label="32176" type="bool" id="openvpn_log_location" visible="!eq(-14,1)" default="false"/>
     <setting label="32177" type="bool" id="fix_system_time" visible="eq(-15,2)|eq(-15,3)" default="true"/>
     <setting label="32178" type="action" option="close" visible="eq(-16,2)|eq(-16,3)" action="RunScript(special://home/addons/service.vpn.manager/managefiles.py, dns)"/>

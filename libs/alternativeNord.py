@@ -23,6 +23,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 import json
+import urllib
 import urllib2
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
@@ -46,7 +47,7 @@ def authenticateNordVPN(vpn_provider, userid, password):
     response = ""
     try:        
         download_url = "https://api.nordvpn.com/v1/users/tokens"
-        download_data = "username=" + userid + "&password=" + password
+        download_data = urllib.urlencode({'username': userid, 'password': password})
         if ifHTTPTrace(): infoTrace("alternativeNord.py", "Authenticating with VPN using " + download_url + ", " + download_data)     
         else: debugTrace("Authenticating with VPN for user " + userid)
         req = urllib2.Request(download_url, download_data)

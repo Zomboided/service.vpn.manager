@@ -42,14 +42,14 @@ def generateAll():
     #generateBulletVPN()
     #generateCelo()
     #generateCyberGhost()
-    generateExpressVPN()
+    #generateExpressVPN()
     #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
-    generateIPVanish()
+    #generateIPVanish()
     #generateIVPN()
-    #generateLimeVPN()
+    generateLimeVPN()
     #generateLiquidVPN()
     #generateMullvad()
     #generatePerfectPrivacy()
@@ -62,7 +62,7 @@ def generateAll():
     #generateSecureVPN()
     #generateSmartDNSProxy()
     #generatetigerVPN() 
-    generateTorGuard()
+    #generateTorGuard()
     #generateTotalVPN()
     #generateVanishedVPN()
     #generateVPNac()
@@ -72,7 +72,7 @@ def generateAll():
     #generateVPNUnlimited()
     #generateVyprVPN()
     #generateWiTopia()
-    generateWindscribe()
+    #generateWindscribe()
     return
     
     
@@ -473,11 +473,10 @@ def generateLimeVPN():
         geo = geo.replace("limevpn","")
         geo = geo.replace(".com", "")
         geo = geo.replace(".", "")
-        if geo.startswith("ny"): geo = "New York"
-        elif geo.startswith("eu"): geo = "Europe " + geo[2:]
-        elif geo.startswith("london"): geo = "London"
-        elif geo.startswith("sw"): geo = "Sweden " + geo[2:]
-        elif geo.startswith("aus"): geo = "Australia " + geo[3:]
+        geo = geo.upper()
+        if geo.startswith("EU"): geo = "Europe " + geo[2:]
+        elif geo.startswith("SW"): geo = "Sweden " + geo[2:]
+        elif geo.startswith("AUS"): geo = "Australia " + geo[3:]
         else: geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:]
         geo = geo.strip()
         profile_file = open(profile, 'r')
@@ -488,10 +487,12 @@ def generateLimeVPN():
                 tokens = line.split(" ")
                 server = tokens[1]
                 port = tokens[2]
-        output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + "\n"
-        #output_line_tcp = geo + " (TCP)," + server + "," + "tcp,80" + "\n"
+        if not geo == "Europe 10":
+            output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + "\n"
+        else:
+            output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + ",#CERT=eu10ca.crt\n"
+        
         location_file.write(output_line_udp)
-        #location_file.write(output_line_tcp)
     location_file.close()
     generateMetaData("LimeVPN", MINIMUM_LEVEL)
 
@@ -940,9 +941,15 @@ def generateTorGuard():
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
+        server = ""
+        port = ""
         for line in lines:
             if line.startswith("remote "):
-                _, server, port = line.split()
+                _, s, p = line.split()
+                if not server == "": server = server + " "
+                server = server + s
+                if not port == "": port = port + " "
+                port = port + p
             if line.startswith("proto "):
                 _, proto = line.split() 
         output_line_udp = geo + " (UDP)," + server + ",udp" + "," + port + "\n"

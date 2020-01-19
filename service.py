@@ -39,7 +39,7 @@ from libs.common import getAPICommand, clearAPICommand, fixKeymaps, setConnectTi
 from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAPITimer, wizard, connectionValidated, getVPNRequestedServer
 from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory, clearServiceState, getVPNServerFromFile
 from libs.vpnplatform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
-from libs.vpnplatform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs
+from libs.vpnplatform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs, writeVPNConfiguration
 from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForVPNUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
@@ -569,6 +569,7 @@ if __name__ == '__main__' and not running():
                         if not (getVPNState() == "off") and not isVPNConnected():
                             # Don't know why we're disconnected, but reconnect to the last known VPN
                             errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
+                            writeVPNConfiguration(getVPNProfile())
                             writeVPNLog()
                             if getVPNRequestedProfile() == "":
                                 setVPNRequestedProfile(getVPNProfile())
@@ -591,6 +592,7 @@ if __name__ == '__main__' and not running():
             if isForceReconnect() and not (getVPNState() == "off"):
                 forceReconnect("")
                 infoTrace("service.py", "Forcing a reconnection")
+                writeVPNConfiguration(getVPNProfile())
                 writeVPNLog()
                 setVPNRequestedProfile(getVPNProfile())
                 setVPNRequestedProfileFriendly(getVPNProfileFriendly())
@@ -707,6 +709,7 @@ if __name__ == '__main__' and not running():
                                         if not isVPNConnected():
                                             debugTrace("Connection bad, reconnecting to " + getVPNProfile())
                                             infoTrace("service.py", "VPN connection bad, reconnecting to last profile or primary")
+                                            writeVPNConfiguration(getVPNProfile())
                                             writeVPNLog()
                                             setVPNLastConnectedProfile("")
                                             setVPNLastConnectedProfileFriendly("")
@@ -942,10 +945,12 @@ if __name__ == '__main__' and not running():
                                 errorTrace("service.py", "VPN connect to " + getVPNRequestedProfile() + " has failed, VPN error was " + str(state))
                                 if isAlternative(vpn_provider) and not server_tried == "":
                                     errorTrace("service.py", "Server was " + server_tried)
+                                writeVPNConfiguration(getVPNRequestedProfile())
                                 writeVPNLog()
                                 debugTrace("VPN connection failed, errors count is " + str(connection_errors) + " connection timer is " + str(connection_retry_time))
                             else:
                                 notification_time = 5000
+                                if ifDebug(): writeVPNConfiguration(getVPNProfile())
                                 if ifDebug(): writeVPNLog()
                                 if getVPNURL() == "":
                                     setVPNURL(getVPNServerFromFile(getVPNProfile()))

@@ -31,7 +31,7 @@ import sys
 import time
 from vpnplatform import getVPNLogFilePath, fakeConnection, isVPNTaskRunning, stopVPN9, stopVPN, startVPN, getAddonPath, getSeparator, getUserDataPath
 from vpnplatform import getVPNConnectionStatus, connection_status, getPlatform, platforms, writeVPNLog, checkVPNInstall, checkVPNCommand, checkKillallCommand
-from vpnplatform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName, checkPidofCommand
+from vpnplatform import getPlatformString, checkPlatform, useSudo, getKeyMapsPath, getKeyMapsFileName, getOldKeyMapsFileName, checkPidofCommand, writeVPNConfiguration
 from utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort, isCustom, getCustom
 from vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForVPNUpdates
 from vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
@@ -2012,6 +2012,7 @@ def connectVPN(connection_order, vpn_profile):
         # Have to dumb down the trace string to ASCII to avoid errors caused by foreign characters
         trace_message = dialog_message.encode('ascii', 'ignore')
         infoTrace("common.py", trace_message)
+        if ifDebug(): writeVPNConfiguration(ovpn_connection)
         if ifDebug(): writeVPNLog()
         # Store that setup has been validated and the credentials used
         setVPNProfile(ovpn_connection)
@@ -2149,7 +2150,8 @@ def connectVPN(connection_order, vpn_profile):
                 dialog_message = "Error connecting to VPN, something unexpected happened. Check log for more information."
                 addon.setSetting("ran_openvpn", "false")
             
-            # Output what when wrong with the VPN to the log
+            # Output what went wrong with the VPN to the log
+            writeVPNConfiguration(ovpn_configuration)
             writeVPNLog()
 
         if not connection_order == "0" :

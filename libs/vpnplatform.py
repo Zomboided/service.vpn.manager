@@ -622,6 +622,24 @@ def writeVPNLog():
         errorTrace("vpnplatform.py", "Couldn't write VPN error log")
         errorTrace("vpnplatform.py", str(e))
 
+
+def writeVPNConfiguration(ovpn):
+    # Write the openvpn configuration to the error file
+    try:
+        if xbmcvfs.exists(ovpn):
+            ovpn_file = open(ovpn, 'r')
+            ovpn_output = ovpn_file.readlines()
+            ovpn_file.close()
+            infoTrace("vpnplatform.py", "VPN configuration " + ovpn + " start >>>")
+            for line in ovpn_output:
+                infoPrint(line)
+            infoTrace("vpnplatform.py", "<<< VPN configuration file end")
+        else:
+            infoTrace("vpnplatform.py", "No VPN configuration " + ovpn + " exists to write")
+    except Exception as e:
+        errorTrace("vpnplatform.py", "Couldn't write VPN error log")
+        errorTrace("vpnplatform.py", str(e))
+
         
 def writeTestFile():
     # Write the command test output to the error file

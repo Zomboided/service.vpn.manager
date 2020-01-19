@@ -27,9 +27,10 @@ import os
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, providers, usesUserKeys, usesMultipleKeys, getUserKeys
 from libs.vpnproviders import getUserCerts, getVPNDisplay, getVPNLocation, removeDownloadedFiles, isAlternative, resetAlternative
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
-from libs.vpnplatform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs
+from libs.vpnplatform import getLogPath, getUserDataPath, writeVPNLog, copySystemdFiles, addSystemd, removeSystemd, generateVPNs, writeVPNConfiguration
 from libs.common import resetVPNConnections, isVPNConnected, disconnectVPN, suspendConfigUpdate, resumeConfigUpdate, dnsFix, getVPNRequestedProfile
 from libs.common import resetVPNProvider, setAPICommand
+from libs.access import getVPNProfile
 from libs.ipinfo import resetIPServices
 try:
     from libs.generation import generateAll
@@ -95,6 +96,7 @@ if not getID() == "":
             dest_path = "kodi " + datetime.datetime.now().strftime("%y-%m-%d %H-%M-%S") + ".log"
             dest_path = dest_folder + dest_path.replace(" ", "_")
             # Write VPN log to log before copying
+            writeVPNConfiguration(getVPNProfile())
             writeVPNLog()
             debugTrace("Copying " + log_path + " to " + dest_path)
             addon = xbmcaddon.Addon(getID())

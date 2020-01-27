@@ -1542,6 +1542,7 @@ def connectVPN(connection_order, vpn_profile):
     keys_copied = True
     cancel_attempt = False
     cancel_clear = False
+    ovpn_connection = ""
 
     # Pause the monitor service
     progress_message = "Pausing VPN monitor..."
@@ -2151,7 +2152,7 @@ def connectVPN(connection_order, vpn_profile):
                 addon.setSetting("ran_openvpn", "false")
             
             # Output what went wrong with the VPN to the log
-            writeVPNConfiguration(ovpn_configuration)
+            writeVPNConfiguration(ovpn_connection)
             writeVPNLog()
 
         if not connection_order == "0" :

@@ -570,10 +570,17 @@ if __name__ == '__main__' and not running():
                             # Don't know why we're disconnected, but reconnect to the last known VPN
                             errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
                             writeVPNConfiguration(getVPNProfile())
-                            writeVPNLog()
+                            writeVPNLog()       
                             if getVPNRequestedProfile() == "":
-                                setVPNRequestedProfile(getVPNProfile())
-                                setVPNRequestedProfileFriendly(getVPNProfileFriendly())
+                                if getVPNProfile() == "":
+                                    # This can happen if something kills processes and windows.  Only thing
+                                    # to do is reconnect to the first profile again and let filtering sort it out
+                                    errorTrace("service.py", "Something killed processes and windows, clearing data.  Reconnecting to default profile.")
+                                    setVPNRequestedProfile(addon.getSetting("1_vpn_validated"))
+                                    setVPNRequestedProfileFriendly((addon.getSetting("1_vpn_validated_friendly")))
+                                else:
+                                    setVPNRequestedProfile(getVPNProfile())
+                                    setVPNRequestedProfileFriendly(getVPNProfileFriendly())
                             setVPNProfile("")
                             setVPNProfileFriendly("")
                             reconnect_vpn = True

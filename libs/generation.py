@@ -49,9 +49,9 @@ def generateAll():
     #generateibVPN()
     #generateIPVanish()
     #generateIVPN()
-    generateLimeVPN()
+    #generateLimeVPN()
     #generateLiquidVPN()
-    #generateMullvad()
+    generateMullvad()
     #generatePerfectPrivacy()
     #generatePIA()
     #generatePrivateVPN()
@@ -556,19 +556,22 @@ def generateMullvad():
     for profile in profiles:
         geo = profile[profile.index("mullvad_")+8:]
         geo = geo.replace("gb", "uk")
-        geo = geo.replace(".conf", "")
-        if geo.startswith("us") or geo.startswith("ca"): geo = geo.upper()
-        else: geo = geo.title()
+        geo = geo.replace("_all.conf", "")
         geo = resolveCountry(geo[0:2].upper()) + geo[2:]
-        geo = geo.replace("-"," - ")
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
+        servers = ""
+        ports = ""
         for line in lines:
             if line.startswith("remote "):
-                _, server, port = line.split()  
-        output_line_udp = geo + " (UDP)," + server + "," + "udp," + str(port) + ",\n"
-        output_line_tcp = geo + " (TCP)," + server + "," + "tcp,443,#REMOVE=1" + "\n"
+                _, server, port = line.split()
+                if not servers == "" : servers = servers + " "
+                servers = servers + server
+                if not ports == "" : ports = ports + " "
+                ports = ports + str(port)
+        output_line_udp = geo + " (UDP)," + servers + "," + "udp," + ports + ",\n"
+        output_line_tcp = geo + " (TCP)," + servers + "," + "tcp,443,#REMOVE=1" + "\n"
         location_file.write(output_line_udp)
         location_file.write(output_line_tcp)
     location_file.close()

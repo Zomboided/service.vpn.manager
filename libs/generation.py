@@ -43,7 +43,7 @@ def generateAll():
     #generateCelo()
     #generateCyberGhost()
     #generateExpressVPN()
-    #generateHideMe()
+    generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
@@ -51,7 +51,7 @@ def generateAll():
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
-    generateMullvad()
+    #generateMullvad()
     #generatePerfectPrivacy()
     #generatePIA()
     #generatePrivateVPN()
@@ -275,14 +275,23 @@ def generateExpressVPN():
 
     
 def generateHideMe():
-    # Data is stored in ovpn files with location info in Servers.txt
-    location_file = getLocations("HideMe", "")
+    # Data is stored in ovpn files
     profiles = getProfileList("HideMe")
+    location_file = getLocations("HideMe", "")
     for profile in profiles:
+        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
+        geo = geo.replace(".hideservers.net", "")
+        geo = geo.replace("-", " ")
+        if len(geo) == 2:
+            geo = resolveCountry(geo.upper())
+        else:
+            geo = string.capwords(geo)
+            geo = geo.replace("Lasvegas", "Las Vegas")
+            geo = geo.replace("Newyorkcity", "New York City")
+            geo = geo.replace("Losangeles", "Los Angeles")
         profile_file = open(profile, 'r')
         lines = profile_file.readlines()
         profile_file.close()
-        geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
         for line in lines:
             if line.startswith("remote "):
                 _, server, port = line.split()

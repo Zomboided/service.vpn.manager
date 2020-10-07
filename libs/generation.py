@@ -43,7 +43,7 @@ def generateAll():
     #generateCelo()
     #generateCyberGhost()
     #generateExpressVPN()
-    generateHideMe()
+    #generateHideMe()
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
@@ -68,7 +68,7 @@ def generateAll():
     #generateVPNac()
     #generateVPNht()
     #generateVPNArea()
-    #generateVPNSecure()
+    generateVPNSecure()
     #generateVPNUnlimited()
     #generateVyprVPN()
     #generateWiTopia()
@@ -653,7 +653,7 @@ def generatePrivateVPN():
     location_file = getLocations("PrivateVPN", "")
     for profile in profiles:
         geo = profile[profile.rfind("\\")+1:profile.index(".ovpn")]
-        geo = geo.replace("PrivatVPN-", "")
+        geo = geo.replace("PrivateVPN-", "")
         geo = geo.replace("-TUN-443", "")
         geo = geo.replace("-TUN-1194", "")
         geo = geo.replace("-", "- ")
@@ -1114,7 +1114,7 @@ def generateVPNArea():
     
 
 def generateVPNSecure():
-    # Data is stored as a bunch of OVPN files
+    # Data is stored as a bunch of OVPN files, with the wrong URLs...
     # File name has location, file has server and port
     profiles = getProfileList("VPNSecure")
     location_file = getLocations("VPNSecure", "")
@@ -1127,17 +1127,21 @@ def generateVPNSecure():
             if line.startswith("remote "):
                 _, server, port = line.split()
         geo = resolveCountry(geo[0:2].upper()) + " " + geo[2:3]
+        server = server.replace("isponeder.com", "vpnsecure.me")
         if "ustream" in profile:
             geo = "Ustream 1"            
         if "-TCP" in profile:
             geo = geo + " (TCP)"
+            port = "110"
+            server = "tcp-" + server
             output_line = geo + "," + server + "," + "tcp," + port + "\n"
         else:
             geo = geo + " (UDP)"
+            port = "1282"
             output_line = geo + "," + server + "," + "udp," + port + "\n"
         location_file.write(output_line)
     location_file.close()    
-    generateMetaData("VPNSecure", MINIMUM_LEVEL)
+    generateMetaData("VPNSecure", "637")
 
 
 def generateVPNUnlimited():

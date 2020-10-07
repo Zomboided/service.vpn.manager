@@ -40,7 +40,7 @@ from libs.common import forceReconnect, isForceReconnect, updateIPInfo, updateAP
 from libs.common import getVPNServer, setReconnectTime, configUpdate, resumeStartStop, suspendStartStop, checkDirectory, clearServiceState, getVPNServerFromFile
 from libs.vpnplatform import getPlatform, platforms, connection_status, getAddonPath, writeVPNLog, supportSystemd, addSystemd, removeSystemd, copySystemdFiles
 from libs.vpnplatform import isVPNTaskRunning, updateSystemTime, fakeConnection, fakeItTillYouMakeIt, generateVPNs, writeVPNConfiguration
-from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, setShort, setVery, running, setRunning, now, isCustom
+from libs.utility import debugTrace, errorTrace, infoTrace, ifDebug, newPrint, setID, setName, getShort, setShort, setVery, running, setRunning, now, isCustom
 from libs.vpnproviders import removeGeneratedFiles, cleanPassFiles, fixOVPNFiles, getVPNLocation, usesPassAuth, clearKeysAndCerts, checkForVPNUpdates
 from libs.vpnproviders import populateSupportingFromGit, isAlternative, regenerateAlternative, getAlternativeLocation, updateVPNFile, checkUserDefined
 from libs.vpnproviders import getUserDataPath, getAlternativeMessages, postConnectAlternative
@@ -58,11 +58,13 @@ while count < 6:
         setName(addon_name)
         addon_id = addon.getAddonInfo('id')
         setID(addon_id)
-        addon_short = addon.getSetting("vpn_short")
+        addon_short = addon.getAddonInfo("version")
+        addon_short = addon_short.replace(".", "")
         setShort(addon_short)
         addon_very = addon.getSetting("vpn_very")
         setVery(addon_very)
         xbmc.sleep(100)
+        addon = xbmcaddon.Addon()
         break
     except Exception as e:
         # Try again in 5 seconds
@@ -570,7 +572,7 @@ if __name__ == '__main__' and not running():
                             # Don't know why we're disconnected, but reconnect to the last known VPN
                             errorTrace("service.py", "VPN monitor service detected VPN connection " + getVPNProfile() + " is not running when it should be")
                             writeVPNConfiguration(getVPNProfile())
-                            writeVPNLog()       
+                            writeVPNLog()
                             if getVPNRequestedProfile() == "":
                                 if getVPNProfile() == "":
                                     # This can happen if something kills processes and windows.  Only thing

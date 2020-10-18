@@ -53,7 +53,7 @@ def generateAll():
     #generateLiquidVPN()
     #generateMullvad()
     #generatePerfectPrivacy()
-    #generatePIA()
+    generatePIA()
     #generatePrivateVPN()
     #generateproXPN()
     #generatePureVPN()
@@ -634,9 +634,9 @@ def generatePIA():
             if line.startswith("remote "):
                 _, server, port = line.split()  
         output_line_udp_def = geo + " (UDP)," + server + "," + "udp,1198" + ",#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem\n"
-        output_line_tcp_def = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem\n"
+        output_line_tcp_def = geo + " (TCP)," + server + "," + "tcp,502" + ",#REMOVE=1 #CERT=ca.rsa.2048.crt #CRLVERIFY=crl.rsa.2048.pem\n"
         output_line_udp_strong = geo + " (UDP)," + server + "," + "udp,1197" + ",#REMOVE=2 #CERT=ca.rsa.4096.crt #CRLVERIFY=crl.rsa.4096.pem\n"
-        output_line_tcp_strong = geo + " (TCP)," + server + "," + "tcp,443" + ",#REMOVE=2 #CERT=ca.rsa.4096.crt #CRLVERIFY=crl.rsa.4096.pem\n"
+        output_line_tcp_strong = geo + " (TCP)," + server + "," + "tcp,501" + ",#REMOVE=2 #CERT=ca.rsa.4096.crt #CRLVERIFY=crl.rsa.4096.pem\n"
         location_file_def.write(output_line_udp_def)
         location_file_def.write(output_line_tcp_def)
         location_file_strong.write(output_line_udp_strong)

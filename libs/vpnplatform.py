@@ -18,6 +18,12 @@
 #
 #    Platform specific calls used the add-on.
 
+# FIXME PYTHON3
+try:
+    import urllib2 # This is just to cause an assert in Kodi 19
+    from xbmc import translatePath as translatePath
+except:
+    from xbmcvfs import translatePath as translatePath
 import os
 import shlex
 import subprocess
@@ -26,7 +32,7 @@ import xbmc
 import xbmcgui
 import xbmcvfs
 import xbmcaddon
-from utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum, getID, isCustom, getCustom
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, infoPrint, enum, getID, isCustom, getCustom
 from sys import platform
 
 
@@ -173,7 +179,7 @@ def getVPNLogFilePath():
     p = getPlatform()
     if p == platforms.WINDOWS or use_kodi_dir == "true" :
         # Putting this with the other logs on Windows
-        return xbmc.translatePath("special://logpath/openvpn.log")
+        return translatePath("special://logpath/openvpn.log")
     if p == platforms.LINUX or p == platforms.RPI:
         # This should be a RAM drive so doesn't wear the media
         return "/run/openvpn.log"
@@ -190,7 +196,7 @@ def getTestFilePath():
     p = getPlatform()
     if p == platforms.WINDOWS or use_kodi_dir == "true" :
         # Putting this with the other logs on Windows
-        return xbmc.translatePath("special://logpath/command_test.txt")
+        return translatePath("special://logpath/command_test.txt")
     if p == platforms.LINUX or p == platforms.RPI:
         # This should be a RAM drive so doesn't wear the media
         return "/run/command_text.txt"
@@ -201,7 +207,7 @@ def getTestFilePath():
     
     
 def getImportLogPath():
-    return xbmc.translatePath("special://logpath/import.log")
+    return translatePath("special://logpath/import.log")
     
     
 def stopVPN():
@@ -531,7 +537,7 @@ def isVPNTaskRunning():
             command = 'tasklist /FI "IMAGENAME eq OPENVPN.EXE"'
             debugTrace("(Windows) Checking VPN task with " + command)
             args = shlex.split(command)
-            out = subprocess.check_output(args, creationflags=subprocess.SW_HIDE, shell=True).strip()
+            out = str(subprocess.check_output(args, creationflags=subprocess.SW_HIDE, shell=True).strip())
             if "openvpn.exe" in out:
                 return True
             else:
@@ -614,6 +620,7 @@ def writeVPNLog():
             log_file.close()
             infoTrace("vpnplatform.py", "VPN log file start >>>")
             for line in log_output:
+                line = line.strip("\n")
                 infoPrint(line)
             infoTrace("vpnplatform.py", "<<< VPN log file end")
         else:
@@ -632,6 +639,7 @@ def writeVPNConfiguration(ovpn):
             ovpn_file.close()
             infoTrace("vpnplatform.py", "VPN configuration " + ovpn + " start >>>")
             for line in ovpn_output:
+                line = line.strip("\n")
                 infoPrint(line)
             infoTrace("vpnplatform.py", "<<< VPN configuration file end")
         else:
@@ -675,20 +683,20 @@ def getSeparator():
 def getAddonPath(this_addon, path):
     # Return the URL of the addon directory, plus any addition path/file name.
     if this_addon:
-        return xbmc.translatePath("special://home/addons/" + getID() + "/" + path)
+        return translatePath("special://home/addons/" + getID() + "/" + path)
     else:
-        return xbmc.translatePath("special://home/addons/" + path)
+        return translatePath("special://home/addons/" + path)
         
 def getSystemdPath(path):
     return "/storage/.config/" + path
     
     
 def getUserDataPath(path):
-    return xbmc.translatePath("special://userdata/addon_data/" + getID() + "/" + path)
+    return translatePath("special://userdata/addon_data/" + getID() + "/" + path)
     
     
 def getKeyMapsPath(path):
-    return xbmc.translatePath("special://userdata/keymaps/" + path)
+    return translatePath("special://userdata/keymaps/" + path)
     
 
 def getKeyMapsFileName():
@@ -706,7 +714,7 @@ def getOldKeyMapsFileName():
     
     
 def getLogPath():    
-    return xbmc.translatePath("special://logpath/kodi.log")
+    return translatePath("special://logpath/kodi.log")
         
         
         

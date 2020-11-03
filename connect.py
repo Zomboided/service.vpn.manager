@@ -29,9 +29,9 @@ from libs.vpnproviders import usesPassAuth, getVPNLocation, getUserDataPath
 from libs.vpnplatform import getAddonPath
 
 # Get the first argument which will indicate the connection that's being dealt with
-connection_order = sys.argv[1]
+connection_order = int(sys.argv[1])
 
-debugTrace("Entered connect.py with parameter " + connection_order)
+debugTrace("Entered connect.py with parameter " + str(connection_order))
 
 if not getID() == "":
 

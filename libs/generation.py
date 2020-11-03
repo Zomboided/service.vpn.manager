@@ -22,15 +22,21 @@
 
 
 import xbmc
+# FIXME PYTHON3
+try:
+    import urllib2 # This is just to cause an assert in Kodi 19
+    from xbmc import translatePath as translatePath
+except:
+    from xbmcvfs import translatePath as translatePath
 import xbmcgui
 import xbmcvfs
 import glob
 import string
 import os.path
 import time
-from utility import debugTrace, errorTrace, infoTrace, newPrint
-from vpnplatform import getUserDataPath, fakeConnection
-from common import getFriendlyProfileName
+from libs.utility import debugTrace, errorTrace, infoTrace, newPrint
+from libs.vpnplatform import getUserDataPath, fakeConnection
+from libs.common import getFriendlyProfileName
 
 MINIMUM_LEVEL = "400"
 
@@ -1295,7 +1301,7 @@ def generateMetaData(vpn_provider, min_level):
     
 def getProviderPath(path):
     # Return the location of the provider output directory
-    return xbmc.translatePath("special://userdata/addon_data/service.vpn.manager.providers/" + path)
+    return translatePath("special://userdata/addon_data/service.vpn.manager.providers/" + path)
 
 
 def spaceOut(geo):

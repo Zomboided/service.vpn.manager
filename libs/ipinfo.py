@@ -18,11 +18,19 @@
 #
 #    Shared code to return info about an IP connection.
 
-import urllib2
+#FIXME PYTHON3
+try:
+    from urllib2 import urlopen as urlopen
+    from urllib2 import Request as Request
+    from urllib2 import HTTPError as HTTPError
+except:
+    from urllib.request import Request as Request
+    from urllib.request import urlopen as urlopen
+    from urllib.error import HTTPError as HTTPError
 import xbmcaddon
 import xbmcgui
 import json
-from utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
+from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID
 
 
 ip_sources = ["Auto select", "ipinfo.io", "IP-API", "ipstack"]
@@ -41,13 +49,13 @@ def getIPInfoFrom(source):
         url = getIPSourceURL(source)
         if url == "": return "error", "error", "error", "unknown source", ""
         if ifHTTPTrace(): debugTrace("Using " + url)
-        req = urllib2.Request(url)
+        req = Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
-        response = urllib2.urlopen(req, timeout = 10)
+        response = urlopen(req, timeout = 10)
         json_data = json.load(response)   
         response.close()
         if ifJSONTrace(): infoTrace("ipinfo.py", "JSON received is \n" + json.dumps(json_data, indent=4))
-    except urllib2.HTTPError as e:
+    except HTTPError as e:
         errorTrace("ipinfo.py", "Couldn't connect to IP provider " + source)
         errorTrace("ipinfo.py", "API call was " + url)
         errorTrace("ipinfo.py", "Response was " + str(e.code) + " " + e.reason)
@@ -181,7 +189,7 @@ def getAutoSource():
         xbmcgui.Window(10000).setProperty("VPN_Manager_Last_IP_Service", ip_sources[1])
         return ip_sources[1]
     else:
-    	index = ip_sources.index(source)
+        index = ip_sources.index(source)
         if index > 1:
             if getWorkingValue(index) >= getErrorValue(index - 1):
                 setWorkingValue(index, 0)

@@ -21,8 +21,8 @@
 import xbmcaddon
 import xbmcgui
 from libs.common import getSystemData
-from utility import debugTrace, errorTrace, infoTrace, getID
-from vpnplatform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
+from libs.utility import debugTrace, errorTrace, infoTrace, getID
+from libs.vpnplatform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
 
 ACTION_PREVIOUS_MENU = 10
 ACTION_NAV_BACK = 92

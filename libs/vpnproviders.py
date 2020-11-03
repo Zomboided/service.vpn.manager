@@ -24,17 +24,23 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 import glob
-import urllib2
+# FIXME PYTHON3
+try:
+    from urllib2 import HTTPError as HTTPError
+    from urllib2 import urlopen as urlopen
+except:
+    from urllib.request import urlopen as urlopen
+    from urllib.error import HTTPError as HTTPError
 import time
-from utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
-from vpnplatform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
-from alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
-from alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, postConnectNordVPN
-from alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages, checkForNordVPNUpdates, refreshFromNordVPN
-from alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
-from alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
-from alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire, getShellfireProfiles
-from alternativeShellfire import getShellfireMessages, checkForShellfireUpdates, refreshFromShellfire, postConnectShellfire
+from libs.utility import ifHTTPTrace, debugTrace, errorTrace, infoTrace, newPrint, getID, getShort
+from libs.vpnplatform import getAddonPath, getUserDataPath, fakeConnection, getSeparator, getPlatform, platforms, useSudo, generateVPNs
+from libs.alternativeNord import getNordVPNPreFetch, getNordVPNLocations, getNordVPNFriendlyLocations, getNordVPNLocation, getNordVPNLocationName
+from libs.alternativeNord import getNordVPNUserPass, getNordVPNServers, getNordVPNFriendlyServers, getNordVPNServer, regenerateNordVPN, postConnectNordVPN
+from libs.alternativeNord import resetNordVPN, authenticateNordVPN, getNordVPNProfiles, getNordVPNMessages, checkForNordVPNUpdates, refreshFromNordVPN
+from libs.alternativeShellfire import getShellfirePreFetch, getShellfireLocations, getShellfireFriendlyLocations, getShellfireLocation
+from libs.alternativeShellfire import getShellfireLocationName, getShellfireUserPass, getShellfireServers, getShellfireFriendlyServers 
+from libs.alternativeShellfire import getShellfireServer, regenerateShellfire, resetShellfire, authenticateShellfire, getShellfireProfiles
+from libs.alternativeShellfire import getShellfireMessages, checkForShellfireUpdates, refreshFromShellfire, postConnectShellfire
 
 
 # **** ADD MORE VPN PROVIDERS HERE ****
@@ -763,6 +769,7 @@ def generateOVPNFiles(vpn_provider, alternative_locations_name):
                 if output_line.startswith("remote "):
                     server_template = output_line
                     server_lines = ""
+                    translate_server = ""
                     i = 0
                     for server in servers:
                         if i == 0: translate_server = server
@@ -1086,8 +1093,9 @@ def getGitMetaData(vpn_provider):
         download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/METADATA.txt"
         download_url = download_url.replace(" ", "%20")
         if ifHTTPTrace(): debugTrace("Using " + download_url)
-        return urllib2.urlopen(download_url)
-    except urllib2.HTTPError as e:
+        response = urlopen(download_url)
+        return (response.read().decode('utf-8')).split("\n");
+    except HTTPError as e:
         errorTrace("vpnproviders.py", "Can't get the metadata from Github for " + vpn_provider)
         errorTrace("vpnproviders.py", "API call was " + download_url)
         errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
@@ -1102,15 +1110,15 @@ def getGitMetaData(vpn_provider):
 def parseGitMetaData(metadata):
     i = 0
     timestamp = ""
-    version = 0
-    total_files = 0
+    version = ""
+    total_files = ""
     file_list = []
     i = 0
     for line in metadata:
         if i == 0: timestamp = line
         if i == 1: version, total_files = line.split(" ")
         if i > 1:
-            file_list.append(line)
+            if len(line.strip(" ") ) > 0: file_list.append(line)
         i += 1
     if len(file_list) == 0: file_list = None
     debugTrace("Metadata: timestamp " + timestamp + " version " + version + " file count " + total_files)
@@ -1152,6 +1160,7 @@ def checkForVPNUpdates(vpn_provider, cached):
             last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
             last = last_file.readlines()
             last_file.close()
+            last[0] = last[0].strip(" \n")
             if last[0] == git_timestamp: return False
             setVPNProviderUpdate("true")
             setVPNProviderUpdateTime(t)
@@ -1235,7 +1244,7 @@ def refreshVPNFiles(vpn_provider, progress):
             if file_list is None: 
                 if progress is not None:
                     progress_message = "Unable to download files, using existing files."
-                    progress.update(10, progress_title, progress_message)
+                    progress.update(10, progress_title + "\n" + progress_message)
                     infoTrace("vpnproviders.py", "Couldn't download files so using existing files for " + vpn_provider)
                     xbmc.sleep(1000)
                 return True
@@ -1252,7 +1261,7 @@ def refreshVPNFiles(vpn_provider, progress):
             debugTrace("VPN provider " + vpn_provider + " up to date, timestamp is " + git_timestamp)
             if progress is not None:
                 progress_message = "VPN provider files don't need updating"
-                progress.update(10, progress_title, progress_message)
+                progress.update(10, progress_title + "\n" +  progress_message)
                 xbmc.sleep(500)
             return True
         else: timestamp = git_timestamp
@@ -1276,18 +1285,19 @@ def refreshVPNFiles(vpn_provider, progress):
                     progress_count += progress_inc
                     if progress.iscanceled(): return False
                     progress_message = "Downloading " + file
-                    progress.update(int(progress_count), progress_title, progress_message)
+                    progress.update(int(progress_count), progress_title + "\n" + progress_message)
                 download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
                 download_url = download_url.replace(" ", "%20")
                 if ifHTTPTrace(): debugTrace("Using " + download_url)
-                git_file = urllib2.urlopen(download_url)
-                file = file.strip(' \n')
-                output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')
+                response = urlopen(download_url)
+                git_file = (response.read().decode('utf-8')).split("\n");
+                file = file.strip(' ')
+                output = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/" + file), 'w')                
                 for line in git_file:
-                    output.write(line)
+                    output.write(line + "\n")
                 output.close()
                 error = False
-            except urllib2.HTTPError as e:
+            except HTTPError as e:
                 errorTrace("vpnproviders.py", "Can't download " + file)
                 errorTrace("vpnproviders.py", "API call was " + download_url)
                 errorTrace("vpnproviders.py", "Response was " + str(e.code) + " " + e.reason)
@@ -1314,7 +1324,7 @@ def refreshVPNFiles(vpn_provider, progress):
         output.close()
         if progress is not None:
             progress_message = "VPN provider files updated, removing old ones"
-            progress.update(10, progress_title, progress_message)
+            progress.update(10, progress_title + "\n" + progress_message)
             # Delete any generated files and reset the connection
             removeGeneratedFiles()
             xbmc.sleep(500)

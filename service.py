@@ -26,7 +26,6 @@ import os
 import time
 import random
 import datetime
-import urllib2
 import re
 import string
 from libs.common import updateServiceRequested, ackUpdate, setVPNProfile, getVPNProfileFriendly, setVPNProfileFriendly, getReconnectTime
@@ -58,8 +57,7 @@ while count < 6:
         setName(addon_name)
         addon_id = addon.getAddonInfo('id')
         setID(addon_id)
-        addon_short = addon.getAddonInfo("version")
-        addon_short = addon_short.replace(".", "")
+        addon_short = addon.getSetting("vpn_short")
         setShort(addon_short)
         addon_very = addon.getSetting("vpn_very")
         setVery(addon_very)

@@ -65,27 +65,34 @@ def topLevel():
     # Build the top level menu with URL callbacks to this plugin
     debugTrace("Displaying the top level menu")
     url = base_url + "?settings"
-    li = xbmcgui.ListItem("Settings", iconImage=getIconPath()+"settings.png")
+    li = xbmcgui.ListItem("Settings")
+    li.setArt({"icon":getIconPath()+"settings.png"})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     url = base_url + "?display"
-    li = xbmcgui.ListItem("Display VPN status", iconImage=getIconPath()+"display.png")
+    li = xbmcgui.ListItem("Display VPN status")
+    li.setArt({"icon":getIconPath()+"display.png"})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     if addon.getSetting("vpn_system_menu_item") == "true":
         url = base_url + "?system"
-        li = xbmcgui.ListItem("Display enhanced information", iconImage=getIconPath()+"enhanced.png")
+        li = xbmcgui.ListItem("Display enhanced information")
+        li.setArt({"icon":getIconPath()+"enhanced.png"})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
     url = base_url + "?list"
-    li = xbmcgui.ListItem("Change or disconnect VPN connection", iconImage=getIconPath()+"locked.png")
+    li = xbmcgui.ListItem("Change or disconnect VPN connection")
+    li.setArt({"icon":getIconPath()+"locked.png"})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
     url = base_url + "?cycle"
-    li = xbmcgui.ListItem("Cycle through primary VPN connections", iconImage=getIconPath()+"cycle.png")
+    li = xbmcgui.ListItem("Cycle through primary VPN connections")
+    li.setArt({"icon":getIconPath()+"cycle.png"})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     url = base_url + "?switch"
     if not getVPNMonitorState() == "":
         if isVPNMonitorRunning():
-            li = xbmcgui.ListItem("Pause add-on filtering", iconImage=getIconPath()+"paused.png")
+            li = xbmcgui.ListItem("Pause add-on filtering")
+            li.setArt({"icon":getIconPath()+"paused.png"})
         else:
-            li = xbmcgui.ListItem("Restart add-on filtering", iconImage=getIconPath()+"play.png")
+            li = xbmcgui.ListItem("Restart add-on filtering")
+            li.setArt({"icon":getIconPath()+"play.png"})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     xbmcplugin.endOfDirectory(addon_handle)
     return
@@ -95,7 +102,8 @@ def listSystem(addon):
     lines = getSystemData(addon, True, True, True, True)
     for line in lines:
         url = base_url + "?back"
-        li = xbmcgui.ListItem(line, iconImage=getIconPath()+"enhanced.png")
+        li = xbmcgui.ListItem(line)
+        li.setArt({"icon":getIconPath()+"enhanced.png"})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
     xbmcplugin.endOfDirectory(addon_handle)
     return
@@ -144,9 +152,11 @@ def listConnections():
     # Start with the disconnect option
     url = base_url + "?disconnect"
     if getVPNProfileFriendly() == "":
-        li = xbmcgui.ListItem("[COLOR ffff0000](Disconnected)[/COLOR]", iconImage=getIconPath()+"disconnected.png")
+        li = xbmcgui.ListItem("[COLOR ffff0000](Disconnected)[/COLOR]")
+        li.setArt({"icon":getIconPath()+"disconnected.png"})
     else:
-        li = xbmcgui.ListItem("[COLOR ffff0000]Disconnect[/COLOR]", iconImage=getIconPath()+"unlocked.png")
+        li = xbmcgui.ListItem("[COLOR ffff0000]Disconnect[/COLOR]")
+        li.setArt({"icon":getIconPath()+"unlocked.png"})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
 
     # We should have a VPN set up by now, but don't list if we haven't.
@@ -191,7 +201,8 @@ def listConnections():
                 else:
                     conn_text = connections[inc] + conn_primary
                 icon = getIconPath()+"locked.png"                
-            li = xbmcgui.ListItem(conn_text, iconImage=icon)
+            li = xbmcgui.ListItem(conn_text)
+            li.setArt({"icon":icon})
             xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
             inc = inc + 1
     xbmcplugin.endOfDirectory(addon_handle)            

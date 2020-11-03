@@ -23,7 +23,15 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 import json
-import urllib2
+#FIXME PYTHON3
+try:
+    from urllib2 import urlopen as urlopen
+    from urllib2 import Request as Request
+    from urllib2 import HTTPError as HTTPError
+except:
+    from urllib.request import Request as Request
+    from urllib.request import urlopen as urlopen
+    from urllib.error import HTTPError as HTTPError
 import time
 from libs.utility import ifHTTPTrace, ifJSONTrace, debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, now
 from libs.vpnplatform import getAddonPath, getPlatform, platforms
@@ -162,9 +170,9 @@ def getShellfirePreFetch(vpn_provider):
         else: debugTrace("Downloading list of locations")
         
         # This is not a JSON call, a header and servers are returned in a ; separated list
-        req = urllib2.Request(rest_url, "", REQUEST_HEADERS)
+        req = Request(rest_url, "", REQUEST_HEADERS)
         t_before = now()
-        response = urllib2.urlopen(req)
+        response = urlopen(req)
         api_data = response.read()
         t_after = now()    
         response.close()
@@ -172,7 +180,7 @@ def getShellfirePreFetch(vpn_provider):
         if ifJSONTrace(): infoTrace("alternativeShellfire.py", "Text received is \n" + api_data)
         if t_after - t_before > TIME_WARN: infoTrace("alternativeShellfire.py", "Retrieving list of locations took " + str(t_after - t_before) + " seconds")
         
-    except urllib2.HTTPError as e:
+    except HTTPError as e:
         errorTrace("alternativeShellfire.py", "Couldn't retrieve the list of locations")
         errorTrace("alternativeShellfire.py", "API call was " + rest_url)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + api_data)
@@ -623,10 +631,10 @@ def sendAPI(command, command_text, api_data, check_response):
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", command_text + " " + rest_url)     
         else: debugTrace(command_text)
         
-        req = urllib2.Request(rest_url, api_data, REQUEST_HEADERS)
+        req = Request(rest_url, api_data, REQUEST_HEADERS)
         if not auth_token == "": req.add_header("x-authorization-token", auth_token)
         t_before = now()
-        response = urllib2.urlopen(req)
+        response = urlopen(req)
         api_data = json.load(response)   
         t_after = now()    
         response.close()
@@ -640,7 +648,7 @@ def sendAPI(command, command_text, api_data, check_response):
             if not api_data["status"] == "success":
                 raise Exception(command_text + " returned bad response, " + api_data["status"])
         
-    except urllib2.HTTPError as e:
+    except HTTPError as e:
         errorTrace("alternativeShellfire.py", command_text + " failed")
         errorTrace("alternativeShellfire.py", "API call was " + rest_url)
         if not api_data == "": errorTrace("alternativeShellfire.py", "Data returned was \n" + json.dumps(api_data, indent=4))

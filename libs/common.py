@@ -1150,7 +1150,7 @@ def wizard():
             if not getPlatform() == platforms.WINDOWS:
                 # Removing pidof check because most/all Linux platforms should have it, especially those that can run Kodi
                 #progress_message = "Checking pidof..."
-                #progress.update(33, progress_title, progress_message)    
+                #progress.update(33, progress_title + "\n" + progress_message)    
                 #if not checkPidofCommand(addon):
                 #    success = False
                 #xbmc.sleep(1000)

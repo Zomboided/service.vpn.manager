@@ -47,7 +47,7 @@ if not getID() == "":
         if success:
             # Stop the VPN monitor
             xbmc.sleep(100)
-            progress.update(0, progress_title, "Pausing VPN monitor...")
+            progress.update(0, progress_title + "\n" + "Pausing VPN monitor...")
             xbmc.sleep(100)
                 
             if not stopService():
@@ -59,9 +59,9 @@ if not getID() == "":
         
         # Disconnect and reset all connections
         if success:
-            progress.update(20, progress_title, "VPN monitor paused")
+            progress.update(20, progress_title + "\n" + "VPN monitor paused")
             xbmc.sleep(DIALOG_SPEED)
-            progress.update(40, progress_title, "Stopping any active VPN connection...")
+            progress.update(40, progress_title + "\n" + "Stopping any active VPN connection...")
             xbmc.sleep(100)
             resetVPNConnections(addon)
             # Reset any validated values
@@ -71,9 +71,9 @@ if not getID() == "":
         
         # Restart the VPN monitor
         if success:
-            progress.update(60, progress_title, "VPN connections have been reset")
+            progress.update(60, progress_title + "\n" + "VPN connections have been reset")
             xbmc.sleep(DIALOG_SPEED)
-            progress.update(80, progress_title, "Restarting VPN monitor...")
+            progress.update(80, progress_title + "\n" + "Restarting VPN monitor...")
             xbmc.sleep(100)
             if not startService():
                 progress.close()
@@ -82,7 +82,7 @@ if not getID() == "":
                 success = False      
             else:
                 # Close out the final progress dialog
-                progress.update(100, progress_title, "VPN monitor restarted")
+                progress.update(100, progress_title + "\n" + "VPN monitor restarted")
                 xbmc.sleep(DIALOG_SPEED)
                 progress.close()
                 

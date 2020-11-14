@@ -209,8 +209,8 @@ if not getID() == "":
     # Fix the user defined files with DNS goodness
     if action == "dns":
         dnsFix()
-      
-                
+
+              
     command = "Addon.OpenSettings(" + getID() + ")"
     xbmc.executebuiltin(command)    
 else:

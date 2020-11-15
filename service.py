@@ -216,6 +216,10 @@ if __name__ == '__main__' and not running():
     shutdown = False
     stop_vpn = False
 
+    # Put the Kodi version on the home window in case it's needed to change behaviour for different levels
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Kodi_Version", xbmc.getInfoLabel('System.BuildVersionShort'))
+    
+    # Trace that the service has started
     infoTrace("service.py", "Starting VPN monitor service, platform is " + str(getPlatform()) + ", version is " + addon.getAddonInfo("version"))
     infoTrace("service.py", "Kodi build is " + xbmc.getInfoLabel('System.BuildVersion'))
     infoTrace("service.py", "Addon path is " + getAddonPath(True, ""))

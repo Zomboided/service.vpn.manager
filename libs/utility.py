@@ -46,17 +46,24 @@ def ifJSONTrace():
     return False
     
     
+def alwaysLog():
+    # FIXME PYTHON3 Stupid Leia/Matrix workaround because they needed to mess with the logging levels...
+    if xbmcgui.Window(10000).getProperty("VPN_Manager_Kodi_Version").startswith("19"):
+        return xbmc.LOGINFO
+    else:
+        return xbmc.LOGNOTICE
+    
+    
 def debugTrace(data):
-    # FIXME PYTHON3 There's gotta be a better way of doing this than with an info and Debug appended?
     try:
         if ifDebug():
-            log = getVery() + " : Debug " + str(data)
-            xbmc.log(msg=log, level=xbmc.LOGINFO)       
+            log = getVery() + " : " + str(data)
+            xbmc.log(msg=log, level=alwaysLog())       
         else:
             log = "VPN Mgr" + " : " + str(data)
             xbmc.log(msg=log, level=xbmc.LOGDEBUG)
     except Exception as e:
-        log = DEC_ERR + getVery() + str(data)
+        log = DEC_ERR + getVery() + " : " + str(data)
         log = log.encode('ascii', 'ignore')
         xbmc.log(msg=log, level=xbmc.LOGERROR)
     
@@ -72,7 +79,7 @@ def errorTrace(module, data):
 def infoTrace(module, data):
     log = getVery() + " : (" + module + ") " + str(data)
     try:
-        xbmc.log(msg=log, level=xbmc.LOGINFO)
+        xbmc.log(msg=log, level=alwaysLog())
     except Exception as e:
         log = DEC_ERR + log
         log = log.encode('ascii', 'ignore')
@@ -80,14 +87,14 @@ def infoTrace(module, data):
     
 def infoPrint(data):
     try:
-        xbmc.log(msg=str(data), level=xbmc.LOGINFO)
+        xbmc.log(msg=str(data), level=alwaysLog())
     except Exception as e:
         log = DEC_ERR + str(data)
         log = log.encode('ascii', 'ignore')
         xbmc.log(msg=log, level=xbmc.LOGERROR)
 
 def newPrint(data):
-    xbmc.log(msg=str(data), level=xbmc.LOGERROR)
+    xbmc.log(msg=str(data), level=alwaysLog())
 
     
 def now():

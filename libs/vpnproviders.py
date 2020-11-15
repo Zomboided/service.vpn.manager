@@ -1244,7 +1244,7 @@ def refreshVPNFiles(vpn_provider, progress):
             if file_list is None: 
                 if progress is not None:
                     progress_message = "Unable to download files, using existing files."
-                    progress.update(10, progress_title + "\n" + progress_message)
+                    progress.update(10, progress_title + "\n" + progress_message + "\n\n")
                     infoTrace("vpnproviders.py", "Couldn't download files so using existing files for " + vpn_provider)
                     xbmc.sleep(1000)
                 return True
@@ -1261,7 +1261,7 @@ def refreshVPNFiles(vpn_provider, progress):
             debugTrace("VPN provider " + vpn_provider + " up to date, timestamp is " + git_timestamp)
             if progress is not None:
                 progress_message = "VPN provider files don't need updating"
-                progress.update(10, progress_title + "\n" +  progress_message)
+                progress.update(10, progress_title + "\n" +  progress_message + "\n\n")
                 xbmc.sleep(500)
             return True
         else: timestamp = git_timestamp
@@ -1285,7 +1285,7 @@ def refreshVPNFiles(vpn_provider, progress):
                     progress_count += progress_inc
                     if progress.iscanceled(): return False
                     progress_message = "Downloading " + file
-                    progress.update(int(progress_count), progress_title + "\n" + progress_message)
+                    progress.update(int(progress_count), progress_title + "\n" + progress_message + "\n\n")
                 download_url = "https://raw.githubusercontent.com/Zomboided/service.vpn.manager.providers/master/" + vpn_provider + "/" + file
                 download_url = download_url.replace(" ", "%20")
                 if ifHTTPTrace(): debugTrace("Using " + download_url)
@@ -1324,7 +1324,7 @@ def refreshVPNFiles(vpn_provider, progress):
         output.close()
         if progress is not None:
             progress_message = "VPN provider files updated, removing old ones"
-            progress.update(10, progress_title + "\n" + progress_message)
+            progress.update(10, progress_title + "\n" + progress_message + "\n\n")
             # Delete any generated files and reset the connection
             removeGeneratedFiles()
             xbmc.sleep(500)

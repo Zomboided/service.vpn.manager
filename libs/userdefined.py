@@ -153,7 +153,7 @@ def importWizard():
                 dest_name = getUserDataPath("UserDefined/" + dest_name)
                 # Report file being copied, then do it
                 progress_message = "Copying " + fname
-                progress.update(int(prog_step), progress_title + "\n" + progress_message)
+                progress.update(int(prog_step), progress_title + "\n" + progress_message + "\n\n")
                 xbmc.sleep(100)
                 prog_step += dialog_step
                 infoTrace("userdefined.py", "Copying " + fname + " to " + dest_name)
@@ -194,7 +194,7 @@ def importWizard():
                         progress_message = "Copying and updating " + oname
                     else:
                         progress_message = "Copying " + oname
-                    progress.update(int(prog_step), progress_title + "\n" + progress_message)
+                    progress.update(int(prog_step), progress_title + "\n" + progress_message + "\n\n")
                     xbmc.sleep(100)
                     prog_step += dialog_step
 
@@ -320,7 +320,7 @@ def importWizard():
             errorMessage = "Failed to copy (or update) selected files.  Check the log."
             
         progress_message = "Outputting results of import wizard"
-        progress.update(100, progress_title + "\n" + progress_message)
+        progress.update(100, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(500)   
         
         # General import results

@@ -995,11 +995,11 @@ def disconnectVPN(display_result):
     # Show a progress box before executing stop
     progress = xbmcgui.DialogProgress()
     progress_title = "Disconnecting from VPN"
-    progress.create(addon_name,progress_title)
+    progress.create(addon_name)
     
     # Pause the monitor service
     progress_message = "Pausing VPN monitor..."
-    progress.update(1, progress_title + "\n" + progress_message)
+    progress.update(1, progress_title + "\n" + progress_message + "\n\n")
     if not stopService():
         progress.close()
         # Display error in an ok dialog, user will need to do something...
@@ -1011,7 +1011,7 @@ def disconnectVPN(display_result):
     xbmc.sleep(DIALOG_SPEED)
     
     progress_message = "Stopping any active VPN connection..."
-    progress.update(1, progress_title + "\n" + progress_message)
+    progress.update(1, progress_title + "\n" + progress_message + "\n\n")
     
     # Kill the VPN connection if the user hasn't gotten bored waiting
     if not progress.iscanceled():
@@ -1034,7 +1034,7 @@ def disconnectVPN(display_result):
         dialog_message = "Error, Service not running.  Check log and reboot."        
     else:
         # Close out the final progress dialog
-        progress.update(100, progress_title + "\n" + progress_message)
+        progress.update(100, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         progress.close()
     
@@ -1138,12 +1138,12 @@ def wizard():
             xbmc.sleep(200)
             progress = xbmcgui.DialogProgress()
             progress_title = "Checking dependencies"
-            progress.create(addon_name, progress_title) 
+            progress.create(addon_name) 
             if getPlatform() == platforms.WINDOWS:
                 progress_message = "Checking OpenVPN..."
             else:
                 progress_message = "Checking openvpn..."
-            progress.update(0, progress_title + "\n" + progress_message)
+            progress.update(0, progress_title + "\n" + progress_message + "\n\n")
             if not checkVPNCommand(addon):
                 success = False
             xbmc.sleep(1000)
@@ -1155,7 +1155,7 @@ def wizard():
                 #    success = False
                 #xbmc.sleep(1000)
                 progress_message = "Checking killall..."
-                progress.update(50, progress_title + "\n" + progress_message)  
+                progress.update(50, progress_title + "\n" + progress_message + "\n\n")  
                 if not getPlatform() == platforms.WINDOWS and not checkKillallCommand(addon): 
                     success = False
                 xbmc.sleep(1000)
@@ -1177,7 +1177,7 @@ def wizard():
                     xbmcgui.Dialog().ok(addon_name, "The openvpn, killall and pidof commands must be installed.  Check the log for more details and review the Linux installation instructions.")
             else:
                 progress_message = "No problems found"
-                progress.update(100, progress_title + "\n" + progress_message)
+                progress.update(100, progress_title + "\n" + progress_message + "\n\n")
                 xbmc.sleep(1000)
                 progress.close()
                 
@@ -1501,13 +1501,13 @@ def connectVPN(connection_order, vpn_profile):
     # Display a progress dialog box (put this on the screen quickly before doing other stuff)
     progress = xbmcgui.DialogProgress()
     progress_title = "Connecting to" + connection_title + " VPN"
-    progress.create(addon_name,progress_title)
+    progress.create(addon_name)
     debugTrace(progress_title)
 
     # Check openvpn installed and runs
     if not (addon.getSetting("checked_openvpn") == "true"):
         progress_message = "Checking dependencies..."
-        progress.update(1, progress_title + "\n" + progress_message)
+        progress.update(1, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         debugTrace("Checking platform is valid and openvpn is installed")
         if checkPlatform(addon) and checkVPNInstall(addon): 
@@ -1518,7 +1518,7 @@ def connectVPN(connection_order, vpn_profile):
   
     if not addon.getSetting("ran_openvpn") == "true":
         progress_message = "Checking dependencies..."
-        progress.update(2, progress_title + "\n" + progress_message)
+        progress.update(2, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         debugTrace("Checking openvpn (and maybe pidof and killall) can be run")
         stopVPN9()    
@@ -1546,7 +1546,7 @@ def connectVPN(connection_order, vpn_profile):
 
     # Pause the monitor service
     progress_message = "Pausing VPN monitor..."
-    progress.update(3, progress_title + "\n" + progress_message)
+    progress.update(3, progress_title + "\n" + progress_message + "\n\n")
     xbmc.sleep(DIALOG_SPEED)
 
     forceCycleLock()
@@ -1561,18 +1561,18 @@ def connectVPN(connection_order, vpn_profile):
     if not progress.iscanceled():
         progress_message = "VPN monitor paused"
         debugTrace(progress_message)
-        progress.update(4, progress_title + "\n" + progress_message)
+        progress.update(4, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         
     # Stop any active VPN connection
     if not progress.iscanceled():
         progress_message = "Stopping any active VPN connection..."    
-        progress.update(5, progress_title + "\n" + progress_message)
+        progress.update(5, progress_title + "\n" + progress_message + "\n\n")
         stopVPNConnection()
 
     if not progress.iscanceled():
         progress_message = "Disconnected from VPN"
-        progress.update(6, progress_title + "\n" + progress_message)
+        progress.update(6, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
 
     if isCustom(): addon.setSetting("vpn_provider", getCustom())
@@ -1588,7 +1588,7 @@ def connectVPN(connection_order, vpn_profile):
     reset_connections = False
     if not progress.iscanceled() and not isUserDefined(vpn_provider):    
         progress_message = "Checking for latest VPN locations..."
-        progress.update(7, progress_title + "\n" + progress_message)
+        progress.update(7, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         if checkForVPNUpdates(vpn_provider, False):
             addon = xbmcaddon.Addon(getID())
@@ -1610,15 +1610,15 @@ def connectVPN(connection_order, vpn_profile):
                             provider_download = False
                     else:
                         progress_message = "[I]New VPN locations are available, but using existing locations[/I]"
-                        progress.update(7, progress_title + "\n" + progress_message)
+                        progress.update(7, progress_title + "\n" + progress_message + "\n\n")
                         xbmc.sleep(3000)
             else:
                 progress_message = "[I]New VPN locations found! Update VPN connections to use them. Existing locations may not continue to work.[/I]"
-                progress.update(7, progress_title + "\n" + progress_message)
+                progress.update(7, progress_title + "\n" + progress_message + "\n\n")
                 xbmc.sleep(5000)
         else:
             progress_message = "Using latest VPN locations"
-            progress.update(7, progress_title + "\n" + progress_message)
+            progress.update(7, progress_title + "\n" + progress_message + "\n\n")
             xbmc.sleep(DIALOG_SPEED)
         addon = xbmcaddon.Addon(getID())
 
@@ -1682,7 +1682,7 @@ def connectVPN(connection_order, vpn_profile):
     # Check that we can authenticate with the VPN service if neccessary
     if not progress.iscanceled() and provider_download and isAlternative(vpn_provider):
         progress_message = "Authenticating user ID and password for " + vpn_username + "..."
-        progress.update(7, progress_title + "\n" + progress_message)
+        progress.update(7, progress_title + "\n" + progress_message + "\n\n")
         # Reuse the provider_download to avoid more variables.  It's not used for alternative connections
         provider_download = authenticateAlternative(vpn_provider, vpn_username, vpn_password)
     
@@ -1730,13 +1730,13 @@ def connectVPN(connection_order, vpn_profile):
                             select_location = True
                             addon.setSetting("vpn_locations_list", selected_profile)
                             progress_message = "Setting up VPN provider " + vpn_provider + " (please wait)..."
-                            progress.update(11, progress_title + "\n" + progress_message)
+                            progress.update(11, progress_title + "\n" + progress_message + "\n\n")
                             debugTrace("Deleting all generated ovpn files")
                             # Generate new ones
                             try:
                                 provider_gen = fixOVPNFiles(getVPNLocation(vpn_provider), selected_profile)
                                 progress_message = "Set up " + vpn_provider
-                                progress.update(15, progress_title + "\n" + progress_message)
+                                progress.update(15, progress_title + "\n" + progress_message + "\n\n")
                                 xbmc.sleep(DIALOG_SPEED)
                             except Exception as e:
                                 errorTrace("common.py", "Couldn't generate new .ovpn files")
@@ -1781,7 +1781,7 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace("Attempting to use the credentials in " + credentials_path)
             if (not last_credentials == vpn_credentials) or (not xbmcvfs.exists(credentials_path)) or (not connectionValidated(addon)):
                 progress_message = "Storing authentication settings for user " + vpn_username + "..."
-                progress.update(16, progress_title + "\n" + progress_message)
+                progress.update(16, progress_title + "\n" + progress_message + "\n\n")
                 provider_gen = writeCredentials(addon)
                 xbmc.sleep(DIALOG_SPEED)
     
@@ -1866,7 +1866,7 @@ def connectVPN(connection_order, vpn_profile):
                         else:
                             selected_name = selected_name.strip(" ")
                             progress_message = "Getting profile for " + selected_name + "..."
-                            progress.update(18, progress_title + "\n" + progress_message)
+                            progress.update(18, progress_title + "\n" + progress_message + "\n\n")
                             if server_view:
                                 ovpn_name, ovpn_connection, user_text, ignore = getAlternativeServer(vpn_provider, selected_name, 0, False)
                             else:
@@ -1969,7 +1969,7 @@ def connectVPN(connection_order, vpn_profile):
             if fakeConnection(): loop_max = 2
             percent = 20
             while i <= loop_max:
-                progress.update(percent, progress_title + "\n" + progress_message)
+                progress.update(percent, progress_title + "\n" + progress_message + "\n\n")
                 xbmc.sleep(2000)
                 state = getVPNConnectionStatus()
                 if not (state == connection_status.UNKNOWN or state == connection_status.TIMEOUT) : break
@@ -1987,11 +1987,11 @@ def connectVPN(connection_order, vpn_profile):
     if state == connection_status.CONNECTED:
         # Success, VPN connected! Display an updated progress window whilst we work out where we're connected to
         progress_message = "Connected, checking location info..."
-        progress.update(96, progress_title + "\n" + progress_message)
+        progress.update(96, progress_title + "\n" + progress_message + "\n\n")
         source, ip, country, isp = getIPInfo(addon)
         # Indicate we're restarting the VPN monitor
         progress_message = "Connected, restarting VPN monitor..."
-        progress.update(98, progress_title + "\n" + progress_message)
+        progress.update(98, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         # Set up final message
         progress_message = "Connected, VPN monitor restarted"
@@ -2050,7 +2050,7 @@ def connectVPN(connection_order, vpn_profile):
         log_option = False
         # Set the final message to indicate user cancelled operation
         progress_message = "Cancelling connection attempt, restarting VPN monitor..."
-        progress.update(97, progress_title + "\n" + progress_message)
+        progress.update(97, progress_title + "\n" + progress_message + "\n\n")
         # Set the final message to indicate cancellation
         progress_message = "Cancelling connection attempt, VPN monitor restarted"
         # Restore the previous connection info 
@@ -2086,7 +2086,7 @@ def connectVPN(connection_order, vpn_profile):
             progress_message = "Error connecting to VPN, restarting VPN monitor..."
         else:
             progress_message = "Restarting VPN monitor..."
-        progress.update(97, progress_title + "\n" + progress_message)
+        progress.update(97, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         # Set the final message to show an error occurred
         if not reset_connections:
@@ -2181,7 +2181,7 @@ def connectVPN(connection_order, vpn_profile):
         dialog_message = "Error, Service not running.\nCheck log and reboot."        
     else:
         # Close out the final progress dialog
-        progress.update(100, progress_title + "\n" + progress_message)
+        progress.update(100, progress_title + "\n" + progress_message + "\n\n")
         xbmc.sleep(DIALOG_SPEED)
         progress.close()
     

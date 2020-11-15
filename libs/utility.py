@@ -48,10 +48,14 @@ def ifJSONTrace():
     
 def alwaysLog():
     # FIXME PYTHON3 Stupid Leia/Matrix workaround because they needed to mess with the logging levels...
-    if xbmcgui.Window(10000).getProperty("VPN_Manager_Kodi_Version").startswith("19"):
+    # LOGNOTICE gets removed in Kodi 20 so this has a try/catch around this incase I forget to remove it
+    try:
+        if xbmcgui.Window(10000).getProperty("VPN_Manager_Kodi_Version").startswith("19"):
+            return xbmc.LOGINFO
+        else:
+            return xbmc.LOGNOTICE
+    except Exception as e:
         return xbmc.LOGINFO
-    else:
-        return xbmc.LOGNOTICE
     
     
 def debugTrace(data):

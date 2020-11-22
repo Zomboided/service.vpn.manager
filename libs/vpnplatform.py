@@ -570,7 +570,7 @@ def getVPNConnectionStatus():
         state = connection_status.UNKNOWN
         if xbmcvfs.exists(path):
             debugTrace("Reading log file")
-            log = open(path,'r')
+            log = open(path, 'r')
             lines = log.readlines()
             for line in lines:
                 if "Initialization Sequence Completed" in line:

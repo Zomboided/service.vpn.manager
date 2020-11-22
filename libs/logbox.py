@@ -21,6 +21,8 @@
 import xbmcaddon
 import xbmcgui
 import xbmcvfs
+#FIXME PYTHON3
+from io import open as open
 from libs.utility import debugTrace, errorTrace, infoTrace, getID
 from libs.vpnplatform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath
 
@@ -54,7 +56,7 @@ def showLogBox(caption, text):
 def popupKodiLog():
     dialog_text = ""
     if xbmcvfs.exists(getLogPath()):
-        log_file = open(getLogPath(), 'r')
+        log_file = open(getLogPath(), 'r', errors='backslashreplace')
         log_output = log_file.readlines()
         log_file.close()    
         for line in log_output:
@@ -67,7 +69,7 @@ def popupKodiLog():
 def popupImportLog():
     dialog_text = ""
     if xbmcvfs.exists(getImportLogPath()):
-        log_file = open(getImportLogPath(), 'r')
+        log_file = open(getImportLogPath(), 'r', errors='backslashreplace')
         log_output = log_file.readlines()
         log_file.close()    
         for line in log_output:
@@ -82,7 +84,7 @@ def popupImportLog():
 def popupOpenVPNLog(provider):
     dialog_text = ""
     if xbmcvfs.exists(getVPNLogFilePath()):
-        log_file = open(getVPNLogFilePath(), 'r')
+        log_file = open(getVPNLogFilePath(), 'r', errors='backslashreplace')
         log_output = log_file.readlines()
         log_file.close()
         for line in log_output:

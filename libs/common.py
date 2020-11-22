@@ -1064,7 +1064,7 @@ def writeCredentials(addon):
     try:
         credentials_path = getCredentialsPath(addon)
         debugTrace("Writing VPN credentials file to " + credentials_path)
-        credentials = open(credentials_path,'w')
+        credentials = open(credentials_path, 'w')
         credentials.truncate()
         credentials.close()
         vpn_provider = getVPNLocation(addon.getSetting("vpn_provider"))
@@ -1074,7 +1074,7 @@ def writeCredentials(addon):
             username = addon.getSetting("vpn_username")
             password = addon.getSetting("vpn_password")
         if not (username == "" or password == ""):
-            credentials = open(credentials_path,'a')
+            credentials = open(credentials_path, 'a')
             credentials.write(username + "\n")
             credentials.write(password + "\n")
             credentials.close()

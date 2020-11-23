@@ -12,8 +12,19 @@
     <provides>executable</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
+    <news></news>
     <platform>all</platform>
     <summary lang="en">Configure and manage VPN connections using openVPN</summary>
-    <description lang="en">Establish a connection to the VPN service and automatically switch VPN locations based on the add-on being used.</description>
+    <description lang="en">Establish a connection to a VPN service and automatically switch VPN locations based on the add-on being used.</description>
+    <license>GPL-2.0-or-later</license>
+    <forum>https://forum.libreelec.tv/thread/5032-vpn-manager-for-openvpn/</forum>
+    <source>https://github.com/Zomboided/service.vpn.manager</source>
+    <assets>
+        <icon>resources/icon.png</icon>
+        <fanart></fanart>
+        <banner></banner>
+        <clearlogo></clearlogo>
+        <screenshot></screenshot>
+    </assets>
   </extension>
 </addon>

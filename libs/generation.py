@@ -59,7 +59,7 @@ def generateAll():
     #generateLiquidVPN()
     #generateMullvad()
     #generatePerfectPrivacy()
-    generatePIA()
+    #generatePIA()
     #generatePrivateVPN()
     #generateproXPN()
     #generatePureVPN()
@@ -74,11 +74,11 @@ def generateAll():
     #generateVPNac()
     #generateVPNht()
     #generateVPNArea()
-    generateVPNSecure()
+    #generateVPNSecure()
     #generateVPNUnlimited()
     #generateVyprVPN()
     #generateWiTopia()
-    #generateWindscribe()
+    generateWindscribe()
     return
     
     

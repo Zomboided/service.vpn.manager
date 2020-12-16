@@ -1,3 +1,6 @@
+v6.4.2
+- Revert 6.3.7 VPNSecure changes
+
 v6.4.1
 - Changes to make code ready for Matrix & Python 3
 - Line up version number with 6.9.1 Matrix beta

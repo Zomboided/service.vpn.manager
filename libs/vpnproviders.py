@@ -66,7 +66,7 @@ providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY PASSWORD ****
 # List of providers which secure the user key with a password to be entered during connection
 # Names must match the directory names as used in providers, just above
-providers_with_single_key_pass = [""]
+providers_with_single_key_pass = ["VPNSecure"]
 
 # List of providers that use an alternative to GitHub
 providers_alternative = ["NordVPN", "Shellfire"]

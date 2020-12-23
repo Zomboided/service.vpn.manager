@@ -1023,8 +1023,6 @@ def disconnectVPN(display_result):
         progress_message = "Disconnect cancelled, restarting VPN monitor..."
     
     dialog_message = ""
-    dialog_message_2 = ""
-    dialog_message_3 = ""
     # Restart service
     if not startService():
         progress.close()
@@ -1040,17 +1038,16 @@ def disconnectVPN(display_result):
         xbmc.executebuiltin('Container.Refresh')
         if display_result:
             _, ip, country, isp = getIPInfo(addon)
-            # Kodi18 bug, these should be one string with a \n between them
-            dialog_message = "[B]Disconnected from VPN[/B]"
-            dialog_message_2 = "Using " + ip + ", located in " + country
-            dialog_message_3 = "Service Provider is " + isp
+            dialog_message = "[B]Disconnected from VPN[/B]\n"
+            dialog_message = dialog_message + "Using " + ip + ", located in " + country + "\n"
+            dialog_message = dialog_message + "Service Provider is " + isp
         
         infoTrace("common.py", "Disconnected from the VPN")
 
     freeCycleLock()
     
     if display_result:
-        xbmcgui.Dialog().ok(addon_name, dialog_message, dialog_message_2, dialog_message_3)
+        xbmcgui.Dialog().ok(addon_name, dialog_message)
 
     
 def getCredentialsPath(addon):

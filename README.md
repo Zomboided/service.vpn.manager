@@ -1,6 +1,8 @@
 VPN Manager for OpenVPN
 =======================
 
+NOTE : Kodi 19 Matrix version [here in pre-release](https://github.com/Zomboided/service.vpn.manager/releases/tag/6.9.3)
+
 This add-on is a service for Kodi that allows the user to vary the level of
 privacy required by automatically switching between different VPN
 profiles/locations.

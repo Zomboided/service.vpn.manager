@@ -53,7 +53,7 @@ def generateAll():
     #generateHMA()
     #generateHideIPVPN()
     #generateibVPN()
-    #generateIPVanish()
+    generateIPVanish()
     #generateIVPN()
     #generateLimeVPN()
     #generateLiquidVPN()
@@ -443,7 +443,7 @@ def generateIPVanish():
         profile = profile.replace("Rio-De-Janeiro", "Rio De Janeiro")
         tokens = profile.split("-")
         server = tokens[3] + "-" + tokens[4].replace(".ovpn", "") + ".ipvanish.com"
-        server_num = tokens[4][1:3]
+        server_num = tokens[4][0:3]
         output_line_udp = resolveCountry(tokens[1]) + " - " + tokens[2] + " " + server_num + " (UDP)," + server + "," + "udp,443" + "\n"
         output_line_tcp = resolveCountry(tokens[1]) + " - " + tokens[2] + " " + server_num + " (TCP)," + server + "," + "tcp,443" + "\n"
         location_file.write(output_line_udp)
@@ -499,13 +499,8 @@ def generateLimeVPN():
         profile_file.close()
         for line in lines:
             if line.startswith("remote "):
-                tokens = line.split(" ")
-                server = tokens[1]
-                port = tokens[2]
-        if not geo == "Europe 10":
-            output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + "\n"
-        else:
-            output_line_udp = geo + " (UDP)," + server + "," + "udp,1195" + ",#CERT=eu10ca.crt\n"
+                _, server, port = line.split()
+        output_line_udp = geo + " (UDP)," + server + "," + "udp," + port + "\n"
         
         location_file.write(output_line_udp)
     location_file.close()
@@ -1147,7 +1142,7 @@ def generateVPNSecure():
             output_line = geo + "," + server + "," + "udp," + port + "\n"
         location_file.write(output_line)
     location_file.close()    
-    generateMetaData("VPNSecure", "637")
+    generateMetaData("VPNSecure", "642")
 
 
 def generateVPNUnlimited():

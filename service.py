@@ -358,7 +358,7 @@ if __name__ == '__main__' and not running():
     addon = xbmcaddon.Addon()
     
     # Need to go and request the main loop fetches the settings
-    updateService("service initalisation")
+    updateService("service initialisation")
     
     reconnect_vpn = False
     warned_monitor = False
@@ -845,7 +845,7 @@ if __name__ == '__main__' and not running():
                 debugTrace("Got forced cycle lock in connection part of service")
                 
                 # Stop the VPN and reset the connection timer
-                # Surpress a reconnection to the same unless it's become disconnected
+                # Suppress a reconnection to the same unless it's become disconnected
                 if (not getVPNRequestedProfile() == getVPNProfile()) or (getVPNRequestedProfile() == getVPNProfile() and not isVPNConnected()):                    
                 
                     # Stop any streams playing

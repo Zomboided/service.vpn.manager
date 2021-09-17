@@ -174,7 +174,7 @@ def listConnections():
         inc = 0
         for connection in ovpn_connections:
             if not isAlternative(vpn_provider):
-                # Regular connections have the ovpn filename added ot the URL
+                # Regular connections have the ovpn filename added to the URL
                 url = base_url + "?change?" + ovpn_connections[inc]
             else:
                 # Alternative connections use the friendly name which can then be resolved later

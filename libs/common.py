@@ -95,7 +95,7 @@ def getFriendlyProfileList(ovpn_connections, highlight, colour):
     # Deal with some Windows nonsense
     if getPlatform() == platforms.WINDOWS:
         regex_str = regex_str.replace(r"/", r"\\")
-    # Produce a compiled pattern and interate around the list of connections
+    # Produce a compiled pattern and iterate around the list of connections
     pattern = re.compile(regex_str)
     for connection in ovpn_connections:
         if highlight == connection and not colour == "":
@@ -141,7 +141,7 @@ def getTranslatedProfileList(ovpn_connections, vpn_provider):
 
 
 def getValidatedList(addon, exclude):
-    # Return all of the validated conncetions
+    # Return all of the validated connections
     connections = []
     # Adjust 11 below if changing number of conn_max
     i = 1
@@ -354,7 +354,7 @@ def startVPNConnection(vpn_profile, addon):
     
 
 def connectivityTest(addon):
-    # Use the function to determine where the external location is to estabilish whether there's connectivity
+    # Use the function to determine where the external location is to establish whether there's connectivity
     if not addon.getSetting("vpn_connectivity_test") == "true": return connection_status.CONNECTED
     debugTrace("Checking network connectivity")
     source, ip, country, isp = getIPInfo(addon)
@@ -702,7 +702,7 @@ def freeCycleLock():
     
     
 def updateServiceRequested():
-    # Check to see if an update is requred
+    # Check to see if an update is required
     return (xbmcgui.Window(10000).getProperty("VPN_Manager_Service_Update") == "update")
 
     
@@ -893,7 +893,7 @@ def getConnectTime(addon):
             build_date = xbmc.getInfoLabel("System.BuildDate")
             seconds = (int(build_date[-4:]) - 1970) * 31557600
         except:
-            # In case the formatting of the build date changess
+            # In case the formatting of the build date changes
             pass
         vpn_mgr_time = 1487116800
         if seconds < vpn_mgr_time:
@@ -1674,7 +1674,7 @@ def connectVPN(connection_order, vpn_profile):
             debugTrace("Credentials need to be validated")
             resetVPNConfig(addon, 1)
     
-    # Check that we can authenticate with the VPN service if neccessary
+    # Check that we can authenticate with the VPN service if necessary
     if not progress.iscanceled() and provider_download and isAlternative(vpn_provider):
         progress_message = "Authenticating user ID and password for " + vpn_username + "..."
         progress.update(7, progress_title + "\n" + progress_message + "\n\n")
@@ -1794,7 +1794,7 @@ def connectVPN(connection_order, vpn_profile):
             else: server_view = False
             if not connection_order == "0":
                 switch = True
-                # Build ths list of connections and the server/IP alternative
+                # Build the list of connections and the server/IP alternative
                 if not isAlternative(vpn_provider):
                     all_connections = getAddonList(vpn_provider, "*.ovpn")
                     ovpn_connections = getFilteredProfileList(all_connections, vpn_protocol, addon)
@@ -1912,10 +1912,10 @@ def connectVPN(connection_order, vpn_profile):
                     # Get the last directory browsed to avoid starting from the top
                     start_dir = xbmcgui.Window(10000).getProperty("VPN_Manager_User_Directory")
                     if usesSingleKey(getVPNLocation(vpn_provider)): 
-                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses the same key and certificate for all connections. Make either the .key and .crt, or the a .ovpn file available on an accessable drive or USB key.")
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses the same key and certificate for all connections. Make either the .key and .crt, or the .ovpn file available on an accessible drive or USB key.")
                         select_title = "Select key or ovpn for all connections"
                     else: 
-                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses a different key and certificate for each connection.  Make either the .key and .cert or .ovpn [COLOR red]relevant to your selected connection[/COLOR] available on an accessable drive or USB key.")
+                        xbmcgui.Dialog().ok(addon_name, vpn_provider + " uses a different key and certificate for each connection.  Make either the .key and .cert or .ovpn [COLOR red]relevant to your selected connection[/COLOR] available on an accessible drive or USB key.")
                         select_title = "Select key or ovpn for " + ovpn_name
                     key_file = xbmcgui.Dialog().browse(1, select_title, "files", ".key|.ovpn", False, False, start_dir + getSeparator(), False)
                     if key_file.endswith(".key") or key_file.endswith(".ovpn"):
@@ -2040,7 +2040,7 @@ def connectVPN(connection_order, vpn_profile):
         # down the path of installing the VPN, configuring the credentials or selecting the connection
         # We're assuming here that if the VPN or user ID has been changed, then the connections are invalid
         # already.  If the cancel happens during the connection validation, we can just use the existing one.
-        # Surpress the display of the log option on the final dialog
+        # Suppress the display of the log option on the final dialog
         log_option = False
         # Set the final message to indicate user cancelled operation
         progress_message = "Cancelling connection attempt, restarting VPN monitor..."

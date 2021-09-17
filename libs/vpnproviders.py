@@ -86,7 +86,7 @@ def getBestPathWrapper(name):
     # This function will return the path to the user version of a given file
     # if it exists, otherwise it'll return the path the default add-on version
     
-    # This is just about resetting the ovpn documents if neccesary
+    # This is just about resetting the ovpn documents if necessary
     filename = getUserDataPath(name)
     if not xbmcvfs.exists(filename):
         filename = getAddonPath(True, name)
@@ -229,7 +229,7 @@ def copyKeyAndCert(vpn_provider, ovpn_name, user_key, user_cert):
     if key_source == cert_source:
         # This means that a .ovpn was selected
         try:
-            debugTrace("Extracing key and cert from " + key_source + " to " + key_dest + " and " + cert_dest)
+            debugTrace("Extracting key and cert from " + key_source + " to " + key_dest + " and " + cert_dest)
             ovpn_file = open(key_source, 'r')
             ovpn = ovpn_file.readlines()
             ovpn_file.close()

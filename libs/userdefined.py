@@ -189,7 +189,7 @@ def importWizard():
                     path, dest_name = os.path.split(oname)
                     dest_name = getUserDataPath("UserDefined/" + dest_name)
 
-                    # Update dialog to saywhat's happening
+                    # Update dialog to say what's happening
                     if update:
                         progress_message = "Copying and updating " + oname
                     else:
@@ -299,7 +299,7 @@ def importWizard():
                         if flags[0]:
                             if xbmcvfs.exists(dest_name):
                                 xbmcvfs.delete(dest_name)
-                            detail.append("  wARNING, couldn't import file as it contains errors or is unsupported\n")
+                            detail.append("  WARNING, couldn't import file as it contains errors or is unsupported\n")
                         elif rename:
                             proto = " (" + proto + ").ovpn"
                             new_name = dest_name.replace(".ovpn", proto)   

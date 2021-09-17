@@ -478,13 +478,13 @@ def getConnectionErrorCount():
 
     
 def setVPNState(state):
-	# Store current state - "off" (deliberately), "stopped", "started", "" (at boot) or "unknown" (error)
+    # Store current state - "off" (deliberately), "stopped", "started", "" (at boot) or "unknown" (error)
     xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_State", state)
     return
 
     
 def getVPNState():
-	# Store current state
+    # Store current state
     return xbmcgui.Window(10000).getProperty("VPN_Manager_VPN_State")
 
 
@@ -566,7 +566,7 @@ def fixKeymaps():
  
 def clearServiceState():
     # Clear the service state during initialisation.  It can get funky on an upgrade
-	xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "start")
+    xbmcgui.Window(10000).setProperty("VPN_Manager_Service_Control", "start")
 
 
 def startService():

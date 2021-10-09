@@ -21,7 +21,6 @@
 import xbmcaddon
 import xbmcgui
 import xbmcvfs
-#FIXME PYTHON3
 from io import open as open
 from libs.utility import debugTrace, errorTrace, infoTrace, getID
 from libs.vpnplatform import getVPNLogFilePath, getLogPath, getImportLogPath, getAddonPath, getUserDataPath

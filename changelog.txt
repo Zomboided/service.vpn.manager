@@ -315,7 +315,7 @@ v2.1.1
 - Fix IVPN
 
 v2.1.0
-- Added connect and disconnect API accessable via a script
+- Added connect and disconnect API accessible via a script
 
 v2.0.3
 - Fix HMA again

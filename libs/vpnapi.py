@@ -144,7 +144,7 @@ class VPNAPI:
     def filterAndSwitch(self, path, windowid, default, wait):
         # Given a path to an addon, and/or a window ID, determine if it's associated with a particular VPN and
         # switch to that VPN.  Return True when the switch has happened or False if there's a problem switching 
-        # (or there's no VPN that's been set up).  If the connected VPN is the VPN that's been identifed as being 
+        # (or there's no VPN that's been set up).  If the connected VPN is the VPN that's been identified as being 
         # required, or no filter is found, just return True without messing with the connection.  The default 
         # parameter is a boolean indicating if the default VPN should be connected to if no filter is found.
         # The wait parameter will determine if the function returns once the connection has been made, or if it's 

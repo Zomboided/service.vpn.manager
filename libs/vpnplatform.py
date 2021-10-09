@@ -44,7 +44,7 @@ fake_name = "FAKECONNECTION.txt"
 
 def fakeConnection():
     # Return True to fake out any calls to openVPN to change the network.
-    # This is governed by the existance of 'FAKECONNECTION.txt' in the userdata directory.
+    # This is governed by the existence of 'FAKECONNECTION.txt' in the userdata directory.
     return xbmcvfs.exists(getUserDataPath(fake_name))
 
     
@@ -64,13 +64,13 @@ def fakeItTillYouMakeIt(fake):
     
 def fakeSystemd():
     # Return True to pretend that systemd exists, but not make OS calls to use it
-    # This is governed by the existance of 'FAKESYSTEMD.txt' in the userdata directory.
+    # This is governed by the existence of 'FAKESYSTEMD.txt' in the userdata directory.
     return xbmcvfs.exists(getUserDataPath("FAKESYSTEMD.txt"))
 
 
 def generateVPNs():
     # Return True if the set of location files for the VPNs should be generated
-    # This is governed by the existance of 'GENERATEVPNS.txt' in the userdata directory.
+    # This is governed by the existence of 'GENERATEVPNS.txt' in the userdata directory.
     return xbmcvfs.exists(getUserDataPath("GENERATEVPNS.txt"))     
     
     

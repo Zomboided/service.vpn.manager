@@ -35,7 +35,7 @@ from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, g
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForVPNUpdates
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
 from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshVPNFiles
-from libs.vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
+from libs.vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, isDeprecated, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from libs.vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
 from libs.vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection, postConnectAlternative
 from libs.ipinfo import getIPInfoFrom, getIPSources, getNextSource, getAutoSource, isAutoSelect, getErrorValue, getIndex
@@ -495,7 +495,10 @@ def getSystemData(addon, vpn, network, vpnm, system):
         site, ip, country, isp = getIPInfo(addon)
         if isVPNConnected(): 
             lines.append("[COLOR ff00ff00]Connected using profile " + getVPNProfileFriendly() + "[/COLOR]")
-            lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
+            if isDeprecated():
+                lines.append("Deprecated VPN provider is " + addon.getSetting("vpn_provider"))
+            else:
+                lines.append("VPN provider is " + addon.getSetting("vpn_provider"))
             server = getVPNURL()
             if not server == "": lines.append("Server is " + server)
         else:
@@ -793,9 +796,12 @@ def requestVPNCycle(immediate):
                         icon = getIconPath()+"faked.png"
                     else:
                         icon = getIconPath()+"connected.png"
-                    if checkForVPNUpdates(getVPNLocation(vpn_provider), True):
-                        notification_title = getShort() + ", update available"
-                        icon = getIconPath()+"update.png"
+                        if checkForVPNUpdates(getVPNLocation(vpn_provider), True):
+                            notification_title = getShort() + ", update available"
+                            icon = getIconPath()+"update.png"
+                        elif isDeprecated():
+                            notification_title = getShort() + ", deprecated VPN"
+                            icon = getIconPath()+"deprecated.png"
                 else:
                     if not cycle_name == "":
                         if not reconnect: dialog_message = "Connect to " + friendly_cycle_name + "?"
@@ -1580,6 +1586,7 @@ def connectVPN(connection_order, vpn_profile):
         
     # Check to see if there are new ovpn files
     provider_download = True
+    provider_deprecated = False
     reset_connections = False
     if not progress.iscanceled() and not isUserDefined(vpn_provider):    
         progress_message = "Checking for latest VPN locations..."
@@ -1612,11 +1619,22 @@ def connectVPN(connection_order, vpn_profile):
                 progress.update(7, progress_title + "\n" + progress_message + "\n\n")
                 xbmc.sleep(5000)
         else:
+            addon = xbmcaddon.Addon(getID())
             progress_message = "Using latest VPN locations"
             progress.update(7, progress_title + "\n" + progress_message + "\n\n")
             xbmc.sleep(DIALOG_SPEED)
         addon = xbmcaddon.Addon(getID())
 
+    if isDeprecated():
+        provider_deprecated = True
+        if not connection_order == "0":
+            progress_message = "This VPN provider has been deprecated and is using older definitions which may not connect. [I]Consider cancelling and downloading the .ovpn files from your provider to use with the User Defined wizard instead.[/I]"
+            if not xbmcgui.Dialog().yesno(progress_title, progress_message, nolabel="Cancel", yeslabel="Use Existing"):
+                provider_download = False
+        else:
+            progress_message = "[I]This is a deprecated VPN provider. It may not connect.[/I]"
+            progress.update(7, progress_title + "\n" + progress_message + "\n\n")
+            xbmc.sleep(5000)
         
     # Set up the username and password    
     existing_connection = ""
@@ -2004,7 +2022,10 @@ def connectVPN(connection_order, vpn_profile):
                 dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + ", but either there's a DNS issue or some other network problems. You may not be able to access other internet resources until you fix this."
                 dns_error = True
             else:
-                dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
+                if provider_deprecated:
+                    dialog_message = "[B]Connected to a deprecated VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
+                else:
+                    dialog_message = "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp
         trace_message = dialog_message.encode('utf-8', 'ignore')
         infoTrace("common.py", trace_message.decode("utf-8"))
         if ifDebug(): writeVPNConfiguration(ovpn_connection)
@@ -2091,6 +2112,8 @@ def connectVPN(connection_order, vpn_profile):
         if not provider_download:
             if reset_connections:
                 dialog_message = "Validate VPN connections to start using new locations"
+            elif provider_deprecated:
+                dialog_message = "VPN provider deprecated, download latest .ovpn files from your provider to use with the User Defined wizard"
             else:
                 if not isAlternative(vpn_provider):
                     dialog_message = "Unable to download the VPN provider files. Check network and then try again. Additional information can be found in the log."

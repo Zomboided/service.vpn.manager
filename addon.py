@@ -29,7 +29,7 @@ from libs.common import isVPNMonitorRunning, setVPNMonitorState, getVPNMonitorSt
 from libs.common import getIconPath, getSystemData, getVPNServer
 from libs.vpnplatform import getPlatform, platforms, getPlatformString, fakeConnection
 from libs.vpnproviders import getAddonList, isAlternative, getAlternativeLocations, getAlternativeFriendlyLocations, getAlternativeLocation
-from libs.vpnproviders import allowReconnection
+from libs.vpnproviders import allowReconnection, isDeprecated
 from libs.utility import debugTrace, errorTrace, infoTrace, newPrint, getID, getName
 from libs.access import getVPNURL, getVPNProfile
 from libs.sysbox import popupSysBox
@@ -138,7 +138,10 @@ def displayStatus():
             if fakeConnection():
                 xbmcgui.Dialog().ok(addon_name, "[B]Faked connection to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
             else:
-                xbmcgui.Dialog().ok(addon_name, "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
+                if isDeprecated():
+                    xbmcgui.Dialog().ok(addon_name, "[B]Connected to a deprecated VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
+                else:
+                    xbmcgui.Dialog().ok(addon_name, "[B]Connected to a VPN[/B]\nProfile is " + ovpn_name + server + "Using " + ip + ", located in " + country + "\nService Provider is " + isp)
         else:
             debugTrace("VPN is not connected, displaying the connection info")
             xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
@@ -194,7 +197,10 @@ def listConnections():
                 if fakeConnection():
                     icon = getIconPath()+"faked.png"
                 else:
-                    icon = getIconPath()+"connected.png"
+                    if isDeprecated():
+                        icon = getIconPath()+"deprecated.png"
+                    else:
+                        icon = getIconPath()+"connected.png"
             else:
                 if not conn_primary == "":
                     conn_text = "[COLOR ff0099ff]" + connections[inc] + conn_primary + "[/COLOR]"

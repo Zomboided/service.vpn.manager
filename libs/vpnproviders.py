@@ -1112,6 +1112,7 @@ def getGitMetaData(vpn_provider):
 def parseGitMetaData(metadata):
     i = 0
     timestamp = ""
+    deprecated = False
     version = ""
     total_files = ""
     file_list = []
@@ -1120,14 +1121,15 @@ def parseGitMetaData(metadata):
         if i == 0: timestamp = line
         if i == 1: version, total_files = line.split(" ")
         if i > 1:
-            if len(line.strip(" ") ) > 0: file_list.append(line)
+            if i == 2 and line == "DEPRECATED": deprecated = True
+            elif len(line.strip(" ") ) > 0: file_list.append(line)
         i += 1
     if len(file_list) == 0: file_list = None
-    debugTrace("Metadata: timestamp " + timestamp + " version " + version + " file count " + total_files)
-    return timestamp, version, total_files, file_list
+    debugTrace("Metadata: timestamp " + timestamp + " version " + version + " file count " + total_files + " deprecated " + str(deprecated))
+    return timestamp, version, deprecated, total_files, file_list
 
     
-def checkForVPNUpdates(vpn_provider, cached):
+def checkForVPNUpdates(vpn_provider, cached):    
     # Can't update something we're clueless about
     if vpn_provider == "" or isUserDefined(vpn_provider): return False
     
@@ -1157,13 +1159,20 @@ def checkForVPNUpdates(vpn_provider, cached):
             # Can't get to github, trace it but pretend there's no update
             errorTrace("vpnproviders.py", "No metadata was returned for " + vpn_provider)
             return False
-        git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
+        git_timestamp, version, deprecated, total_files, file_list = parseGitMetaData(metadata)
+        # Record if this VPN has been deprecated
+        if deprecated:
+            setVPNProviderDeprecated("true")
+        else:
+            setVPNProviderDeprecated("false")            
+        # Work out if an update is needed
         try:
             last_file = open(getUserDataPath("Downloads" + "/" + vpn_provider + "/METADATA.txt"), 'r')
             last = last_file.readlines()
             last_file.close()
             last[0] = last[0].strip(" \n")
-            if last[0] == git_timestamp: return False
+            if last[0] == git_timestamp:
+                return False
             setVPNProviderUpdate("true")
             setVPNProviderUpdateTime(t)
             return True
@@ -1185,6 +1194,24 @@ def setVPNProviderUpdate(update):
     # Horrible hack to work around a Kodi18 bug where I can't reuse ids in settings.xml
     xbmcaddon.Addon(getID()).setSetting("vpn_provider_update_2", update)
     return     
+
+
+def getVPNProviderDeprecated():
+    # Store indication of whether a provider has an updated set of files
+    return xbmcgui.Window(10000).getProperty("VPN_Manager_VPN_Provider_Deprecated")
+
+
+def isDeprecated():
+    # Helper to a helper function......
+    if getVPNProviderDeprecated() == "true":
+        return True
+    return False
+
+
+def setVPNProviderDeprecated(update):
+    # Store indication of whether a provider has an updated set of files
+    xbmcgui.Window(10000).setProperty("VPN_Manager_VPN_Provider_Deprecated", update)
+    return  
 
     
 def getVPNProviderUpdateTime():
@@ -1225,7 +1252,7 @@ def refreshVPNFiles(vpn_provider, progress):
         # Download the metadata file
         metadata = getGitMetaData(vpn_provider)
         if metadata == None: return False
-        git_timestamp, version, total_files, file_list = parseGitMetaData(metadata)
+        git_timestamp, version, deprecated, total_files, file_list = parseGitMetaData(metadata)
         timestamp = ""
 
         try:
@@ -1330,7 +1357,13 @@ def refreshVPNFiles(vpn_provider, progress):
             # Delete any generated files and reset the connection
             removeGeneratedFiles()
             xbmc.sleep(500)
-            
+        
+        # Flag if VPN settings have been deprecated
+        if deprecated:
+            setVPNProviderDeprecated("true")
+        else:
+            setVPNProviderDeprecated("false")
+        
     # Now everything has been reset, finally clear out the settings
     if result:
         # Adjust 11 below if changing number of conn_max

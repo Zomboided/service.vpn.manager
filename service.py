@@ -1007,7 +1007,9 @@ if __name__ == '__main__' and not running():
                                     _, ip, country, isp = getIPInfo(addon)
                                     xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + " via Service Provider " + isp + " in " + country + ". IP is " + ip + ".", getAddonPath(True, icon), 20000, False)
                                 else:
-                                    xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly(), getAddonPath(True, icon), notification_time, False)
+                                    server = getVPNURL()
+                                    if not server == "": server = " (" + server + ")"
+                                    xbmcgui.Dialog().notification(notification_title, "Connected to "+ getVPNProfileFriendly() + server, getAddonPath(True, icon), notification_time, False)
                                 if isAlternative(vpn_provider) and not getVPNServer() == "":
                                     infoTrace("service.py", "VPN connected to " + getVPNProfileFriendly() + " using " + getVPNServer())
                                 else:

@@ -517,7 +517,7 @@ def isVPNTaskRunning():
     p = getPlatform()
     if p == platforms.LINUX or p == platforms.RPI:
         try:
-            command = getPidofPath() + " openvpn"
+            command = getPidofPath() + " openvpn > /dev/null 2>&1"
             if useSudo() : command = "sudo " + command
             debugTrace("(Linux) Checking VPN task with " + command)
             pid = os.system(command)

@@ -1,4 +1,8 @@
-Deprecated, moved changelog details to news in addon.xml
+v7.0.1
+- pidof fix to silence logging
+
+v7.0.0
+- Promoted Python 3 version 
 
 v6.4.3
 - Changes to NordVPN for Python 3

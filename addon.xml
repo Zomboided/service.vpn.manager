@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="service.vpn.manager"
        name="VPN Manager for OpenVPN"
-       version="7.0.1"
+       version="7.0.2"
        provider-name="Zomboided">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -12,13 +12,13 @@
     <provides>executable</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news></news>
     <platform>all</platform>
     <summary lang="en">Configure and manage VPN connections using openVPN</summary>
     <description lang="en">Establish a connection to a VPN service and automatically switch VPN locations based on the add-on being used.</description>
     <license>GPL-2.0-or-later</license>
     <forum>https://forum.libreelec.tv/thread/5032-vpn-manager-for-openvpn/</forum>
     <source>https://github.com/Zomboided/service.vpn.manager</source>
+    <disclaimer lang="en"></disclaimer>
     <assets>
         <icon>resources/icon.png</icon>
         <fanart></fanart>
@@ -26,5 +26,13 @@
         <clearlogo></clearlogo>
         <screenshot></screenshot>
     </assets>
+    <news>
+        v7.0.2
+		- Updated XML
+		v7.0.1
+		- pidof fix to silence logging
+		v7.0.0
+		- Promoted Python 3 version 
+    </news>
   </extension>
 </addon>

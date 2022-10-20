@@ -18,7 +18,7 @@
     <license>GPL-2.0-or-later</license>
     <forum>https://forum.libreelec.tv/thread/5032-vpn-manager-for-openvpn/</forum>
     <source>https://github.com/Zomboided/service.vpn.manager</source>
-    <disclaimer lang="en"></disclaimer>
+    <disclaimer lang="en">Provided as-is, with no warranty</disclaimer>
     <assets>
         <icon>resources/icon.png</icon>
         <fanart></fanart>
@@ -28,11 +28,11 @@
     </assets>
     <news>
         v7.0.2
-		- Updated XML
-		v7.0.1
-		- pidof fix to silence logging
-		v7.0.0
-		- Promoted Python 3 version 
+        - Updated XML
+        v7.0.1
+        - pidof fix to silence logging
+        v7.0.0
+        - Promoted Python 3 version 
     </news>
   </extension>
 </addon>

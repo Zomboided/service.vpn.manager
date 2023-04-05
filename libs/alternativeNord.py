@@ -47,11 +47,16 @@ TIME_WARN = 10
 
 def authenticateNordVPN(vpn_provider, userid, password):
     # Authenticate with the API and store the tokens returned
-
+    # Originally, the Nord API allowed the user to log in to get a token, but they've since moved to getting a 
+    # token from a webpage, which can be input on the main screen.
     addon = xbmcaddon.Addon(getID())
     token = addon.getSetting("vpn_token")
+    
     if token is None or token == "":
         # If not authenticated with a token, determine the token
+        debugTrace("No token available, input one in the settings panel")
+        return False
+        
         # Actually this code doesn't work anymore since april 2023 but it's kept for ... who knows it will be needed again later.
 
         # If the same credentials have been used before, don't bother authenticating
@@ -94,6 +99,10 @@ def authenticateNordVPN(vpn_provider, userid, password):
 
 
 def renewNordVPN(renew):
+    # This should never be called as of April 2023
+    errorTrace("alternativeNord.py", "Not expecting to renew the token")
+    return False
+
     # Renew a user with the API and store the tokens returned
     response = ""
     download_url = "https://api.nordvpn.com/v1/users/tokens/renew"
@@ -126,13 +135,15 @@ def renewNordVPN(renew):
 
 def getTokenNordVPN():
     # Return a token that can be used on API calls
-
     addon = xbmcaddon.Addon(getID())
     token = addon.getSetting("vpn_token") # token provided via api settings
+    
     if token is None or token == "":
         # No token is provided via the api settings so must determine it via the login creedentials
-        # Actually this code doesn't work anymore since april 2023 but it's kept for ... who knows it will be needed again later.
+        debugTrace("No token available, input one in the settings panel")
+        return False
 
+        # Actually this code doesn't work anymore since april 2023 but it's kept for ... who knows it will be needed again later.
         token, renew, expiry, _ = getTokens()
 
         # If the expiry time is passed, renew the token

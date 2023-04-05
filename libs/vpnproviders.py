@@ -61,7 +61,7 @@ providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "ExpressVPN",
 # *** ADD VPN PROVIDERS HERE IF THEY DON'T USE USERNAME AND PASSWORD ****
 # List of providers which don't use auth-user-pass.
 # Names must match the directory names as used in providers, just above
-providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure"]
+providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure", "NordVPN"]
 
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY PASSWORD ****
 # List of providers which secure the user key with a password to be entered during connection

@@ -1,4 +1,4 @@
-v7.0.1
+v7.0.2
 - Changes to NordVPN to allow to login with token instead of user name/password because of api change at NordVPN
 
 v7.0.1

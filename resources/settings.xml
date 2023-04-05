@@ -15,7 +15,7 @@
     <setting label="32007" type="text" id="vpn_password" enable="!eq(-6,true)" visible="!eq(-5,NordVPN)" option="hidden" default=""/>
     <setting label="32008" type="action" enable="!eq(-7,true)" visible="!eq(-1,)+!eq(-6,NordVPN)" option="close" action="RunScript(special://home/addons/service.vpn.manager/passwordpopup.py)"/>
     <setting label="32027" type="text" id="vpn_token" enable="!eq(-8,true)" visible="eq(-7,NordVPN)" default=""/>
-    <setting label="32192" type="action"  visible="eq(-8,NordVPN)" />
+    <setting label="32192" type="action" visible="eq(-8,NordVPN)" enable="!eq(-9,true)" />
     <setting label=" "     type="sep"/>
     <setting label="32009" type="lsep"/>
     <setting label="32010" type="labelenum" id="vpn_protocol" lvalues="32011|32012|32013" default="UDP"/>

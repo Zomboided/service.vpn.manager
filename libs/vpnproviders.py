@@ -63,6 +63,10 @@ providers_with_single_keys = ["AirVPN", "CyberGhost", "HideIPVPN", "ExpressVPN",
 # Names must match the directory names as used in providers, just above
 providers_no_pass = ["AirVPN", "VPNUnlimited", "WiTopia", "VPNSecure", "NordVPN"]
 
+# List of providers which use a token
+# Names must match the directory names as used in providers, just above
+providers_token = ["NordVPN"]
+
 # **** ADD VPN PROVIDERS HERE IF THEY USE A KEY PASSWORD ****
 # List of providers which secure the user key with a password to be entered during connection
 # Names must match the directory names as used in providers, just above
@@ -362,6 +366,13 @@ def getCertName(vpn_provider, ovpn_name):
         return "user_" + ovpn_name.replace(" ", "_") + ".crt"
     return ""
 
+def usesToken(vpn_provider):
+    # Determine if we're using a token or not
+    if isUserDefined(vpn_provider):
+        if not (xbmcaddon.Addon(getID()).getSetting("user_def_credentials") == "true"):
+            return False
+    elif vpn_provider in providers_token: return True
+    return False
 
 def usesPassAuth(vpn_provider):
     # Determine if we're using a user name and password or not

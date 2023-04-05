@@ -127,6 +127,14 @@ msgctxt "#32026"
 msgid "Manage key password"
 msgstr ""
 
+msgctxt "#32027"
+msgid "Token"
+msgstr ""
+
+msgctxt "#32192"
+msgid "[COLOR springgreen]    Create token at https://my.nordaccount.com/dashboard/nordvpn/[/COLOR]"
+msgstr ""
+
 # VPN Connection Settings
 
 msgctxt "#32028"
@@ -694,6 +702,7 @@ msgctxt "#32191"
 msgid "ipstack"
 msgstr ""
 
+#32192 already in use!
 
 # List of VPN providers
 

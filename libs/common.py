@@ -34,7 +34,7 @@ from libs.vpnplatform import getPlatformString, checkPlatform, useSudo, getKeyMa
 from libs.utility import debugTrace, infoTrace, errorTrace, ifDebug, newPrint, getID, getName, getShort, isCustom, getCustom
 from libs.vpnproviders import getVPNLocation, getRegexPattern, getAddonList, provider_display, usesUserKeys, usesSingleKey, gotKeys, checkForVPNUpdates
 from libs.vpnproviders import ovpnFilesAvailable, ovpnGenerated, fixOVPNFiles, getLocationFiles, removeGeneratedFiles, copyKeyAndCert, populateSupportingFromGit
-from libs.vpnproviders import usesPassAuth, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshVPNFiles
+from libs.vpnproviders import usesPassAuth, usesToken, cleanPassFiles, isUserDefined, getKeyPass, getKeyPassName, usesKeyPass, writeKeyPass, refreshVPNFiles
 from libs.vpnproviders import setVPNProviderUpdate, setVPNProviderUpdateTime, isDeprecated, getVPNDisplay, isAlternative, allowViewSelection, updateVPNFile
 from libs.vpnproviders import getAlternativePreFetch, getAlternativeFriendlyLocations, getAlternativeFriendlyServers, getAlternativeLocation, getAlternativeServer
 from libs.vpnproviders import authenticateAlternative, getAlternativeUserPass, getAlternativeProfiles, allowReconnection, postConnectAlternative
@@ -1221,8 +1221,29 @@ def wizard():
         
         addon = xbmcaddon.Addon(getID())        
         if success:
-            # Get the username and password
-            if usesPassAuth(vpn_provider):
+            vpn_username = ""
+            vpn_password = ""
+            vpn_token = ""
+            if usesToken(vpn_provider):
+                # Get the token
+                # Preload with any existing info if it's the same VPN
+                if not current == vpn_provider:
+                    vpn_token = ""
+                else:
+                    vpn_token = addon.getSetting("vpn_token")
+                # Get the token
+                while True:
+                    vpn_token = xbmcgui.Dialog().input("Enter your " + vpn_provider + " token", vpn_token, type=xbmcgui.INPUT_ALPHANUM)
+                    if vpn_token == "":
+                        if xbmcgui.Dialog().yesno(addon_name, "You must enter the token supplied by " + vpn_provider + ".  Try again or cancel setup?", nolabel="Try again", yeslabel="Cancel"):
+                            xbmcgui.Dialog().ok(addon_name, "Setup canceled.  You can run the wizard again by selecting 'Settings' in the add-on menu.")
+                            success = False
+                            break
+                    else:
+                        break
+
+            elif usesPassAuth(vpn_provider):
+                # Get the username and password
                 # Preload with any existing info if it's the same VPN
                 if not current == vpn_provider:
                     vpn_username = ""
@@ -1277,6 +1298,7 @@ def wizard():
             addon.setSetting("vpn_provider", vpn_provider)
             addon.setSetting("vpn_username", vpn_username)
             addon.setSetting("vpn_password", vpn_password)
+            addon.setSetting("vpn_token", vpn_token)
             if not xbmcgui.Dialog().yesno(addon_name, "Click ok to create a VPN connection to " + vpn_provider + " for user name " + vpn_username + ".  You will be asked which connection or country you want to use during the connection process.", nolabel="Ok", yeslabel="Cancel"):
                 connectVPN("1", vpn_provider)
                 addon = xbmcaddon.Addon(getID())

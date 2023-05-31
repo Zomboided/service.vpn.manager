@@ -170,7 +170,7 @@ def getShellfirePreFetch(vpn_provider):
         else: debugTrace("Downloading list of locations")
         
         # This is not a JSON call, a header and servers are returned in a ; separated list
-        req = Request(rest_url, "", REQUEST_HEADERS)
+        req = Request(rest_url, headers=REQUEST_HEADERS)
         t_before = now()
         response = urlopen(req)
         api_data = response.read()
@@ -195,7 +195,7 @@ def getShellfirePreFetch(vpn_provider):
         return False
             
     # The first line has the headers, so find the position of the information that's interesting
-    api_table = api_data.split("\n") 
+    api_table = api_data.decode('utf-8').split("\n") 
     headers = api_table[0].split(";")
     id_pos = headers.index("iVpnServerId")
     country_pos = headers.index("Country")
@@ -540,7 +540,7 @@ def getShellfireMessages(vpn_provider, last_time, last_id):
     # Return any message ID and message available from the provider
     
     # Never return a message for a paid account unless a last_time of 0 is being used to force it
-    if getAccountType() > 0 and not last_time == 0: return "", ""
+    if getAccountType() != "Free" and not last_time == 0: return "", ""
     
     # Fetch any available deal
     rc, api_data = sendAPI("?action=getAvailablePricingDeal", "Retrieving messages", "", False)
@@ -631,7 +631,7 @@ def sendAPI(command, command_text, api_data, check_response):
         if ifHTTPTrace(): infoTrace("alternativeShellfire.py", command_text + " " + rest_url)     
         else: debugTrace(command_text)
         
-        req = Request(rest_url, api_data, REQUEST_HEADERS)
+        req = Request(rest_url, api_data.encode('utf-8'), REQUEST_HEADERS)
         if not auth_token == "": req.add_header("x-authorization-token", auth_token)
         t_before = now()
         response = urlopen(req)

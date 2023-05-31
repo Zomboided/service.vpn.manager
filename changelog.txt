@@ -1,3 +1,6 @@
+v7.0.4
+- Shellfire changes
+
 v7.0.3
 - Extra changes needed for NordVPN. Especially if there was no user name/password previously because of new setup and also fix wizard setup
 

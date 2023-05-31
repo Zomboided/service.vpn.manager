@@ -998,8 +998,8 @@ if __name__ == '__main__' and not running():
                                     new_id, new_message = getAlternativeMessages(vpn_provider, last_time, last_id)
                                     if not new_message == "":
                                         xbmcgui.Dialog().ok(addon_name, new_message) 
-                                        addon.setSetting("alternative_message_time", str(now()))
-                                        addon.setSetting("alternative_message_token", new_id)
+                                        addon.setSetting("alternative_message_time", str(now()).encode("utf-8"))
+                                        addon.setSetting("alternative_message_token", str(new_id).encode("utf-8"))
                                 addon = xbmcaddon.Addon()
                                 if isAlternative(vpn_provider):
                                     postConnectAlternative(vpn_provider)
